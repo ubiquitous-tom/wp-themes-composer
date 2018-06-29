@@ -1,0 +1,16 @@
+.form-table tr.ui-sortable-handle {
+	cursor: move;
+}
+.form-table .ui-state-default th {
+	vertical-align: middle;
+}
+.sortable-placeholder {
+	background-color: #ccc;
+}
+.ui-icon-arrowthick-2-n-s {
+	display:inline-block;
+	vertical-align:top;
+}
+.news_section th {
+	width: 125px;
+}
