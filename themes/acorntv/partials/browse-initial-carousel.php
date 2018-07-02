@@ -13,79 +13,19 @@
 <?php 
         endif;
     endif;
+    
+    $spotlightItems = get_query_var('spotlight_items');
+    foreach ($spotlightItems as $spotlight) :
+        $spotlightName = (!empty($spotlight->name)) ? $spotlight->name : '';
 ?>
-<!-- MOST POPULAR SERIES SPOTLIGHT-->
+<!-- <?php echo strtoupper($spotlightName); ?> SERIES SPOTLIGHT-->
 <div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Most Popular');
-        get_template_part('partials/section-generic-carousel');
+    <?php         
+        set_query_var('carousel-section', array(
+            'title' => $spotlightName,
+            'categoryObj' => $spotlight
+        ));
+        get_template_part('partials/section-carousel-pagination');
     ?>
 </div>
-<!-- ONLY ON ACORN TV SPOTLIGHT -->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Only On Acorn TV');
-        $onlyAcornTV = rljeApiWP_getItemsByCategoryOrCollection('exclusive');
-        set_query_var('carousel-items', $onlyAcornTV);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-<!-- BRITISH MYSTERY SPOTLIGHT -->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Mysteries');
-        $mysteryItems = rljeApiWP_getItemsByCategoryOrCollection('mystery');
-        set_query_var('carousel-items', $mysteryItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-
-<!-- CLASSIC DRAMA SPOTLIGHT -->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Dramas');
-        $dramaItems = rljeApiWP_getItemsByCategoryOrCollection('drama');
-        set_query_var('carousel-items', $dramaItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-
-<!-- COMEDY SPOTLIGHT-->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Comedies');
-        $comedyItems = rljeApiWP_getItemsByCategoryOrCollection('comedy');
-        set_query_var('carousel-items', $comedyItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-
-<!-- DOCUMENTARY SPOTLIGHT-->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Documentaries');
-        $documentaryItems = rljeApiWP_getItemsByCategoryOrCollection('documentary');
-        set_query_var('carousel-items', $documentaryItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-
-<!-- FOREIGN LANGUAGE SPOTLIGHT-->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Foreign Language');
-        $foreignItems = rljeApiWP_getItemsByCategoryOrCollection('foreign%20language');
-        set_query_var('carousel-items', $foreignItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
-
-<!-- FEATURE FILM SPOTLIGHT-->
-<div class="col-md-12">
-    <?php 
-        set_query_var('carousel-section', 'Feature Film');
-        $featureItems = rljeApiWP_getItemsByCategoryOrCollection('feature%20film');
-        set_query_var('carousel-items', $featureItems);
-        get_template_part('partials/section-generic-carousel');
-    ?>
-</div>
+<?php endforeach; ?>

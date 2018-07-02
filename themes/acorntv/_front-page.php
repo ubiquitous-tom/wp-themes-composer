@@ -2,6 +2,7 @@
 $haveFranchisesAvailable = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'homepage');
 $categoriesHome = rljeApiWP_getHomeItems('categories');
 $categoriesItems = (isset($categoriesHome->options)) ? $categoriesHome->options : array();
+$browseIdListAvailables = apply_filters('atv_get_browse_genres_availables', '');
 
 if($haveFranchisesAvailable) :
     get_header();
@@ -34,15 +35,14 @@ if($haveFranchisesAvailable) :
         for($i=0; $i<2 && isset($categoriesItems[$i]); $i++):
           $spotlight = $categoriesItems[$i];
           $spotlightName = (!empty($spotlight->name)) ? $spotlight->name : '';
-          $categoryId = (!empty($spotlight->id)) ? $spotlight->id : null;
     ?>
     <!-- <?php echo strtoupper($spotlightName); ?> SPOTLIGHT-->
     <div class="col-md-12">
         <?php 
             set_query_var('carousel-section', array(
                 'title' => $spotlightName,
-                'sectionId' => 'categories',
-                'categoryId' => $categoryId
+                'categoryObj' => $spotlight,
+                'showViewAllLink' => (isset($browseIdListAvailables[$spotlight->id]))
             ));
             get_template_part('partials/section-carousel-pagination');
         ?>    
@@ -78,15 +78,14 @@ if($haveFranchisesAvailable) :
         for($i=2; $i<count($categoriesItems); $i++) :
           $spotlight = $categoriesItems[$i];
           $spotlightName = (!empty($spotlight->name)) ? $spotlight->name : '';
-          $categoryId = (!empty($spotlight->id)) ? $spotlight->id : null;
     ?>
   <!-- <?php echo strtoupper($spotlightName); ?> SPOTLIGHT -->
     <div class="col-md-12">
         <?php 
             set_query_var('carousel-section', array(
                 'title' => $spotlightName,
-                'sectionId' => 'categories',
-                'categoryId' => $categoryId
+                'categoryObj' => $spotlight,
+                'showViewAllLink' => (isset($browseIdListAvailables[$spotlight->id]))
             ));
             get_template_part('partials/section-carousel-pagination');
         ?>
@@ -117,7 +116,6 @@ if($haveFranchisesAvailable) :
             <p class="home-callout-description">Over 1,800 hours of programming, including 60 shows you won't find anywhere else. </p>
             <?php 
                 $environment = apply_filters('atv_get_extenal_subdomain', '');
-                $environment = ($environment=='.qa') ? '-qa' : $environment;
             ?>
             <a href="https://signup<?= $environment; ?>.acorn.tv/createaccount.html">
                 <button>Start Your Free Trial</button>

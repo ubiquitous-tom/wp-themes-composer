@@ -2,7 +2,6 @@
 $baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
 if (function_exists('rljeApiWP_getFranchiseById')) :
     $environment = apply_filters('atv_get_extenal_subdomain', '');
-    $environment = ($environment=='.qa') ? '-qa' : $environment;
 
     $franchiseId = get_query_var('franchise_id');
     $seasonNameURL = get_query_var('season_name');

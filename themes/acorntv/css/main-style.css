@@ -37,6 +37,7 @@ object, embed { outline: 0;}
 .navbar-toggle .icon-bar {border-radius: 0;width: 15px;height:1px;}
 .log-in{color: #fff;display: inline-block;font-family: 'source sans pro',sans-serif;font-size: 10.3px;font-weight: 600;letter-spacing: 0.17em;margin-top: 20px;text-transform: uppercase;margin-right:0px;margin-left: 10px}
 .free-month{color: #fff;display: inline-block;font-family: 'source sans pro',sans-serif;font-size: 13.8px;font-weight: 600;letter-spacing: 0.17em;margin-top: 15px;text-transform: uppercase;padding:12px;background:rgba(11, 152, 184, 0.85) none repeat scroll 0 0;margin-left:8px;}
+.admin-bar .navbar-fixed-top {margin-top: 32px;}
 
 /* NAVBAR-USER DROPDOWN */
 .menuOptions {width: auto;padding: 20px 15px 18px;}
@@ -167,7 +168,7 @@ input:-ms-input-placeholder {color: #ccc;}
 /* BROWSE TEMPLATE*/
 .browse{margin-top:55px;min-height: auto;margin-bottom:40px;}
 .browse li{cursor:pointer;position:relative; display: inline-block;text-transform:uppercase; font-family: 'source sans pro',sans-serif;font-size: 12px;letter-spacing:.1em;margin-left:0px;line-height: 25px;}
-.browse h4{color: #666;margin:6px 0 18px 3px;font-size:12px}
+.browse h4{font-size:12px}
 .browse-content{margin-top:20px;}
 .browse-order {margin-bottom:24px;}
 .browse-order-option {margin-left:1.3em;}
@@ -402,7 +403,7 @@ p {font-size: 14.5px;}
 /* NAVBAR */
 .navbar{height:75px;}
 .navbar-nav > li > a{font-size:13.8px;}
-.atv-logo{width:215px;margin-top:20px;margin-left: 0px;}  
+.atv-logo{width:215px;margin-top:20px;margin-left: 0px;}
 .navbar-collapse {margin-top:13px;}
 .navbar-right-ul{width:265px;}
 .navbar-toggle {margin-top: 22px;margin-right: 0px}
@@ -495,7 +496,7 @@ p {font-size: 14.5px;}
 .search{margin-top:75px;}
 .search-episode{margin-top:60px;padding-bottom: 50px;}
 
- /* CONTACT US */   
+ /* CONTACT US */
 #contact-hero{padding:5.5em 0;}
 #contact-hero h3{font-size: 32px;}
 #contact-form #diagnostic a { font-size: 15px;}
@@ -612,6 +613,7 @@ p {font-size: 14.5px;}
 #search-input{display:inline; width: 130px;margin: 20px 3px 15px 0px;}
 #searchform{float:right;margin-left:10px}
 #store-link{display:none;}
+.store-link{display:none;}
 
 /* Future Date - Header Block */
 .navbar-future-date {bottom: 23px;left: 30px;}
@@ -638,6 +640,7 @@ p {font-size: 14.5px;}
 @media (min-width:1300px){
 .carousel-inner {margin:0 auto;}
 #store-link{display:block;}
+.store-link{display:block;}
 }
 
 @media (min-width:1400px){

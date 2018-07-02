@@ -64,8 +64,7 @@ button{font-size:12.5px;}
         $trailerId = get_post_meta($postID, '_atv_trailer_id', true);
         $baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
         $franchiseLink = (!empty($franchiseId)) ? $baseUrlPath.'/'.$franchiseId : null;
-        $environment = apply_filters('atv_get_extenal_subdomain', ''); //Leave empty value to production else set .dev or .qa.
-        $environment = ($environment=='.qa') ? '-qa' : $environment;
+        $environment = apply_filters('atv_get_extenal_subdomain', ''); //Leave empty value to production else set -dev or -qa.
 ?>
 
 <div class="hero">

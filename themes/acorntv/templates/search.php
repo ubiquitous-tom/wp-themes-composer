@@ -97,6 +97,7 @@ if($haveFranchisesAvailable) :
                     if(!empty($episode->image)) { //Workaround to get episode number
                         preg_match('/.+ep([\d]{2}).+/i', $episode->image, $episodeNumber); 
                     }
+                    $episodeNumber = apply_filters('atv_get_episode_number', $episode, (int)$episodeNumber[1]);
                     if ($key%4==0):
             ?>
             <div class="row">
@@ -110,7 +111,7 @@ if($haveFranchisesAvailable) :
                         <div class="franchise-eps-bg">
                             <h4 class="text-center"><?= $episode->franchiseName;?></h4>
                             <h5><?= $episode->name;?></h5>
-                            <h6><?= (isset($episode->seriesName)) ? $episode->seriesName : ''; echo (!empty($episodeNumber[1])) ? ': Episode '.(int)$episodeNumber[1] : ''; ?></h6>
+                            <h6><?= (isset($episode->seriesName)) ? $episode->seriesName : ''; echo (!empty($episodeNumber)) ? ': Episode '.$episodeNumber : ''; ?></h6>
                         </div>
                     </div>
                 </a>
@@ -134,6 +135,7 @@ if($haveFranchisesAvailable) :
                             if(!empty($episode->image)) { //Workaround to get episode number
                                 preg_match('/.+ep([\d]{2}).+/i', $episode->image, $episodeNumber); 
                             }
+                            $episodeNumber = apply_filters('atv_get_episode_number', $episode, (int)$episodeNumber[1]);
                             if ($key%4==0):
                     ?>
                     <div class="item <?php echo ($key == 0) ? 'active' : ''; ?>">
@@ -147,7 +149,7 @@ if($haveFranchisesAvailable) :
                                 <div class="franchise-eps-bg">
                                     <h4 class="text-center"><?= $episode->franchiseName;?></h4>
                                     <h5><?= $episode->name;?></h5>
-                                    <h6><?= (isset($episode->seriesName)) ? $episode->seriesName : ''; echo (!empty($episodeNumber[1])) ? ': Episode '.(int)$episodeNumber[1] : ''; ?></h6>
+                                    <h6><?= (isset($episode->seriesName)) ? $episode->seriesName : ''; echo (!empty($episodeNumber)) ? ': Episode '.$episodeNumber : ''; ?></h6>
                                 </div>
                             </div>
                         </a>

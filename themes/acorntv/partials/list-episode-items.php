@@ -30,7 +30,7 @@ $isHighligthingEpisode = false;
 $isLogged = isset($_COOKIE["ATVSessionCookie"]);
 $isHighligthingEnabled = !empty($highlightTemplatesEnabled[$template]);
 $isStreamPosition = !isset($streamPositions);
-$isFirstSeasson = (1 == $season->seasonNumber);
+$isFirstSeasson = (isset($season->seasonNumber) && 1 == $season->seasonNumber);
 
 if($isLogged && $isHighligthingEnabled && $isStreamPosition && $isFirstSeasson) {
   $isHighligthingEpisode = true;
@@ -55,6 +55,7 @@ foreach ($season->episodes as $key => $episode) :
     $showEpisodeHighlighted = ($isHighligthingEpisode && 0 == $key);
     $is_newRow = ($key%4 == 0) ? true : false;
     $count++;
+    $episodeNumber = apply_filters('atv_get_episode_number', $episode, ($key+1));
     if($is_newRow) :
         $count = 0;
 ?>
@@ -76,12 +77,12 @@ foreach ($season->episodes as $key => $episode) :
                     <meta itemprop="timeRequired" content="<?= (!empty($episode->length)) ? 'T'.str_replace(':','M',rljeApiWP_convertSecondsToMinSecs($episode->length)).'S' : ''; ?>" />
                     <div class="franchise-eps-bg<?php echo ($showEpisodeHighlighted) ? ' no-margin-bottom': ''?>">
                         <h5 itemprop="name"><?= $episode->name; ?></h5>
-                        <h6><?= $season->name; ?>: Episode <span itemprop="episodeNumber"><?= $key+1; ?></span></h6>
+                        <h6><?= $season->name; ?>: Episode <span itemprop="episodeNumber"><?= $episodeNumber; ?></span></h6>
                     </div>
                     <?php if($showEpisodeHighlighted): ?>
                     <div class="continueWatching">
                         <button class="js-play-resume">
-                            <span>Play <?php echo $season->name.': Episode '.($key+1); ?></span>
+                            <span>Play <?php echo $season->name.': Episode '.$episodeNumber; ?></span>
                             <i class="fa fa-play-circle-o" aria-hidden="true"></i>
                         </button>
                     </div>

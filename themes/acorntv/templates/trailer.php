@@ -5,7 +5,6 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
     $haveFranchisesAvailable = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise');
     if($haveFranchisesAvailable) :
         $environment = apply_filters('atv_get_extenal_subdomain', '');
-        $environment = ($environment=='.qa') ? '-qa' : $environment;
 
         $franchiseId = $wp_query->query_vars['franchise_id'];
 
@@ -117,16 +116,19 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
         <h4 class="subnav2" >Episodes</h4>
         <?php 
             $wp_query->query_vars['franchiseName'] = $franchise->name;
-            if(count($franchise->seasons[0]->episodes) < 4) :
+            $isLessThan4Episodes = apply_filters('atv_is_less_than_4_episodes', $franchise->seasons);
+            
+            if($isLessThan4Episodes) {
                 $wp_query->query_vars['season'] = $franchise->seasons[0];
                 $wp_query->query_vars['ignoreSeasonHeader'] = true;
                 get_template_part('partials/list-episode-items');
-            else :
+            }
+            else {
                 $wp_query->query_vars['current_episode_id'] = $franchise->seasons[0]->episodes[0]->id;
                 $wp_query->query_vars['seasons_carousel'] = $franchise->seasons;
                 $wp_query->query_vars['streamPositions'] = $streamPositions;
                 get_template_part('partials/more-episodes-carousel');
-            endif;
+            }
         ?>
     </div>
 

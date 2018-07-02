@@ -21,6 +21,7 @@ $seasons = $wp_query->query_vars['seasons_carousel'];
                 foreach($season->episodes as $key => $episode) :
                     $episodeURL =  $baseUrlPath.'/'.$franchiseId.'/'.  rljeApiWP_convertSeasonNameToURL($season->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($episode->name);
                     $isActive = ($episode->id === $currentEpisodeNumber) ? true : false;
+                    $episodeNumber = apply_filters('atv_get_episode_number', $episode, ($key+1));
             ?>
             <div class="item <?php if($isActive) echo 'active'; ?>" itemprop="episode" itemscope itemtype="http://schema.org/TVEpisode">
                 <a itemprop="url" href="<?= $episodeURL; ?>">
@@ -41,7 +42,7 @@ $seasons = $wp_query->query_vars['seasons_carousel'];
                         <div>
                             <div class="franchise-eps-bg">
                                 <h5 itemprop="name"><?php echo $episode->name; ?></h5>
-                                <h6><?php echo $season->name; ?>: Episode <span itemprop="episodeNumber"><?php echo $key+1;?></span></h6>
+                                <h6><?php echo $season->name; ?>: Episode <span itemprop="episodeNumber"><?php echo $episodeNumber; ?></span></h6>
                             </div>
                         </div>
                     </div>

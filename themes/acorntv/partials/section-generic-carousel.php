@@ -9,7 +9,7 @@ $redefinedKey = array(
     'drama' => 'Dramas',
     'comedy' => 'Comedies',
     'documentary' => 'Documentaries',
-    'onlyacorntv' => 'Only On Acorn TV',
+    'exclusive' => 'Only On Acorn TV',
     'recentlywatched' => 'Recently Watched',
     'yourwatchlist' => 'Watchlist'
 );
@@ -25,7 +25,7 @@ if (empty(trim($section_key))) {
    $section_key = strtolower($section_v);
 }
 
-if(!empty($carouselItems)) {
+if(!empty($carouselItems) && (!isset($carouselItems['code']))) {
   $sectionItems = new stdClass();
   $sectionItems -> $section_key = $carouselItems;
   set_query_var('carousel-items', '');
@@ -42,10 +42,12 @@ if($isBrowsePage) {
       'yourwatchlist' => true,
       'mostpopular' => true
   ); 
-  if(!isset($disableOrderbyDateAdded[$section_key])) {
+  if(!isset($disableOrderbyDateAdded[$section_key]) && !empty($allcarousel->$section_key)) {
     $allcarousel->$section_key = rljeApiWP_orderFranchisesByCreatedDate($allcarousel->$section_key);
   }
 }
+
+$isShowingArrows = true;
 
 $baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
 if(isset($allcarousel->$section_key) && count($allcarousel->$section_key) > 0) :
@@ -64,15 +66,9 @@ if(isset($allcarousel->$section_key) && count($allcarousel->$section_key) > 0) :
         <div class="row">
           <div class="carousel-inner">
                 <?php 
+                if(count($allcarousel->$section_key) > 4) :
                     foreach ($allcarousel->$section_key as $item) :
-                      if(!isset($item->href)) {
-                        $id = (isset($item->id)) ? $item->id: $item->franchiseID;
-                        $item->href = $id;
-                      }
-                      if(!isset($item->img)) {
-                        $img = (isset($item->image)) ? $item->image: $item->href.'_avatar';
-                        $item->img = rljeApiWP_getImageUrlFromServices($img);
-                      }
+                      $item = apply_filters('atv_add_img_and_href', $item);
                 ?>
                 <div class="item <?php echo ($item === reset($allcarousel->$section_key)) ? 'active' : ''; ?>">
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
@@ -81,11 +77,29 @@ if(isset($allcarousel->$section_key) && count($allcarousel->$section_key) > 0) :
                       </a>
                     </div>
                 </div>
-                <?php endforeach; ?>
+                <?php endforeach; 
+                else :
+                    $isShowingArrows = false;
+                ?>
+                <div class="item active">
+                    <?php 
+                    foreach ($allcarousel->$section_key as $item) :
+                      $item = apply_filters('atv_add_img_and_href', $item);
+                    ?>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
+                      <a href="<?php echo $baseUrlPath.'/'.$item->href; ?>">
+                        <img title="<?= $sectionTitle; ?>" alt="<?= $sectionTitle; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo $item->img; ?>?w=400&h=225" style="width:100%; height:auto; " />
+                      </a>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif;?>
           </div>
         </div>
+        <?php if($isShowingArrows): ?>
         <a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
         <a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a> 
+        <?php endif; ?>
     </div>
 <?php 
 endif;

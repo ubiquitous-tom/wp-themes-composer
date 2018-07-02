@@ -27,6 +27,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
                             $showEpisodeActive = false;
                             $isResume = false;
                             $streamPositionData = array();
+                            $episodeNumber = apply_filters('atv_get_episode_number', $episode, ($key+1));
                             if(!empty($episodeID) && $episode->id === $episodeID) {
                                 $showEpisodeActive = true;
                                 $showEpisodeHighlighted = true;
@@ -67,7 +68,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
                             <meta itemprop="timeRequired" content="<?= (!empty($episode->length)) ? 'T'.str_replace(':','M',rljeApiWP_convertSecondsToMinSecs($episode->length)).'S' : ''; ?>" />
                             <div class="franchise-eps-bg<?php echo ($showEpisodeHighlighted) ? ' no-margin-bottom': ''?>">
                                 <h5 itemprop="name"><?= $episode->name; ?></h5>
-                                <h6><?= $season->name; ?>: Episode <span itemprop="episodeNumber"><?= $key+1; ?></span></h6>
+                                <h6><?= $season->name; ?>: Episode <span itemprop="episodeNumber"><?= $episodeNumber; ?></span></h6>
                             </div>
                             <?php if($showEpisodeHighlighted) : $playType = (!empty($episodeID))? 'player': 'play'; ?>
                             <div class="continueWatching">
@@ -82,7 +83,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
                                 </button>
                                 <?php else: ?>
                                 <button class="js-<?= $playType; ?>-resume">
-                                    <span>Play <?php echo $season->name.': Episode '.($key+1); ?></span>
+                                    <span>Play <?php echo $season->name.': Episode '.$episodeNumber; ?></span>
                                     <i class="fa fa-play-circle-o" aria-hidden="true"></i>
                                 </button>
                                 <?php endif;?>

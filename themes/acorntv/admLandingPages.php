@@ -61,7 +61,7 @@ function acorntv_trailer_metabox() {
                 <label>Trailer ID</label>
             </th>
             <td>
-                <input type="text" name="_atv_trailer_id" id="_atv_trailer_id" placeholder="3566879545470" class="regular-text" value="<?= $trailer_id; ?>"> 
+                <input type="text" name="_atv_trailer_id" id="_atv_trailer_id" placeholder="3566879545470" class="regular-text" value="<?= $trailer_id; ?>">
                 <!-- classes: .small-text .regular-text .large-text -->
             </td>
         </tr>
@@ -75,20 +75,20 @@ function acorntv_trailer_metabox() {
                         <?php if(!empty($trailer_id)): ?>
                         data-video-id="<?= $trailer_id; ?>"
                         <?php endif; ?>
-                        data-account="3392051363001" 
-                        data-player="default" 
-                        data-embed="default" 
-                        class="video-js" 
+                        data-account="3392051363001"
+                        data-player="default"
+                        data-embed="default"
+                        class="video-js"
                         controls></video>
                     <script src="//players.brightcove.net/3392051363001/default_default/index.min.js"></script>
                 </div>
-                
+
                 <script>
                     (function($){
                         var timeOut,
                             player = '<video id="preview-trailer" data-account="3392051363001" data-video-id="%videoId" data-player="default" data-embed="default" class="video-js" controls><\/video><script src="//players.brightcove.net/3392051363001/default_default/index.min.js"><\/script>',
                             loading = '<img src="/wp-admin/images/spinner-2x.gif" alt="loading..." />';
-                            
+
                         $('#_atv_trailer_id').keyup(function(elm){
                             clearTimeout(timeOut);
                             $('#preview-container').html(loading);
@@ -148,7 +148,7 @@ function acorntv_quote_metabox() {
                 <label>Author:</label>
             </th>
             <td>
-                <input type="text" name="_atv_quote_auth" class="regular-text" placeholder="Quote Author" value="<?php echo $quote_auth; ?>"> 
+                <input type="text" name="_atv_quote_auth" class="regular-text" placeholder="Quote Author" value="<?php echo $quote_auth; ?>">
             </td>
         </tr>
     </table>
@@ -169,7 +169,7 @@ function acorntv_franchiseId_metabox() {
                 <label>Franchise ID</label>
             </th>
             <td>
-                <input type="text" name="_atv_franchiseId"  placeholder="franchiseid" class="medium-text" value="<?= $franchise_id; ?>"> 
+                <input type="text" name="_atv_franchiseId"  placeholder="franchiseid" class="medium-text" value="<?= $franchise_id; ?>">
             </td>
         </tr>
     </table>
@@ -188,7 +188,7 @@ function acorntv_featuredImageUrl_metabox() {
             display: none;
         }
         .featuredImg-preview {
-            width: 100%; 
+            width: 100%;
         }
         td.featureImg-preview-td {
             padding: 0;
@@ -200,7 +200,7 @@ function acorntv_featuredImageUrl_metabox() {
                 <label>Image URL</label>
             </th>
             <td>
-                <input type="text" name="_atv_featuredImageUrl" id="_atv_featuredImageUrl" class="medium-text" placeholder="http://domain.com/img/my-image.jpg" value="<?= $featuredImageUrl; ?>"> 
+                <input type="text" name="_atv_featuredImageUrl" id="_atv_featuredImageUrl" class="medium-text" placeholder="http://domain.com/img/my-image.jpg" value="<?= $featuredImageUrl; ?>">
             </td>
         </tr>
         <tr>
@@ -229,7 +229,7 @@ function acorntv_featuredImageUrl_metabox() {
                     $featureImg.on('load', function(){
                         $loading.hide();
                     });
-                    
+
                     $('#_atv_featuredImageUrl').keyup(function(elm){
                         if(elm.target.value.length > 4) {
                             clearTimeout(timeOut);
@@ -299,7 +299,7 @@ function acorntv_getFields($fields = array()) {
     foreach($fields as $fieldKey=>$fieldValue) {
         // Add the values to each meta fields in the revision screen.
         add_filter( '_wp_post_revision_field_'.$fieldKey, 'acorntv_landing_page_revision_field', 10, 2 );
-    }    
+    }
     return $fields;
 }
 function acorntv_landing_page_revision_field( $value, $field ) {
@@ -342,11 +342,11 @@ function force_save_revision( $return, $last_revision, $post )
             $return = false;
         }
     }
-    
+
     return $return;
 }
 
-// Add metabox data to post revision 
+// Add metabox data to post revision
 add_action( 'wp_restore_post_revision', 'acorntv_landing_page_restore_revision', 10, 2 );
 function acorntv_landing_page_restore_revision( $post_id, $revision_id ) {
     $revision = get_post( $revision_id );

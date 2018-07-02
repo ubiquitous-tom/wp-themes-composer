@@ -6,7 +6,7 @@ $environment = apply_filters('atv_get_extenal_subdomain', '');
         if (!docCookies.hasItem('ATVSessionCookie')) {
             if (!docCookies.hasItem('visited')) {
                 docCookies.setItem('visited', true);
-                window.location = 'https://signup<?= ($environment=='.qa') ? '-qa' : $environment ?>.acorn.tv';
+                window.location = 'https://signup<?= $environment; ?>.acorn.tv';
             }
         }
     }

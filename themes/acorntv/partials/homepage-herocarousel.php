@@ -1,29 +1,29 @@
-<?php 
+<?php
 $allcarousel = rljeApiWP_getHomeItems('carousel');
 $dataCarousel = (isset($allcarousel->media) && is_array($allcarousel->media)) ? $allcarousel->media : array();
 
-if(0 < count($dataCarousel)): 
+if(0 < count($dataCarousel)):
 ?>
     <div class="carousel feature-slide slide carousel-fade" id="heroCarousel">
         <div class="carousel-inner">
-            <?php 
+            <?php
                 $i=0;
                 $totalItems = count($dataCarousel);
                 foreach ($dataCarousel as $item) :
-                    $prevItem = ($i>0) ? $dataCarousel[$i-1] : $dataCarousel[$totalItems-1]; 
+                    $prevItem = ($i>0) ? $dataCarousel[$i-1] : $dataCarousel[$totalItems-1];
                     $nextItem = ($i<$totalItems-1) ? $dataCarousel[$i+1] : $dataCarousel[0];
-                    
+
                     // Gets Links
                     $prevLink = apply_filters('atv_heroCarusel_link', $prevItem);
                     $nextLink = apply_filters('atv_heroCarusel_link', $nextItem);
                     $currLink = apply_filters('atv_heroCarusel_link', $item);
-                    
+
                     // Images
                     $currImg = (!empty($item->image)) ? $item->image : '';
                     $prevImg = (!empty($prevItem->image)) ? $prevItem->image : '';
                     $nextImg = (!empty($nextItem->image)) ? $nextItem->image : '';
-                    
-                    $i++; 
+
+                    $i++;
             ?>
             <div class="item <?php echo ($item === reset($dataCarousel)) ? 'active' : ''; ?>">
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 left">
@@ -45,8 +45,8 @@ if(0 < count($dataCarousel)):
                     </a>
                 </div>
             </div>
-            <?php 
-                endforeach; 
+            <?php
+                endforeach;
             ?>
         </div>
         <div class="container">

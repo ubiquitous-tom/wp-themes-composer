@@ -8,7 +8,7 @@ sideslider.click(function(event){
 $(sel).toggleClass('in');
 $(sel2).toggleClass('out');});
 
-//feature carousel state change 
+//feature carousel state change
 $('#myCarousel').carousel({
   interval: 40000
 });
@@ -35,9 +35,9 @@ $('#myCarousel').carousel({
   });
 }());
 
-$('.overlay .carousel-button:last-child').on('click', function(){  
-     $('.item.active img').remove()     
- });  
+$('.overlay .carousel-button:last-child').on('click', function(){
+     $('.item.active img').remove()
+ });
 
 
 
@@ -99,10 +99,10 @@ $('.carousel').bcSwipe({ threshold: 55,  maxTimeThreshold:10 });
 //filter series dropdown
 
   $('#options').click(function(){
-    if($('#drop-select').hasClass('closed')){ 
+    if($('#drop-select').hasClass('closed')){
    $('#drop-select').slideDown(300).show();
     $('#drop-select').addClass('open');
-      $('#drop-select').removeClass('closed'); 
+      $('#drop-select').removeClass('closed');
     }
     else
     {
@@ -113,24 +113,24 @@ $('.carousel').bcSwipe({ threshold: 55,  maxTimeThreshold:10 });
 
 //popout
 
-(function (w, d, $) {  
-  function getConversation (elem) {  
-    return $(elem).closest('.conversation'); 
+(function (w, d, $) {
+  function getConversation (elem) {
+    return $(elem).closest('.conversation');
   }
-  $('.conversation .icon.minimize').on('click', function (event) {  
+  $('.conversation .icon.minimize').on('click', function (event) {
     event.preventDefault();
-    getConversation(this).toggleClass('collapsed');  
+    getConversation(this).toggleClass('collapsed');
   });
-  $('.conversation .icon.close').on('click', function (event) { 
+  $('.conversation .icon.close').on('click', function (event) {
     event.preventDefault();
-    getConversation(this).remove();  
-  }); 
+    getConversation(this).remove();
+  });
 })(window, document, jQuery);
 
 $('.topnavbar').affix({
     offset: {
         top: $('#banner').height()
-    }   
+    }
 });
 
 $( ".close-hello-bar" ).on( "click", function() {
@@ -145,14 +145,14 @@ $(".trailer-modal").fancybox({
     hideOnContentClick : false,
     transitionIn  : 'none',
     transitionOut : 'none',
-    type: "swf" 
+    type: "swf"
 });
-  
+
 });
 
 
 ///////WP-Plugin-JS///////
-
+(function($) {
 $content = $('body > div');
 $playerSection = $('#player-section');
 
@@ -201,7 +201,6 @@ var episodePlayer = function(episodeId, setTimePosition) {
         $continueWatchingBlock = $('.continueWatching'),
         $playNextEpisodeBlock = $('.playNextEpisode'),
         showingExtBtn = true,
-        showPreRoll = (!resume),
         showingNextEpisodePrompt = false,
         isCapturingStreamPosition = false,
         $overlay = $('#nextEpisodeOverlay'),
@@ -239,7 +238,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
             initTime=null;
         }
         ///End Safari fix.
-        
+
         //Checking if the current User is Active
         var data = {
                 'action': 'isUserActive',
@@ -258,11 +257,6 @@ var episodePlayer = function(episodeId, setTimePosition) {
         $.post(atv_player_object.ajax_url, data, processData).fail(function() {
             console.error('Error checking if the user is active');
         });
-
-        //Showing pre-roll at the beggining.
-        if(player.currentTime() < 1 && showPreRoll) {
-            player.ima3.adrequest('https://app.rlje.net/rlj_vmap.xml');
-        }
 
     }).on('playing', function(){
         isPlayingSet('playFromStart');
@@ -356,6 +350,7 @@ var signupNewsletter = function(el) {
         $signupNewsletter.find('#formMessage').html('<div class="alert alert-error">Invalid email address.</div>');
     }
 };
+})(jQuery);
 
 jQuery(document).ready(function($) {
 
@@ -365,7 +360,7 @@ jQuery(document).ready(function($) {
         if($dropSelect.hasClass('closed')) {
             $dropSelect.slideDown(300).show();
             $dropSelect.addClass('open');
-            $dropSelect.removeClass('closed'); 
+            $dropSelect.removeClass('closed');
         }
         else
         {
@@ -375,7 +370,7 @@ jQuery(document).ready(function($) {
         }
         return false;
     });
-    
+
     $('.navbar .container').click(function(){
         var $dropSelect = $(this).find('.navbar-right .drop-select');
         if ($dropSelect.hasClass('open')) {
@@ -384,7 +379,7 @@ jQuery(document).ready(function($) {
             $dropSelect.removeClass('open');
         }
     });
-    
+
     //Fancybox
     $('.open-dialog').fancybox({
         padding : 10,
