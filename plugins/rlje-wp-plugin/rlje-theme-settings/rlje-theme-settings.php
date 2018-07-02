@@ -7,10 +7,13 @@ class RLJE_Theme_Settings {
 	private $rightsline = array();
 
 	public function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
+
+		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -233,6 +236,84 @@ class RLJE_Theme_Settings {
 			$message,
 			$type
 		);
+	}
+
+	public function plugins_loaded() {
+		$this->theme_settings = get_option( 'rlje_theme_settings' );
+		$this->sailthru = get_option( 'rlje_sailthru_settings' );
+		$this->rightsline = get_option( 'rlje_rightsline_settings' );
+
+		// For RLJE API call.
+		define( 'API_TIMEOUT_SECS', '30' );
+
+		$env_type = ( ! empty( $this->theme_settings['environment_type'] ) ) ? $this->theme_settings['environment_type'] : 'DEV';
+		if ( ! empty( $env_type ) ) {
+			define( 'ENVIRONMENT', $env_type );
+			if ( 'DEV' === $env_type ) {
+				define( 'JETPACK_DEV_DEBUG', true );
+			}
+		}
+
+		$rlje_base_url = ( ! empty( $this->theme_settings['rlje_base_url'] ) ) ? $this->theme_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
+		if ( ! empty( $rlje_base_url ) ) {
+			define( 'RLJE_BASE_URL', $rlje_base_url );
+		}
+
+		$content_base_url = ( ! empty( $this->theme_settings['content_base_url'] ) ) ? $this->theme_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
+		if ( ! empty( $content_base_url ) ) {
+			define( 'CONTENT_BASE_URL', $content_base_url );
+		}
+
+		$sailthru_customer_id = ( ! empty( $this->sailthru['customer_id'] ) ) ? $this->sailthru['customer_id'] : '';
+		if ( ! empty( $sailthru_customer_id ) ) {
+			define( 'SAILTHRU_CUSTOMER_ID', $sailthru_customer_id );
+		}
+
+		$rightsline_base_url = ( ! empty( $this->rightsline['base_url'] ) ) ? $this->rightsline['base_url'] : 'http://api.rightsline.com';
+		if ( ! empty( $rightsline_base_url ) ) {
+			define( 'RIGHTSLINE_BASE_URL', $rightsline_base_url );
+		}
+
+		$rightsline_auth_type = ( ! empty( $this->rightsline['auth_type'] ) ) ? $this->rightsline['auth_type'] : '';
+		$rightsline_auth_header = ( ! empty( $this->rightsline['auth_header'] ) ) ? $this->rightsline['auth_header'] : '';
+		if ( ! empty( $rightsline_auth_type ) && ! empty( $rightsline_auth_header ) ) {
+			define( 'RIGHTSLINE_AUTH_HEADER', $rightsline_auth_type . ' ' . $rightsline_auth_header );
+		}
+
+		if ( defined( 'WP_DEBUG' ) ) {
+			define( 'WP_DEBUG_LOG', true );
+			define( 'WP_DEBUG_DISPLAY', false );
+			define( 'SCRIPT_DEBUG', true );
+		}
+
+		// For query-monitor plugin.
+		define( 'WP_LOCAL_DEV', true );
+
+		define( 'WP_REDIS_HOST', 'redis' );
+		define( 'WP_REDIS_PORT', '6379' );
+		define( 'WP_REDIS_CLIENT', 'pecl' );
+
+		// define( 'AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
+		// define( 'AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_KEY'] );
+
+		// define( 'GLOBAL_SMTP_HOST', $_SERVER['GLOBAL_SMTP_HOST'] );
+		// define( 'GLOBAL_SMTP_USER', $_SERVER['GLOBAL_SMTP_USER'] );
+		// define( 'GLOBAL_SMTP_PASSWORD', $_SERVER['GLOBAL_SMTP_PASSWORD'] );
+		// define( 'GLOBAL_SMTP_PORT', $_SERVER['GLOBAL_SMTP_PORT'] );
+	}
+
+	public function umc_add_img_and_href( $item ) {
+		if ( ! isset( $item->href ) ) {
+			$id = ( isset( $item->id ) ) ? $item->id: $item->franchiseID;
+			$item->href = $id;
+		}
+
+		if ( ! isset( $item->img ) ) {
+			$img = ( isset( $item->image ) ) ? $item->image_h : $item->href . '_avatar';
+			$item->img = rljeApiWP_getImageUrlFromServices( $img );
+		}
+
+		return $item;
 	}
 }
 
