@@ -50,27 +50,5 @@
 <?php do_action( 'rlje_footer_navigation' ); ?>
 
 <?php wp_footer(); ?>
-<?php
-	$stripe_customer_id = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? rljeApiWP_getStripeCustomerId( $_COOKIE['ATVSessionCookie'] ) : false;
-if ( $stripe_customer_id ) :
-	?>
-<style>
-div#the-stunning-bar {
-	bottom: 0;
-	top: initial;
-}
-</style>
-<script type="text/javascript">
-(function(d, t) {
-	var e = d.createElement(t),
-	s = d.getElementsByTagName(t)[0];
-	e.src = 'https://d1gqkepxkcxgvm.cloudfront.net/stunning-bar.js';
-	e.id  = 'stunning-bar';
-	e.setAttribute('data-app-ckey', '1742pkulzsyysulfkngkfulcd');
-	e.setAttribute('data-stripe-id', '<?php echo $stripe_customer_id; ?>');
-	s.parentNode.insertBefore(e, s);
-}(document, 'script'));
-</script>
-<?php endif; ?>
 </body>
 </html>

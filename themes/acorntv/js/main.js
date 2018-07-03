@@ -156,20 +156,20 @@ $(".trailer-modal").fancybox({
 $content = $('body > div');
 $playerSection = $('#player-section');
 
-var search = function(form) {
-    var $formSearchText = $(form['s']).val();
-    if($formSearchText !== '') {
-        var searchText = encodeURIComponent($formSearchText.replace(/\\\'/, "'").toLowerCase())
-                .replace(/\!/g, '%21')
-                .replace(/\'/g, '%27')
-                .replace(/\(/g, '%28')
-                .replace(/\)/g, '%29')
-                .replace(/\*/g, '%2A')
-                .replace(/\+/g, '%20');
-        window.location = '/search/' + searchText;
-    }
-    return false;
-};
+// var search = function(form) {
+//     var $formSearchText = $(form['s']).val();
+//     if($formSearchText !== '') {
+//         var searchText = encodeURIComponent($formSearchText.replace(/\\\'/, "'").toLowerCase())
+//                 .replace(/\!/g, '%21')
+//                 .replace(/\'/g, '%27')
+//                 .replace(/\(/g, '%28')
+//                 .replace(/\)/g, '%29')
+//                 .replace(/\*/g, '%2A')
+//                 .replace(/\+/g, '%20');
+//         window.location = '/search/' + searchText;
+//     }
+//     return false;
+// };
 
 var addToWatchlist = function(franchise) {
     $.post('/' + franchise, { franchise: franchise, action: "add" }, function() {
@@ -313,43 +313,43 @@ var episodePlayer = function(episodeId, setTimePosition) {
     };
 };
 
-var emailPlaceholder = function(el) {
-    var str = $(el).val();
-    if (!str.trim().length) {
-        $(el).val('Enter Your Email Address');
-    }
-};
+// var emailPlaceholder = function(el) {
+//     var str = $(el).val();
+//     if (!str.trim().length) {
+//         $(el).val('Enter Your Email Address');
+//     }
+// };
 
-var clearPlaceholder = function(el) {
-    var str = $(el).val();
-    if (str == 'Enter Your Email Address') {
-        $(el).val('');
-    }
-};
+// var clearPlaceholder = function(el) {
+//     var str = $(el).val();
+//     if (str == 'Enter Your Email Address') {
+//         $(el).val('');
+//     }
+// };
 
-var signupNewsletter = function(el) {
-    var re = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i,
-        $signupNewsletter = $(el).parent(),
-        $signupEmail = $signupNewsletter.find('#signupEmail').val();
+// var signupNewsletter = function(el) {
+//     var re = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i,
+//         $signupNewsletter = $(el).parent(),
+//         $signupEmail = $signupNewsletter.find('#signupEmail').val();
 
-    if (re.test($signupEmail.trim())) {
-       $.ajax({
-            type: 'POST',
-            data: "SignupEmail=" + $signupEmail,
-            url: '/signupnewsletter',
-            dataType: "text",
-            success: function() {
-                $signupNewsletter.find('#formMessage').html('<div class="alert alert-success">Thank you for subscribing!</div>');
-            },
-            error: function() {
-                $signupNewsletter.find('#formMessage').html('<div class="alert alert-error">There was a problem with your submission, please try again.</div>');
-            }
-        });
-    }
-    else {
-        $signupNewsletter.find('#formMessage').html('<div class="alert alert-error">Invalid email address.</div>');
-    }
-};
+//     if (re.test($signupEmail.trim())) {
+//        $.ajax({
+//             type: 'POST',
+//             data: "SignupEmail=" + $signupEmail,
+//             url: '/signupnewsletter',
+//             dataType: "text",
+//             success: function() {
+//                 $signupNewsletter.find('#formMessage').html('<div class="alert alert-success">Thank you for subscribing!</div>');
+//             },
+//             error: function() {
+//                 $signupNewsletter.find('#formMessage').html('<div class="alert alert-error">There was a problem with your submission, please try again.</div>');
+//             }
+//         });
+//     }
+//     else {
+//         $signupNewsletter.find('#formMessage').html('<div class="alert alert-error">Invalid email address.</div>');
+//     }
+// };
 })(jQuery);
 
 jQuery(document).ready(function($) {

@@ -141,7 +141,7 @@ function acorntv_rewrites_urls() {
 	add_rewrite_rule( 'streamposition$', 'index.php?pagecustom=streamposition', 'top' );
 	// add_rewrite_rule( 'search/(.+)', 'index.php?pagecustom=search&search_text=$matches[1]', 'top' );
 	add_rewrite_rule( 'contactus$', 'index.php?pagecustom=contact', 'top' );
-	add_rewrite_rule( 'signupnewsletter$', 'index.php?pagecustom=signupnewsletter', 'top' );
+	// add_rewrite_rule( 'signupnewsletter$', 'index.php?pagecustom=signupnewsletter', 'top' );
 	// add_rewrite_rule( '(.+)/(.+)/(.+)$', 'index.php?pagecustom=episode&franchise_id=$matches[1]&season_name=$matches[2]&episode_name=$matches[3]', 'top' );
 	// add_rewrite_rule( '(.+)/trailer$', 'index.php?pagecustom=trailer&franchise_id=$matches[1]', 'top' );
 	// add_rewrite_rule( '^(?!landing\/|page\/)(.+)/(.+)$', 'index.php?pagecustom=season&franchise_id=$matches[1]&season_name=$matches[2]', 'top' );
@@ -215,7 +215,7 @@ function acorntv_check_rewrite_rules( $wp_rewrite ) {
 		'streamposition$' => 'index.php?pagecustom=streamposition',
 		// 'search/(.+)' => 'index.php?pagecustom=search&search_text=$matches[1]',
 		'contactus$' => 'index.php?pagecustom=contact',
-		'signupnewsletter$' => 'index.php?pagecustom=signupnewsletter',
+		// 'signupnewsletter$' => 'index.php?pagecustom=signupnewsletter',
 		// '(.+)/(.+)/(.+)$' => 'index.php?pagecustom=episode&franchise_id=$matches[1]&season_name=$matches[2]&episode_name=$matches[3]',
 		// '(.+)/trailer$' => 'index.php?pagecustom=trailer&franchise_id=$matches[1]',
 		// '^(?!landing\/|page\/)(.+)/(.+)$' => 'index.php?pagecustom=season&franchise_id=$matches[1]&season_name=$matches[2]',

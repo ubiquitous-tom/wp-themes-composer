@@ -3,8 +3,8 @@
 class RLJE_Theme_Settings {
 
 	private $theme_settings = array();
-	private $sailthru = array();
-	private $rightsline = array();
+	private $sailthru       = array();
+	private $rightsline     = array();
 
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
@@ -39,7 +39,7 @@ class RLJE_Theme_Settings {
 			<div id="icon-options-general" class="icon32"></div>
 
 			<!-- run the settings_errors() function here. -->
-			<?php //settings_errors(); ?>
+			<?php // settings_errors(); ?>
 
 			<h1>RLJE Theme Options</h1>
 
@@ -61,8 +61,18 @@ class RLJE_Theme_Settings {
 			<!-- WordPress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
 				<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
-				<a href="?page=rlje-theme-settings&tab=main-options" class="nav-tab <?php if ( 'main-options' === $active_tab ) { echo 'nav-tab-active'; } ?> ">Theme Options</a>
-				<a href="?page=rlje-theme-settings&tab=3rd-party-options" class="nav-tab <?php if ( '3rd-party-options' === $active_tab ) { echo 'nav-tab-active'; } ?>">3rd Party Options</a>
+				<a href="?page=rlje-theme-settings&tab=main-options" class="nav-tab 
+				<?php
+				if ( 'main-options' === $active_tab ) {
+					echo 'nav-tab-active'; }
+				?>
+				 ">Theme Options</a>
+				<a href="?page=rlje-theme-settings&tab=3rd-party-options" class="nav-tab 
+				<?php
+				if ( '3rd-party-options' === $active_tab ) {
+					echo 'nav-tab-active'; }
+				?>
+				">3rd Party Options</a>
 			</h2>
 			<form method="post" action="options.php">
 				<?php
@@ -115,7 +125,7 @@ class RLJE_Theme_Settings {
 	public function display_rlje_options_content() {
 		// echo 'RLJE Theme Settings';
 		$this->theme_settings = get_option( 'rlje_theme_settings' );
-		var_dump($this->theme_settings);
+		var_dump( $this->theme_settings );
 	}
 
 	public function display_environment_type() {
@@ -148,7 +158,7 @@ class RLJE_Theme_Settings {
 	public function display_google_analytics_options_content() {
 		echo 'Google Analytics Settings';
 		$this->google = get_option( 'rlje_google_settings' );
-		var_dump($this->google);
+		var_dump( $this->google );
 	}
 
 	public function display_google_analytics_settings() {
@@ -162,7 +172,7 @@ class RLJE_Theme_Settings {
 	public function display_sailthru_options_content() {
 		echo 'Sailthru Settings';
 		$this->sailthru = get_option( 'rlje_sailthru_settings', array() );
-		var_dump($this->sailthru);
+		var_dump( $this->sailthru );
 	}
 
 	public function display_sailthru_settings() {
@@ -176,7 +186,7 @@ class RLJE_Theme_Settings {
 	public function display_rightsline_options_content() {
 		echo 'Rightsline Settings';
 		$this->rightsline = get_option( 'rlje_rightsline_settings' );
-		var_dump($this->rightsline);
+		var_dump( $this->rightsline );
 	}
 
 	public function display_rightsline_base_url() {
@@ -214,16 +224,16 @@ class RLJE_Theme_Settings {
 
 	public function sanitize_options( $data = null ) {
 		$message = 'Data can not be empty';
-		$type = 'error';
+		$type    = 'error';
 
 		if ( null !== $data ) {
 			if ( false === get_option( 'rlje_theme_settings' ) ) {
 				add_option( 'rlje_theme_settings', $data );
-				$type = 'updated';
+				$type    = 'updated';
 				$message = __( 'Successfully saved', 'my-text-domain' );
 			} else {
 				update_option( 'rlje_theme_settings', $data );
-				$type = 'updated';
+				$type    = 'updated';
 				$message = __( 'Successfully updated', 'my-text-domain' );
 			}
 		}
@@ -238,8 +248,8 @@ class RLJE_Theme_Settings {
 
 	public function plugins_loaded() {
 		$this->theme_settings = get_option( 'rlje_theme_settings' );
-		$this->sailthru = get_option( 'rlje_sailthru_settings' );
-		$this->rightsline = get_option( 'rlje_rightsline_settings' );
+		$this->sailthru       = get_option( 'rlje_sailthru_settings' );
+		$this->rightsline     = get_option( 'rlje_rightsline_settings' );
 
 		// For RLJE API call.
 		define( 'API_TIMEOUT_SECS', '30' );
@@ -272,16 +282,22 @@ class RLJE_Theme_Settings {
 			define( 'RIGHTSLINE_BASE_URL', $rightsline_base_url );
 		}
 
-		$rightsline_auth_type = ( ! empty( $this->rightsline['auth_type'] ) ) ? $this->rightsline['auth_type'] : '';
+		$rightsline_auth_type   = ( ! empty( $this->rightsline['auth_type'] ) ) ? $this->rightsline['auth_type'] : '';
 		$rightsline_auth_header = ( ! empty( $this->rightsline['auth_header'] ) ) ? $this->rightsline['auth_header'] : '';
 		if ( ! empty( $rightsline_auth_type ) && ! empty( $rightsline_auth_header ) ) {
 			define( 'RIGHTSLINE_AUTH_HEADER', $rightsline_auth_type . ' ' . $rightsline_auth_header );
 		}
 
 		if ( defined( 'WP_DEBUG' ) ) {
-			define( 'WP_DEBUG_LOG', true );
-			define( 'WP_DEBUG_DISPLAY', false );
-			define( 'SCRIPT_DEBUG', true );
+			if ( ! defined( 'WP_DEBUG_LOG' ) ) {
+				define( 'WP_DEBUG_LOG', true );
+			}
+			if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
+				define( 'WP_DEBUG_DISPLAY', false );
+			}
+			if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+				define( 'SCRIPT_DEBUG', true );
+			}
 		}
 
 		// For query-monitor plugin.
@@ -293,7 +309,6 @@ class RLJE_Theme_Settings {
 
 		// define( 'AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 		// define( 'AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_KEY'] );
-
 		// define( 'GLOBAL_SMTP_HOST', $_SERVER['GLOBAL_SMTP_HOST'] );
 		// define( 'GLOBAL_SMTP_USER', $_SERVER['GLOBAL_SMTP_USER'] );
 		// define( 'GLOBAL_SMTP_PASSWORD', $_SERVER['GLOBAL_SMTP_PASSWORD'] );

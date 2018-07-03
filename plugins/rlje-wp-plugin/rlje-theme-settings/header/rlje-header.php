@@ -11,7 +11,7 @@ class RLJE_Header {
 
 		add_action( 'wp_head', array( $this, 'add_sailthru_script' ) );
 		add_action( 'wp_head', array( $this, 'add_tealium_script' ) );
-		add_action( 'wp_head', array( $this, 'check_first_time_visitor' ) );
+		// add_action( 'wp_head', array( $this, 'check_first_time_visitor' ) );
 		add_action( 'wp_head', array( $this, 'add_google_analytics_script' ) );
 	}
 

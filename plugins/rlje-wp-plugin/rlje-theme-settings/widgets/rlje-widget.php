@@ -1,7 +1,5 @@
 <?php
 
-require_once 'newsletter/rlje-newsletter-widget.php';
-
 class RLJE_Widget {
 
 	private $footer_areas = array(
@@ -35,16 +33,6 @@ class RLJE_Widget {
 			'before_title'  => '<h5>',
 			'after_title'   => '</h5>',
 		),
-		array(
-			'name'          => 'Signup Newsletter',
-			'id'            => 'signup-newsletter',
-			'description'   => 'Newsletter signup area for the footer',
-			'class'         => '',
-			'before_widget' => '<div id="signupNewsletter" class="visible-lg col-lg-4" style="float:right;">',
-			'after_widget'  => '</div>',
-			'before_title'  => '<h5>',
-			'after_title'   => '</h5>',
-		),
 	);
 
 	public function __construct() {
@@ -53,11 +41,10 @@ class RLJE_Widget {
 	}
 
 	public function widgets_init() {
+		$this->footer_areas = apply_filters( 'rlje_widget_footer_areas', $this->footer_areas );
 		foreach ( $this->footer_areas as $footer_area ) {
 			register_sidebar( $footer_area );
 		}
-
-		register_widget( 'RLJE_Newsletter_Widget' );
 	}
 
 	public function display_footer_widget() {
@@ -76,3 +63,5 @@ class RLJE_Widget {
 }
 
 $rlje_widget = new RLJE_Widget();
+
+require_once 'newsletter/rlje-newsletter-widget.php';
