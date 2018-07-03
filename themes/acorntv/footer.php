@@ -1,8 +1,9 @@
 <?php
-$environment   = apply_filters( 'atv_get_extenal_subdomain', '' );
-$base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+// $environment   = apply_filters( 'atv_get_extenal_subdomain', '' );
+// $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 ?>
 
+<?php /*
 <div class="sub-footer">
 	<div class="container" style="margin-bottom: 45px; margin-top: 45px;">
 		<div id="signupNewsletter" class="visible-lg col-lg-4" style="float:right;">
@@ -42,12 +43,13 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 		</div>
 	</div>
 </div>
+*/ ?>
+
+<?php do_action( 'rlje_footer_widget_area' ); ?>
 
 <?php do_action( 'rlje_footer_navigation' ); ?>
 
-<?php
-wp_footer();
-?>
+<?php wp_footer(); ?>
 <?php
 	$stripe_customer_id = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? rljeApiWP_getStripeCustomerId( $_COOKIE['ATVSessionCookie'] ) : false;
 if ( $stripe_customer_id ) :

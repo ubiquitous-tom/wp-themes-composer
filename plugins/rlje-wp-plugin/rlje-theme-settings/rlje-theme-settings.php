@@ -12,8 +12,6 @@ class RLJE_Theme_Settings {
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
-
-		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -302,23 +300,15 @@ class RLJE_Theme_Settings {
 		// define( 'GLOBAL_SMTP_PORT', $_SERVER['GLOBAL_SMTP_PORT'] );
 	}
 
-	public function umc_add_img_and_href( $item ) {
-		if ( ! isset( $item->href ) ) {
-			$id = ( isset( $item->id ) ) ? $item->id: $item->franchiseID;
-			$item->href = $id;
-		}
-
-		if ( ! isset( $item->img ) ) {
-			$img = ( isset( $item->image ) ) ? $item->image_h : $item->href . '_avatar';
-			$item->img = rljeApiWP_getImageUrlFromServices( $img );
-		}
-
-		return $item;
-	}
 }
 
 $rlje_theme_settings = new RLJE_Theme_Settings();
 
 require_once 'header/rlje-header.php';
+require_once 'footer/rlje-footer.php';
+require_once 'widgets/rlje-widget.php';
 require_once 'navigations/rlje-theme-menu-settings.php';
 require_once 'search/rlje-theme-search-settings.php';
+require_once 'franchise/rlje-franchise-page.php';
+require_once 'themes/umc/rlje-umc-theme.php';
+// require_once 'themes/acorn/rlje-acorn-theme.php';
