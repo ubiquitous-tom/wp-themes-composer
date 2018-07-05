@@ -288,24 +288,25 @@ class RLJE_Theme_Settings {
 			define( 'RIGHTSLINE_AUTH_HEADER', $rightsline_auth_type . ' ' . $rightsline_auth_header );
 		}
 
-		if ( defined( 'WP_DEBUG' ) ) {
-			if ( ! defined( 'WP_DEBUG_LOG' ) ) {
-				define( 'WP_DEBUG_LOG', true );
-			}
-			if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
-				define( 'WP_DEBUG_DISPLAY', false );
-			}
-			if ( ! defined( 'SCRIPT_DEBUG' ) ) {
-				define( 'SCRIPT_DEBUG', true );
-			}
-		}
+		// THIS NEEDS TO BE IN wp-config.php IN ORDER FOR IT TO WORK!!
+		// if ( defined( 'WP_DEBUG' ) ) {
+		// 	if ( ! defined( 'WP_DEBUG_LOG' ) ) {
+		// 		define( 'WP_DEBUG_LOG', true );
+		// 	}
+		// 	if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
+		// 		define( 'WP_DEBUG_DISPLAY', false );
+		// 	}
+		// 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+		// 		define( 'SCRIPT_DEBUG', true );
+		// 	}
+		// }
 
-		// For query-monitor plugin.
-		define( 'WP_LOCAL_DEV', true );
+		// // For query-monitor plugin.
+		// define( 'WP_LOCAL_DEV', true );
 
-		define( 'WP_REDIS_HOST', 'redis' );
-		define( 'WP_REDIS_PORT', '6379' );
-		define( 'WP_REDIS_CLIENT', 'pecl' );
+		// define( 'WP_REDIS_HOST', 'redis' );
+		// define( 'WP_REDIS_PORT', '6379' );
+		// define( 'WP_REDIS_CLIENT', 'pecl' );
 
 		// define( 'AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 		// define( 'AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_KEY'] );
