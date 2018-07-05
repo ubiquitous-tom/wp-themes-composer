@@ -37,9 +37,7 @@ else {
         <div id="contentPane" class="span9"> 
             <div id="contactus-view" class="url-view">
                 <script defer src="<?= get_template_directory_uri(); ?>/lib/jquery/jquery-browser.js"></script>
-                <script defer src="<?= get_template_directory_uri(); ?>/lib/SWFObject/SWFObject.js"></script>
                 <script defer src="<?= get_template_directory_uri(); ?>/lib/jquery/jquery.validate.min.js"></script>
-                <script defer src="<?= get_template_directory_uri(); ?>/js/diagnostics.js"></script>
                 <script defer src="<?= get_template_directory_uri(); ?>/js/contactForm.js"></script>
                 <div class="row-fluid">
                     <div class="span10">
