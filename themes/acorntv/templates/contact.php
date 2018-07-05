@@ -63,12 +63,6 @@ else {
                                 <input id="referringUrl" name="Referring_Url" type="hidden" value="">
                                 <input id="Model" name="model" type="hidden" value="Web">
 
-                                <!-- 
-                                <p style="margin-bottom:20px;font-weight:bold;color:red;font-size:1.2em">
-                                        ***7/14/14 SERVICE MESSAGE: We are aware of ongoing playback problems for approximately 1% of our users on Roku, iPads, and Linux. Our engineers are working furiously to find resolutions, however, we have no immediate solutions to offer and we have a major backlog of customer service inquiries so it may take longer than we'd like for you to get a response. We appreciate your patience in the meantime. ROKU USERS: Please make sure you have Roku firmware 5.5 and Acorn TV channel version 2.1.33. If you have these updates and are still having a problem, please send us a report from your Roku (go to Help then Contact Us) so that we get a diagnostic report from your Roku and not your computer. Thank you!***
-                                </p>
-                                 -->
-
                                 <p style="margin-bottom:20px;">
                                     Please be sure to visit the <a href="http://support.acorn.tv/support/home" target="_blank">Acorn TV Help Center</a> for answers to frequently asked questions, up-to-the-minute alerts, and solutions to many common issues. If you need additional assistance, please <?php if(!rljeApiWP_getCountryCode()): ?>select a category and <?php endif; ?>provide a description of the issue you are experiencing. 
                                 </p>
