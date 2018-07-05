@@ -1,37 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
+jQuery(function($) {
+    var $subject = $('#subject');
 
-	var $subject = $('#subject');
-	var $issueSelect = $('#issue-select');
-
-    $issueSelect.change(function() {
+    $('#issue-select').change(function() {
         $(".issues-list").hide();
- 		//$(".issues-list select").rules("remove", "required");
 
         var selectedIssue = $(this).val();
         $("#" + selectedIssue).show();
-//        $("#" + selectedIssue + " select").rules("add", "required");
     });
-
-    $('#issue-select').on('change', function() {
-		$subject.val($('#issue-select option[value="' + $(this).val() + '"]').text());
-    });
-
-    setDefaultInputText();
-
-    // form validation defaults
-//    $.validator.setDefaults({
-//        errorClass: "help-inline",
-//        errorElement: "span",
-//        highlight: function(element, errorClass, validClass) {
-//            $(element).closest('.control-group').removeClass('success').addClass('error');
-//        },
-//        unhighlight: function(element, errorClass, validClass) {
-//            $(element).closest('.control-group').removeClass('error');
-//        },
-//        success: function(label) {
-//            $(label).closest('form').find('.valid').removeClass('invalid');
-//        }
-//    });
 
 
     //get session Cookie for ID
@@ -84,5 +59,4 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
     });
-
-});
+})
