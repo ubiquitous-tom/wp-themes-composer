@@ -1,7 +1,11 @@
 <?php
 
+require_once 'rlje-season-page.php';
+require_once 'rlje-episode-page.php';
+
 class RLJE_Franchise_Page {
 
+	protected $franchise;
 	protected $franchise_id;
 	protected $season_id;
 	protected $episode_id;
@@ -82,13 +86,9 @@ class RLJE_Franchise_Page {
 		return ( ! empty( $available_franchise_list ) ) ? $available_franchise_list : array();
 	}
 
-	protected function get_current_franchise() {
-		wp_remote_get( CONTENT_BASE_URL . 'today/web/franchise/' . $this->franchise_id . '.json' );
-	}
-
 	protected function is_franchise() {
 		global $wp_query;
-		var_dump(is_page(), is_404(), is_single());
+		// var_dump(is_page(), is_404(), is_single());
 		// var_dump($wp_query);
 		// exit;
 		// var_dump(get_queried_object());
@@ -96,7 +96,7 @@ class RLJE_Franchise_Page {
 		$pagename = $wp_query->query['pagename'];
 		// var_dump($pagename,explode( '/', $pagename ));
 		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
-		var_dump($this->franchise_id, $this->season_id, $this->episode_id);
+		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
 		// exit;
 		$available_franchise_list = $this->get_available_franchise_list();
 
@@ -118,10 +118,6 @@ class RLJE_Franchise_Page {
 		}
 
 		return true;
-	}
-
-	protected function is_season() {
-
 	}
 }
 

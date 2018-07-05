@@ -289,6 +289,7 @@ class RLJE_Theme_Settings {
 		}
 
 		// THIS NEEDS TO BE IN wp-config.php IN ORDER FOR IT TO WORK!!
+		// IT IS TOO LATE TO CALL INSIDE OF THIS FILE
 		// if ( defined( 'WP_DEBUG' ) ) {
 		// 	if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 		// 		define( 'WP_DEBUG_LOG', true );
