@@ -64,7 +64,7 @@ else {
                                 <input id="Model" name="model" type="hidden" value="Web">
 
                                 <p style="margin-bottom:20px;">
-                                    Please be sure to visit the <a href="http://support.acorn.tv/support/home" target="_blank">Acorn TV Help Center</a> for answers to frequently asked questions, up-to-the-minute alerts, and solutions to many common issues. If you need additional assistance, please <?php if(!rljeApiWP_getCountryCode()): ?>select a category and <?php endif; ?>provide a description of the issue you are experiencing. 
+                                    Please be sure to visit the <a href="<?= home_url('support/home') ?>" target="_blank"><?php bloginfo("name") ?> Help Center</a> for answers to frequently asked questions, up-to-the-minute alerts, and solutions to many common issues. If you need additional assistance, please <?php if(!rljeApiWP_getCountryCode()): ?>select a category and <?php endif; ?>provide a description of the issue you are experiencing. 
                                 </p>
 
                                <p>
