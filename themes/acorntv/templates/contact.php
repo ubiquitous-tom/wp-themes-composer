@@ -68,7 +68,7 @@ else {
                                 </p>
 
                                <p>
-                                 <b>Programming Questions and Requests:</b> Want to request a show? Please fill out <a href="https://www.surveymonkey.com/r/P3NM77F" target="_blank">our survey</a>! Have a question about our schedule? Please contact us on <a href="https://www.facebook.com/OfficialAcornTV/" target="_blank">Facebook</a>. 
+                                 <b>Programming Questions and Requests:</b> Want to request a show? Please fill out <a href="https://www.surveymonkey.com/r/P3NM77F" target="_blank">our survey</a>! Have a question about our schedule? Please contact us on <a href="https://www.facebook.com/UrbanMovieChannel/" target="_blank">Facebook</a>. 
                                </p>
 
                                 <?php if(!rljeApiWP_getCountryCode()): ?>
