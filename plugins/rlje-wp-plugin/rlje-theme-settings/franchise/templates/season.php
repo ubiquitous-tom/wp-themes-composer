@@ -1,12 +1,12 @@
 <?php
-$baseUrlPath = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+$base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 
-	$franchiseId   = get_query_var( 'franchise_id' );
-	$seasonNameURL = get_query_var( 'season_name' );
+	$franchise_id   = get_query_var( 'franchise_id' );
+	$season_name_url = get_query_var( 'season_name' );
 
-	$franchise = rljeApiWP_getFranchiseById( $franchiseId );
-	$season    = rljeApiWP_getCurrentSeason( $franchiseId, $seasonNameURL );
+	$franchise = rljeApiWP_getFranchiseById( $franchise_id );
+	$season    = rljeApiWP_getCurrentSeason( $franchise_id, $season_name_url );
 
 	if ( isset( $season->id ) ) :
 		get_header();
@@ -15,14 +15,14 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	<div class="container franchise">
 		<h4 class="subnav">
 			<span class="subnav-prev hidden-xs hidden-sm">
-				<a href="<?php echo $baseUrlPath; ?>">
+				<a href="<?php echo $base_url_path; ?>">
 					<img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" id="archive-arrows">
 					<span>Back to Home</span>
 				</a>
 			</span>
 			<span><?php echo $franchise->name; ?></span>
 			<span class="subnav-next hidden-xs hidden-sm">
-				<a href="<?php echo $baseUrlPath . '/' . $franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ); ?>">
+				<a href="<?php echo $base_url_path . '/' . $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ); ?>">
 					<span>Watch Episode</span>
 					<img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" id="archive-arrows">
 				</a>
@@ -31,7 +31,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-lg-4">
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) : ?>
-				<a href="<?php echo $baseUrlPath . '/' . $franchise->id . '/trailer'; ?>">
+				<a href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer'; ?>">
 					<img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
 				</a>
 				<?php else : ?> 
@@ -41,7 +41,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			<div class="col-xs-12 col-sm-6 col-lg-8">
 				<p id="franchise-description"><?php echo $franchise->longDescription; ?></p>
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) : ?>
-				<a id="inline" href="<?php echo $baseUrlPath . '/' . $franchise->id . '/trailer'; ?>">
+				<a id="inline" href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer'; ?>">
 					<button>View Trailer</button>
 				</a>
 					<?php
@@ -64,15 +64,15 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 
 	<span style="padding-right:5px;"> Filter By Series:</span>
 		<?php for ( $i = 0; $i < count( $franchise->seasons ); $i++ ) : ?>
-	<a href="/<?php echo $franchiseId; ?>/<?php echo rljeApiWP_convertSeasonNameToURL( $franchise->seasons[ $i ]->name ); ?>"> <button><?php echo $i + 1; ?></button></a>
+	<a href="/<?php echo $franchise_id; ?>/<?php echo rljeApiWP_convertSeasonNameToURL( $franchise->seasons[ $i ]->name ); ?>"> <button><?php echo $i + 1; ?></button></a>
 	<?php endfor; ?>
-	<a href="/<?php echo $franchiseId; ?>"> <button>View All</button></a>
+	<a href="/<?php echo $franchise_id; ?>"> <button>View All</button></a>
 </div>
 		<?php
 		get_footer();
 	else :
-		$haveFranchisesAvailable = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise' );
-		if ( $haveFranchisesAvailable ) {
+		$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise' );
+		if ( $have_franchises_available ) {
 			require_once get_404_template();
 		} else {
 			get_template_part( 'templates/franchisesUnavailable' );

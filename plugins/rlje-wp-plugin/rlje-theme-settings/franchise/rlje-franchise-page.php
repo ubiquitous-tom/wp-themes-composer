@@ -13,7 +13,8 @@ class RLJE_Franchise_Page {
 	public function __construct() {
 		// add_action( 'init', array( $this, 'add_franchise_rewrite_rules' ) );
 		// add_action( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
-		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ) );
+		add_action( 'wp', array( $this, 'get_pagename' ) );
+		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ), 20 );
 
 		// add_filter( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
@@ -26,6 +27,16 @@ class RLJE_Franchise_Page {
 	public function franchise_check_against_api( $wp_rewrite_rules ) {
 		var_dump($wp_rewrite_rules); exit;
 		return $wp_rewrite_rules;
+	}
+
+	public function get_pagename() {
+		global $wp_query;
+
+		$pagename = $wp_query->query['pagename'];
+		// var_dump($pagename,explode( '/', $pagename ));
+		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
+		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
+		$this->franchise = ( ! empty( $this->franchise_id ) ) ? rljeApiWP_getFranchiseById( $this->franchise_id ) : false;
 	}
 
 	public function franchise_template_redirect() {
@@ -47,7 +58,7 @@ class RLJE_Franchise_Page {
 	}
 
 	public function franchise_body_class( $classes ) {
-		if ( $this->is_franchise() ) {
+		if ( $this->is_current_franchise() ) {
 			$classes[] = $this->franchise_id;
 			$classes[] = 'page-' . $this->franchise_id;
 		}
@@ -87,19 +98,6 @@ class RLJE_Franchise_Page {
 	}
 
 	protected function is_franchise() {
-		global $wp_query;
-		// var_dump(is_page(), is_404(), is_single());
-		// var_dump($wp_query);
-		// exit;
-		// var_dump(get_queried_object());
-		// $franchise_info = get_query_var( 'pagename' );
-		$pagename = $wp_query->query['pagename'];
-		// var_dump($pagename,explode( '/', $pagename ));
-		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
-		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
-		// exit;
-		$available_franchise_list = $this->get_available_franchise_list();
-
 		if ( is_page() ) {
 			return false;
 		}
@@ -108,10 +106,19 @@ class RLJE_Franchise_Page {
 			return false;
 		}
 
+		if ( ! $this->is_current_franchise() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function is_current_franchise() {
 		if ( empty( $this->franchise_id ) ) {
 			return false;
 		}
 
+		$available_franchise_list = $this->get_available_franchise_list();
 		if ( empty( $available_franchise_list[ $this->franchise_id ] ) ) {
 			// We should return not available for your country template
 			return false;

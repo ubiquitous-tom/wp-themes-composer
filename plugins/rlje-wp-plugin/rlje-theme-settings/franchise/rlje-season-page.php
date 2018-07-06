@@ -2,17 +2,26 @@
 
 class RLJE_Season_Page extends RLJE_Franchise_Page {
 
+	protected $seasons;
+
 	public function __construct() {
-		add_action( 'template_redirect', array( $this, 'season_template_redirect' ) );
+		add_action( 'wp', array( $this, 'get_pagename' ) );
+		add_action( 'template_redirect', array( $this, 'season_template_redirect' ), 15 );
 
 		add_filter( 'body_class', array( $this, 'season_body_class' ) );
 	}
 
-	public function season_template_redirect() {
-		if ( ! $this->is_franchise() ) {
-			return false;
-		}
+	public function get_pagename() {
+		global $wp_query;
 
+		$pagename = $wp_query->query['pagename'];
+		// var_dump($pagename,explode( '/', $pagename ));
+		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
+		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
+		$this->get_current_franchise_season();
+	}
+
+	public function season_template_redirect() {
 		if ( ! $this->is_season() ) {
 			return false;
 		}
@@ -22,6 +31,7 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 		// Prevent internal 404 on custome search page because of template_redirect hook.
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
+		set_query_var( 'franchise_id', $this->franchise_id );
 		set_query_var( 'season_name', $this->season_id );
 
 		ob_start();
@@ -33,7 +43,7 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 	}
 
 	public function season_body_class( $classes ) {
-		if ( $this->is_franchise() ) {
+		if ( $this->seasons ) {
 			$classes[] = $this->season_id;
 			$classes[] = 'page-' . $this->season_id;
 		}
@@ -42,21 +52,23 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 	}
 
 	protected function is_season() {
-		if ( ! $this->is_franchise() ) {
-			return false;
-		}
-
 		if ( empty( $this->season_id ) ) {
 			return false;
 		}
 
-		$this->get_current_franchise();
+		if ( empty( $this->seasons ) ) {
+			return false;
+		}
 
 		return true;
 	}
 
-	protected function get_current_franchise() {
-		$this->franchise = rljeApiWP_getFranchiseById( $this->franchise_id );
+	protected function get_current_franchise_season() {
+		if ( empty( $this->season_id ) ) {
+			$this->seasons = false;
+		} else {
+			$this->seasons = rljeApiWP_getCurrentSeason( $this->franchise_id, $this->season_id );
+		}
 	}
 }
 
