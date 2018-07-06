@@ -68,14 +68,14 @@ class RLJE_Franchise_Page {
 
 	protected function get_available_franchise_list() {
 		$country = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
-		// $response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
+		$response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
 		// var_dump($response);
-		// if ( is_wp_error( $response ) ) {
-		// 	return array();
-		// }
-		// $body = wp_remote_retrieve_body( $response );
-		// $json = json_decode( $body, true );
-		// var_dump($json);
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+		$body = wp_remote_retrieve_body( $response );
+		$current_country_available_franchises = json_decode( $body, true );
+		// var_dump($current_country_available_franchises);
 		$current_country_available_franchises = array(
 			'US' => array(
 				'docmartin'    => array(
@@ -92,6 +92,9 @@ class RLJE_Franchise_Page {
 				),
 			),
 		);
+		// var_dump($current_country_available_franchises);
+		// var_dump(json_encode($current_country_available_franchises));
+		// var_dump(json_encode($current_country_available_franchises, ));
 		$available_franchise_list = ( ! empty( $current_country_available_franchises[ $country ] ) ) ? $current_country_available_franchises[ $country ] : array();
 
 		return ( ! empty( $available_franchise_list ) ) ? $available_franchise_list : array();

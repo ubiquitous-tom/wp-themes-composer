@@ -6,7 +6,7 @@
 		<?php do_action( 'rlje_before_header_navigation' ); ?>
 
 		<div class="navbar-header">
-			<a href="/"><img src="https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300" class="atv-logo"></a>
+			<a href="/"><img src="<?php echo esc_url( plugin_dir_url( __FILE__ ) . '../img/logo.png'); ?>" class="atv-logo"></a>
 			<button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle">
 			<div class="button-bars">
 				<span class="icon-bar"></span>

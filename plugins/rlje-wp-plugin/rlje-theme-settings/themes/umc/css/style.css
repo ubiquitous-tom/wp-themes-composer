@@ -1,10 +1,28 @@
 body {
     background: #011f36;
 }
-/* .navbar, */
+
+.atv-logo {
+    width: auto;
+    margin-top: 15px;
+}
+
+.navbar,
 .home-hero-carousel,
 .home-featured,
 .home-spotlights,
 .sub-footer {
     background: #011f36;
+}
+
+.carousel .item .hero-img {
+    background: #011f36;
+    opacity: .45;
+}
+
+.footer {
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #000;
+    width: 100% !important;
 }

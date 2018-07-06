@@ -2,9 +2,10 @@
 
 class RLJE_Theme_Settings {
 
-	private $theme_settings = array();
-	private $sailthru       = array();
-	private $rightsline     = array();
+	protected $theme_settings             = array();
+	protected $theme_environment_settings = array();
+	protected $sailthru                   = array();
+	protected $rightsline                 = array();
 
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
@@ -12,6 +13,14 @@ class RLJE_Theme_Settings {
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
+		add_action( 'admin_menu', array( $this, 'add_theme_environment_settings_submenu' ) );
+
+		add_filter( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
+	}
+
+	public function whitelist_custom_options_page( $whitelist_options ) {
+		// var_dump($whitelist_options);exit;
+		return $whitelist_options;
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -25,15 +34,15 @@ class RLJE_Theme_Settings {
 		add_menu_page(
 			'RLJE Theme Settings', // Required. Text in browser title bar when the page associated with this menu item is displayed.
 			'Theme Settings', // Required. Text to be displayed in the menu.
-			'manage_options', // Required. The required capability of users to access this menu item.
+			'manage_sites', // Required. The required capability of users to access this menu item.
 			'rlje-theme-settings', // Required. A unique identifier to identify this menu item.
-			array( $this, 'rlje_theme_settings' ), // Optional. This callback outputs the content of the page associated with this menu item.
+			array( $this, 'rlje_theme_settings_page' ), // Optional. This callback outputs the content of the page associated with this menu item.
 			'', // Optional. The URL to the menu item icon.
 			100 // Optional. Position of the menu item in the menu.
 		);
 	}
 
-	public function rlje_theme_settings() {
+	public function rlje_theme_settings_page() {
 		?>
 		<div class="wrap">
 			<div id="icon-options-general" class="icon32"></div>
@@ -61,13 +70,13 @@ class RLJE_Theme_Settings {
 			<!-- WordPress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
 				<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
-				<a href="?page=rlje-theme-settings&tab=main-options" class="nav-tab 
+				<a href="?page=rlje-theme-settings&tab=main-options" class="nav-tab
 				<?php
 				if ( 'main-options' === $active_tab ) {
 					echo 'nav-tab-active'; }
 				?>
-				 ">Theme Options</a>
-				<a href="?page=rlje-theme-settings&tab=3rd-party-options" class="nav-tab 
+				">Theme Options</a>
+				<a href="?page=rlje-theme-settings&tab=3rd-party-options" class="nav-tab
 				<?php
 				if ( '3rd-party-options' === $active_tab ) {
 					echo 'nav-tab-active'; }
@@ -90,11 +99,46 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
+	public function add_theme_environment_settings_submenu() {
+		add_submenu_page(
+			'rlje-theme-settings',
+			'Environment Settings',
+			'Theme Environment',
+			'manage_sites',
+			'rlje-theme-environment-settings',
+			array( $this, 'rlje_theme_environment_settings_page' )
+		);
+	}
+
+	public function rlje_theme_environment_settings_page() {
+		$active_fields = 'rlje_theme_environment_section';
+		?>
+		<div class="wrap">
+			<div id="icon-options-general" class="icon32"></div>
+			<h1>Environment Options</h1>
+			<form method="post" action="options.php">
+				<?php
+					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
+					settings_fields( $active_fields );
+
+					// all the add_settings_field callbacks is displayed here.
+					do_settings_sections( 'rlje-theme-environment-settings' );
+
+					// Add the submit button to serialize the options.
+					submit_button();
+				?>
+			</form>
+		</div>
+		<?php
+	}
+
 	public function display_options() {
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings' );
+		register_setting( 'rlje_theme_environment_section', 'rlje_theme_environment_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_sailthru_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_rightsline_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_google_settings' );
+
 		// Here we display the sections and options in the settings page based on the active tab.
 		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
 		switch ( $tab ) {
@@ -112,26 +156,45 @@ class RLJE_Theme_Settings {
 				break;
 
 			default:
+				add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
+				add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+
 				// Section name, display name, callback to print description of section, page to which section is attached.
-				add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_options_content' ), 'rlje-theme-settings' );
+				add_settings_section( 'rlje_theme_environment_section', 'Theme Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
 				// Setting name, display name, callback to print form element, page in which field is displayed, section to which it belongs.
 				// Last field section is optional.
-				add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-settings', 'rlje_theme_section' );
-				add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-settings', 'rlje_theme_section' );
-				add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-settings', 'rlje_theme_section' );
+				add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+				add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+				add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
 		}
 	}
 
-	public function display_rlje_options_content() {
+	public function display_rlje_theme_options_content() {
 		// echo 'RLJE Theme Settings';
 		$this->theme_settings = get_option( 'rlje_theme_settings' );
 		var_dump( $this->theme_settings );
 	}
 
-	public function display_environment_type() {
-		$env_type = ( ! empty( $this->theme_settings['environment_type'] ) ) ? $this->theme_settings['environment_type'] : 'DEV';
+	public function display_theme_switcher() {
+		$current_theme = ( ! empty( $this->theme_settings['current_theme'] ) ) ? $this->theme_settings['current_theme'] : 'acorn';
 		?>
-		<select name="rlje_theme_settings[environment_type]" id="environmen-type" class="regular-text">
+		<select name="rlje_theme_settings[current_theme]" id="current-theme" class="regular-text">
+			<option value="acorn" <?php selected( $current_theme, 'acorn' ); ?>>Acorn</option>
+			<option value="umc" <?php selected( $current_theme, 'umc' ); ?>>UMC</option>
+		</select>
+		<?php
+	}
+
+	public function display_rlje_environment_options_content() {
+		// echo 'RLJE Theme Settings';
+		$this->theme_environment_settings = get_option( 'rlje_theme_environment_settings' );
+		var_dump( $this->theme_environment_settings );
+	}
+
+	public function display_environment_type() {
+		$env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
+		?>
+		<select name="rlje_theme_environment_settings[environment_type]" id="environmen-type" class="regular-text">
 			<option value="DEV" <?php selected( $env_type, 'DEV' ); ?>>Development</option>
 			<option value="QA" <?php selected( $env_type, 'QA' ); ?>>QA</option>
 			<option value="PROD" <?php selected( $env_type, 'PROD' ); ?>>PROD</option>
@@ -140,17 +203,17 @@ class RLJE_Theme_Settings {
 	}
 
 	public function display_rlje_base_url() {
-		$rlje_base_url = ( ! empty( $this->theme_settings['rlje_base_url'] ) ) ? $this->theme_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
+		$rlje_base_url = ( ! empty( $this->theme_environment_settings['rlje_base_url'] ) ) ? $this->theme_environment_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
 		?>
-		<input type="text" name="rlje_theme_settings[rlje_base_url]" id="rlje-base-url" class="regular-text" value="<?php echo esc_url( $rlje_base_url ); ?>" placeholder="RLEJ base URL">
+		<input type="text" name="rlje_theme_environment_settings[rlje_base_url]" id="rlje-base-url" class="regular-text" value="<?php echo esc_url( $rlje_base_url ); ?>" placeholder="RLEJ base URL">
 		<p class="description">URL for the main RLJE site (https://dev-api.rlje.net/acorn) - no trailing slash</p>
 		<?php
 	}
 
 	public function display_content_base_url() {
-		$content_base_url = ( ! empty( $this->theme_settings['content_base_url'] ) ) ? $this->theme_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
+		$content_base_url = ( ! empty( $this->theme_environment_settings['content_base_url'] ) ) ? $this->theme_environment_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
 		?>
-		<input type="text" name="rlje_theme_settings[content_base_url]" id="content-base-url" class="regular-text" value="<?php echo esc_url( $content_base_url ); ?>" placeholder="RLJE base content URL">
+		<input type="text" name="rlje_theme_environment_settings[content_base_url]" id="content-base-url" class="regular-text" value="<?php echo esc_url( $content_base_url ); ?>" placeholder="RLJE base content URL">
 		<p class="description">URL for the site content from RLJE API (https://dev-api.rlje.net/cms/acorn) - no trailing slash</p>
 		<?php
 	}
@@ -247,14 +310,15 @@ class RLJE_Theme_Settings {
 	}
 
 	public function plugins_loaded() {
-		$this->theme_settings = get_option( 'rlje_theme_settings' );
-		$this->sailthru       = get_option( 'rlje_sailthru_settings' );
-		$this->rightsline     = get_option( 'rlje_rightsline_settings' );
+		$this->theme_settings             = get_option( 'rlje_theme_settings' );
+		$this->theme_environment_settings = get_option( 'rlje_theme_environment_settings' );
+		$this->sailthru                   = get_option( 'rlje_sailthru_settings' );
+		$this->rightsline                 = get_option( 'rlje_rightsline_settings' );
 
 		// For RLJE API call.
 		define( 'API_TIMEOUT_SECS', '30' );
 
-		$env_type = ( ! empty( $this->theme_settings['environment_type'] ) ) ? $this->theme_settings['environment_type'] : 'DEV';
+		$env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
 		if ( ! empty( $env_type ) ) {
 			define( 'ENVIRONMENT', $env_type );
 			if ( 'DEV' === $env_type ) {
@@ -262,12 +326,12 @@ class RLJE_Theme_Settings {
 			}
 		}
 
-		$rlje_base_url = ( ! empty( $this->theme_settings['rlje_base_url'] ) ) ? $this->theme_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
+		$rlje_base_url = ( ! empty( $this->theme_environment_settings['rlje_base_url'] ) ) ? $this->theme_environment_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
 		if ( ! empty( $rlje_base_url ) ) {
 			define( 'RLJE_BASE_URL', $rlje_base_url );
 		}
 
-		$content_base_url = ( ! empty( $this->theme_settings['content_base_url'] ) ) ? $this->theme_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
+		$content_base_url = ( ! empty( $this->theme_environment_settings['content_base_url'] ) ) ? $this->theme_environment_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
 		if ( ! empty( $content_base_url ) ) {
 			define( 'CONTENT_BASE_URL', $content_base_url );
 		}
@@ -291,24 +355,21 @@ class RLJE_Theme_Settings {
 		// THIS NEEDS TO BE IN wp-config.php IN ORDER FOR IT TO WORK!!
 		// IT IS TOO LATE TO CALL INSIDE OF THIS FILE
 		// if ( defined( 'WP_DEBUG' ) ) {
-		// 	if ( ! defined( 'WP_DEBUG_LOG' ) ) {
-		// 		define( 'WP_DEBUG_LOG', true );
-		// 	}
-		// 	if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
-		// 		define( 'WP_DEBUG_DISPLAY', false );
-		// 	}
-		// 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
-		// 		define( 'SCRIPT_DEBUG', true );
-		// 	}
+		// if ( ! defined( 'WP_DEBUG_LOG' ) ) {
+		// define( 'WP_DEBUG_LOG', true );
 		// }
-
+		// if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
+		// define( 'WP_DEBUG_DISPLAY', false );
+		// }
+		// if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+		// define( 'SCRIPT_DEBUG', true );
+		// }
+		// }
 		// // For query-monitor plugin.
 		// define( 'WP_LOCAL_DEV', true );
-
 		// define( 'WP_REDIS_HOST', 'redis' );
 		// define( 'WP_REDIS_PORT', '6379' );
 		// define( 'WP_REDIS_CLIENT', 'pecl' );
-
 		// define( 'AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 		// define( 'AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_KEY'] );
 		// define( 'GLOBAL_SMTP_HOST', $_SERVER['GLOBAL_SMTP_HOST'] );
