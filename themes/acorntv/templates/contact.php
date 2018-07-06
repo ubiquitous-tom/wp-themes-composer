@@ -1,4 +1,56 @@
 <?php
+$support_pages = [
+    [
+        "title" => "billing",
+        "desc" => "Billing &amp; Account Management",
+        "issue_id" => "1000220901"
+    ],
+    [
+        "title" => "playback",
+        "desc" => "Audio/Video Playback",
+        "issue_id" => "11000001671"
+    ],
+    [
+        "title" => "account",
+        "desc" => "Log in/Sign up",
+        "issue_id" => "1000220900"
+    ],
+    [
+        "title" => "gift",
+        "desc" => "Gifting",
+        "issue_id" => "11000001670"
+    ],
+    [
+        "title" => "ios",
+        "desc" => "Apple TV/iOS",
+        "issue_id" => "11000001672"
+    ],
+    [
+        "title" => "roku",
+        "desc" => "Roku",
+        "issue_id" => "11000001673"
+    ],
+    [
+        "title" => "pc",
+        "desc" => "PC/Mac",
+        "issue_id" => "11000001675"
+    ],
+    [
+        "title" => "samsung",
+        "desc" => "Samsung Smart TVs",
+        "issue_id" => "11000001674"
+    ],
+    [
+        "title" => "firetv",
+        "desc" => "Amazon Fire TV",
+        "issue_id" => "11000001770"
+    ],
+    [
+        "title" => "android",
+        "desc" => "Android",
+        "issue_id" => "11000004938"
+    ]
+];
 if (count($_POST) > 0) {
     if(!empty($_COOKIE["ATVSessionCookie"])) {
         $sessionID = $_COOKIE["ATVSessionCookie"];
@@ -89,71 +141,17 @@ else {
                                     </div>
                                 </div> 
 
-                                <div id="issues-billing" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/1000220901">Billing &amp; Account Management solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-playback" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001671">Audio/Video Playback solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-account" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/1000220900">Log in/Sign Up solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-gift" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001670">Gifting solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-ios" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001672">Apple TV/iOS solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-roku" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001673">Roku solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-pc" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001675">PC/Mac solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-samsung" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001674">Samsung Smart TVs solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-firetv" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000001770">Amazon Fire TV solutions</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-android" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.acorn.tv/support/solutions/folders/11000004938">Android Solution</a>
-                                    </div>
-                                </div>
-
-                                <div id="issues-other" class="issues-list" style="display: none;">
-                                    <div class="alert alert-info self-help">
-                                        <i class="fa fa-arrow-right fa-lg"></i> Please see our <a href="/help/faq">Frequently Asked Questions</a>
-                                    </div>
-                                </div>
+                                <?php
+                                    foreach($support_pages as $page) {
+                                        ?>
+                                        <div id="issues-<?php echo $page["title"] ?>" class="issues-list" style="display: none;">
+                                            <div class="alert alert-info self-help">
+                                                <i class="fa fa-arrow-right fa-lg"></i> Please try these common <a href="http://support.umc.tv/support/solutions/folders/<?php echo $page["issue_id"] ?>"><?php echo $page["desc"] ?> solutions</a>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                ?>
                                 <?php endif; ?>
 
 
