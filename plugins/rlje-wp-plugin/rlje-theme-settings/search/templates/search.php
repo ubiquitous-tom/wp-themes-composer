@@ -104,7 +104,7 @@ if ( $have_franchises_available ) :
 						<?php
 					endif;
 					?>
-				<a href="<?php echo $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ); ?>">
+				<a href="<?php echo esc_url( $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) . '/' ); ?>">
 					<div class="col-sm-6 col-md-3" style="margin-top:15px;">
 						<img id="play-episodes" src="<?php echo apply_filters( 'atv_get_image_url', 'play-icon?t=Icons' ); ?>"/>
 						<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=500' ); ?>"/>
@@ -147,7 +147,7 @@ if ( $have_franchises_available ) :
 							<?php
 							endif;
 						?>
-						<a href="<?php echo $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ); ?>">
+						<a href="<?php echo esc_url( $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) . '/' ); ?>">
 							<div class="col-xs-12 col-sm-6 col-md-3" style="margin-top:15px;">
 								<img id="play-episodes" src="<?php echo apply_filters( 'atv_get_image_url', 'play-icon?t=Icons' ); ?>"/>
 								<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=500' ); ?>"/>

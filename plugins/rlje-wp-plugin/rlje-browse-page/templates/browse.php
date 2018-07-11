@@ -113,7 +113,7 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 				endif;
 			else :
 				// get_template_part( 'partials/franchises-unavailable-message' );
-				require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/franchises-unavailable-message.php' );
+				// require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/franchises-unavailable-message.php' );
 			?>
 				<div id="contentPane" class="message-block">
 					<div class="row-fluid">

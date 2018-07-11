@@ -26,3 +26,12 @@ body {
     background: #000;
     width: 100% !important;
 }
+
+.free-month {
+    background: rbga(162, 1123, 67, .85);
+}
+
+#options,
+#drop-select {
+    background: #a27b43;
+}

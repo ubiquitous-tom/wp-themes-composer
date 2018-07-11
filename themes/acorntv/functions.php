@@ -89,19 +89,19 @@ function acorntv_hook_css_js() {
 	wp_enqueue_script( 'modernizr-js', get_template_directory_uri() . '/lib/modernizr/modernizr.min.js', array(), null, true );
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/lib/bootstrap/js/bootstrap.min.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), null, true );
-	wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
+	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
 
 	if ( get_query_var( 'pagecustom' ) === 'browse' ) {
 		wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
 	}
 
-	if ( get_query_var( 'pagecustom' ) === 'episode' ) {
-		wp_localize_script('main-js', 'atv_player_object', array(
-			'ajax_url' => home_url( 'ajax_atv' ),
-			'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
-		));
-	}
+	// if ( get_query_var( 'pagecustom' ) === 'episode' ) {
+	// 	wp_localize_script('main-js', 'atv_player_object', array(
+	// 		'ajax_url' => home_url( 'ajax_atv' ),
+	// 		'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
+	// 	));
+	// }
 
 	global $wp;
 	$is_home = empty( $wp->query_vars );

@@ -109,7 +109,7 @@ else :
 				<meta itemprop="numberOfSeasons" content="<?php echo count( $franchise->seasons ); ?>" />
 				<span  class="subnav-next hidden-xs hidden-sm">
 					<?php if ( ! empty( $firstEpisodeLink ) ) : ?>
-					<a href="<?php echo $firstEpisodeLink; ?>">
+					<a href="<?php echo esc_url( trailingslashit( $firstEpisodeLink ) ); ?>">
 						<span>Watch Episode</span>
 						<img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" id="archive-arrows">
 					</a>

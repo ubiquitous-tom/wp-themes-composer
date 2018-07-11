@@ -2,18 +2,19 @@
 
 class RLJE_Theme_Settings {
 
-	protected $theme_settings             = array();
-	protected $theme_environment_settings = array();
-	protected $sailthru                   = array();
-	protected $rightsline                 = array();
+	protected $theme_settings                       = array();
+	protected $theme_plugins_settings               = array();
+	protected $sailthru                             = array();
+	protected $rightsline                           = array();
 
 	public function __construct() {
+		$this->theme_settings_include_files();
+
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
-		add_action( 'admin_menu', array( $this, 'add_theme_environment_settings_submenu' ) );
 
 		add_filter( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
 	}
@@ -99,42 +100,9 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
-	public function add_theme_environment_settings_submenu() {
-		add_submenu_page(
-			'rlje-theme-settings',
-			'Environment Settings',
-			'Theme Environment',
-			'manage_sites',
-			'rlje-theme-environment-settings',
-			array( $this, 'rlje_theme_environment_settings_page' )
-		);
-	}
-
-	public function rlje_theme_environment_settings_page() {
-		$active_fields = 'rlje_theme_environment_section';
-		?>
-		<div class="wrap">
-			<div id="icon-options-general" class="icon32"></div>
-			<h1>Environment Options</h1>
-			<form method="post" action="options.php">
-				<?php
-					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
-					settings_fields( $active_fields );
-
-					// all the add_settings_field callbacks is displayed here.
-					do_settings_sections( 'rlje-theme-environment-settings' );
-
-					// Add the submit button to serialize the options.
-					submit_button();
-				?>
-			</form>
-		</div>
-		<?php
-	}
-
 	public function display_options() {
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings' );
-		register_setting( 'rlje_theme_environment_section', 'rlje_theme_environment_settings' );
+		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_sailthru_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_rightsline_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_google_settings' );
@@ -159,13 +127,20 @@ class RLJE_Theme_Settings {
 				add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 				add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
 
-				// Section name, display name, callback to print description of section, page to which section is attached.
-				add_settings_section( 'rlje_theme_environment_section', 'Theme Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
-				// Setting name, display name, callback to print form element, page in which field is displayed, section to which it belongs.
-				// Last field section is optional.
-				add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
-				add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
-				add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+				add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
+				add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+				add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+				add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+
+				// // Section name, display name, callback to print description of section, page to which section is attached.
+				// add_settings_section( 'rlje_theme_environment_section', 'Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
+				// // Setting name, display name, callback to print form element, page in which field is displayed, section to which it belongs.
+				// // Last field section is optional.
+				// add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+				// add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+				// add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+
+
 		}
 	}
 
@@ -185,36 +160,45 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
-	public function display_rlje_environment_options_content() {
-		// echo 'RLJE Theme Settings';
-		$this->theme_environment_settings = get_option( 'rlje_theme_environment_settings' );
-		var_dump( $this->theme_environment_settings );
+	public function display_rlje_theme_plugins_content() {
+		// echo 'RLJE Theme Plugins Settings';
+		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
+		var_dump( $this->theme_plugins_settings );
 	}
 
-	public function display_environment_type() {
-		$env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
+	public function display_theme_plugins_front_page() {
+		$front_page = ( ! intval( $this->theme_plugins_settings['front_page'] ) ) ? intval( $this->theme_plugins_settings['front_page'] ) : 1;
 		?>
-		<select name="rlje_theme_environment_settings[environment_type]" id="environmen-type" class="regular-text">
-			<option value="DEV" <?php selected( $env_type, 'DEV' ); ?>>Development</option>
-			<option value="QA" <?php selected( $env_type, 'QA' ); ?>>QA</option>
-			<option value="PROD" <?php selected( $env_type, 'PROD' ); ?>>PROD</option>
-		</select>
+		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page-on" class="regular-text" value="1" <?php checked( $front_page, 1 ); ?>>
+		<label for="rlje-plugins-front-page-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page=of" class="regular-text" value="0" <?php checked( $front_page, 0 ); ?>>
+		<label for="rlje-plugins-front-page-off">Off</label>
+		<p class="description">For activating Homepage Hero</p>
 		<?php
 	}
 
-	public function display_rlje_base_url() {
-		$rlje_base_url = ( ! empty( $this->theme_environment_settings['rlje_base_url'] ) ) ? $this->theme_environment_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
+	public function display_theme_plugins_landing_page() {
+		$landing_pages = ( ! intval( $this->theme_plugins_settings['landing_pages'] ) ) ? intval( $this->theme_plugins_settings['landing_pages'] ) : 1;
 		?>
-		<input type="text" name="rlje_theme_environment_settings[rlje_base_url]" id="rlje-base-url" class="regular-text" value="<?php echo esc_url( $rlje_base_url ); ?>" placeholder="RLEJ base URL">
-		<p class="description">URL for the main RLJE site (https://dev-api.rlje.net/acorn) - no trailing slash</p>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
+		<label for="rlje-plugins-landing-page-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page=of" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
+		<label for="rlje-plugins-landing-page-off">Off</label>
+		<p class="description">For activating Franchise landing page</p>
 		<?php
 	}
 
-	public function display_content_base_url() {
-		$content_base_url = ( ! empty( $this->theme_environment_settings['content_base_url'] ) ) ? $this->theme_environment_settings['content_base_url'] : 'https://dev-api.rlje.net/cms/acorn';
+	public function display_theme_plugins_news_and_reviews() {
+		$news_and_reviews = ( ! intval( $this->theme_plugins_settings['news_and_reviews'] ) ) ? intval( $this->theme_plugins_settings['news_and_reviews'] ) : 1;
 		?>
-		<input type="text" name="rlje_theme_environment_settings[content_base_url]" id="content-base-url" class="regular-text" value="<?php echo esc_url( $content_base_url ); ?>" placeholder="RLJE base content URL">
-		<p class="description">URL for the site content from RLJE API (https://dev-api.rlje.net/cms/acorn) - no trailing slash</p>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
+		<label for="rlje-plugins-news-and-review-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review=of" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
+		<label for="rlje-plugins-news-and-review-off">Off</label>
+		<p class="description">For activating Homepage section</p>
 		<?php
 	}
 
@@ -354,17 +338,9 @@ class RLJE_Theme_Settings {
 
 		// THIS NEEDS TO BE IN wp-config.php IN ORDER FOR IT TO WORK!!
 		// IT IS TOO LATE TO CALL INSIDE OF THIS FILE
-		// if ( defined( 'WP_DEBUG' ) ) {
-		// if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 		// define( 'WP_DEBUG_LOG', true );
-		// }
-		// if ( ! defined( 'WP_DEBUG_DISPLAY' ) ) {
 		// define( 'WP_DEBUG_DISPLAY', false );
-		// }
-		// if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 		// define( 'SCRIPT_DEBUG', true );
-		// }
-		// }
 		// // For query-monitor plugin.
 		// define( 'WP_LOCAL_DEV', true );
 		// define( 'WP_REDIS_HOST', 'redis' );
@@ -378,6 +354,19 @@ class RLJE_Theme_Settings {
 		// define( 'GLOBAL_SMTP_PORT', $_SERVER['GLOBAL_SMTP_PORT'] );
 	}
 
+	protected function theme_settings_include_files() {
+		$this->theme_settings = get_option( 'rlje_theme_settings' );
+		$current_theme        = ( ! empty( $this->theme_settings['current_theme'] ) ) ? $this->theme_settings['current_theme'] : 'acorn';
+		switch ( $current_theme ) {
+			case 'umc':
+				require_once 'themes/umc/rlje-umc-theme.php';
+				break;
+			case 'acorn':
+			default:
+				require_once 'themes/acorn/rlje-acorn-theme.php';
+		}
+	}
+
 }
 
 $rlje_theme_settings = new RLJE_Theme_Settings();
@@ -388,5 +377,6 @@ require_once 'widgets/rlje-widget.php';
 require_once 'navigations/rlje-theme-menu-settings.php';
 require_once 'search/rlje-theme-search-settings.php';
 require_once 'franchise/rlje-franchise-page.php';
-require_once 'themes/umc/rlje-umc-theme.php';
-// require_once 'themes/acorn/rlje-acorn-theme.php';
+
+require_once 'rlje-theme-environment-settings.php';
+require_once 'rlje-theme-brightcove-settings.php';

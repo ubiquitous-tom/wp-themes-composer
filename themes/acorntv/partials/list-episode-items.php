@@ -63,11 +63,11 @@ foreach ($season->episodes as $key => $episode) :
 <?php endif; ?>
         <span itemprop="episode" itemscope itemtype="http://schema.org/TVEpisode">
             <div class="col-sm-6 col-md-3<?php echo ($showEpisodeHighlighted) ? ' highlight-episode' : ''; ?>" style="padding-top:25px;">
-                <a itemprop="url" href="<?= $baseUrlPath.rljeApiWP_convertEpisodeNameToURLFriendly($episode->name); ?>">
+                <a itemprop="url" href="<?php echo esc_url( $baseUrlPath.rljeApiWP_convertEpisodeNameToURLFriendly($episode->name) . '/' ); ?>">
                     <img src="<?php echo apply_filters('atv_get_image_url', 'play-icon?t=Icons'); ?>" id="play-episodes" />
                     <img itemprop="image" width="100%" src="<?php echo apply_filters('atv_get_image_url', $episode->image.'?w=500'); ?>" />
                     <?php if(isset($streamPositions, $streamPositions[$episode->id])) : $streamPositionData = $streamPositions[$episode->id]; ?>
-                    <div class="progress progress-danger"> 
+                    <div class="progress progress-danger">
                         <div class="bar" style="width: <?= $progress = (($streamPositionData["Position"] / $streamPositionData["EpisodeLength"] ) * 100); ?>%;">
                             <span class="watched"><?= rljeApiWP_convertSecondsToMinSecs($streamPositionData["Position"]); ?></span>
                         </div>

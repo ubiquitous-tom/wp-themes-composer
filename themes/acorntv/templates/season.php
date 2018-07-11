@@ -1,4 +1,4 @@
-<?php 
+<?php
 $baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
 if (function_exists('rljeApiWP_getFranchiseById')) :
 
@@ -22,7 +22,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
             </span>
             <span><?= $franchise->name; ?></span>
             <span class="subnav-next hidden-xs hidden-sm">
-                <a href="<?= $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($franchise->seasons[0]->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($franchise->seasons[0]->episodes[0]->name); ?>">
+                <a href="<?php echo esc_url( trailingslashit( $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($franchise->seasons[0]->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($franchise->seasons[0]->episodes[0]->name) ) ); ?>">
                     <span>Watch Episode</span>
                     <img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" id="archive-arrows">
                 </a>
@@ -34,7 +34,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 <a href="<?= $baseUrlPath.'/'.$franchise->id.'/trailer'; ?>">
                     <img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="https://api.rlje.net/acorn/artwork/size/<?= $season->image; ?>?w=460" />
                 </a>
-                <?php else : ?> 
+                <?php else : ?>
                 <img class="wp-post-image" id="franchise-avatar" src="https://api.rlje.net/acorn/artwork/size/<?= $season->image; ?>?w=460" />
                 <?php endif; ?>
             </div>
@@ -44,7 +44,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 <a id="inline" href="<?= $baseUrlPath.'/'.$franchise->id.'/trailer'; ?>">
                     <button>View Trailer</button>
                 </a>
-                <?php 
+                <?php
                     endif;
                     set_query_var('seasonName', $season->name);
                     set_query_var('seasons', $franchise->seasons);
@@ -55,7 +55,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
     </div>
 </div>
 
-<div class="container episode"> 
+<div class="container episode">
     <?php
         set_query_var('season', $season);
         set_query_var('franchiseName', $franchise->name);
@@ -64,9 +64,9 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
 
     <span style="padding-right:5px;"> Filter By Series:</span>
     <?php for($i=0; $i<count($franchise->seasons) ; $i++) :?>
-    <a href="/<?= $franchiseId; ?>/<?= rljeApiWP_convertSeasonNameToURL($franchise->seasons[$i]->name); ?>"> <button><?= $i+1; ?></button></a>
+    <a href="/<?php echo $franchiseId; ?>/<?= rljeApiWP_convertSeasonNameToURL($franchise->seasons[$i]->name); ?>/"> <button><?= $i+1; ?></button></a>
     <?php endfor; ?>
-    <a href="/<?= $franchiseId; ?>"> <button>View All</button></a>
+    <a href="/<?php echo $franchiseId; ?>/"> <button>View All</button></a>
 </div>
 <?php
         get_footer();
@@ -79,7 +79,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
             get_template_part('templates/franchisesUnavailable');
         }
     endif;
-else: 
+else:
     get_header();
     get_template_part('partials/plugin-deactivated-message');
     get_footer();
