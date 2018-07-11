@@ -4,10 +4,12 @@ class RLJE_Episode_Page {
 
 	protected $episodes;
 	protected $brightcove;
+	protected $nonce = 'atv#episodePlayer@token_nonce';
 
 	public function __construct() {
 		add_action( 'wp', array( $this, 'get_pagename' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_ajax_is_user_active', array( $this, 'ajax_is_user_active' ) );
 		add_action( 'template_redirect', array( $this, 'episode_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'episode_body_class' ) );
@@ -40,7 +42,7 @@ class RLJE_Episode_Page {
 		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
 
 		$bc_account_id = $this->brightcove['restricted_account_id'];
-		$bc_player_id = $this->brigthcove['restricted_player_id'];
+		$bc_player_id = $this->brightcove['restricted_player_id'];
 		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/episode.js' ) );
 
@@ -48,10 +50,25 @@ class RLJE_Episode_Page {
 		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-episode', plugins_url( 'js/episode.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 
-		wp_localize_script( 'rlje-episode', 'atv_player_object', array(
-			'ajax_url' => home_url( 'ajax_atv' ),
-			'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
+		wp_localize_script( 'rlje-episode', 'episode_object', array(
+			// 'ajax_url' => home_url( 'ajax_atv' ),
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'token' => wp_create_nonce( $this->nonce )
 		));
+	}
+
+	public function ajax_is_user_active() {
+		if ( ! wp_verify_nonce( $_POST['token'], $this->nonce ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		$content = ( ! empty( $_POST['content'] ) ) ? $_POST['content'] : null;
+		$page = ( ! empty( $_POST['page'] ) ) ? $_POST['page'] : null;
+
+		$data = array(
+			'isActive' => rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ),
+		);
+		wp_send_json_success( $data );
 	}
 
 	public function episode_template_redirect() {

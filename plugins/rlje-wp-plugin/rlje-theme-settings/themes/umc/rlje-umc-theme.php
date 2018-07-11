@@ -14,6 +14,9 @@ class RLJE_UMC_Theme {
 	public function enqueue_scripts( $hook ) {
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 		wp_enqueue_style( 'rlje-umc-theme', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
+
+		$umc_browse_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/umc-browse.js' ) );
+		wp_enqueue_script( 'umc-browse-carousel-pagination-js', plugins_url( 'js/umc-browse.js', __FILE__ ), array( 'browse-carousel-pagination-js' ), $umc_browse_js_ver, true );
 	}
 
 	public function theme_header_logo( $logo_url ) {

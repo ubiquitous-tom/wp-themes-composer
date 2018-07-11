@@ -12,23 +12,11 @@ class RLJE_Franchise_Page {
 	protected $episode_id;
 
 	public function __construct() {
-		// add_action( 'init', array( $this, 'add_franchise_rewrite_rules' ) );
-		// add_action( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
 		add_action( 'wp', array( $this, 'get_pagename' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ), 20 );
 
-		// add_filter( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
-	}
-
-	public function add_franchise_rewrite_rules() {
-		// add_rewrite_tag( '%franchise_id%', '([^&]+)' );
-	}
-
-	public function franchise_check_against_api( $wp_rewrite_rules ) {
-		var_dump($wp_rewrite_rules); exit;
-		return $wp_rewrite_rules;
 	}
 
 	public function get_pagename() {
@@ -42,18 +30,12 @@ class RLJE_Franchise_Page {
 	}
 
 	public function enqueue_scripts() {
-		if ( ! $this->is_franchise() ) {
+		if ( ! $this->is_current_franchise() ) {
 			return;
 		}
 
-		$bc_account_id = '3392051363001';
-		$bc_player_id = '0066661d-8f08-4e7b-a5b4-8d48755a3057';
-		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
-
-		wp_enqueue_script( 'brightcove', '//admin.brightcove.com/js/BrightcoveExperiences.js', array(), false, true );
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
-		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
+		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 	}
 
 	public function franchise_template_redirect() {

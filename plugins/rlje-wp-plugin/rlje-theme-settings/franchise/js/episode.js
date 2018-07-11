@@ -55,21 +55,22 @@ var episodePlayer = function(episodeId, setTimePosition) {
 
 			//Checking if the current User is Active
 			var data = {
-							'action': 'isUserActive',
-							'token': atv_player_object.token
+							'action': 'is_user_active',
+							'token': episode_object.token
 					},
 					stopPlayer = function() {
 							player.pause();
 					},
 					processData = function(response) {
-							if(response.isActive !== true) {
+							var data = response.data;
+							if(data.isActive !== true) {
 									stopPlayer();
 									console.error('User not active');
 							}
 					};
 
 			// This needs to be done differently
-			jQuery.post(atv_player_object.ajax_url, data, processData).fail(function() {
+			jQuery.post(episode_object.ajax_url, data, processData).fail(function() {
 					console.error('Error checking if the user is active');
 			});
 
