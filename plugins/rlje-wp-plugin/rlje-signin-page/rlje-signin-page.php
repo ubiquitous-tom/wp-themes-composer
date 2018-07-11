@@ -17,7 +17,7 @@ class RLJE_Signin_Page {
 
 	public function add_browse_rewrite_rules() {
 		add_rewrite_rule( '^signin([^/]+)/?', 'index.php?pagename=signin', 'top' );
-		add_rewrite_rule( '^forgot-password([^/]+)/?', 'index.php?pagename=forgot-password', 'top' );
+		add_rewrite_rule( '^forgotpassword([^/]+)/?', 'index.php?pagename=forgot-password', 'top' );
 	}
 
 	public function browse_template_redirect() {
@@ -50,9 +50,18 @@ class RLJE_Signin_Page {
 			echo $html;
 			exit();
 		}
-		if ( 'forgot-password'  === $pagename ) {
+		if ( 'forgotpassword'  === $pagename ) {
+			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+				wp_redirect( home_url(), 303 );
+			}
 			if(!empty($_POST)) {
 				// Hook into API to reset user password
+				$email_address = $_POST['user_email'];
+				if(resetPassword($email_address)) {
+					$password_reset_failed = false;
+				} else {
+					$password_reset_failed = true;
+				}
 			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404     = false;

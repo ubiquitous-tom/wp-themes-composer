@@ -1,6 +1,6 @@
 <?php
 // TODO: These constants should be loaded from wp_options
-define("API_ENDPOINT", "https://api.rlje.net/umc/initializeapp");
+define("API_ENDPOINT", "https://api.rlje.net/umc/");
 define("API_KEY", "LCmkd93u2kcLCkdmacmmc8dkDe");
 define("API_APP_VERSION", "UMCTV.Version.2.0");
 define("TIME_REFRESH_CACHE", 900); //seconds
@@ -20,8 +20,8 @@ function encodeHash($data, $api_key = API_KEY) {
 }
 
 // Hits the API and normalizes the response
-function hitApi($request) {
-    $raw_response = wp_remote_post(API_ENDPOINT, [
+function hitApi($request, $method) {
+    $raw_response = wp_remote_post(API_ENDPOINT . $method, [
         "headers" => [
             "x-atv-hash" => encodeHash($request),
             "Accept" => "application/json"
@@ -52,7 +52,7 @@ function loginUser($email_address, $password) {
         ]
     ];
 
-    $response = hitApi($request_body);
+    $response = hitApi($request_body, 'initializeapp');
     $success = false;
     if(isset($response['Membership'])) {
         $success = true;
@@ -64,5 +64,21 @@ function loginUser($email_address, $password) {
     }
 
     return $success;
-} 
+}
+
+function resetPassword($email_address) {
+    $success = false;
+    $request_body = [
+        "Customer" => [
+            "Email" => $email_address
+        ]
+    ];
+    if(!empty($email_address)) {
+        $response  = hitApi($request_body, 'forgotpassword');
+        if(isset($response['success']) && $response['success'] == true) {
+            $success = true;
+        }
+    }
+    return $success;
+}
 ?>

@@ -23,7 +23,7 @@ get_header();
                 </div>
                 <button class="btn btn-primary">Sign In</button>
                 <p>
-                    <a href="<?php echo home_url('forgot-password') ?>">Forgot your password?</a>
+                    <a href="<?php echo home_url('forgotpassword') ?>">Forgot your password?</a>
                 </p>
             </form>
         </div>
