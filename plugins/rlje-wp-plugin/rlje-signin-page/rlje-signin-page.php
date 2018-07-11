@@ -1,12 +1,12 @@
 <?php
 
+require_once("includes/helpers.php");
 class RLJE_Signin_Page {
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
-		// add_filter( 'query_vars', array( $this, 'add_browse_query_vars' ) );
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 		add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
@@ -25,6 +25,21 @@ class RLJE_Signin_Page {
 		global $wp_query;
 
 		if ( 'signin' === $pagename ) {
+			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+				wp_redirect( home_url(), 303 );
+			}
+			if(!empty($_POST)) {
+				// User login form was submitted. Athorize them against the API.
+				$email_address = $_POST['user_email'];
+				$password = $_POST['user_password'];
+				if(loginUser($email_address, $password)) {
+					// User was authenticated by API.
+					// Redirect to homepage
+					wp_redirect( home_url(), 303 );
+				} else {
+					$message = "No account with that email address exists.";
+				}
+			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404     = false;
 			$wp_query->is_page    = true;
@@ -36,6 +51,9 @@ class RLJE_Signin_Page {
 			exit();
 		}
 		if ( 'forgot-password'  === $pagename ) {
+			if(!empty($_POST)) {
+				// Hook into API to reset user password
+			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404     = false;
 			$wp_query->is_page    = true;
@@ -56,6 +74,9 @@ class RLJE_Signin_Page {
 
 		return $classes;
 	}
+
+	public function reset_user_password() {
+	}
 }
 
-$rlje_browse_page = new RLJE_Signin_Page();
+$rlje_signin_page = new RLJE_Signin_Page();

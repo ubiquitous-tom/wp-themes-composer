@@ -8,7 +8,7 @@ get_header();
         <p>Please enter the email address you used to create your account. Within a few minutes, we will send you a link so you can create a new password.</p>
         <p>Please ensure that <strong>support@umc.tv</strong> is in your allowed senders list or else the reset link might end up in your spam folder.</p>
         <div class="password-rest-form">
-            <form class="password-reset" method="post">
+            <form action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" class="password-reset" method="post">
                 <div class="control-group">
                     <label for="email">Your email Address</label>
                     <input required id="email" name="user_email" type="email">

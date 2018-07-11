@@ -5,6 +5,11 @@ get_header();
     <div id="page-wrap">
         <h4>Welcome to <?php bloginfo("name") ?></h4>
         <h5>Please use your current <?php bloginfo("name") ?> e-mail and password.</h5>
+        <?php
+            if(isset($message)) { ?>
+            <section><?php echo $message ?></section>
+            <? }
+        ?>
         <div class="login-form">
             <form id="signin" class="form-signin" method="post">
                 <h3>Sign In</h3>
