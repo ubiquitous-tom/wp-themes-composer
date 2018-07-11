@@ -4,30 +4,14 @@ class RLJE_Theme_Settings {
 
 	protected $theme_settings                       = array();
 	protected $theme_plugins_settings               = array();
-	protected $sailthru                             = array();
-	protected $rightsline                           = array();
 
 	public function __construct() {
 		$this->theme_settings_include_files();
 
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
-
-		add_filter( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
-	}
-
-	public function whitelist_custom_options_page( $whitelist_options ) {
-		// var_dump($whitelist_options);exit;
-		return $whitelist_options;
-	}
-
-	public function enqueue_scripts( $hook ) {
-		if ( 'toplevel_page_rlje-theme-settings' === $hook ) {
-			wp_enqueue_script( 'rlje-theme-setting', plugins_url( 'js/script.js', __FILE__ ) );
-		}
 	}
 
 	public function add_theme_settings_menu() {
@@ -103,26 +87,11 @@ class RLJE_Theme_Settings {
 	public function display_options() {
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings' );
 		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
-		register_setting( 'rlje_3rd_party_section', 'rlje_sailthru_settings' );
-		register_setting( 'rlje_3rd_party_section', 'rlje_rightsline_settings' );
-		register_setting( 'rlje_3rd_party_section', 'rlje_google_settings' );
 
 		// Here we display the sections and options in the settings page based on the active tab.
 		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
 		switch ( $tab ) {
-			case '3rd-party-options':
-				add_settings_section( 'rlje_google_analytics_section', 'Sailthru Options', array( $this, 'display_google_analytics_options_content' ), 'rlje-theme-settings' );
-				add_settings_field( 'google_analytics', 'Google Analytics ID', array( $this, 'display_google_analytics_settings' ), 'rlje-theme-settings', 'rlje_google_analytics_section' );
-
-				add_settings_section( 'rlje_sailthru_section', 'Sailthru Options', array( $this, 'display_sailthru_options_content' ), 'rlje-theme-settings' );
-				add_settings_field( 'sailthru', 'Sailthru Customer ID', array( $this, 'display_sailthru_settings' ), 'rlje-theme-settings', 'rlje_sailthru_section' );
-
-				add_settings_section( 'rlje_rightsline_section', 'Rightsline Options', array( $this, 'display_rightsline_options_content' ), 'rlje-theme-settings' );
-				add_settings_field( 'rightsline_base_url', 'Base URL', array( $this, 'display_rightsline_base_url' ), 'rlje-theme-settings', 'rlje_rightsline_section' );
-				add_settings_field( 'rightsline_auth_type', 'Auth Type', array( $this, 'display_rightsline_auth_type' ), 'rlje-theme-settings', 'rlje_rightsline_section' );
-				add_settings_field( 'rightsline_auth_header', 'Auth Header', array( $this, 'display_rightsline_auth_header' ), 'rlje-theme-settings', 'rlje_rightsline_section' );
-				break;
-
+			case 'main-options':
 			default:
 				add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 				add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
@@ -131,21 +100,11 @@ class RLJE_Theme_Settings {
 				add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 				add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 				add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
-
-				// // Section name, display name, callback to print description of section, page to which section is attached.
-				// add_settings_section( 'rlje_theme_environment_section', 'Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
-				// // Setting name, display name, callback to print form element, page in which field is displayed, section to which it belongs.
-				// // Last field section is optional.
-				// add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
-				// add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
-				// add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
-
-
 		}
 	}
 
 	public function display_rlje_theme_options_content() {
-		// echo 'RLJE Theme Settings';
+		echo 'Load all the specific theme stylesheet and plugins';
 		$this->theme_settings = get_option( 'rlje_theme_settings' );
 		var_dump( $this->theme_settings );
 	}
@@ -161,7 +120,7 @@ class RLJE_Theme_Settings {
 	}
 
 	public function display_rlje_theme_plugins_content() {
-		// echo 'RLJE Theme Plugins Settings';
+		echo 'Toggle for other RLJE plugins for the theme';
 		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
 		var_dump( $this->theme_plugins_settings );
 	}
@@ -199,73 +158,6 @@ class RLJE_Theme_Settings {
 		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review=of" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
 		<label for="rlje-plugins-news-and-review-off">Off</label>
 		<p class="description">For activating Homepage section</p>
-		<?php
-	}
-
-	public function display_google_analytics_options_content() {
-		echo 'Google Analytics Settings';
-		$this->google = get_option( 'rlje_google_settings' );
-		var_dump( $this->google );
-	}
-
-	public function display_google_analytics_settings() {
-		$google_analytics_id = ( ! empty( $this->google['google_analytics_id'] ) ) ? $this->google['google_analytics_id'] : '';
-		?>
-		<input type="text" name="rlje_google_settings[google_analytics_id]" id="ga-id" class="regular-text" value="<?php echo esc_attr( $google_analytics_id ); ?>" placeholder="Google Analytics ID">
-		<p class="description">Please enter your Google Analytics ID</p>
-		<?php
-	}
-
-	public function display_sailthru_options_content() {
-		echo 'Sailthru Settings';
-		$this->sailthru = get_option( 'rlje_sailthru_settings', array() );
-		var_dump( $this->sailthru );
-	}
-
-	public function display_sailthru_settings() {
-		$sailthru_customer_id = ( ! empty( $this->sailthru['customer_id'] ) ) ? $this->sailthru['customer_id'] : '';
-		?>
-		<input type="text" name="rlje_sailthru_settings[customer_id]" id="sailthru-customer-id" class="regular-text" value="<?php echo esc_attr( $sailthru_customer_id ); ?>" placeholder="Sailthru Customer ID">
-		<p class="description">Please enter your sailthru customer id</p>
-		<?php
-	}
-
-	public function display_rightsline_options_content() {
-		echo 'Rightsline Settings';
-		$this->rightsline = get_option( 'rlje_rightsline_settings' );
-		var_dump( $this->rightsline );
-	}
-
-	public function display_rightsline_base_url() {
-		$rightsline_base_url = ( ! empty( $this->rightsline['base_url'] ) ) ? $this->rightsline['base_url'] : 'http://api.rightsline.com';
-		?>
-		<input type="text" name="rlje_rightsline_settings[base_url]" id="rightsline-base-url" class="regular-text" value="<?php echo esc_url( $rightsline_base_url ); ?>" placeholder="Rightsline API URL">
-		<p class="description">URL for the Rightsline API (http://api.rightsline.com) - no trailing slash</p>
-		<?php
-	}
-
-	public function display_rightsline_auth_type() {
-		$rightsline_auth_type = ( ! empty( $this->rightsline['auth_type'] ) ) ? $this->rightsline['auth_type'] : '';
-		?>
-		<select name="rlje_rightsline_settings[auth_type]" id="rightsline-auth-type">
-			<option value="Basic">Basic</option>
-			<option value="Bearer">Bearer</option>
-			<option value="AWS4-HMAC-SHA256">AWS Signature Version 4</option>
-		</select>
-		<p data-auth-type="Basic" class="auth-type description hidden">Basic Example - Authorization: Basic Ym9zY236Ym9zY28=</p>
-		<p data-auth-type="Bearer" class="auth-type description hidden">Bearer Example - Authorization: Bearer AbCdEf123456</p>
-		<p data-auth-type="AWS4-HMAC-SHA256" class="auth-type description hidden">AWS Example - Authorization: AWS4-HMAC-SHA256<br>
-			Credential=AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request,<br>
-			SignedHeaders=host;range;x-amz-date,<br>
-			Signature=fe5f80f77d5fa3beca038a248ff027d0445342fe2855ddc963176630326f1024</p>
-		<?php
-	}
-
-	public function display_rightsline_auth_header() {
-		$rightsline_auth_header = ( ! empty( $this->rightsline['auth_header'] ) ) ? $this->rightsline['auth_header'] : '';
-		?>
-		<input type="text" name="rlje_rightsline_settings[auth_header]" id="rightsline-auth-header" class="regular-text" value="<?php echo esc_attr( $rightsline_auth_header ); ?>" placeholder="Rightsline Auth Header">
-		<p class="description">Please enter your Rightsline auth header</p>
 		<?php
 	}
 
@@ -371,6 +263,7 @@ class RLJE_Theme_Settings {
 
 $rlje_theme_settings = new RLJE_Theme_Settings();
 
+// CORE THEME PAGES.
 require_once 'header/rlje-header.php';
 require_once 'footer/rlje-footer.php';
 require_once 'widgets/rlje-widget.php';
@@ -378,5 +271,7 @@ require_once 'navigations/rlje-theme-menu-settings.php';
 require_once 'search/rlje-theme-search-settings.php';
 require_once 'franchise/rlje-franchise-page.php';
 
+// CORE THEME SETTINGS PAGES.
+require_once 'rlje-theme-settings-3rd-party-tab.php';
 require_once 'rlje-theme-environment-settings.php';
 require_once 'rlje-theme-brightcove-settings.php';
