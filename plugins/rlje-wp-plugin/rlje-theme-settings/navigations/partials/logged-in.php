@@ -9,12 +9,12 @@
 		<ul class="drop-select closed">
 			<li><a href="/browse/recentlywatched/">Recently Watched</a></li>
 			<li><a href="/browse/yourwatchlist/">My Watchlist</a></li>
-			<li><a href="<?php echo esc_url( 'https://account' . $environment . '.acorn.tv/#accountStatus' ); ?>">Manage Account</a></li>
-			<li><a href="<?php echo esc_url( 'https://account' . $environment . '.acorn.tv/#editPassword' ); ?>">Change Password</a></li>
+			<li><a href="<?php echo esc_url( home_url("account/#accountStatus") ); ?>">Manage Account</a></li>
+			<li><a href="<?php echo esc_url( home_url("account/#editPassword") ); ?>">Change Password</a></li>
 			<?php if ( $web_payment_edit ) : ?>
-			<li><a href="<?php echo esc_url( 'https://account' . $environment . '.acorn.tv/#editEmail' ); ?>">Change Email</a></li>
+			<li><a href="<?php echo esc_url( home_url("account/#editEmail") ); ?>">Change Email</a></li>
 			<?php endif; ?>
-			<li><a href="<?php echo esc_url( 'https://account' . $environment . '.acorn.tv/#logout' ); ?>">Log Out</a></li>
+			<li><a href="<?php echo esc_url( home_url("account/#logout") ); ?>">Log Out</a></li>
 		</ul>
 	</li>
 </ul>
