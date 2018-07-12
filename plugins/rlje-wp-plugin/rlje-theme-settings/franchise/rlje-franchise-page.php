@@ -2,6 +2,7 @@
 
 require_once 'rlje-season-page.php';
 require_once 'rlje-episode-page.php';
+require_once 'rlje-trailer-page.php';
 
 class RLJE_Franchise_Page {
 
@@ -11,22 +12,11 @@ class RLJE_Franchise_Page {
 	protected $episode_id;
 
 	public function __construct() {
-		// add_action( 'init', array( $this, 'add_franchise_rewrite_rules' ) );
-		// add_action( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
 		add_action( 'wp', array( $this, 'get_pagename' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ), 20 );
 
-		// add_filter( 'generate_rewrite_rules', array( $this, 'franchise_check_against_api' ) );
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
-	}
-
-	public function add_franchise_rewrite_rules() {
-		// add_rewrite_tag( '%franchise_id%', '([^&]+)' );
-	}
-
-	public function franchise_check_against_api( $wp_rewrite_rules ) {
-		var_dump($wp_rewrite_rules); exit;
-		return $wp_rewrite_rules;
 	}
 
 	public function get_pagename() {
@@ -37,6 +27,15 @@ class RLJE_Franchise_Page {
 		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
 		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
 		$this->franchise = ( ! empty( $this->franchise_id ) ) ? rljeApiWP_getFranchiseById( $this->franchise_id ) : false;
+	}
+
+	public function enqueue_scripts() {
+		if ( ! $this->is_current_franchise() ) {
+			return;
+		}
+
+		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
+		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 	}
 
 	public function franchise_template_redirect() {
@@ -68,31 +67,65 @@ class RLJE_Franchise_Page {
 
 	protected function get_available_franchise_list() {
 		$country = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
-		// $response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
-		// var_dump($response);
-		// if ( is_wp_error( $response ) ) {
-		// 	return array();
-		// }
-		// $body = wp_remote_retrieve_body( $response );
-		// $json = json_decode( $body, true );
-		// var_dump($json);
-		$current_country_available_franchises = array(
-			'US' => array(
-				'docmartin'    => array(
-					'name' => 'Doc Martin',
-				),
-				'vexed'        => array(
-					'name' => 'Vexed',
-				),
-				'vera'         => array(
-					'name' => 'Vera',
-				),
-				'indiandoctor' => array(
-					'name' => 'Indian Doctor',
-				),
-			),
-		);
-		$available_franchise_list = ( ! empty( $current_country_available_franchises[ $country ] ) ) ? $current_country_available_franchises[ $country ] : array();
+		$response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
+
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+		$body = wp_remote_retrieve_body( $response );
+		$current_country_available_franchises = json_decode( $body, true );
+		// var_dump($current_country_available_franchises);
+
+		$franchises = array();
+		if ( empty( $current_country_available_franchises[ $country ] ) ) {
+			return array();
+		}
+
+
+		$available_franchises = $current_country_available_franchises[ $country ];
+		foreach ( $available_franchises as $franchise_id => $franchise_info ) {
+			$franchise_name = $franchise_info['name'];
+			$franchises[ $country ][ $franchise_id ] = $franchise_name;
+		}
+		$available_franchise_list =  $franchises;
+
+		// $franchises = array(
+		// 	'US' => array(
+		// 		'docmartin'    => array(
+		// 			'name' => 'Doc Martin',
+		// 		),
+		// 		'vexed'        => array(
+		// 			'name' => 'Vexed',
+		// 		),
+		// 		'vera'         => array(
+		// 			'name' => 'Vera',
+		// 		),
+		// 		'indiandoctor' => array(
+		// 			'name' => 'Indian Doctor',
+		// 		),
+		// 	),
+		// );
+
+		// $franchises = array(
+		// 	'US' => array(
+		// 		'divadiaries'    => array(
+		// 			'name' => 'Diva Diaries',
+		// 		),
+		// 		'lineofdutyumc'        => array(
+		// 			'name' => 'Line of Duty',
+		// 		),
+		// 		'richandruthless'         => array(
+		// 			'name' => 'The Rich and The Ruthless',
+		// 		),
+		// 		'monogamy' => array(
+		// 			'name' => 'Craig Ross Jr.\'s Monogamy',
+		// 		),
+		// 		'thefix' => array(
+		// 			'name' => 'The Fix',
+		// 		),
+		// 	),
+		// );
+		$available_franchise_list = ( ! empty( $franchises[ $country ] ) ) ? $franchises[ $country ] : array();
 
 		return ( ! empty( $available_franchise_list ) ) ? $available_franchise_list : array();
 	}
@@ -119,6 +152,11 @@ class RLJE_Franchise_Page {
 		}
 
 		$available_franchise_list = $this->get_available_franchise_list();
+		if ( empty( $available_franchise_list ) ) {
+			// We should return 404 for not supported country
+			return false;
+		}
+
 		if ( empty( $available_franchise_list[ $this->franchise_id ] ) ) {
 			// We should return not available for your country template
 			return false;

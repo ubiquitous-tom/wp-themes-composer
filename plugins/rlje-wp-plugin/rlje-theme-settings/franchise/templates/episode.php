@@ -57,15 +57,15 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<a href="<?php echo $base_url_path . $prev_episode_url; ?>">Last Episode</a>
 				<?php endif; ?>
 			</span>
-			<a href="<?php echo $base_url_path . '/' . $franchise_id; ?>" id="subnav-title"><span itemprop="partOfSeries"><?php echo $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?php echo $season->name; ?></span> : <span itemprop="name"><?php echo ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name; ?></span>   <!-- Next link -->  
+			<a href="<?php echo $base_url_path . '/' . $franchise_id; ?>/" id="subnav-title"><span itemprop="partOfSeries"><?php echo $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?php echo $season->name; ?></span> : <span itemprop="name"><?php echo ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name; ?></span>   <!-- Next link -->
 			<meta itemprop="image" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image ); ?>" />
 			<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
 			<meta itemprop="episodeNumber" content="<?php echo $episode->episodeNumber; ?>" />
 			<meta itemprop="endDate" content="<?php echo ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->endDate ) : ''; ?>" />
 			<meta itemprop="startDate" content="<?php echo ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
 			<meta itemprop="timeRequired" content="<?php echo 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S'; ?>"/>
-			
-			<span class="subnav-next hidden-xs hidden-sm 
+
+			<span class="subnav-next hidden-xs hidden-sm
 			<?php
 			if ( ! isset( $next_episode_url ) ) {
 				echo 'invisible'; }
@@ -76,7 +76,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			<?php endif; ?>
 			</span>
 		</h4>
-		<!-- Brightcove Episode Player -->  
+		<!-- Brightcove Episode Player -->
 		<div class="outer-container episode-player">
 		<?php
 		if ( $is_user_active ) :
@@ -87,28 +87,24 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
 				<meta itemprop="uploadDate" content="<?php echo ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
 				<meta itemprop="duration" content="<?php echo 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S'; ?>" />
-				<video 
+				<video
 					id="brightcove-episode-player"
-					data-account="3047407010001"
-					data-player="NJxe2G4ox"
+					data-account="3392051362001"
+					data-player="e148573c-29cd-4ede-a267-a3947918ea4a"
 					data-embed="default"
 					data-video-id="ref:<?php echo $episode->id; ?>"
 					poster="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"
 					class="video-js embed-responsive embed-responsive-16by9"
-					controls=""></video>
-				<script src="//players.brightcove.net/3047407010001/NJxe2G4ox_default/index.js"></script>
+					controls=></video>
+				<!-- <script src="//players.brightcove.net/3047407010001/NJxe2G4ox_default/index.js"></script> -->
+				<!-- <script src="http://players.brightcove.net/3392051363001/0066661d-8f08-4e7b-a5b4-8d48755a3057_default/index.js"></script> -->
 				<?php if ( $is_video_debugger_on ) : ?>
 				<link href="https://solutions.brightcove.com/marguin/debugger/css/brightcove-player-debugger.css" rel="stylesheet">
 				<script src="https://solutions.brightcove.com/marguin/debugger/js/brightcove-player-debugger.min.js"></script>
 				<?php endif; ?>
 				<script>
 					document.addEventListener("DOMContentLoaded", function() {
-						episodePlayer(
-						<?php
-						echo '"' . $episode->id . '"';
-						echo ( isset( $stream_positions[ $episode->id ], $stream_positions[ $episode->id ]['Position'] ) ) ? ', ' . $stream_positions[ $episode->id ]['Position'] : '';
-						?>
-						);
+						episodePlayer(<?php echo '"' . $episode->id . '"'; echo ( isset( $stream_positions[ $episode->id ], $stream_positions[ $episode->id ]['Position'] ) ) ? ', ' . $stream_positions[ $episode->id ]['Position'] : ''; ?>);
 
 						videojs('brightcove-episode-player').ready(function(){
 							var player = this;
@@ -228,8 +224,8 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
 				<meta itemprop="uploadDate" content="<?php echo ( isset( $episode->startDate ) && $episode->startDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
 				<div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/3392051363001/2f9624d6-0dd2-46ff-9843-dadffb653bc3_default/index.html?videoId=<?php echo $trailerId; ?>'
-					allowfullscreen 
-					webkitallowfullscreen 
+					allowfullscreen
+					webkitallowfullscreen
 					mozallowfullscreen></iframe>">
 					<img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
 					<div class="acorntv-slogan">
@@ -294,17 +290,17 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	</div>
 </div>
 
-<!-- Episode content begins (descriptions, tags, more episodes, and related titles) --> 
+<!-- Episode content begins (descriptions, tags, more episodes, and related titles) -->
 <div class="container episode">
 	<div class="row">
-		<!-- Episode Title and Description --> 
+		<!-- Episode Title and Description -->
 		<div class="col-md-<?php echo ( $is_cast ) ? '6' : '12'; ?>" id="eps-desc">
 			<h4 class="subnav2">Description</h4>
 			<p><?php echo $episode->name; ?>: <?php echo $episode->longDescription; ?></p>
 		</div>
 
 			<?php if ( $is_cast ) : ?>
-		<!-- Related Themes (wp tags) --> 
+		<!-- Related Themes (wp tags) -->
 		<div class="col-md-6 col-sm-12 column " id="eps-tags">
 			<h4 class="subnav2">Cast</h4>
 			<div class="episode-starring">
@@ -329,7 +325,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 		else :
 			?>
 	<!-- More Episodes Carousel -->
-	<!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->       
+	<!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->
 
 	<div class="col-md-12">
 		<h4 class="subnav2" >More Episodes</h4>
@@ -351,7 +347,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			?>
 	</div>
 
-	<!-- Multiple carousels. If there is less than four episodes display basic column grid-->     
+	<!-- Multiple carousels. If there is less than four episodes display basic column grid-->
 	<?php endif; ?>
 
 

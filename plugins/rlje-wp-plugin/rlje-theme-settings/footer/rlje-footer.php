@@ -7,7 +7,7 @@ class RLJE_Footer {
 
 	// TODO: This needs to be moved to account plugins.
 	public function add_stunning() {
-		$session_cookie     = stripslashes( $_COOKIE['ATVSessionCookie'] );
+		$session_cookie = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? stripslashes( $_COOKIE['ATVSessionCookie'] ) : '';
 		$stripe_customer_id = ( ! empty( $session_cookie ) ) ? rljeApiWP_getStripeCustomerId( $session_cookie ) : false;
 		if ( $stripe_customer_id ) :
 			?>

@@ -5,8 +5,9 @@
 
 		<?php do_action( 'rlje_before_header_navigation' ); ?>
 
+		<?php $logo_url = apply_filters( 'rlje_theme_header_logo', '' ); ?>
 		<div class="navbar-header">
-			<a href="/"><img src="https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300" class="atv-logo"></a>
+			<a href="/"><img src="<?php echo esc_url( $logo_url ); ?>" class="atv-logo"></a>
 			<button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle">
 			<div class="button-bars">
 				<span class="icon-bar"></span>

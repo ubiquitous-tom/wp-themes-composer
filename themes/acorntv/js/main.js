@@ -171,147 +171,147 @@ $playerSection = $('#player-section');
 //     return false;
 // };
 
-var addToWatchlist = function(franchise) {
-    $.post('/' + franchise, { franchise: franchise, action: "add" }, function() {
-        $('#watchlistActionButton').attr('onclick', 'removeFromWatchlist(\'' + franchise + '\')').html('Remove from Watchlist');
-    });
-};
+// var addToWatchlist = function(franchise) {
+//     $.post('/' + franchise, { franchise: franchise, action: "add" }, function() {
+//         $('#watchlistActionButton').attr('onclick', 'removeFromWatchlist(\'' + franchise + '\')').html('Remove from Watchlist');
+//     });
+// };
 
-var removeFromWatchlist = function(franchise) {
-    $.post('/' + franchise, { franchise: franchise, action: "remove" }, function() {
-        $('#watchlistActionButton').attr('onclick', 'addToWatchlist(\'' + franchise + '\')').html('Add to Watchlist');
-    });
-};
+// var removeFromWatchlist = function(franchise) {
+//     $.post('/' + franchise, { franchise: franchise, action: "remove" }, function() {
+//         $('#watchlistActionButton').attr('onclick', 'addToWatchlist(\'' + franchise + '\')').html('Add to Watchlist');
+//     });
+// };
 
 //Episode Player
-var episodePlayer = function(episodeId, setTimePosition) {
-    var player = videojs('brightcove-episode-player'),
-        isPlayingSet = function(item) {
-            var isSet = false;
-            if(docCookies.hasItem('playerOption') && docCookies.getItem('playerOption') === item) {
-                isSet = true;
-                docCookies.removeItem('playerOption', '/');
-            }
-            return isSet;
-        },
-        fromStart = isPlayingSet('playFromStart'),
-        resume = isPlayingSet('playResume'),
-        initTime = setTimePosition,
-        strempositionInterval,
-        $continueWatchingBlock = $('.continueWatching'),
-        $playNextEpisodeBlock = $('.playNextEpisode'),
-        showingExtBtn = true,
-        showingNextEpisodePrompt = false,
-        isCapturingStreamPosition = false,
-        $overlay = $('#nextEpisodeOverlay'),
-		$overlayCloned = $overlay.clone();
-    if(fromStart) {
-        initTime = 0;
-    }
-    if(resume || fromStart) {
-        player.autoplay(true);
-        $continueWatchingBlock.hide();
-        showingExtBtn = false;
-    }
-    player.on('loadedmetadata', function() {
-        //Set the current time once the initial duration is loaded.
-        if(setTimePosition) {
-            player.currentTime(setTimePosition);
-        }
-        if(fromStart) {
-            player.currentTime(initTime);
-            setStreamPosition('STOP');
-        }
-    });
-    player.on('play', function() {
-        if(isPlayingSet('playFromStart')) {
-            return;
-        }
-        ///Only fixes a Safari issue (sometimes the player doesn't load the current time).
-        if(initTime > 0) {
-            var isEnded = (initTime > (player.duration()-10)) ? true : false;
-            if(isEnded) { initTime = 0; } ///if the video ended, it plays from beginer.
-            if(player.currentTime() !== initTime) {
-                player.currentTime(initTime);
-                console.log('Player: Init time set.');
-            }
-            initTime=null;
-        }
-        ///End Safari fix.
+// var episodePlayer = function(episodeId, setTimePosition) {
+//     var player = videojs('brightcove-episode-player'),
+//         isPlayingSet = function(item) {
+//             var isSet = false;
+//             if(docCookies.hasItem('playerOption') && docCookies.getItem('playerOption') === item) {
+//                 isSet = true;
+//                 docCookies.removeItem('playerOption', '/');
+//             }
+//             return isSet;
+//         },
+//         fromStart = isPlayingSet('playFromStart'),
+//         resume = isPlayingSet('playResume'),
+//         initTime = setTimePosition,
+//         strempositionInterval,
+//         $continueWatchingBlock = $('.continueWatching'),
+//         $playNextEpisodeBlock = $('.playNextEpisode'),
+//         showingExtBtn = true,
+//         showingNextEpisodePrompt = false,
+//         isCapturingStreamPosition = false,
+//         $overlay = $('#nextEpisodeOverlay'),
+// 		$overlayCloned = $overlay.clone();
+//     if(fromStart) {
+//         initTime = 0;
+//     }
+//     if(resume || fromStart) {
+//         player.autoplay(true);
+//         $continueWatchingBlock.hide();
+//         showingExtBtn = false;
+//     }
+//     player.on('loadedmetadata', function() {
+//         //Set the current time once the initial duration is loaded.
+//         if(setTimePosition) {
+//             player.currentTime(setTimePosition);
+//         }
+//         if(fromStart) {
+//             player.currentTime(initTime);
+//             setStreamPosition('STOP');
+//         }
+//     });
+//     player.on('play', function() {
+//         if(isPlayingSet('playFromStart')) {
+//             return;
+//         }
+//         ///Only fixes a Safari issue (sometimes the player doesn't load the current time).
+//         if(initTime > 0) {
+//             var isEnded = (initTime > (player.duration()-10)) ? true : false;
+//             if(isEnded) { initTime = 0; } ///if the video ended, it plays from beginer.
+//             if(player.currentTime() !== initTime) {
+//                 player.currentTime(initTime);
+//                 console.log('Player: Init time set.');
+//             }
+//             initTime=null;
+//         }
+//         ///End Safari fix.
 
-        //Checking if the current User is Active
-        var data = {
-                'action': 'isUserActive',
-                'token': atv_player_object.token
-            },
-            stopPlayer = function() {
-                player.pause();
-            },
-            processData = function(response) {
-                if(response.isActive !== true) {
-                    stopPlayer();
-                    console.error('User not active');
-                }
-            };
+//         //Checking if the current User is Active
+//         var data = {
+//                 'action': 'isUserActive',
+//                 'token': atv_player_object.token
+//             },
+//             stopPlayer = function() {
+//                 player.pause();
+//             },
+//             processData = function(response) {
+//                 if(response.isActive !== true) {
+//                     stopPlayer();
+//                     console.error('User not active');
+//                 }
+//             };
 
-        $.post(atv_player_object.ajax_url, data, processData).fail(function() {
-            console.error('Error checking if the user is active');
-        });
+//         $.post(atv_player_object.ajax_url, data, processData).fail(function() {
+//             console.error('Error checking if the user is active');
+//         });
 
-    }).on('playing', function(){
-        isPlayingSet('playFromStart');
-        if(!isCapturingStreamPosition) {
-            isCapturingStreamPosition = true;
-            strempositionInterval = setInterval(function() {
-                setStreamPosition('PLAYING');
-            }, 60000);
-        }
-        $continueWatchingBlock.hide();
-    }).on('pause', function() {
-        clearInterval(strempositionInterval);
-        isCapturingStreamPosition = false;
-        setStreamPosition('STOP');
-        if(showingExtBtn) {
-            $continueWatchingBlock.show();
-            $playNextEpisodeBlock.hide();
-        }
-        else {
-            showingExtBtn = true;
-        }
-    }).on('ended', function() {
-        $continueWatchingBlock.hide();
-        $playNextEpisodeBlock.show();
-    }).on('timeupdate', function(){
-        if(!player.paused()) {
-            var showNextEpisode = (player.currentTime() >= player.duration() - 45);
-            if(showNextEpisode && !showingNextEpisodePrompt) {
-                if(typeof $overlayCloned === 'undefined') {
-                    $overlayCloned = $overlay.clone();
-                }
-                if(typeof $overlayCloned[0] !== 'undefined') {
-                    $overlayCloned.show();
-                    player.el().appendChild($overlayCloned[0]);
-                    showingNextEpisodePrompt = true;
-                    console.log('showing nextEpisode prompt!');
-                }
-            }
-            else if(!showNextEpisode && showingNextEpisodePrompt){
-                player.el().removeChild($overlayCloned[0]);
-                showingNextEpisodePrompt = false;
-                console.log('removing nextEpisode prompt!');
-            }
-        }
-    });
+//     }).on('playing', function(){
+//         isPlayingSet('playFromStart');
+//         if(!isCapturingStreamPosition) {
+//             isCapturingStreamPosition = true;
+//             strempositionInterval = setInterval(function() {
+//                 setStreamPosition('PLAYING');
+//             }, 60000);
+//         }
+//         $continueWatchingBlock.hide();
+//     }).on('pause', function() {
+//         clearInterval(strempositionInterval);
+//         isCapturingStreamPosition = false;
+//         setStreamPosition('STOP');
+//         if(showingExtBtn) {
+//             $continueWatchingBlock.show();
+//             $playNextEpisodeBlock.hide();
+//         }
+//         else {
+//             showingExtBtn = true;
+//         }
+//     }).on('ended', function() {
+//         $continueWatchingBlock.hide();
+//         $playNextEpisodeBlock.show();
+//     }).on('timeupdate', function(){
+//         if(!player.paused()) {
+//             var showNextEpisode = (player.currentTime() >= player.duration() - 45);
+//             if(showNextEpisode && !showingNextEpisodePrompt) {
+//                 if(typeof $overlayCloned === 'undefined') {
+//                     $overlayCloned = $overlay.clone();
+//                 }
+//                 if(typeof $overlayCloned[0] !== 'undefined') {
+//                     $overlayCloned.show();
+//                     player.el().appendChild($overlayCloned[0]);
+//                     showingNextEpisodePrompt = true;
+//                     console.log('showing nextEpisode prompt!');
+//                 }
+//             }
+//             else if(!showNextEpisode && showingNextEpisodePrompt){
+//                 player.el().removeChild($overlayCloned[0]);
+//                 showingNextEpisodePrompt = false;
+//                 console.log('removing nextEpisode prompt!');
+//             }
+//         }
+//     });
 
-    var setStreamPosition = function(lastKnownAction) {
-        $.ajax({
-            type: 'POST',
-            data: "Position=" + parseInt(player.currentTime()) + "&EpisodeID=" + episodeId + "&LastKnownAction=" + lastKnownAction ,
-            url: '/streamposition',
-            dataType: "text"
-        });
-    };
-};
+//     var setStreamPosition = function(lastKnownAction) {
+//         $.ajax({
+//             type: 'POST',
+//             data: "Position=" + parseInt(player.currentTime()) + "&EpisodeID=" + episodeId + "&LastKnownAction=" + lastKnownAction ,
+//             url: '/streamposition',
+//             dataType: "text"
+//         });
+//     };
+// };
 
 // var emailPlaceholder = function(el) {
 //     var str = $(el).val();
@@ -387,45 +387,45 @@ jQuery(document).ready(function($) {
     });
 
     // Continue Watching
-    var endCookie = new Date();
-    endCookie.setMinutes(endCookie.getMinutes() + 2);
-    $('#continueWatching, #brightcove-episode-player')
-        .on('click', '.js-play-start', function() {
-            docCookies.setItem('playerOption', 'playFromStart', endCookie);
-        })
-        .on('click', '.js-play-resume', function() {
-            docCookies.setItem('playerOption', 'playResume', endCookie);
-        });
-    $('.js-player-start').on('click', function(e) {
-        e.preventDefault();
-        scrollToPlayer(this);
-        docCookies.setItem('playerOption', 'playFromStart', endCookie);
-        videojs('brightcove-episode-player').currentTime(0).play();
-    });
-    $('.js-player-resume').on('click', function(e) {
-        e.preventDefault();
-        scrollToPlayer(this);
-        videojs('brightcove-episode-player').play();
-    });
-    $('.js-play-next').on('click', function(e) {
-        docCookies.setItem('playerOption', 'playResume', endCookie);
-        window.location = $(this).data('next');
-    });
-    $('.js-go-to').on('click', function(e) {
-        window.location = $(this).data('url');
-    });
-    $('#brightcove-episode-player').on('click', '.js-episode-loading', function(e) {
-        $('.imgOverlayContainer #play-episodes').hide();
-        $('.imgOverlayContainer .loading').show();
-        setTimeout(function(){
-            $('.imgOverlayContainer #play-episodes').show();
-            $('.imgOverlayContainer .loading').hide();
-        },60000);
-    });
-    var scrollToPlayer = function(elm){
-        if(typeof $(elm).data('no-scroll') === 'undefined') {
-            var position = $('#episode').position();
-            window.scroll(0,position.top);
-        }
-    };
+    // var endCookie = new Date();
+    // endCookie.setMinutes(endCookie.getMinutes() + 2);
+    // $('#continueWatching, #brightcove-episode-player')
+    //     .on('click', '.js-play-start', function() {
+    //         docCookies.setItem('playerOption', 'playFromStart', endCookie);
+    //     })
+    //     .on('click', '.js-play-resume', function() {
+    //         docCookies.setItem('playerOption', 'playResume', endCookie);
+    //     });
+    // $('.js-player-start').on('click', function(e) {
+    //     e.preventDefault();
+    //     scrollToPlayer(this);
+    //     docCookies.setItem('playerOption', 'playFromStart', endCookie);
+    //     videojs('brightcove-episode-player').currentTime(0).play();
+    // });
+    // $('.js-player-resume').on('click', function(e) {
+    //     e.preventDefault();
+    //     scrollToPlayer(this);
+    //     videojs('brightcove-episode-player').play();
+    // });
+    // $('.js-play-next').on('click', function(e) {
+    //     docCookies.setItem('playerOption', 'playResume', endCookie);
+    //     window.location = $(this).data('next');
+    // });
+    // $('.js-go-to').on('click', function(e) {
+    //     window.location = $(this).data('url');
+    // });
+    // $('#brightcove-episode-player').on('click', '.js-episode-loading', function(e) {
+    //     $('.imgOverlayContainer #play-episodes').hide();
+    //     $('.imgOverlayContainer .loading').show();
+    //     setTimeout(function(){
+    //         $('.imgOverlayContainer #play-episodes').show();
+    //         $('.imgOverlayContainer .loading').hide();
+    //     },60000);
+    // });
+    // var scrollToPlayer = function(elm){
+    //     if(typeof $(elm).data('no-scroll') === 'undefined') {
+    //         var position = $('#episode').position();
+    //         window.scroll(0,position.top);
+    //     }
+    // };
 });

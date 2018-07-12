@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $continueWatchingItems = get_query_var('continueWatchingItems');
 $totalEpisodes = get_query_var('totalEpisodes');
@@ -19,7 +19,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
             <?php if ($showingCarosel): ?>
             <div class="carousel-inner">
             <?php endif; ?>
-                <?php 
+                <?php
                     $highlightNextEpisode = false;
                     foreach ($continueWatchingItems as $seasonKey=>$season) :
                         foreach ($season->episodes as $key=>$episode) :
@@ -54,7 +54,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
                 ?>
                 <div class="item<?php echo ($showEpisodeActive)? ' active': '' ?>" itemprop="episode" itemscope itemtype="http://schema.org/TVEpisode">
                     <div class="col-sm-6 col-md-3<?php echo ($showEpisodeHighlighted) ? ' highlight-episode' : ''; ?> " style="padding-top:25px;">
-                        <a itemprop="url" href="<?= $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($season->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($episode->name); ?>">
+                        <a itemprop="url" href="<?php echo esc_url( $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($season->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($episode->name) . '/' ); ?>">
                             <img src="<?php echo apply_filters('atv_get_image_url', 'play-icon?t=Icons'); ?>" id="play-episodes" />
                             <img itemprop="image" width="100%" src="<?php echo apply_filters('atv_get_image_url', $episode->image.'?w=500'); ?>" />
                             <?php if(0 < count($streamPositionData)) : ?>
@@ -99,7 +99,7 @@ if(!empty($continueWatchingItems) && count($continueWatchingItems) > 0) :
             <?php if ($showingCarosel): ?>
             </div>
             <a class="left carousel-control" href="#newreleases"  id="carousel-arrow"  data-slide="prev"><img class="carousel-img"  src="<?= get_template_directory_uri(); ?>/img/arrowleft.png"/></a>
-            <a class="right carousel-control" href="#newreleases" data-slide="next"   id="carousel-arrow" ><img class="carousel-img" src="<?= get_template_directory_uri(); ?>/img/arrowright.png"/></a> 
+            <a class="right carousel-control" href="#newreleases" data-slide="next"   id="carousel-arrow" ><img class="carousel-img" src="<?= get_template_directory_uri(); ?>/img/arrowright.png"/></a>
             <?php endif; ?>
         </div>
     <?php if ($showingCarosel): ?>

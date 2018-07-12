@@ -2,15 +2,27 @@
 
 class RLJE_UMC_Theme {
 
+	protected $theme = 'umc';
+
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ), 11 );
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 		wp_enqueue_style( 'rlje-umc-theme', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
+
+		$umc_browse_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/umc-browse.js' ) );
+		wp_enqueue_script( 'umc-browse-carousel-pagination-js', plugins_url( 'js/umc-browse.js', __FILE__ ), array( 'browse-carousel-pagination-js' ), $umc_browse_js_ver, true );
+	}
+
+	public function theme_header_logo( $logo_url ) {
+		$logo_url = plugin_dir_url( __FILE__ ) . 'img/logo.png';
+
+		return $logo_url;
 	}
 
 	public function umc_add_img_and_href( $item ) {

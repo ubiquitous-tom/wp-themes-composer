@@ -11,11 +11,9 @@ class RLJE_Theme_Menu_Settings {
 
 	public function __construct() {
 		$this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) );
-		$this->http_user_agent           = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
-
-		add_action( 'admin_init', array( $this, 'display_options' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'init', array( $this, 'get_user_information' ) );
 
 		add_action( 'rlje_before_header_navigation', array( $this, 'is_user_logged_in_and_active' ) );
 		add_action( 'rlje_after_header_navigation', array( $this, 'active_features' ), 10 );
@@ -25,10 +23,11 @@ class RLJE_Theme_Menu_Settings {
 
 		add_filter( 'nav_menu_item_id', array( $this, 'remove_nav_menu_item_id' ), 10, 4 );
 		add_filter( 'nav_menu_css_class', array( $this, 'remove_nav_menu_css_class' ), 10, 4 );
+		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ) );
 	}
 
 	public function enqueue_scripts() {
-		if ( $this->is_user_logged_and_active && $http_user_agent ) {
+		if ( $this->is_user_logged_and_active && $this->http_user_agent ) {
 			$upgrade_message_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'navigation/js/upgrade-message.js' ) );
 			wp_enqueue_script( 'upgrade-message', plugins_url( 'js/upgrade-message.js', __FILE__ ), array( 'jquery' ), $upgrade_message_version, true );
 			$url_parts       = parse_url( site_url() );
@@ -44,12 +43,9 @@ class RLJE_Theme_Menu_Settings {
 		}
 	}
 
-	public function display_options() {
-		// register_setting( 'rlje_theme_menu_section', 'rlje_theme_menu_settings' );
-
-		// add_settings_section( 'rlje_theme_menu_section', 'Menu Options', array( $this, 'display_rlje_options_content' ), 'rlje-theme-settings' );
-		// add_settings_field( 'header_menu', 'Header Menu', array( $this, 'display_header_menu' ), 'rlje-theme-settings', 'rlje_theme_menu_section' );
-		// add_settings_field( 'footer_menu', 'Footer Menu', array( $this, 'display_footer_menu' ), 'rlje-theme-settings', 'rlje_theme_menu_section' );
+	public function get_user_information() {
+		$this->is_logged_in();
+		$this->http_user_agent = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
 	}
 
 	public function is_user_logged_in_and_active() {
@@ -85,7 +81,6 @@ class RLJE_Theme_Menu_Settings {
 	}
 
 	public function upgrade_message() {
-		// $this->http_user_agent = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
 		if ( $this->is_user_logged_and_active && $this->http_user_agent ) {
 			ob_start();
 			require_once plugin_dir_path( __FILE__ ) . 'partials/upgrade-message.php';
@@ -93,30 +88,6 @@ class RLJE_Theme_Menu_Settings {
 
 			echo $html;
 		}
-	}
-
-	public function display_header_menu() {
-		$menus       = get_registered_nav_menus();
-		$header_menu = ( ! empty( $this->theme_menu_settings['header_menu'] ) ) ? $this->theme_menu_settings['header_menu'] : '';
-		?>
-		<select name="rlje_theme_settings[header_menu]" id="header-menu" class="regular-text">
-			<?php foreach ( $menus as $key => $value ) : ?>
-			<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $header_menu, $key ); ?>><?php echo esc_html( $value ); ?></option>
-			<?php endforeach; ?>
-		</select>
-		<?php
-	}
-
-	public function display_footer_menu() {
-		$menus       = get_registered_nav_menus();
-		$footer_menu = ( ! empty( $this->theme_menu_settings['footer_menu'] ) ) ? $this->theme_menu_settings['footer_menu'] : '';
-		?>
-		<select name="rlje_theme_settings[footer_menu]" id="footer-menu" class="regular-text">
-			<?php foreach ( $menus as $key => $value ) : ?>
-			<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $footer_menu, $key ); ?>><?php echo esc_html( $value ); ?></option>
-			<?php endforeach; ?>
-		</select>
-		<?php
 	}
 
 	public function display_header_navigation() {
@@ -177,6 +148,49 @@ class RLJE_Theme_Menu_Settings {
 		}
 
 		return $classes;
+	}
+
+	public function theme_header_logo( $logo_url ) {
+		$logo_url = plugin_dir_url( __FILE__ ) . 'img/logo.png';
+
+		return $logo_url;
+	}
+
+	public function is_logged_in() {
+		if ( ! isset( $_COOKIE['ATVSessionCookie'] ) ) {
+			$post_headers = array(
+				'accept' => 'application/json',
+				'content-type' => 'application/json',
+			);
+			$post_data = array(
+				'App'         => array(
+					'AppVersion' => 'UMC-Website',
+				),
+				'Credentials' => array(
+					'Username' => 'toms02@test.com',
+					'Password' => 'tomtom00',
+				),
+				'Request'     => array(
+					'OperationalScenario' => 'SIGNIN',
+				),
+			);
+			$body = array(
+				'headers' => $post_headers,
+				'body' => json_encode( $post_data ),
+			);
+			$url = RLJE_BASE_URL . '/initializeapp';
+			$response = wp_remote_post( $url, $body );
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body, true );
+			// var_dump($data);
+			$session_id = ( ! empty( $data['Session']['SessionID'] ) ) ? $data['Session']['SessionID'] : '';
+			if ( ! empty( $session_id ) ) {
+				// $this->is_user_logged_and_active = true;
+				setcookie( 'ATVSessionCookie', $session_id, 10 * 365 * 24 * 60 * 60 );
+			}
+		} else {
+			$status = rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] );
+		}
 	}
 }
 

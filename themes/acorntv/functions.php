@@ -68,7 +68,7 @@ endif;
 
 add_action( 'after_setup_theme', 'acorntv_setup' );
 
-add_action( 'wp_head', 'acorntv_hook_css_js', 0 );
+add_action( 'wp_enqueue_scripts', 'acorntv_hook_css_js', 0 );
 function acorntv_hook_css_js() {
 	// Enqueue css.
 	wp_enqueue_style( 'normalize_css', get_template_directory_uri() . '/lib/normalize/normalize.min.css', false, '3.0.2' );
@@ -89,24 +89,21 @@ function acorntv_hook_css_js() {
 	wp_enqueue_script( 'modernizr-js', get_template_directory_uri() . '/lib/modernizr/modernizr.min.js', array(), null, true );
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/lib/bootstrap/js/bootstrap.min.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), null, true );
-	wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
+	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
 
-	if ( get_query_var( 'pagecustom' ) === 'browse' ) {
-		wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
-	}
+	// if ( get_query_var( 'pagecustom' ) === 'browse' ) {
+	// 	wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
+	// }
 
-	if ( get_query_var( 'pagecustom' ) === 'episode' ) {
-		wp_localize_script('main-js', 'atv_player_object', array(
-			'ajax_url' => home_url( 'ajax_atv' ),
-			'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
-		));
-	}
+	// if ( get_query_var( 'pagecustom' ) === 'episode' ) {
+	// 	wp_localize_script('main-js', 'atv_player_object', array(
+	// 		'ajax_url' => home_url( 'ajax_atv' ),
+	// 		'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
+	// 	));
+	// }
 
-	global $wp;
-	$is_home = empty( $wp->query_vars );
-	$is_browse_page = ( 'browse' === get_query_var( 'pagecustom' ) );
-	if ( $is_home || $is_browse_page ) {
+	if ( is_home() ) {
 		wp_enqueue_script( 'carousel-pagination-js', get_template_directory_uri() . '/js/carouselPagination.js', array( 'jquery' ), '1.1.2', true );
 		// Add javascript global variables.
 		$atv_global = array(

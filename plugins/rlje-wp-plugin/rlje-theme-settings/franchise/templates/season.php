@@ -22,7 +22,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			</span>
 			<span><?php echo $franchise->name; ?></span>
 			<span class="subnav-next hidden-xs hidden-sm">
-				<a href="<?php echo $base_url_path . '/' . $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ); ?>">
+				<a href="<?php echo esc_url( trailingslashit( $base_url_path . '/' . $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ); ?>">
 					<span>Watch Episode</span>
 					<img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" id="archive-arrows">
 				</a>
@@ -34,7 +34,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<a href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer'; ?>">
 					<img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
 				</a>
-				<?php else : ?> 
+				<?php else : ?>
 				<img class="wp-post-image" id="franchise-avatar" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
 				<?php endif; ?>
 			</div>
@@ -55,7 +55,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	</div>
 </div>
 
-<div class="container episode"> 
+<div class="container episode">
 		<?php
 		set_query_var( 'season', $season );
 		set_query_var( 'franchiseName', $franchise->name );
@@ -63,10 +63,10 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 		?>
 
 	<span style="padding-right:5px;"> Filter By Series:</span>
-		<?php for ( $i = 0; $i < count( $franchise->seasons ); $i++ ) : ?>
-	<a href="/<?php echo $franchise_id; ?>/<?php echo rljeApiWP_convertSeasonNameToURL( $franchise->seasons[ $i ]->name ); ?>"> <button><?php echo $i + 1; ?></button></a>
+	<?php for ( $i = 0; $i < count( $franchise->seasons ); $i++ ) : ?>
+	<a href="/<?php echo $franchise_id; ?>/<?php echo rljeApiWP_convertSeasonNameToURL( $franchise->seasons[ $i ]->name ); ?>/"> <button><?php echo $i + 1; ?></button></a>
 	<?php endfor; ?>
-	<a href="/<?php echo $franchise_id; ?>"> <button>View All</button></a>
+	<a href="/<?php echo $franchise_id; ?>/"> <button>View All</button></a>
 </div>
 		<?php
 		get_footer();

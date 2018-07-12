@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * Add ajax methods to WordPress in order to use it in javascript code.
  */
 
@@ -11,9 +11,9 @@ $action = !empty($_POST['action']) ? $_POST['action'] : null;
  * Do action if it's set.
  */
 if(!empty($action)) {
-  
+
   $token = (!empty($_POST['token'])) ? $_POST['token'] : null;
-  
+
   /**
   * This ajax method get the content by page.
   */
@@ -29,7 +29,7 @@ if(!empty($action)) {
       }
     }
   }
-  
+
   /**
   * This ajax method check if the current user is Active.
   */

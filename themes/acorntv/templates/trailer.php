@@ -1,5 +1,5 @@
-<?php 
-get_header(); 
+<?php
+get_header();
 $baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
 if (function_exists('rljeApiWP_getFranchiseById')) :
     $haveFranchisesAvailable = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise');
@@ -42,7 +42,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                     <span>Back to Series</span>
                 </a>
             </span>
-            <a href="<?= $baseUrlPath.'/'.$franchiseId?>" id="subnav-title"><span itemprop="name"><?= $franchise->name; ?></span></a> Trailer   <!-- Next link -->  
+            <a href="<?= $baseUrlPath.'/'.$franchiseId?>" id="subnav-title"><span itemprop="name"><?= $franchise->name; ?></span></a> Trailer   <!-- Next link -->
             <meta itemprop="image" content="<?php echo apply_filters('atv_get_image_url', $franchise->image); ?>" />
             <meta itemprop="description" content="<?= $franchise->longDescription; ?>" />
             <meta itemprop="numberOfEpisodes" content="<?= $totalEpisodes; ?>" />
@@ -50,16 +50,16 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
 
             <span class="subnav-next hidden-xs hidden-sm">
               <?php if(isset($franchise->seasons[0], $franchise->seasons[0]->episodes[0])) :?>
-              <a href="<?= $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($franchise->seasons[0]->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($franchise->seasons[0]->episodes[0]->name); ?>">
+              <a href="<?php echo esc_url( trailingslashit( $baseUrlPath.'/'.$franchiseId.'/'.rljeApiWP_convertSeasonNameToURL($franchise->seasons[0]->name).'/'.rljeApiWP_convertEpisodeNameToURLFriendly($franchise->seasons[0]->episodes[0]->name) ) ); ?>">
                   <span>Watch Episode</span>
                   <img src="<?php echo apply_filters('atv_get_image_url', 'right-arrow?t=Icons'); ?>" id="archive-arrows">
               </a>
               <?php endif;?>
             </span>
         </h4>
-        <!-- Brightcove Episode Player -->  
+        <!-- Brightcove Episode Player -->
         <div class="outer-container episode-player">
-        <?php 
+        <?php
             if(isset($franchise->episodes[0]->id)&& is_numeric($franchise->episodes[0]->id)) :
                 $trailerId = $franchise->episodes[0]->id;
         ?>
@@ -69,11 +69,11 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 <meta itemprop="name" content="<?= $franchise->name; ?>" />
                 <meta itemprop="uploadDate" content="<?= (isset($franchise->episodes[0]->startDate) && $franchise->episodes[0]->startDate != '') ? date('Y-m-d', $franchise->episodes[0]->startDate) : ''; ?>" />
                 <div id="trailer-video" class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/3392051363001/2f9624d6-0dd2-46ff-9843-dadffb653bc3_default/index.html?videoId=<?= $trailerId; ?>'
-                    allowfullscreen 
-                    webkitallowfullscreen 
+                    allowfullscreen
+                    webkitallowfullscreen
                     mozallowfullscreen></iframe>">
                     <img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters('atv_get_image_url', $franchise->image.'?w=750'); ?>"/>
-                    
+
                     <script>
                     (function() {
 
@@ -107,17 +107,17 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
     </div>
 </div>
 
-<!-- Episode content begins (descriptions, tags, more episodes, and related titles) --> 
+<!-- Episode content begins (descriptions, tags, more episodes, and related titles) -->
 <div class="container episode">
     <!-- More Episodes Carousel -->
-    <!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->       
+    <!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->
 
     <div class="col-md-12">
         <h4 class="subnav2" >Episodes</h4>
-        <?php 
+        <?php
             $wp_query->query_vars['franchiseName'] = $franchise->name;
             $isLessThan4Episodes = apply_filters('atv_is_less_than_4_episodes', $franchise->seasons);
-            
+
             if($isLessThan4Episodes) {
                 $wp_query->query_vars['season'] = $franchise->seasons[0];
                 $wp_query->query_vars['ignoreSeasonHeader'] = true;
@@ -132,11 +132,11 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
         ?>
     </div>
 
-    <!-- Multiple carousels. If there is less than four episodes display basic column grid-->     
+    <!-- Multiple carousels. If there is less than four episodes display basic column grid-->
 
 
     <!-- You May Also Like Carousel -->
-    <?php 
+    <?php
         $wp_query->query_vars['also_watched_items'] = rljeApiWP_getViewersAlsoWatched($franchiseId);
         get_template_part('partials/viewers-also-watched');
     ?>
