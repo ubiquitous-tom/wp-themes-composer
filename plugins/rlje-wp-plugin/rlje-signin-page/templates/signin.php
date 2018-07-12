@@ -1,8 +1,8 @@
 <?php
 get_header();
 ?>
-<section class="home-signin">
-    <div id="page-wrap">
+<section id="signin">
+    <div class="container">
         <h4>Welcome to <?php bloginfo("name") ?></h4>
         <h5>Please use your current <?php bloginfo("name") ?> e-mail and password.</h5>
         <?php

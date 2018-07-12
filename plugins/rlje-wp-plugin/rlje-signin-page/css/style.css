@@ -1,3 +1,30 @@
 body {
     padding-top: 80px;
 }
+
+#signin, #forgotpassword {
+    background-color: white;
+    color: #555;
+}
+
+#signin h1,
+#signin h2,
+#signin h3,
+#signin h4,
+#signin h5,
+#signin h6 {
+    color: #810c0c;
+}
+
+#forgotpassword h1,
+#forgotpassword h2,
+#forgotpassword h3,
+#forgotpassword h4,
+#forgotpassword h5,
+#forgotpassword h6 {
+    color: #810c0c;
+}
+
+#signin h4 {
+    font-size: 34px;
+}

@@ -2,8 +2,8 @@
 // TODO: replace the hardcoded support email address with one coming from wp_settings
 get_header();
 ?>
-<section class="home-signin">
-    <div id="page-wrap">
+<section id="forgotpassword">
+    <div class="container">
         <h4>Reset Your Password</h4>
         <?php
             if(isset($password_reset_failed) && $password_reset_failed === false) { ?>
