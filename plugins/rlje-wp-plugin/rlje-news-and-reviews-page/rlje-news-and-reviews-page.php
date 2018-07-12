@@ -6,26 +6,30 @@
 class RLJE_News_And_Reviews {
 
 	private $prefix = 'acorntv_';
+	protected $acorntv_marketing_placeholder;
+	protected $acorntv_latest_news;
+	protected $acorntv_news_options;
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
-		add_action( 'after_setup_theme', array( $this, 'news_and_reviews_init_setup' ) );
+		add_action( 'admin_init', array( $this, 'news_and_reviews_init_setup' ) );
 		add_action( 'admin_init', array( $this, 'create_settings' ) );
 		add_action( 'admin_menu', array( $this, 'register_news_and_reviews_page' ) );
+		add_action( 'rlje_homepage_mid_section_content', array( $this, 'display_news_and_reviews' ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_newsAndReviews' === $hook || 'news-reviews_page_reviewsLogoSettings' === $hook ) {
 			// wp_enqueue_style( 'jquery-ui-theme-css', plugin_url( '/lib/jquery/ui/jquery-ui.theme.min.css', __FILE__ ) );
 			// wp_enqueue_script( 'jquery-ui-js', get_template_directory_uri() . '/lib/jquery/ui/jquery-ui.min.js' );
-			wp_enqueue_script( array( 'jquery-ui-core', 'jquery-ui-draggable' ) );
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-draggable' );
 			wp_enqueue_media();
 		}
 
 		if ( 'toplevel_page_newsAndReviews' === $hook ) {
 			// Versioning for cachebuster.
-			$js_version  = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/news-and-reviews.js' ) );
+			$js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/news-and-reviews.js' ) );
 			$css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/news-and-reviews.css' ) );
 			wp_enqueue_style( 'rlje-news-and-reviews', plugins_url( 'css/news-and-reviews.css', __FILE__ ), array(), $css_verion );
 			wp_enqueue_script( 'rlje-news-and-reviews', plugins_url( 'js/news-and-reviews.js', __FILE__ ), array( 'jquery-ui-core' ), $js_version, true );
@@ -33,7 +37,7 @@ class RLJE_News_And_Reviews {
 
 		if ( 'news-reviews_page_reviewsLogoSettings' === $hook ) {
 			// Versioning for cachebuster.
-			$js_version  = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/reviews-logo-setting.js' ) );
+			$js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/reviews-logo-setting.js' ) );
 			$css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/reviews-logo-setting.css' ) );
 			wp_enqueue_style( 'reviews-logo-setting', plugins_url( 'css/reviews-logo-setting.css', __FILE__ ), array(), $css_verion );
 			wp_enqueue_script( 'reviews-logo-setting', plugins_url( 'js/reviews-logo-setting.js', __FILE__ ), array( 'jquery-ui-core' ), $js_version, true );
@@ -44,83 +48,86 @@ class RLJE_News_And_Reviews {
 	 * Checks if the options exist else set marketing_placeholder and latest_news with default data.
 	 */
 	public function news_and_reviews_init_setup() {
-		if ( empty( get_option( 'acorntv_marketing_placeholder' ) ) ) {
+		$this->acorntv_marketing_placeholder = get_option( 'acorntv_marketing_placeholder' );
+		if ( empty( $this->acorntv_marketing_placeholder ) ) {
 			// Set default values to MarketingPlaceholder
 			$marketing_placeholder = array(
 				array(
-					'type' => 'image',
+					'type'        => 'image',
 					'franchiseId' => 'jackirish',
-					'src' => 'http://atv3.us/wp-content/uploads/homepage-ad.png',
+					'src'         => plugins_url( 'img/upgradeannual515.png', __FILE__ ),
 				),
 				array(
-					'type' => 'video',
+					'type'        => 'video',
 					'franchiseId' => '',
-					'src' => '4328731797001',
+					'src'         => '4328731797001',
 				),
 				array(
-					'type' => 'image',
+					'type'        => 'image',
 					'franchiseId' => '',
-					'src' => '',
+					'src'         => '',
 				),
 				array(
-					'type' => 'image',
+					'type'        => 'image',
 					'franchiseId' => '',
-					'src' => '',
+					'src'         => '',
 				),
 				array(
-					'type' => 'image',
+					'type'        => 'image',
 					'franchiseId' => '',
-					'src' => '',
-				)
+					'src'         => '',
+				),
 			);
 
-			add_option('acorntv_marketing_placeholder', $marketing_placeholder);
+			update_option( 'acorntv_marketing_placeholder', $marketing_placeholder );
 		}
 
-		if ( empty( get_option( 'acorntv_latest_news' ) ) ) {
-			//Set default values to LatestNews
+		$this->acorntv_latest_news = get_option( 'acorntv_latest_news' );
+		if ( empty( $this->acorntv_latest_news ) ) {
+			// Set default values to LatestNews
 			$news_options = array(
 				array(
 					'title' => 'Variety reviews British Miniseries ‘New Worlds’',
-					'image' => 'http://atv3.us/wp-content/uploads/variety.png',
-					'link' => 'http://variety.com/2015/digital/news/british-miniseries-new-worlds-starring-jamie-dornan-coming-to-acorn-tv-svod-service-1201410610/',
+					'image' => plugins_url( 'img/variety.png', __FILE__ ),
+					'link'  => 'http://variety.com/2015/digital/news/british-miniseries-new-worlds-starring-jamie-dornan-coming-to-acorn-tv-svod-service-1201410610/',
 				),
 				array(
 					'title' => 'Wall Street Journal  ‘Serangoon Road’ Review',
-					'image' => 'http://atv3.us/wp-content/uploads/wsj_v4.png',
-					'link' => 'http://www.wsj.com/articles/tv-review-serangoon-roadsleuthing-in-singapore-1418351931',
+					'image' => plugins_url( 'img/wsj_v4.png', __FILE__ ),
+					'link'  => 'http://www.wsj.com/articles/tv-review-serangoon-roadsleuthing-in-singapore-1418351931',
 				),
 				array(
 					'title' => 'NY Daily News 4 Star ‘Jamaica Inn’ Review',
-					'image' => 'http://atv3.us/wp-content/uploads/dailynews_v1.png',
-					'link' => 'http://www.nydailynews.com/entertainment/tv/review-jamaica-inn-article-1.2148676',
+					'image' => plugins_url( 'img/dailynews_v1.png', __FILE__ ),
+					'link'  => 'http://www.nydailynews.com/entertainment/tv/review-jamaica-inn-article-1.2148676',
 				),
 				array(
 					'title' => 'Variety reviews British Miniseries ‘New Worlds’',
-					'image' => 'http://atv3.us/wp-content/uploads/variety.png',
-					'link' => 'http://variety.com/2015/digital/news/british-miniseries-new-worlds-starring-jamie-dornan-coming-to-acorn-tv-svod-service-1201410610/',
+					'image' => plugins_url( 'img/variety.png', __FILE__ ),
+					'link'  => 'http://variety.com/2015/digital/news/british-miniseries-new-worlds-starring-jamie-dornan-coming-to-acorn-tv-svod-service-1201410610/',
 				),
 			);
-			add_option( 'acorntv_latest_news', $news_options );
+			update_option( 'acorntv_latest_news', $news_options );
 		}
 
-		if ( empty( get_option( 'acorntv_news_options' ) ) ) {
+		$this->acorntv_news_options = get_option( 'acorntv_news_options' );
+		if ( empty( $this->acorntv_news_options ) ) {
 			// Set default values to NewsOptions
 			$news_options = array(
 				array(
 					'title' => 'Variety',
-					'image' => 'http://atv3.us/wp-content/uploads/variety.png',
+					'image' => plugins_url( 'img/variety.png', __FILE__ ),
 				),
 				array(
 					'title' => 'Wall Street Journal',
-					'image' => 'http://atv3.us/wp-content/uploads/wsj_v4.png',
+					'image' => plugins_url( 'img/wsj_v4.png', __FILE__ ),
 				),
 				array(
 					'title' => 'NY Daily News',
-					'image' => 'http://atv3.us/wp-content/uploads/dailynews_v1.png',
+					'image' => plugins_url( 'img/dailynews_v1.png', __FILE__ ),
 				),
 			);
-			add_option( 'acorntv_news_options', $news_options );
+			update_option( 'acorntv_news_options', $news_options );
 		}
 	}
 
@@ -202,7 +209,8 @@ class RLJE_News_And_Reviews {
 			'reviewsLogoSettings'
 		);
 
-		$news_opts = get_option( $this->prefix . 'news_options' );
+		// $news_opts = get_option( $this->prefix . 'news_options' );
+		$news_opts = $this->acorntv_news_options;
 
 		if ( is_array( $news_opts ) ) {
 			foreach ( $news_opts as $key => $opt ) {
@@ -220,24 +228,25 @@ class RLJE_News_And_Reviews {
 
 	/**
 	 * Marketing placeholder field template.
+	 *
 	 * @param Array $keyParam Array parameters with a key to identify each field.
 	 */
 	public function acorntv_marketing_placeholder_field( $key_param ) {
-		$key = absint( $key_param[0] );
-		$opt_name = $this->prefix . 'marketing_placeholder';
-		$opt_value = get_option( $opt_name );
-		$value = ( ! empty( $opt_value[ $key ]['src'] ) ) ? esc_attr( $opt_value[ $key ]['src'] ) : '';
-		$franchise_id = ( ! empty( $opt_value[ $key ]['franchiseId'] ) ) ? esc_attr( $opt_value[ $key ]['franchiseId'] ) : '';
+		$key           = absint( $key_param[0] );
+		$opt_name      = $this->prefix . 'marketing_placeholder';
+		$opt_value     = $this->$opt_name; //get_option( $opt_name );
+		$value         = ( ! empty( $opt_value[ $key ]['src'] ) ) ? esc_attr( $opt_value[ $key ]['src'] ) : '';
+		$franchise_id  = ( ! empty( $opt_value[ $key ]['franchiseId'] ) ) ? esc_attr( $opt_value[ $key ]['franchiseId'] ) : '';
 		$external_link = ( ! empty( $opt_value[ $key ]['externalLink'] ) ) ? esc_attr( $opt_value[ $key ]['externalLink'] ) : '';
 
-		$display_none = 'style="display:none"';
-		$default_image_src_size = 70;
-		$default_ext_image_src_size = 45;
-		$default_video_src_size = 20;
-		$src_size = $default_image_src_size;
+		$display_none                  = 'style="display:none"';
+		$default_image_src_size        = 70;
+		$default_ext_image_src_size    = 45;
+		$default_video_src_size        = 20;
+		$src_size                      = $default_image_src_size;
 		$default_image_src_placeholder = 'http://[image-url]';
 		$default_video_src_placeholder = 'ID Number';
-		$src_placeholder = $default_image_src_placeholder;
+		$src_placeholder               = $default_image_src_placeholder;
 		if ( ! empty( $opt_value[ $key ]['type'] ) ) {
 			$type = $opt_value[ $key ]['type'];
 			switch ( $type ) {
@@ -270,16 +279,17 @@ class RLJE_News_And_Reviews {
 
 	/**
 	 * Latest News field template.
+	 *
 	 * @param Array $keyParam Array parameters with a key to identify each field.
 	 */
 	public function acorntv_latest_news_fields( $key_param ) {
-		$key = absint( $key_param[0] );
-		$opt_name = $this->prefix . 'latest_news';
-		$opt_value = get_option( $opt_name );
+		$key          = absint( $key_param[0] );
+		$opt_name     = $this->prefix . 'latest_news';
+		$opt_value    = get_option( $opt_name );
 		$news_options = get_option( $this->prefix . 'news_options' );
-		$value_title = ( ! empty( $opt_value[ $key ]['title'] ) ) ? esc_attr( $opt_value[ $key ]['title'] ) : '';
-		$value_image = ( ! empty( $opt_value[ $key ]['image'] ) ) ? esc_attr( $opt_value[ $key ]['image'] ) : '';
-		$value_link = ( ! empty( $opt_value[ $key ]['link'] ) ) ? esc_attr( $opt_value[ $key ]['link'] ) : '';
+		$value_title  = ( ! empty( $opt_value[ $key ]['title'] ) ) ? esc_attr( $opt_value[ $key ]['title'] ) : '';
+		$value_image  = ( ! empty( $opt_value[ $key ]['image'] ) ) ? esc_attr( $opt_value[ $key ]['image'] ) : '';
+		$value_link   = ( ! empty( $opt_value[ $key ]['link'] ) ) ? esc_attr( $opt_value[ $key ]['link'] ) : '';
 		?>
 		<table class="latest_news_table">
 			<tbody>
@@ -292,7 +302,7 @@ class RLJE_News_And_Reviews {
 							if ( is_array( $news_options ) && count( $news_options ) > 0 ) :
 								foreach ( $news_options as $news_option ) :
 									?>
-							<option value="<?php echo esc_attr( $news_option['image'] ); ?>" <?php echo ( $value_image === $news_option['image'] ) ? 'selected="selected"' : '' ; ?>><?php echo esc_html( $news_option['title'] ); ?></option>
+							<option value="<?php echo esc_attr( $news_option['image'] ); ?>" <?php echo ( $value_image === $news_option['image'] ) ? 'selected="selected"' : ''; ?>><?php echo esc_html( $news_option['title'] ); ?></option>
 									<?php
 								endforeach;
 							endif;
@@ -317,21 +327,23 @@ class RLJE_News_And_Reviews {
 
 	/**
 	 * News options template.
+	 *
 	 * @param Array $keyParam Array parameters with a key to identify each field.
 	 */
 	public function acorntv_news_option_fields( $key_param ) {
-		$key = absint( $key_param[0] );
-		$opt_name = $this->prefix . 'news_options';
+		$key       = absint( $key_param[0] );
+		$opt_name  = $this->prefix . 'news_options';
 		$opt_value = get_option( $opt_name );
-		$title = ( ! empty( $opt_value[ $key ]['title'] ) ) ? esc_attr( $opt_value[ $key ]['title'] ) : '';
-		$image = ( ! empty( $opt_value[ $key ]['image'] ) ) ? esc_attr( $opt_value[ $key ]['image'] ) : '';
+		$title     = ( ! empty( $opt_value[ $key ]['title'] ) ) ? esc_attr( $opt_value[ $key ]['title'] ) : '';
+		$image     = ( ! empty( $opt_value[ $key ]['image'] ) ) ? esc_attr( $opt_value[ $key ]['image'] ) : '';
 		?>
 		<input class="rwsOptionTitle" name="acorntv_news_options[<?php echo esc_attr( $key ); ?>][title]" type="text" size="20" placeholder="Title..." value="<?php echo esc_attr( $title ); ?>" />
 		<input class="rwsOptionSrc uploadImage" name="acorntv_news_options[<?php echo esc_attr( $key ); ?>][image]" type="text" size="70" placeholder="http://..." value="<?php echo esc_attr( $image ); ?>" />
 		<button class="uploadBtn">Upload Image</button>
 		<?php if ( $key > 0 ) : ?>
 		<button class="removeReviewOption">Remove</button>
-		<?php endif;
+			<?php
+		endif;
 	}
 
 	/**
@@ -403,6 +415,45 @@ class RLJE_News_And_Reviews {
 			</p>
 		</div>
 		<?php
+	}
+
+	public function display_news_and_reviews() {
+		if ( rljeApiWP_getCountryCode() ) {
+			return;
+		}
+		?>
+		<section class="home-middle hidden-xs hidden-sm">
+			<div class="container">
+				<div class="row">
+					<h4 class="subnav" style="padding-bottom:10px;margin-bottom:0px;">News &amp; Reviews</h4>
+					<!-- MARKETING PLACEHOLDER -->
+					<?php //get_template_part( 'partials/homepage-section-marketing-placeholder' ); ?>
+					<?php $this->display_carousel(); ?>
+
+					<!-- LATEST NEWS -->
+					<?php //get_template_part( 'partials/homepage-section-lastnews' ); ?>
+					<?php $this->display_reviews(); ?>
+				</div>
+			</div>
+		</section>
+		<?php
+	}
+
+	public function display_carousel() {
+		$marketingPlaces = get_option( 'acorntv_marketing_placeholder' );
+		ob_start();
+		require_once plugin_dir_path( __FILE__ ) . 'templates/carousel.php';
+		$html = ob_get_clean();
+		echo $html;
+	}
+
+	public function display_reviews() {
+		$reviews = get_option( 'acorntv_latest_news' );
+		$reviewsSources = get_option( 'acorntv_news_options' );
+		ob_start();
+		require_once plugin_dir_path( __FILE__ ) . 'templates/reviews.php';
+		$html = ob_get_clean();
+		echo $html;
 	}
 }
 

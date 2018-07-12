@@ -50,7 +50,7 @@ if ( $haveFranchisesAvailable ) :
 		</div>
 	</section>
 
-	<?php if ( ! rljeApiWP_getCountryCode() ) : ?>
+	<?php /*if ( ! rljeApiWP_getCountryCode() ) : ?>
 	<section class="home-middle hidden-xs hidden-sm">
 		<div class="container">
 			<div class="row">
@@ -67,7 +67,9 @@ if ( $haveFranchisesAvailable ) :
 			</div>
 		</div>
 	</section>
-	<?php endif; ?>
+	<?php endif;*/ ?>
+
+	<?php do_action( 'rlje_homepage_mid_section_content' ); ?>
 
 	<section class="home-spotlights">
 		<div class="container">
