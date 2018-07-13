@@ -12,7 +12,9 @@ class RLJE_Signin_Page {
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'signin-index', plugins_url( 'css/style.css', __FILE__ ));
+		if(in_array(get_query_var( 'pagename' ), ['signin', 'forgotpassword'])) {
+			wp_enqueue_style( 'signin-index', plugins_url( 'css/style.css', __FILE__ ));
+		}
 	}
 
 	public function add_browse_rewrite_rules() {
