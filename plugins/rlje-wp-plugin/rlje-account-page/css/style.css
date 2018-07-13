@@ -1,0 +1,21 @@
+body {
+    padding-top: 80px;
+}
+#account-settings {
+    padding: 40px 0;
+    background-color: white;
+    color: #404040;
+}
+
+#account-settings h1,
+#account-settings h2,
+#account-settings h3,
+#account-settings h4,
+#account-settings h5,
+#account-settings h6 {
+    color: #404040;
+}
+
+#account-settings nav {
+    color: #222;
+}
