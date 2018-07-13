@@ -3,7 +3,7 @@
 define("API_ENDPOINT", "https://api.rlje.net/umc/");
 define("API_KEY", "LCmkd93u2kcLCkdmacmmc8dkDe");
 define("API_APP_VERSION", "UMCTV.Version.2.0");
-define("TIME_REFRESH_CACHE", 900); //seconds
+define("TIME_REFRESH_CACHE", 90000); //seconds
 
 function cacheUserProfile($user_profile) {
     $session_id = $user_profile['Session']['SessionID'];
