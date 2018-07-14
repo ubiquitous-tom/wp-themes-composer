@@ -41,7 +41,7 @@ else :
 			$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise' );
 			$franchise_url            = $base_url_path . '/' . $franchise->id;
 
-			if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) {
+			if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) {
 				$franchise_art_link  = $franchise_url . '/trailer';
 				$franchise_art_title = 'Click to view trailer';
 			}
@@ -89,7 +89,7 @@ else :
 						}
 					}
 				}
-			} elseif ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) {
+			} elseif ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) {
 				$franchise_art_link  = $franchise_url . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name );
 				$franchise_art_title = 'Click to watch the first episode';
 			}
@@ -139,13 +139,13 @@ else :
 						<?php
 						endif;
 					?>
-					<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) : ?>
+					<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
 					<span itemprop="trailer" itemscope itemtype="http://schema.org/VideoObject">
 						<meta itemprop="thumbnailUrl" content="https://api.rlje.net/acorn/artwork/size/<?php echo $franchise->image; ?>?w=750" />
 						<meta itemprop="description" content="<?php echo $franchise->longDescription; ?>" />
 						<meta itemprop="name" content="<?php echo $franchise->name; ?>" />
 						<meta itemprop="uploadDate" content="<?php echo ( isset( $franchise->episodes[0]->startDate ) && $franchise->episodes[0]->startDate != '' ) ? date( 'Y-m-d', $franchise->episodes[0]->startDate ) : ''; ?>" />
-						<a class="inline" href="<?php echo $franchise_url . '/trailer'; ?>">
+						<a class="inline" href="<?php echo $franchise_url . '/trailer/'; ?>">
 							<button>View Trailer</button>
 						</a>
 					</span>

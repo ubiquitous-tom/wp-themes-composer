@@ -15,12 +15,12 @@ class RLJE_Browse_Page {
 	}
 
 	public function add_browse_rewrite_rules() {
-		add_rewrite_rule( '^browse([^/]+)/?', 'index.php?pagename=browse', 'top' );
+		add_rewrite_rule( 'browse([^/]+)/?', 'index.php?pagename=browse', 'top' );
 		// add_rewrite_rule( '^browse/([^/]+)/?', 'index.php?pagename=browse&browse_type=$matches[1]', 'top' );
 		// add_rewrite_tag( '%browse_type%', '([^&]+)' );
 
 		// We are using `section` query_var set in function.php for now.
-		add_rewrite_rule( '^browse/([^/]+)/?', 'index.php?pagename=browse&section=$matches[1]', 'top' );
+		add_rewrite_rule( 'browse/([^/]+)/?', 'index.php?pagename=browse&section=$matches[1]', 'top' );
 		// add_rewrite_tag( '%section%', '([^&]+)' ); // What we want to use in the future.
 	}
 

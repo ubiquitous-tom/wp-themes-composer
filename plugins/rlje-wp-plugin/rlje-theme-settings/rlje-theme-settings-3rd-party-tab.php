@@ -13,7 +13,7 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 
 	public function enqueue_scripts( $hook ) {
 		if ( 'toplevel_page_rlje-theme-settings' === $hook ) {
-			wp_enqueue_script( 'rlje-theme-setting', plugins_url( 'js/script.js', __FILE__ ) );
+			wp_enqueue_script( 'rlje-theme-setting', plugins_url( 'settings/3rd-party-tab/js/script.js', __FILE__ ) );
 		}
 	}
 

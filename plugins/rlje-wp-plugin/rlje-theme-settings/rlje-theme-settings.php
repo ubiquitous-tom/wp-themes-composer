@@ -2,8 +2,9 @@
 
 class RLJE_Theme_Settings {
 
-	protected $theme_settings                       = array();
-	protected $theme_plugins_settings               = array();
+	protected $theme_settings         = array();
+	protected $theme_plugins_settings = array();
+	protected $rlje_redis_table;
 
 	public function __construct() {
 		$this->theme_settings_include_files();
@@ -12,6 +13,46 @@ class RLJE_Theme_Settings {
 
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
+
+		// CORE THEME PAGES.
+		require_once 'header/rlje-header.php';
+		require_once 'footer/rlje-footer.php';
+		require_once 'widgets/rlje-widget.php';
+		require_once 'navigations/rlje-theme-menu-settings.php';
+		require_once 'search/rlje-theme-search-settings.php';
+		require_once 'schedule/rlje-schedule-page.php';
+		require_once 'franchise/rlje-franchise-page.php';
+
+		// CORE THEME PLUGINS.
+		require_once 'plugins/country/rlje-country-plugin.php';
+		require_once 'plugins/futuredate/rlje-futuredate-plugin.php';
+		require_once 'plugins/videodebugger/rlje-videodebugger-plugin.php';
+
+		// CORE THEME SETTINGS PAGES.
+		require_once 'rlje-theme-settings-3rd-party-tab.php';
+		require_once 'rlje-theme-environment-settings.php';
+		require_once 'rlje-theme-brightcove-settings.php';
+		require_once 'rlje-theme-redis-settings.php';
+
+	}
+
+	public function display_options() {
+		$this->rlje_redis_table = new RLJE_Redis_Table();
+
+		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
+		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
+
+		// Here we display the sections and options in the settings page based on the active tab.
+		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
+		if ( empty( $tab ) || ( 'main-options' === $tab ) ) {
+			add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
+			add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+
+			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
+			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+			add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+			add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+		}
 	}
 
 	public function add_theme_settings_menu() {
@@ -31,12 +72,7 @@ class RLJE_Theme_Settings {
 		?>
 		<div class="wrap">
 			<div id="icon-options-general" class="icon32"></div>
-
-			<!-- run the settings_errors() function here. -->
-			<?php // settings_errors(); ?>
-
 			<h1>RLJE Theme Options</h1>
-
 			<?php
 			// We check if the page is visited by click on the tabs or on the menu button.
 			// Then we get the active tab.
@@ -68,6 +104,7 @@ class RLJE_Theme_Settings {
 				?>
 				">3rd Party Options</a>
 			</h2>
+			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
@@ -82,23 +119,6 @@ class RLJE_Theme_Settings {
 			</form>
 		</div>
 		<?php
-	}
-
-	public function display_options() {
-		register_setting( 'rlje_theme_section', 'rlje_theme_settings' );
-		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
-
-		// Here we display the sections and options in the settings page based on the active tab.
-		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
-		if ( empty( $tab ) || ( 'main-options' === $tab ) ) {
-			add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
-			add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
-
-			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
-			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
-			add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
-			add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
-		}
 	}
 
 	public function display_rlje_theme_options_content() {
@@ -257,19 +277,24 @@ class RLJE_Theme_Settings {
 		}
 	}
 
+	public function sanitize_callback( $data ) {
+		$rlje_theme_settings = get_option( 'rlje_theme_settings' );
+		$current_theme       = ( ! empty( $rlje_theme_settings['current_theme'] ) ) ? $rlje_theme_settings['current_theme'] : '';
+		if ( $current_theme !== $data['current_theme'] ) {
+			$clear_caches = array();
+			$caches       = $this->rlje_redis_table->get_redis_caches();
+			foreach ( $caches as $cache_key => $cache_value ) {
+				$clear_caches[] = $cache_key;
+			}
+
+			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+		}
+
+		add_settings_error( 'rlje-theme-settings', 'settings_updated', 'Successfully updated', 'updated' );
+
+		return $data;
+	}
+
 }
 
 $rlje_theme_settings = new RLJE_Theme_Settings();
-
-// CORE THEME PAGES.
-require_once 'header/rlje-header.php';
-require_once 'footer/rlje-footer.php';
-require_once 'widgets/rlje-widget.php';
-require_once 'navigations/rlje-theme-menu-settings.php';
-require_once 'search/rlje-theme-search-settings.php';
-require_once 'franchise/rlje-franchise-page.php';
-
-// CORE THEME SETTINGS PAGES.
-require_once 'rlje-theme-settings-3rd-party-tab.php';
-require_once 'rlje-theme-environment-settings.php';
-require_once 'rlje-theme-brightcove-settings.php';

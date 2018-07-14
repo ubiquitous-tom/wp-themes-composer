@@ -30,7 +30,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 		</h4>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-lg-4">
-				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) : ?>
+				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
 				<a href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer'; ?>">
 					<img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
 				</a>
@@ -40,8 +40,8 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			</div>
 			<div class="col-xs-12 col-sm-6 col-lg-8">
 				<p id="franchise-description"><?php echo $franchise->longDescription; ?></p>
-				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) : ?>
-				<a id="inline" href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer'; ?>">
+				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
+				<a id="inline" href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer/'; ?>">
 					<button>View Trailer</button>
 				</a>
 					<?php

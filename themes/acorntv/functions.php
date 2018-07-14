@@ -128,13 +128,13 @@ function acorntv_rewrites_urls() {
 	add_rewrite_rule( 'schedule$', 'index.php?pagecustom=schedule&section=featured', 'top' );
 	add_rewrite_rule( 'schedule/comingsoon$', 'index.php?pagecustom=schedule&section=comingsoon', 'top' );
 	add_rewrite_rule( 'schedule/leavingsoon$', 'index.php?pagecustom=schedule&section=leavingsoon', 'top' );
-	add_rewrite_rule( 'futuredate(\/today)*$', 'index.php?pagecustom=futuredate&section=today', 'top' );
-	add_rewrite_rule( 'futuredate/([\d]{8})$', 'index.php?pagecustom=futuredate&section=$matches[1]', 'top' );
-	add_rewrite_rule( 'country(\/clear)*$', 'index.php?pagecustom=countryfilter&section=clear', 'top' );
-	add_rewrite_rule( 'country/([\w]{2})$', 'index.php?pagecustom=countryfilter&section=$matches[1]', 'top' );
-	add_rewrite_rule( 'videodebugger/on$', 'index.php?pagecustom=videodebugger&section=on', 'top' );
-	add_rewrite_rule( 'videodebugger/off$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
-	add_rewrite_rule( 'videodebugger$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
+	// add_rewrite_rule( 'futuredate(\/today)*$', 'index.php?pagecustom=futuredate&section=today', 'top' );
+	// add_rewrite_rule( 'futuredate/([\d]{8})$', 'index.php?pagecustom=futuredate&section=$matches[1]', 'top' );
+	// add_rewrite_rule( 'country(\/clear)*$', 'index.php?pagecustom=countryfilter&section=clear', 'top' );
+	// add_rewrite_rule( 'country/([\w]{2})$', 'index.php?pagecustom=countryfilter&section=$matches[1]', 'top' );
+	// add_rewrite_rule( 'videodebugger/on$', 'index.php?pagecustom=videodebugger&section=on', 'top' );
+	// add_rewrite_rule( 'videodebugger/off$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
+	// add_rewrite_rule( 'videodebugger$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
 	add_rewrite_rule( 'streamposition$', 'index.php?pagecustom=streamposition', 'top' );
 	// add_rewrite_rule( 'search/(.+)', 'index.php?pagecustom=search&search_text=$matches[1]', 'top' );
 	add_rewrite_rule( 'contactus$', 'index.php?pagecustom=contact', 'top' );
@@ -202,13 +202,13 @@ function acorntv_check_rewrite_rules( $wp_rewrite ) {
 		'schedule$' => 'index.php?pagecustom=schedule&section=featured',
 		'schedule/comingsoon$' => 'index.php?pagecustom=schedule&section=comingsoon',
 		'schedule/leavingsoon$' => 'index.php?pagecustom=schedule&section=leavingsoon',
-		'futuredate(\/today)*$' => 'index.php?pagecustom=futuredate&section=today',
-		'futuredate/([\d]{8})$' => 'index.php?pagecustom=futuredate&section=$matches[1]',
-		'country(\/clear)*$' => 'index.php?pagecustom=countryfilter&section=clear',
-		'videodebugger/on$' => 'index.php?pagecustom=videodebugger&section=on',
-		'videodebugger/off$' => 'index.php?pagecustom=videodebugger&section=off',
-		'videodebugger$' => 'index.php?pagecustom=videodebugger&section=off',
-		'country/([\w]{2})$' => 'index.php?pagecustom=countryfilter&section=$matches[1]',
+		// 'futuredate(\/today)*$' => 'index.php?pagecustom=futuredate&section=today',
+		// 'futuredate/([\d]{8})$' => 'index.php?pagecustom=futuredate&section=$matches[1]',
+		// 'country(\/clear)*$' => 'index.php?pagecustom=countryfilter&section=clear',
+		// 'videodebugger/on$' => 'index.php?pagecustom=videodebugger&section=on',
+		// 'videodebugger/off$' => 'index.php?pagecustom=videodebugger&section=off',
+		// 'videodebugger$' => 'index.php?pagecustom=videodebugger&section=off',
+		// 'country/([\w]{2})$' => 'index.php?pagecustom=countryfilter&section=$matches[1]',
 		'streamposition$' => 'index.php?pagecustom=streamposition',
 		// 'search/(.+)' => 'index.php?pagecustom=search&search_text=$matches[1]',
 		'contactus$' => 'index.php?pagecustom=contact',

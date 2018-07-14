@@ -17,24 +17,24 @@ $isShowingArrows = true;
 if(isset($carouselItems) && count($carouselItems) > 0) :
 ?>
 <h4 <?= ($browseId === 'mystery') ? 'id="third-spotlight"' : ''; ?> class="subnav2"><?php echo $sectionTitle;?></h4>
-<?php 
+<?php
     if($is_showingViewAll):
 ?>
 <div class="view-all hidden-xs">
     <a href="<?= $baseUrlPath.'/browse/'.$browseId; ?>"> View all <span><img width="8" src="https://api.rlje.net/acorn/artwork/size/double-arrows-white?t=Icons"/></span></a>
 </div>
-<?php 
+<?php
     endif;
 ?>
 <div class="carousel carousel-pagination-slide slide" id="<?php echo $browseId; ?>" data-interval="false" data-total-pages="<?php echo $totalPage; ?>" data-page-loaded="1" data-content="<?php echo $contentPageId; ?>">
     <div class="row">
       <div class="carousel-inner">
-            <?php 
+            <?php
             if(count($carouselItems) > 4) :
                 foreach ($carouselItems as $key=>$item) :
             ?>
             <div class="item<?php echo (0 === $key) ? ' active' : '';?>" data-item="<?php echo $key; ?>">
-                <?php 
+                <?php
                     for($i=0,$j=0; $i<4; $i++):
                       if(0<$i) {
                         if(isset($carouselItems[$key+1])) {
@@ -86,8 +86,8 @@ if(isset($carouselItems) && count($carouselItems) > 0) :
     </div>
     <?php if($isShowingArrows): ?>
     <a class="left carousel-control" href="#<?php echo $browseId; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-    <a class="right carousel-control" href="#<?php echo $browseId; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a> 
+    <a class="right carousel-control" href="#<?php echo $browseId; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
     <?php endif;?>
 </div>
-<?php 
+<?php
 endif;

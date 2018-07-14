@@ -3,6 +3,7 @@
 class RLJE_Theme_Environment_Settings {
 
 	protected $theme_environment_settings = array();
+	protected $rlje_redis_table;
 
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'display_options' ) );
@@ -10,7 +11,9 @@ class RLJE_Theme_Environment_Settings {
 	}
 
 	public function display_options() {
-		register_setting( 'rlje_theme_environment_section', 'rlje_theme_environment_settings' );
+		$this->rlje_redis_table = new RLJE_Redis_Table();
+
+		register_setting( 'rlje_theme_environment_section', 'rlje_theme_environment_settings', array( $this, 'sanitize_callback' ) );
 
 		// Section name, display name, callback to print description of section, page to which section is attached.
 		add_settings_section( 'rlje_theme_environment_section', 'Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
@@ -38,6 +41,7 @@ class RLJE_Theme_Environment_Settings {
 		<div class="wrap">
 			<div id="icon-options-general" class="icon32"></div>
 			<h1>Environment Options</h1>
+			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
@@ -85,6 +89,25 @@ class RLJE_Theme_Environment_Settings {
 		<input type="url" name="rlje_theme_environment_settings[content_base_url]" id="content-base-url" class="regular-text" value="<?php echo esc_url( $content_base_url ); ?>" placeholder="RLJE base content URL" pattern="^(?:(?:https?|HTTPS?|ftp|FTP):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)*)(?::\d{2,})?(?:[\/?#]\S*)?$" required>
 		<p class="description">URL for the site content from RLJE API (https://dev-api.rlje.net/cms/acorn) - no trailing slash</p>
 		<?php
+	}
+
+	public function sanitize_callback( $data ) {
+		$rlje_theme_environment_settings = get_option( 'rlje_theme_environment_settings' );
+		$rlje_base_url                   = ( ! empty( $rlje_theme_environment_settings['rlje_base_url'] ) ) ? $rlje_theme_environment_settings['rlje_base_url'] : '';
+		$content_base_url                = ( ! empty( $rlje_theme_environment_settings['content_base_url'] ) ) ? $rlje_theme_environment_settings['content_base_url'] : '';
+		if ( $rlje_base_url !== $data['rlje_base_url'] || $content_base_url !== $data['content_base_url'] ) {
+			$clear_caches = array();
+			$caches       = $this->rlje_redis_table->get_redis_caches();
+			foreach ( $caches as $cache_key => $cache_value ) {
+				$clear_caches[] = $cache_key;
+			}
+
+			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+		}
+
+		add_settings_error( 'rlje-theme-environment-settings', 'settings_updated', 'Successfully updated', 'updated' );
+
+		return $data;
 	}
 
 }

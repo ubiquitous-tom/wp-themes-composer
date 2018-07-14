@@ -34,11 +34,8 @@ class RLJE_Hero extends RLJE_Front_page {
 		$country_code = $current_country['code'];
 		?>
 		<p class="description">This button will clear the carousel cache for the homepage of <strong><?php echo esc_html( $country_name ); ?></strong></p>
-		<p class="submit">
-			<input type="hidden" name="rlje_front_page_homepage[hero_clear_cache]" value="<?php echo esc_attr( $country_code ); ?>">
-			<input type="submit" name="submit" id="submit" class="button button-link-delete" value="Delete Hero Cache">
-		</p>
 		<?php
+		submit_button( 'Delete Hero Cache', 'delete' );
 	}
 
 	public function display_hero_carousel() {
@@ -80,7 +77,7 @@ class RLJE_Hero extends RLJE_Front_page {
 	}
 
 	public function delete_hero_cache( $data ) {
-		if ( ! empty( $data['hero_clear_cache'] ) ) {
+		if ( ! empty( $_POST['submit'] ) && ( 'Delete Hero Cache' === $_POST['submit'] ) ) {
 			$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
 			$hero          = get_transient( $transient_key );
 			if ( false !== $hero ) {

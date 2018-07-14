@@ -215,7 +215,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<?php endif; ?>
 			<?php
 		else :
-			if ( isset( $franchise->episodes[0]->id ) && is_numeric( $franchise->episodes[0]->id ) ) :
+			if ( isset( $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) :
 				$trailerId = $franchise->episodes[0]->id;
 				?>
 			<span itemprop="trailer" itemscope itemtype="http://schema.org/VideoObject">
