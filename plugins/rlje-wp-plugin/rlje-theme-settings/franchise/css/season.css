@@ -1,0 +1,4 @@
+.subnav-next a {
+	visibility: hidden;
+	pointer-events: none;
+}

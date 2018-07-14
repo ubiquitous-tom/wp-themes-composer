@@ -125,9 +125,9 @@ function acorntv_rewrites_urls() {
 	// add_rewrite_rule( '^ajax_atv$', 'index.php?pagecustom=ajax', 'top' );
 	// add_rewrite_rule( 'browse$', 'index.php?pagecustom=browse', 'top' );
 	// add_rewrite_rule( 'browse/(.+)$', 'index.php?pagecustom=browse&section=$matches[1]', 'top' );
-	add_rewrite_rule( 'schedule$', 'index.php?pagecustom=schedule&section=featured', 'top' );
-	add_rewrite_rule( 'schedule/comingsoon$', 'index.php?pagecustom=schedule&section=comingsoon', 'top' );
-	add_rewrite_rule( 'schedule/leavingsoon$', 'index.php?pagecustom=schedule&section=leavingsoon', 'top' );
+	// add_rewrite_rule( 'schedule$', 'index.php?pagecustom=schedule&section=featured', 'top' );
+	// add_rewrite_rule( 'schedule/comingsoon$', 'index.php?pagecustom=schedule&section=comingsoon', 'top' );
+	// add_rewrite_rule( 'schedule/leavingsoon$', 'index.php?pagecustom=schedule&section=leavingsoon', 'top' );
 	// add_rewrite_rule( 'futuredate(\/today)*$', 'index.php?pagecustom=futuredate&section=today', 'top' );
 	// add_rewrite_rule( 'futuredate/([\d]{8})$', 'index.php?pagecustom=futuredate&section=$matches[1]', 'top' );
 	// add_rewrite_rule( 'country(\/clear)*$', 'index.php?pagecustom=countryfilter&section=clear', 'top' );
@@ -199,9 +199,9 @@ function acorntv_check_rewrite_rules( $wp_rewrite ) {
 		// '^ajax_atv$' => 'index.php?pagecustom=ajax',
 		// 'browse$' => 'index.php?pagecustom=browse',
 		// 'browse/(.+)$' => 'index.php?pagecustom=browse&section=$matches[1]',
-		'schedule$' => 'index.php?pagecustom=schedule&section=featured',
-		'schedule/comingsoon$' => 'index.php?pagecustom=schedule&section=comingsoon',
-		'schedule/leavingsoon$' => 'index.php?pagecustom=schedule&section=leavingsoon',
+		// 'schedule$' => 'index.php?pagecustom=schedule&section=featured',
+		// 'schedule/comingsoon$' => 'index.php?pagecustom=schedule&section=comingsoon',
+		// 'schedule/leavingsoon$' => 'index.php?pagecustom=schedule&section=leavingsoon',
 		// 'futuredate(\/today)*$' => 'index.php?pagecustom=futuredate&section=today',
 		// 'futuredate/([\d]{8})$' => 'index.php?pagecustom=futuredate&section=$matches[1]',
 		// 'country(\/clear)*$' => 'index.php?pagecustom=countryfilter&section=clear',

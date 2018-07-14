@@ -6,6 +6,7 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 
 	public function __construct() {
 		add_action( 'wp', array( $this, 'get_pagename' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'season_template_redirect' ), 15 );
 
 		add_filter( 'body_class', array( $this, 'season_body_class' ) );
@@ -19,6 +20,15 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
 		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
 		$this->get_current_franchise_season();
+	}
+
+	public function enqueue_scripts() {
+		if ( ! $this->is_season() ) {
+			return;
+		}
+
+		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/season.css' ) );
+		wp_enqueue_style( 'rlje-season', plugins_url( 'css/season.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 	}
 
 	public function season_template_redirect() {
