@@ -89,18 +89,18 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<meta itemprop="duration" content="<?php echo 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S'; ?>" />
 				<video
 					id="brightcove-episode-player"
-					data-account="3392051362001"
-					data-player="e148573c-29cd-4ede-a267-a3947918ea4a"
+					data-account="<?php echo esc_attr( $bc_account_id ); ?>"
+					data-player="<?php echo esc_attr( $bc_player_id ); ?>"
 					data-embed="default"
 					data-video-id="ref:<?php echo $episode->id; ?>"
 					poster="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"
 					class="video-js embed-responsive embed-responsive-16by9"
-					controls=></video>
+					controls></video>
 				<!-- <script src="//players.brightcove.net/3047407010001/NJxe2G4ox_default/index.js"></script> -->
 				<!-- <script src="http://players.brightcove.net/3392051363001/0066661d-8f08-4e7b-a5b4-8d48755a3057_default/index.js"></script> -->
 				<?php if ( $is_video_debugger_on ) : ?>
-				<link href="https://solutions.brightcove.com/marguin/debugger/css/brightcove-player-debugger.css" rel="stylesheet">
-				<script src="https://solutions.brightcove.com/marguin/debugger/js/brightcove-player-debugger.min.js"></script>
+				<!-- <link href="https://solutions.brightcove.com/marguin/debugger/css/brightcove-player-debugger.css" rel="stylesheet">
+				<script src="https://solutions.brightcove.com/marguin/debugger/js/brightcove-player-debugger.min.js"></script> -->
 				<?php endif; ?>
 				<script>
 					document.addEventListener("DOMContentLoaded", function() {
@@ -156,8 +156,8 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 								}
 							});
 							<?php if ( $is_video_debugger_on ) : ?>
-							var options = {"debugAds":false, "logClasses":true, "showProgress":true, "useLineNums":true, "verbose":true};
-							player.playerDebugger(options);
+							// var options = {"debugAds":false, "logClasses":true, "showProgress":true, "useLineNums":true, "verbose":true};
+							// player.playerDebugger(options);
 							<?php endif; ?>
 						});
 					});
@@ -223,7 +223,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
 				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
 				<meta itemprop="uploadDate" content="<?php echo ( isset( $episode->startDate ) && $episode->startDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
-				<div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/3392051363001/2f9624d6-0dd2-46ff-9843-dadffb653bc3_default/index.html?videoId=<?php echo $trailerId; ?>'
+				<div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/<?php echo esc_attr( $bc_account_id ); ?>/<?php echo esc_attr( $bc_player_id ); ?>_default/index.html?videoId=<?php echo $trailerId; ?>'
 					allowfullscreen
 					webkitallowfullscreen
 					mozallowfullscreen></iframe>">

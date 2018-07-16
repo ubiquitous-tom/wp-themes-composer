@@ -54,6 +54,8 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 
 	public function season_body_class( $classes ) {
 		if ( $this->seasons ) {
+			$classes[] = 'season';
+			$classes[] = 'season-page';
 			$classes[] = $this->season_id;
 			$classes[] = 'page-' . $this->season_id;
 		}

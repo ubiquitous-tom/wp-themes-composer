@@ -20,6 +20,16 @@ body {
     opacity: .45;
 }
 
+.season .subnav-next,
+.trailer .subnav-next {
+    visibility: hidden;
+    pointer-events: none;
+}
+.season.episode .subnav-next {
+    visibility: initial;
+    pointer-events: initial;
+}
+
 .footer {
     padding-left: 10px;
     padding-right: 10px;

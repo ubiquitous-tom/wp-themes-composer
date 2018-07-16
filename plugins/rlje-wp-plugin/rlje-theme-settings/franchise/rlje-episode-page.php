@@ -7,19 +7,15 @@ class RLJE_Episode_Page {
 	protected $nonce = 'atv#episodePlayer@token_nonce';
 
 	public function __construct() {
-		// add_action( 'init', array( $this, 'add_stream_position_rewrite_rules' ) );
 		add_action( 'wp', array( $this, 'get_pagename' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_debugger_scripts' ) );
 		add_action( 'wp_ajax_is_user_active', array( $this, 'ajax_is_user_active' ) );
 		add_action( 'wp_ajax_streamposition', array( $this, 'ajax_set_stream_position' ) );
 		add_action( 'template_redirect', array( $this, 'episode_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'episode_body_class' ) );
 	}
-
-	// public function add_stream_position_rewrite_rules() {
-	// 	add_rewrite_rule( 'streamposition/?', 'index.php?pagename=streamposition', 'top' );
-	// }
 
 	public function get_pagename() {
 		global $wp_query;
@@ -36,19 +32,10 @@ class RLJE_Episode_Page {
 			return;
 		}
 
-		$this->brightcove = get_option( 'rlje_theme_brightcove_restricted_settings' );
-		if ( empty( $this->brightcove ) ) {
-			return;
-		}
-		// UMC FREE ACCOUNT
-		// $bc_account_id = '3392051363001';
-		// $bc_player_id = '0066661d-8f08-4e7b-a5b4-8d48755a3057';
-		// UMC PAYWALL ACCOUNT
-		// $bc_account_id = '3392051362001';
-		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
+		$brightcove = $this->get_brightcove_player_settings();
+		$bc_account_id = $brightcove['bc_account_id'];
+		$bc_player_id = $brightcove['bc_player_id'];
 
-		$bc_account_id = $this->brightcove['restricted_account_id'];
-		$bc_player_id = $this->brightcove['restricted_player_id'];
 		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/episode.js' ) );
 
@@ -60,6 +47,35 @@ class RLJE_Episode_Page {
 			// 'ajax_url' => home_url( 'ajax_atv' ),
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'token' => wp_create_nonce( $this->nonce )
+		));
+	}
+
+	public function enqueue_debugger_scripts() {
+		if ( ! $this->is_episode() ) {
+			return;
+		}
+
+		$is_video_debugger_on = rljeApiWP_isVideoDebuggerOn();
+		if ( ! $is_video_debugger_on ) {
+			return;
+		}
+
+		wp_enqueue_style( 'brightcove-debugger', '//solutions.brightcove.com/marguin/debugger/css/brightcove-player-debugger.css', array(), false );
+		wp_enqueue_script( 'brightcove-debugger', '//solutions.brightcove.com/marguin/debugger/js/brightcove-player-debugger.min.js', array( 'brightcove' ), false, true );
+
+		// var options = {"debugAds":false, "logClasses":true, "showProgress":true, "useLineNums":true, "verbose":true};
+		$debugger_options = array(
+			'debugAds' => false,
+			'logClasses' => true,
+			'showProgress' => true,
+			'useLineNums' => true,
+			'verbose' => true,
+		);
+
+		$bc_debugger_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/brightcove-debugger.js' ) );
+		wp_enqueue_script( 'rlje-brightcove-debugger', plugins_url( 'js/brightcove-debugger.js', __FILE__ ), array( 'brightcove-debugger' ), $bc_debugger_js_ver, true );
+		wp_localize_script( 'rlje-brightcove-debugger', 'brightcove_debugger_object', array(
+			'options' => $debugger_options,
 		));
 	}
 
@@ -115,6 +131,10 @@ class RLJE_Episode_Page {
 			return false;
 		}
 
+		$brightcove = $this->get_brightcove_player_settings();
+		$bc_account_id = $brightcove['bc_account_id'];
+		$bc_player_id = $brightcove['bc_player_id'];
+
 		global $wp_query;
 
 		// Prevent internal 404 on custome search page because of template_redirect hook.
@@ -134,6 +154,8 @@ class RLJE_Episode_Page {
 
 	public function episode_body_class( $classes ) {
 		if ( $this->episodes ) {
+			$classes[] = 'episode';
+			$classes[] = 'episode-page';
 			$classes[] = $this->episode_id;
 			$classes[] = 'page-' . $this->episode_id;
 		}
@@ -159,6 +181,36 @@ class RLJE_Episode_Page {
 		} else {
 			$this->episodes = rljeApiWP_getCurrentEpisode( $this->franchise_id, $this->season_id, $this->episode_id );
 		}
+	}
+
+	protected function get_brightcove_player_settings() {
+		$brightcove = [];
+
+		// UMC FREE ACCOUNT
+		// $bc_account_id = '3392051363001';
+		// $bc_player_id = '0066661d-8f08-4e7b-a5b4-8d48755a3057';
+		// UMC PAYWALL ACCOUNT
+		// $bc_account_id = '3392051362001';
+		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
+
+		if ( rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ) ) {
+			$this->brightcove = get_option( 'rlje_theme_brightcove_restricted_settings' );
+			$brightcove['bc_account_id'] = $this->brightcove['restricted_account_id'];
+			$brightcove['bc_player_id'] = $this->brightcove['restricted_player_id'];
+		} else {
+			$this->brightcove = get_option( 'rlje_theme_brightcove_shared_settings' );
+			$brightcove['bc_account_id'] = $this->brightcove['shared_account_id'];
+			$brightcove['bc_player_id'] = $this->brightcove['shared_player_id'];
+		}
+
+		if ( empty( $this->brightcove ) ) {
+			$brightcove['bc_account_id'] = '';
+			$brightcove['bc_player_id'] = '';
+
+			return false;
+		}
+
+		return $brightcove;
 	}
 }
 
