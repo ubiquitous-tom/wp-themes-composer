@@ -135,7 +135,7 @@ function acorntv_rewrites_urls() {
 	// add_rewrite_rule( 'videodebugger/on$', 'index.php?pagecustom=videodebugger&section=on', 'top' );
 	// add_rewrite_rule( 'videodebugger/off$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
 	// add_rewrite_rule( 'videodebugger$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
-	add_rewrite_rule( 'streamposition$', 'index.php?pagecustom=streamposition', 'top' );
+	// add_rewrite_rule( 'streamposition$', 'index.php?pagecustom=streamposition', 'top' );
 	// add_rewrite_rule( 'search/(.+)', 'index.php?pagecustom=search&search_text=$matches[1]', 'top' );
 	add_rewrite_rule( 'contactus$', 'index.php?pagecustom=contact', 'top' );
 	// add_rewrite_rule( 'signupnewsletter$', 'index.php?pagecustom=signupnewsletter', 'top' );
@@ -209,7 +209,7 @@ function acorntv_check_rewrite_rules( $wp_rewrite ) {
 		// 'videodebugger/off$' => 'index.php?pagecustom=videodebugger&section=off',
 		// 'videodebugger$' => 'index.php?pagecustom=videodebugger&section=off',
 		// 'country/([\w]{2})$' => 'index.php?pagecustom=countryfilter&section=$matches[1]',
-		'streamposition$' => 'index.php?pagecustom=streamposition',
+		// 'streamposition$' => 'index.php?pagecustom=streamposition',
 		// 'search/(.+)' => 'index.php?pagecustom=search&search_text=$matches[1]',
 		'contactus$' => 'index.php?pagecustom=contact',
 		// 'signupnewsletter$' => 'index.php?pagecustom=signupnewsletter',

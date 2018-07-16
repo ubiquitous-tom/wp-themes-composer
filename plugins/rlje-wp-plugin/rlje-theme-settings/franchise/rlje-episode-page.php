@@ -7,13 +7,19 @@ class RLJE_Episode_Page {
 	protected $nonce = 'atv#episodePlayer@token_nonce';
 
 	public function __construct() {
+		// add_action( 'init', array( $this, 'add_stream_position_rewrite_rules' ) );
 		add_action( 'wp', array( $this, 'get_pagename' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_is_user_active', array( $this, 'ajax_is_user_active' ) );
+		add_action( 'wp_ajax_streamposition', array( $this, 'ajax_set_stream_position' ) );
 		add_action( 'template_redirect', array( $this, 'episode_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'episode_body_class' ) );
 	}
+
+	// public function add_stream_position_rewrite_rules() {
+	// 	add_rewrite_rule( 'streamposition/?', 'index.php?pagename=streamposition', 'top' );
+	// }
 
 	public function get_pagename() {
 		global $wp_query;
@@ -69,6 +75,39 @@ class RLJE_Episode_Page {
 			'isActive' => rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ),
 		);
 		wp_send_json_success( $data );
+	}
+
+	public function ajax_set_stream_position() {
+		if ( ! wp_verify_nonce( $_POST['token'], $this->nonce ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		if ( ! rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ) ) {
+			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		}
+
+		$is_user_active = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? $_COOKIE['ATVSessionCookie'] : null;
+		$episode_id = ( ! empty( $_POST['EpisodeID'] ) ) ? $_POST['EpisodeID'] : null;
+		$position = ( ! empty( $_POST['Position'] ) ) ? $_POST['Position'] : null;
+		$last_known_location = ( ! empty( $_POST['LastKnownAction'] ) ) ? $_POST['LastKnownAction'] : null;
+
+		if ( empty( $episode_id ) ) {
+			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		}
+
+		if ( empty( $is_user_active ) ) {
+			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		}
+
+		if ( empty( $position ) ) {
+			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		}
+
+		if ( empty( $last_known_location ) ) {
+			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		}
+
+		rljeApiWP_addStreamPosition( $episode_id, $is_user_active, $position, $last_know_location );
 	}
 
 	public function episode_template_redirect() {

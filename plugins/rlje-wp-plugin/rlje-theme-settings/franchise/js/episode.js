@@ -122,9 +122,14 @@ var episodePlayer = function(episodeId, setTimePosition) {
 	var setStreamPosition = function(lastKnownAction) {
 			jQuery.ajax({
 					type: 'POST',
-					data: "Position=" + parseInt(player.currentTime()) + "&EpisodeID=" + episodeId + "&LastKnownAction=" + lastKnownAction ,
-					url: '/streamposition',
-					dataType: "text"
+					url: episode_object.ajax_url,
+					data: {
+						action: 'streamposition',
+						token: episode_object.token,
+						Position: parseInt(player.currentTime(), 10),
+						EpisodeID: episodeId,
+						LastKnownAction: lastKnownAction
+					}
 			});
 	};
 };
