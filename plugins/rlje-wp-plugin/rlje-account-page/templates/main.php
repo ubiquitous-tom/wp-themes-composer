@@ -15,7 +15,7 @@ get_header();
                 </ul>
             </div>
         </nav>
-        <section class="col-md-3">
+        <section class="col-md-9">
         <?php do_action( 'rlje_user_settings_page' ); ?>
         </section>
     </div>
