@@ -3,7 +3,7 @@ class RLJE_Account_Page {
 
     private $account_action;
     private $user_profile;
-    private $api_profile;
+    private $api_base;
 
     public function __construct() {
         add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
@@ -12,7 +12,6 @@ class RLJE_Account_Page {
 
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
 
-        add_action('rlje_user_settings_page', array($this, 'show_subsection'));
         //add_filter( 'body_class', array( $this, 'browse_body_class' ) );
         
     }
@@ -24,7 +23,7 @@ class RLJE_Account_Page {
     }
 
     public function setup_profile() {
-        $this->api_profile = constant("RLJE_BASE_URL") . "/profile";
+        $this->api_base = constant("RLJE_BASE_URL");
     }
 
     public function browse_body_class( $classes ) {
@@ -87,18 +86,51 @@ class RLJE_Account_Page {
         add_rewrite_tag('%action%', '([^&]+)');
     }
 
-    function hitApi($param) {
-        $raw_response = wp_remote_get($this->api_profile . "?" . $param );
+    function hitApi($params, $method, $verb = "GET") {
+        $url = $this->api_base . "/" . $method;
+        switch ($verb) {
+            case 'GET':
+                $raw_response = wp_remote_get($url . "?" . http_build_query($params) );
+                break;
+
+            case 'POST':
+                $raw_response = wp_remote_post($url, [
+                    "headers" => [
+                        "x-atv-hash" => $this->encodeHash($params),
+                        "Accept" => "application/json"
+                    ],
+                    "body" => json_encode($params)
+                ]);
+                if(is_wp_error($raw_response)) {
+                    error_log( "Error hiting API " . $raw_response->get_error_message() );
+                    $response = false;
+                }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
         $response = json_decode(wp_remote_retrieve_body( $raw_response ), true);
         return $response;
     }
     
     function getUserProfile($session_id, $email_address) {
         if(!empty($session_id)) {
-            $response = $this->hitApi("SessionID=" . $session_id);
+            $response = $this->hitApi(["SessionID" => $session_id], "profile");
         } elseif(!empty($email_address)) {
-            $response = $this->hitApi("Email=" . $email_address);
+            $response = $this->hitApi(["Email" => $session_id], "profile");
+
         }
+        return $response;
+    }
+
+    function updateUserEmail($session_id, $new_email) {
+        $params = [
+            "SessionID" => $session_id,
+            "NewEmail" => $new_email
+        ];
+        $response = $this->hitApi($params, "changeemail", "POST");
         return $response;
     }
 
@@ -118,11 +150,7 @@ class RLJE_Account_Page {
             default:
                 $partial_url = plugin_dir_path( __FILE__ ) . 'partials/status.php';
         }
-        ob_start();
-        require_once $partial_url;
-		$html = ob_get_clean();
-
-		echo $html;
+        return $partial_url;
     }
     
     public function browse_template_redirect() {
@@ -138,9 +166,26 @@ class RLJE_Account_Page {
                 wp_redirect( home_url("signin"), 303 );
                 exit();
             }
+            if(!empty($_POST)) {
+                if("editEmail" === $action) {
+                    if(empty($_POST["new-email"]) || empty($_POST["new-email-confirm"]) || $_POST["new-email"] !== $_POST["new-email-confirm"]) {
+                        $message_error = "The two email address do not match";
+                    } else {
+                        $email_response = $this->updateUserEmail($_COOKIE['ATVSessionCookie'], $_POST["new-email"]);
+                        if(isset($email_response['error'])) {
+                            $message_error = $email_response['error'];
+                            
+                        } elseif(isset($email_response['Email'])) {
+                            $message_sucess = "E-Mail address was successfully updated";
+                        } else {
+                            $message_error = "There was an error updating E-mail address.";
+                        }
+                    }
+                }
+            }
             $this->user_profile = $this->getUserProfile($_COOKIE['ATVSessionCookie'], null);
             // Prevent internal 404 on custome search page because of template_redirect hook.
-			$wp_query->is_404     = false;
+            status_header( 200 );
 			$wp_query->is_page    = true;
 			// $wp_query->is_archive = true;
 			ob_start();
