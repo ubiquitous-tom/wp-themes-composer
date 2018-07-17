@@ -8,6 +8,16 @@ body {
     color: #424242;
 }
 
+#signin a,
+#forgotpassword a {
+    text-transform: initial;
+}
+
+#signin a:hover,
+#forgotpassword a:hover {
+    color: black;
+}
+
 #signin h1,
 #signin h2,
 #signin h3,
