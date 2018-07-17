@@ -1,16 +1,16 @@
 <?php
 get_header();
 
-$haveFranchisesAvailable = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'homepage');
-$categoriesHome = rljeApiWP_getHomeItems( 'categories' );
-$categoriesItems = ( isset( $categoriesHome->options ) ) ? $categoriesHome->options : array();
-$browseIdListAvailables = apply_filters( 'atv_get_browse_genres_availables', '' );
-if ( $haveFranchisesAvailable ) :
-	get_header();
+$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'homepage');
+// $categoriesHome = rljeApiWP_getHomeItems( 'categories' );
+// $categoriesItems = ( isset( $categoriesHome->options ) ) ? $categoriesHome->options : array();
+// $browseIdListAvailables = apply_filters( 'atv_get_browse_genres_availables', '' );
+if ( $have_franchises_available ) :
 	?>
 	<!-- HERO CAROUSEL -->
-	<?php do_action( 'hero_carousel' ); ?>
+	<?php //do_action( 'hero_carousel' ); ?>
 
+	<?php /*
 	<section class="home-featured">
 		<div class="container">
 			<?php
@@ -49,6 +49,7 @@ if ( $haveFranchisesAvailable ) :
 			?>
 		</div>
 	</section>
+	*/ ?>
 
 	<?php /*if ( ! rljeApiWP_getCountryCode() ) : ?>
 	<section class="home-middle hidden-xs hidden-sm">
@@ -69,8 +70,13 @@ if ( $haveFranchisesAvailable ) :
 	</section>
 	<?php endif;*/ ?>
 
-	<?php do_action( 'rlje_homepage_mid_section_content' ); ?>
+	<?php do_action( 'rlje_homepage_top_section_content' ); ?>
 
+	<?php do_action( 'rlje_homepage_middle_section_content' ); ?>
+
+	<?php do_action( 'rlje_homepage_bottom_section_content' ); ?>
+
+	<?php /*
 	<section class="home-spotlights">
 		<div class="container">
 			<?php
@@ -94,7 +100,9 @@ if ( $haveFranchisesAvailable ) :
 			?>
 		</div>
 	</section>
+	*/ ?>
 
+	<?php /*
 	<!-- CALLOUTS -->
 	<section class="home-callout">
 		<div class="container">
@@ -122,6 +130,7 @@ if ( $haveFranchisesAvailable ) :
 			</div>
 		</div>
 	</section>
+	*/ ?>
 	<?php
 else :
 	get_template_part( 'templates/franchisesUnavailable' );

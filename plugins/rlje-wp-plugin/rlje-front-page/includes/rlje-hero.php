@@ -4,7 +4,7 @@ class RLJE_Hero extends RLJE_Front_page {
 
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'register_admin_page' ) );
-		add_action( 'hero_carousel', array( $this, 'display_hero_carousel' ) );
+		add_action( 'rlje_homepage_top_section_content', array( $this, 'display_hero_carousel' ) );
 
 		add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'delete_hero_cache' ) );
 		add_filter( 'rlje_api_get_country_code', array( $this, 'get_admin_country_code' ) );

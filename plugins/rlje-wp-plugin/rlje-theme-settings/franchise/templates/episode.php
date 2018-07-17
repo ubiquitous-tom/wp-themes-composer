@@ -223,10 +223,11 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
 				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
 				<meta itemprop="uploadDate" content="<?php echo ( isset( $episode->startDate ) && $episode->startDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
-				<div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/<?php echo esc_attr( $bc_account_id ); ?>/<?php echo esc_attr( $bc_player_id ); ?>_default/index.html?videoId=<?php echo $trailerId; ?>'
+				<!-- <div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/<?php echo esc_attr( $bc_account_id ); ?>/<?php echo esc_attr( $bc_player_id ); ?>_default/index.html?videoId=<?php echo $trailerId; ?>'
 					allowfullscreen
 					webkitallowfullscreen
-					mozallowfullscreen></iframe>">
+					mozallowfullscreen></iframe>"> -->
+				<div id="episode-trailer" class="video">
 					<img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
 					<div class="acorntv-slogan">
 						<h3>Watch world-class TV from Britain and beyond</h3>
@@ -239,36 +240,46 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 							</button>
 						</h5>
 					</div>
+					<video
+						id="brightcove-episode-trailer-player"
+						class="hidden"
+						data-account="<?php echo esc_attr( $bc_account_id ); ?>"
+						data-player="<?php echo esc_attr( $bc_player_id ); ?>"
+						data-embed="default"
+						data-video-id="ref:<?php echo $trailerId; ?>"
+						poster="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"
+						class="video-js embed-responsive embed-responsive-16by9"
+						controls></video>
 					<script>
-					(function() {
+					// (function() {
 
-						var videos = document.querySelectorAll('.video');
+					// 	var videos = document.querySelectorAll('.video');
 
-						for (var i = 0; i < videos.length; i++) {
+					// 	for (var i = 0; i < videos.length; i++) {
 
-							// Closure to call the playVideo function.
-							if(videos[i].querySelector('.js-play')) {
-								videos[i].querySelector('.js-play').onclick = (function(index) {
-									return function() {
-									loadVideo(this, videos[index]);
-									};
-								})(i);
-							}
-						}
+					// 		// Closure to call the playVideo function.
+					// 		if(videos[i].querySelector('.js-play')) {
+					// 			videos[i].querySelector('.js-play').onclick = (function(index) {
+					// 				return function() {
+					// 				loadVideo(this, videos[index]);
+					// 				};
+					// 			})(i);
+					// 		}
+					// 	}
 
-						function loadVideo(button, video) {
-							var embedcode = video.dataset.embedcode;
-							var hasvideo = video.dataset.hasvideo;
+					// 	function loadVideo(button, video) {
+					// 		var embedcode = video.dataset.embedcode;
+					// 		var hasvideo = video.dataset.hasvideo;
 
-							// Only append the video if it isn't yet appended.
-							if (!hasvideo) {
-							video.insertAdjacentHTML('afterbegin', embedcode);
-							video.dataset.hasvideo = "true";
-							button.remove();
-							}
-						}
+					// 		// Only append the video if it isn't yet appended.
+					// 		if (!hasvideo) {
+					// 		video.insertAdjacentHTML('afterbegin', embedcode);
+					// 		video.dataset.hasvideo = "true";
+					// 		button.remove();
+					// 		}
+					// 	}
 
-					})();
+					// })();
 					</script>
 				</div>
 			</span>

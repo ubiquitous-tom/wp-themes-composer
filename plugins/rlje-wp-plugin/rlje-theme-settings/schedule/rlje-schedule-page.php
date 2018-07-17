@@ -2,7 +2,12 @@
 
 class RLJE_Schedule_Page {
 
-	protected $nonce = 'atv#contentPage@token_nonce';
+	protected $nonce         = 'atv#contentPage@token_nonce';
+	protected $list_sections = array(
+		'featured'    => 'Recently Added',
+		'comingsoon'  => 'Coming Soon',
+		'leavingsoon' => 'Leaving Soon',
+	);
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'add_schedule_rewrite_rules' ) );
@@ -37,12 +42,12 @@ class RLJE_Schedule_Page {
 		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
 
 		$bc_account_id = $this->brightcove['shared_account_id'];
-		$bc_player_id = $this->brightcove['shared_player_id'];
-		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
-		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/schedule.css' ) );
-		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/schedule.js' ) );
+		$bc_player_id  = $this->brightcove['shared_player_id'];
+		$bc_url        = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
+		$css_ver       = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/schedule.css' ) );
+		$js_ver        = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/schedule.js' ) );
 
-		// wp_enqueue_style( 'rlje-schedule', plugins_url( 'css/schedule.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
+		wp_enqueue_style( 'rlje-schedule', plugins_url( 'css/schedule.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 		wp_enqueue_script( 'brightcove', '//admin.brightcove.com/js/BrightcoveExperiences.js', array(), false, true );
 		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-schedule', plugins_url( 'js/schedule.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
@@ -54,7 +59,7 @@ class RLJE_Schedule_Page {
 		}
 
 		$content = ( ! empty( $_POST['content'] ) ) ? $_POST['content'] : null;
-		$page = ( ! empty( $_POST['page'] ) ) ? $_POST['page'] : null;
+		$page    = ( ! empty( $_POST['page'] ) ) ? $_POST['page'] : null;
 
 		$data = rljeApiWP_getContentPageItems( $content, $page );
 		wp_send_json_success( $data );
@@ -82,12 +87,25 @@ class RLJE_Schedule_Page {
 				return;
 		}
 
+		$this->brightcove = get_option( 'rlje_theme_brightcove_shared_settings' );
+		if ( empty( $this->brightcove ) ) {
+			return;
+		}
+
+		// UMC FREE ACCOUNT
+		// $bc_account_id = '3392051363001';
+		// $bc_player_id = '0066661d-8f08-4e7b-a5b4-8d48755a3057';
+		// UMC PAYWALL ACCOUNT
+		// $bc_account_id = '3392051362001';
+		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
+		$bc_account_id = $this->brightcove['shared_account_id'];
+		$bc_player_id  = $this->brightcove['shared_player_id'];
 
 		global $wp_query;
 
 		// Prevent internal 404 on custome search page because of template_redirect hook.
-		$wp_query->is_404     = false;
-		$wp_query->is_page    = true;
+		$wp_query->is_404  = false;
+		$wp_query->is_page = true;
 
 		ob_start();
 		require_once plugin_dir_path( __FILE__ ) . 'templates/schedule.php';

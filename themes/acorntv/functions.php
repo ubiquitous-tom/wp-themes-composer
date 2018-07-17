@@ -103,17 +103,17 @@ function acorntv_hook_css_js() {
 	// 	));
 	// }
 
-	if ( is_home() ) {
-		wp_enqueue_script( 'carousel-pagination-js', get_template_directory_uri() . '/js/carouselPagination.js', array( 'jquery' ), '1.1.2', true );
-		// Add javascript global variables.
-		$atv_global = array(
-			'ajax_url'  => home_url( 'ajax_atv' ),
-			'home_url'  => home_url(),
-			'image_url' => rljeApiWP_getImageUrlFromServices(''),
-			'token'     => wp_create_nonce( 'atv#contentPage@token_nonce' ),
-		);
-		wp_localize_script( 'carousel-pagination-js', 'atv_object', $atv_global );
-	}
+	// if ( is_home() ) {
+	// 	wp_enqueue_script( 'carousel-pagination-js', get_template_directory_uri() . '/js/carouselPagination.js', array( 'jquery' ), '1.1.2', true );
+	// 	// Add javascript global variables.
+	// 	$atv_global = array(
+	// 		'ajax_url'  => home_url( 'ajax_atv' ),
+	// 		'home_url'  => home_url(),
+	// 		'image_url' => rljeApiWP_getImageUrlFromServices(''),
+	// 		'token'     => wp_create_nonce( 'atv#contentPage@token_nonce' ),
+	// 	);
+	// 	wp_localize_script( 'carousel-pagination-js', 'atv_object', $atv_global );
+	// }
 }
 
 add_action( 'init', 'acorntv_rewrites_urls' );

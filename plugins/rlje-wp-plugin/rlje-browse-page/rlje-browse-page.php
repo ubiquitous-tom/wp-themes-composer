@@ -35,7 +35,7 @@ class RLJE_Browse_Page {
 
 		wp_enqueue_script( 'browse-orderby-js', plugins_url( 'js/orderby.js', __FILE__ ), array( 'jquery' ), $js_ver, true );
 		// Special js hook to update carousel pagination image url to use the right one for umc.
-		wp_enqueue_script( 'browse-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
+		wp_enqueue_script( 'rlje-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
 
 		$browse_object = array(
 			'ajax_url'   => admin_url( 'admin-ajax.php' ),
@@ -43,7 +43,7 @@ class RLJE_Browse_Page {
 			'image_url' => rljeApiWP_getImageUrlFromServices(''),
 			'token'     => wp_create_nonce( $this->nonce ),
 		);
-		wp_localize_script( 'browse-carousel-pagination-js', 'browse_object', $browse_object );
+		wp_localize_script( 'rlje-carousel-pagination-js', 'carousel_pagination_object', $browse_object );
 	}
 
 	public function ajax_carousel_pagination() {
