@@ -82,6 +82,7 @@ class RLJE_Account_Page {
         add_rewrite_rule( '^account/status/?', 'index.php?pagename=account&action=status', 'top' );
         add_rewrite_rule( '^account/editEmail/?', 'index.php?pagename=account&action=editEmail', 'top' );
         add_rewrite_rule( '^account/editPassword/?', 'index.php?pagename=account&action=editPassword', 'top' );
+        add_rewrite_rule( '^account/logout/?', 'index.php?pagename=account&action=logout', 'top' );
         add_rewrite_rule( '^account/?', 'index.php?pagename=account', 'top' );
         add_rewrite_tag('%action%', '([^&]+)');
     }
@@ -134,6 +135,13 @@ class RLJE_Account_Page {
         return $response;
     }
 
+    function logUserOut($session_id) {
+        // Mark the session as inactive in WP object cache
+        wp_cache_set('userStatus_'.md5($session_id), 'inactive', 'userStatus');
+        // Ask transient to delete userprofile for that session
+        delete_transient('atv_userProfile_'.md5($session_id));
+    }
+
     public function show_subsection() {
         switch($this->account_action) {
             case "status" :
@@ -144,7 +152,7 @@ class RLJE_Account_Page {
                 $partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-email.php';
                 break;
 
-            case  "editPasword" :
+            case "editPasword" :
                 $partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-password.php';
                 break;
             default:
@@ -166,8 +174,13 @@ class RLJE_Account_Page {
                 wp_redirect( home_url("signin"), 303 );
                 exit();
             }
-            if(!empty($_POST)) {
-                if("editEmail" === $action) {
+            if( "logout" === $action ) {
+                $this->logUserOut($_COOKIE['ATVSessionCookie']);
+                setcookie("ATVSessionCookie", "", time() - 3600 );
+                wp_redirect( home_url(), 303 );
+                exit();
+            } elseif ( "editEmail" === $action ) {
+                if(!empty($_POST)) {
                     if(empty($_POST["new-email"]) || empty($_POST["new-email-confirm"]) || $_POST["new-email"] !== $_POST["new-email-confirm"]) {
                         $message_error = "The two email address do not match";
                     } else {
