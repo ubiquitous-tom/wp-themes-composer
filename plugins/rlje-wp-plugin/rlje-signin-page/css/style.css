@@ -3,6 +3,7 @@ body {
 }
 
 #signin, #forgotpassword {
+    padding: 5rem 0;
     background-color: white;
     color: #555;
 }
@@ -13,7 +14,9 @@ body {
 #signin h4,
 #signin h5,
 #signin h6 {
-    color: #810c0c;
+    letter-spacing: initial;
+    text-transform: initial;
+    color: #0b98b8d9;
 }
 
 #forgotpassword h1,
@@ -22,6 +25,8 @@ body {
 #forgotpassword h4,
 #forgotpassword h5,
 #forgotpassword h6 {
+    letter-spacing: initial;
+    text-transform: initial;
     color: #810c0c;
 }
 
