@@ -15,7 +15,7 @@
 }
 .home-hero-carousel .feature-slide .carousel-control.left,
 .home-hero-carousel .feature-slide .carousel-control.right  {
-	top: calc(100% - 104px);
+	top: calc(50% - (80px*2));
 }
 .home-hero-carousel .hero-img {
 	width: 500px !important;
@@ -61,8 +61,8 @@
 .carousel .item .left{z-index: 2; position: absolute;padding: 0px}
 .carousel .item .hero-img{width:100%;opacity: .7;width: 100%; height: auto; max-width: 1265px;}
 .carousel .item .left .hero-img{ transform: skewY(-1deg);transform-origin: top right;margin-top: -10px;}
-.feature-slide .carousel-control.left {max-width: 160px;width: 100%}
-.feature-slide .carousel-control.right {max-width: 160px;width: 100%}
+.feature-slide .carousel-control.left {position:absolute;left: 70px;height: 100%;}
+.feature-slide .carousel-control.right {position:absolute;right: 140px;height: 100%;}
 .hero-left-arrow{margin-left: -136px;width: 24px;position: relative;}
 .hero-right-arrow{margin-left: 136px;width: 24px;position: relative;}
 .carousel .item .right .hero-img{float: right; -webkit-transform: skewY(1deg);transform: skewY(1deg); -webkit-transform-origin: top left; transform-origin: top left;margin-top: -10px;}
