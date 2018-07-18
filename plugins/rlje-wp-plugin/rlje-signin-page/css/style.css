@@ -1,0 +1,46 @@
+body {
+    padding-top: 80px;
+}
+
+#signin, #forgotpassword {
+    padding: 5rem 0;
+    background-color: white;
+    color: #424242;
+}
+
+#signin a,
+#forgotpassword a {
+    text-transform: initial;
+}
+
+#signin a:hover,
+#forgotpassword a:hover {
+    color: black;
+}
+
+#signin h1,
+#signin h2,
+#signin h3,
+#signin h4,
+#signin h5,
+#signin h6 {
+    letter-spacing: initial;
+    text-transform: initial;
+    color: #0b98b8d9;
+}
+
+#forgotpassword h1,
+#forgotpassword h2,
+#forgotpassword h3,
+#forgotpassword h4,
+#forgotpassword h5,
+#forgotpassword h6 {
+    letter-spacing: initial;
+    text-transform: initial;
+    color: #0b98b8d9;
+}
+
+#signin h4,
+#forgotpassword h4 {
+    font-size: 34px;
+}

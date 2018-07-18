@@ -26,3 +26,5 @@ if ( intval( $rlje_theme_plugins_settings['news_and_reviews'] ) ) {
 }
 
 require_once 'rlje-browse-page/rlje-browse-page.php';
+require_once 'rlje-signin-page/rlje-signin-page.php';
+require_once 'rlje-account-page/rlje-account-page.php';
