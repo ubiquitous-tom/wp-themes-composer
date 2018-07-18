@@ -59,6 +59,8 @@ class RLJE_Theme_Menu_Settings {
 		} else {
 			require_once plugin_dir_path( __FILE__ ) . 'partials/not-logged-in.php';
 		}
+		$desktop_search_form = get_search_form( false ); // Desktop searchbox.
+		echo $desktop_search_form;
 		$html = ob_get_clean();
 
 		echo $html;
@@ -91,8 +93,8 @@ class RLJE_Theme_Menu_Settings {
 	}
 
 	public function display_header_navigation() {
-		$search_form = get_search_form( false );
-		$item_wrap   = '<ul class="%2$s">' . $search_form . '%3$s</ul>';
+		$mobile_search_form = get_search_form( false ); // Mobile searchbox.
+		$item_wrap   = '<ul class="%2$s">' . $mobile_search_form . '%3$s</ul>';
 		$menu_args   = array(
 			'menu_class'      => 'nav navbar-nav',
 			'menu_id'         => '',

@@ -23,20 +23,20 @@
 			<div class="item <?php echo ( $item === reset( $data_carousel ) ) ? 'active' : ''; ?>">
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 left">
 					<a href="<?php echo esc_url( $prev_link ); ?>">
-						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $prev_img.'?t=Mobile' ); ?>" style="width:100%; height:auto; ">
-						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $prev_img.'?t=Web3' ); ?>" style="width:100%; height:auto; ">
+						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $prev_img.'?t=Mobile' ); ?>">
+						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $prev_img.'?t=Web3' ); ?>">
 					</a>
 				</div>
 				<div class="container">
 					<a href="<?php echo esc_url( $curr_link ); ?>">
-						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $curr_img.'?t=Mobile' ); ?>" style="width:100%; height:auto; ">
-						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $curr_img.'?t=Web3' ); ?>" style="width:100%; height:auto; ">
+						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $curr_img.'?t=Mobile' ); ?>">
+						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $curr_img.'?t=Web3' ); ?>">
 					</a>
 				</div>
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 right">
 					<a href="<?php echo esc_url( $next_link ); ?>">
-						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $next_img.'?t=Mobile' ); ?>" style="width:100%; height:auto; ">
-						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $next_img.'?t=Web3' ); ?>" style="width:100%; height:auto; ">
+						<img title="" alt="hero image" class="hero-img visible-xs visible-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $next_img.'?t=Mobile' ); ?>">
+						<img title="" alt="hero image" class="hero-img hidden-xs hidden-sm" src="<?php echo rljeApiWP_getImageUrlFromServices( $next_img.'?t=Web3' ); ?>">
 					</a>
 				</div>
 			</div>
@@ -58,10 +58,7 @@
 			</div>
 
 			<ol class="carousel-indicators">
-				<?php
-				$data_carousel_count = count( $data_carousel );
-				for ( $i = 0; $i < $data_carousel_count; $i++ ) :
-				?>
+				<?php for ( $j = 0; $j < $total_items; $j++ ) : ?>
 				<li data-target="#heroCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo ( $i === 0 ) ? 'active' : ''; ?>"></li>
 				<?php endfor; ?>
 			</ol>

@@ -27,6 +27,7 @@ object, embed { outline: 0;}
 .atv-logo{width:154px; margin-top:16px; margin-left:11px;}
 .navbar{background:#161616;border:none;height:56px;box-shadow: 0 0 30px -5px #050505;-moz-box-shadow: 0 0 20px -5px #000000;-webkit-box-shadow: 0 0 20px -5px #050505;}
 .navbar-nav {padding:0px 0px 0px 20px;}
+.navbar-nav > #searchform {display: none;}
 .navbar-nav > li > a{padding-top:27px;font-family: 'source sans pro', sans-serif;letter-spacing: .17em;font-weight:600;display: inline-block; text-transform:uppercase;font-size:11px;color:#fff;}
 .nav > li > a:hover{background:none;}
 .nav > li > a:focus{background:transparent;}
@@ -42,7 +43,7 @@ object, embed { outline: 0;}
 /* NAVBAR-USER DROPDOWN */
 .menuOptions {width: auto;padding: 20px 15px 18px;}
 .navbar-right-ul {width: auto;}
-.navbar-right .drop-select {position: absolute;top: 55px;right: -90px;}
+.navbar-right .drop-select {position: absolute;top: 55px;right: -75px;}
 
 /* Active Features Block - Header Block */
 .active-features {position: relative;}
@@ -304,7 +305,8 @@ input:-ms-input-placeholder {color: #ccc;}
 .menuOptions > span,.subnav > li{-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 .menuOptions #clicker {margin: 0;float: none;}
 .drop-select {width: 220px;position: relative;border-top: medium none;background: rgba(9, 9, 9, 0.9) none repeat scroll 0 0;margin: 0 0 100%;padding: 10px 0;display: none;}
-.drop-select li {padding: 18px 15px;font-family: 'source sans pro', sans-serif;font-size: 11px;letter-spacing: .1em;font-weight: 600;text-align: left;text-transform: uppercase;color: #fff;}
+.drop-select li {/*padding: 18px 15px;*/font-family: 'source sans pro', sans-serif;font-size: 11px;letter-spacing: .1em;font-weight: 600;text-align: left;text-transform: uppercase;color: #fff;}
+.drop-select li a {padding: 20px;display: block;font-size: 10.5px}
 .drop-select li:hover {background:#191919;}
 .navbar-right-ul.accountUser {max-width: 155px;}
 .navbar-right-ul.accountUser > li{width: 100%;text-align: right;}
@@ -405,7 +407,7 @@ p {font-size: 14.5px;}
 .navbar-nav > li > a{font-size:13.8px;}
 .atv-logo{width:215px;margin-top:20px;margin-left: 0px;}
 .navbar-collapse {margin-top:13px;}
-.navbar-right-ul{width:265px;}
+.navbar-right-ul{width:275px;}
 .navbar-toggle {margin-top: 22px;margin-right: 0px}
 .navbar-toggle .icon-bar {width: 22px;height: 1.7px}
 .log-in{font-size: 13.8px;margin-top: 27px;margin-left: 20px}
@@ -544,7 +546,8 @@ p {font-size: 14.5px;}
 
 /* SPLASH-SLOGAN */
 .acorntv-slogan h3 {font-size: 30px;}
-.menuOptions,.drop-select li {font-size: 13.8px;padding-left: 10%;}
+.menuOptions,.drop-select li {font-size: 13.8px;/*padding-left: 10%;*/}
+.drop-select li a {padding: 22px;display: block;font-size: 12.5px}
 .menuOptions {width: 190px;padding: 27px 0 0;text-align: center;}
 .navbar-collapse .menuOptions {text-align: left;}
 .navbar-toggle {display: block;}
@@ -631,7 +634,8 @@ p {font-size: 14.5px;}
 .menuOptions, .navbar-collapse .menuOptions {font-size: 13.8px;width: 190px;padding: 27px 0 0;text-align: center;}
 .navbar-collapse.side-collapse {overflow-y: visible;}
 .drop-select {top: 28px;left: -15px;}
-.drop-select li {font-size: 12.5px;padding: 25px 30px;}
+.drop-select li {font-size: 12.5px;/*padding: 25px 30px;*/}
+.drop-select li a {padding: 25px;display: block;font-size: 12.5px}
 .navbar-collapse .drop-select {width: 190px;}
 #searchform {margin-left: 1rem;}
 }
@@ -663,11 +667,15 @@ p {font-size: 14.5px;}
 .navbar-collapse {border-top:none; background: #0b0b0b none repeat scroll 0 0;}
 .navbar-collapse.collapse {display: none!important;}
 .navbar-nav {float: none!important;margin: 7.5px -15px;}
+.navbar-nav > #searchform {display: inline-block;}
+.navbar-nav > #searchform #search-button {right: 30px;}
 .navbar-nav>li {float: none;}
 .navbar-nav>li>a {padding-top: 10px;padding-bottom: 10px;}
 .navbar-text {float: none;margin: 15px 0;}
 .navbar-collapse.collapse.in { display: block!important;}
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {max-height: none;}
+.admin-bar .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {margin-top: calc(32px + 15px);}
+.navbar-right-ul ~ #searchform {display: none;}
 
 /* NAVBAR-SLIDEOUT */
 .collapsing {overflow: hidden!important;}

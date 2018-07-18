@@ -8,6 +8,8 @@ class RLJE_Hero extends RLJE_Front_page {
 
 		add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'delete_hero_cache' ) );
 		add_filter( 'rlje_api_get_country_code', array( $this, 'get_admin_country_code' ) );
+		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_carousel_cache_table_list' ) );
+		// add_filter( 'wp_kses_allowed_html', array( $this, 'allow_carousel_data_attributes' ), 10, 2 );
 	}
 
 	public function register_admin_page() {
@@ -42,8 +44,9 @@ class RLJE_Hero extends RLJE_Front_page {
 		$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
 		$hero          = get_transient( $transient_key );
 		if ( false !== $hero ) {
-			$allowed_html = wp_kses_allowed_html( 'post' );
-			echo wp_kses( $hero, $allowed_html );
+			// $allowed_html = wp_kses_allowed_html( 'post' );
+			// echo wp_kses( $hero, $allowed_html );
+			echo $hero;
 		} else {
 			echo $this->build_hero_carousel();
 		}
@@ -58,7 +61,7 @@ class RLJE_Hero extends RLJE_Front_page {
 
 		if ( 0 < count( $data_carousel ) ) {
 			ob_start();
-			include plugin_dir_path( __FILE__ ) . '../templates/hero.php';
+			require_once plugin_dir_path( __FILE__ ) . '../templates/hero.php';
 			$hero = ob_get_clean();
 		} else {
 			?>
@@ -83,8 +86,8 @@ class RLJE_Hero extends RLJE_Front_page {
 			if ( false !== $hero ) {
 				delete_transient( $transient_key );
 			}
-			unset( $data['hero_clear_cache'] );
 		}
+		$stuff = get_transient( $transient_key );
 
 		return $data;
 	}
@@ -96,6 +99,21 @@ class RLJE_Hero extends RLJE_Front_page {
 		}
 
 		return $country_code;
+	}
+
+	public function add_carousel_cache_table_list( $cache_list ) {
+		$cache_list[] = 'rlje_homepage_hero_carousel';
+
+		return $cache_list;
+	}
+
+	public function allow_carousel_data_attributes( $allowed_html, $context ) {
+		if ( 'post' === $context ) {
+			$allowed_html[ 'li' ][ 'data-target' ]   = true;
+			$allowed_html[ 'li' ][ 'data-slide-to' ] = true;
+		}
+
+		return $allowed_html;
 	}
 
 	protected function get_transient_key( $key_prefix ) {

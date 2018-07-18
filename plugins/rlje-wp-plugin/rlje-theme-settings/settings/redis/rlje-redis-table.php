@@ -219,7 +219,7 @@ class RLJE_Redis_Table extends WP_List_Table {
 	}
 	public function get_redis_caches() {
 		$prefix           = ( ! empty( $this->theme_settings['current_theme'] ) ) ? $this->theme_settings['current_theme'] : 'acorn';
-		$api_cache_groups = array(
+		$api_cache_groups = apply_filters( 'rlje_redis_api_cache_groups', array(
 			'homepage',
 			'initialJson',
 			'collections',
@@ -238,7 +238,7 @@ class RLJE_Redis_Table extends WP_List_Table {
 			'browse_franchises',
 			'contentPage_items',
 			'atv_userProfile_',
-		);
+		) );
 
 		$data = array();
 		foreach ( $api_cache_groups as $partial_key ) {

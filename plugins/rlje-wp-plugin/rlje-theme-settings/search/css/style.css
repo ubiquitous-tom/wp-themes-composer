@@ -4,7 +4,7 @@
 .search-form #search-button {
 	position: absolute;
 	top: 8px;
-	right: 6px;
+	right: 15px;
 	background: transparent url('https://api.rlje.net/acorn/artwork/size/search?t=Icons') no-repeat 0 0 scroll;
 	background-size: 23px 23px;
 	display: inline-block;
@@ -12,5 +12,5 @@
 	width: 23px;
 }
 #search-input {
-	width: 170px;
+	width: 220px;
 }

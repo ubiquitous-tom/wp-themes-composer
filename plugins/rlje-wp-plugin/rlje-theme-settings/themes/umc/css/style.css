@@ -1,7 +1,183 @@
-body {
-    background: #011f36;
+@font-face {
+    font-family: 'Avenir Black';
+    src: url('../font/Avenir-Black-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/Avenir-Black-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/Avenir-Black-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/Avenir-Black-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/Avenir-Black-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/Avenir-Black-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: 600;
+    font-style: normal;
 }
 
+@font-face {
+    font-family: 'Avenir Medium Oblique';
+    src: url('../font/Avenir-MediumOblique-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/Avenir-MediumOblique-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/Avenir-MediumOblique-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/Avenir-MediumOblique-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/Avenir-MediumOblique-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/Avenir-MediumOblique-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Avenir Medium';
+    src: url('../font/Avenir-Medium-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/Avenir-Medium-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/Avenir-Medium-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/Avenir-Medium-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/Avenir-Medium-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/Avenir-Medium-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir Oblique';
+    src: url('../font/Avenir-Oblique-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/Avenir-Oblique-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/Avenir-Oblique-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/Avenir-Oblique-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/Avenir-Oblique-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/Avenir-Oblique-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Avenir Roman';
+    src: url('../font/Avenir-Roman-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/Avenir-Roman-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/Avenir-Roman-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/Avenir-Roman-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/Avenir-Roman-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/Avenir-Roman-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir Light';
+    src: url('../font/avenir-light-webfont.eot');/* IE9 Compat Modes */
+    src: url('../font/avenir-light-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../font/avenir-light-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+        url('../font/avenir-light-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+        url('../font/avenir-light-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+        url('../font/avenir-light-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* BASE CSS */
+
+body {
+    background: #011f36;
+    font-family: 'Nunito', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+button {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* CAROUSEL */
+.carousel .item .container {
+    max-width: calc(510px / (9/16));
+}
+.carousel .item .left {
+    max-width: calc(485px / (9/16));
+}
+.carousel .item .right {
+    max-width: calc(485px / (9/16));
+}
+
+/* NAVBAR */
+
+.navbar-nav>li>a,
+.log-in,
+.free-month {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* BUTTONS, TABS, AND ICONS  */
+
+#page-subhead {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* DROPDOWN */
+
+#options {
+    font-family: 'Nunito', sans-serif;
+}
+
+#drop-select li {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* BROWSE TEMPLATE*/
+
+.browse li {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* SCHEDULE TEMPLATE */
+
+.schedule li {
+    font-family: 'Nunito', sans-serif;
+}
+
+.schedule h6 {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* CONTACT US */
+
+#contact-hero h3 {
+    font-family: 'Nunito', sans-serif;
+}
+
+#contact-form button {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* FOOTER TEMPLATE */
+
+.footer a {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* VALTIRA ADDITIONS */
+
+.menuOptions {
+    font-family: 'Nunito', sans-serif;
+}
+
+.drop-select li {
+    font-family: 'Nunito', sans-serif;
+}
+
+#nextEpisodeOverlay p {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* HOME TEMPLATE*/
+
+.view-all a {
+    font-family: 'Nunito', sans-serif;
+}
+
+
+/* OTHERS */
 .atv-logo {
     width: auto;
     margin-top: 15px;
@@ -25,6 +201,7 @@ body {
     visibility: hidden;
     pointer-events: none;
 }
+
 .season.episode .subnav-next {
     visibility: initial;
     pointer-events: initial;
@@ -36,12 +213,32 @@ body {
     background: #000;
     width: 100% !important;
 }
-
+.acorntv-slogan .free-month,
 .free-month {
-    background: rbga(162, 1123, 67, .85);
+    background: rgba(11, 152, 184, 0.85);
+}
+
+#cover {
+    border-color: #011f36;
 }
 
 #options,
 #drop-select {
+    background: #011f36;
+    border-color: #011f36;
+}
+
+span[itemprop="trailer"] a button {
     background: #a27b43;
+    border-color: #a27b43;
+}
+
+#watchlistActionButton {
+    background: #011f36;
+    border-color: #011f36;
+}
+
+.continueEpisodeBtn js-play-resume {
+    background: #a27b43;
+    border-color: #a27b43;
 }

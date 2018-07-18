@@ -51,7 +51,7 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 			echo wp_kses_post( $args['before_title'] . $title . $args['after_title'] );
 		}
 		?>
-		<input id="signup-newsletter-email" type="email" placeholder="Enter Your Email Address" value="test@test.com">
+		<input id="signup-newsletter-email" type="email" placeholder="Enter Your Email Address" value="">
 		<input id="signup-newsletter-button" type="submit" value="submit">
 		<div id="signup-newsletter-message"></div>
 		<?php
@@ -72,7 +72,7 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 		$title = ( isset( $instance['title'] ) ) ? $instance['title'] : 'Sign Up For Our Newsletter';
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">Title:</label> 
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">Title:</label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 		<?php
