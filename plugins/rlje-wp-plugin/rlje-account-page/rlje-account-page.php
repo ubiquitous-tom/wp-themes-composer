@@ -202,6 +202,7 @@ class RLJE_Account_Page {
 			$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			status_header( 200 );
+			$wp_query->is_404  = false;
 			$wp_query->is_page = true;
 			// $wp_query->is_archive = true;
 			ob_start();

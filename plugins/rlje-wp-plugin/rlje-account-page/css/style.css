@@ -1,3 +1,15 @@
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
 body {
     padding-top: 80px;
 }
@@ -5,6 +17,11 @@ body {
     padding: 40px 0;
     background-color: white;
     color: #424242;
+}
+
+#account-settings a:hover,
+#account-settings a:focus {
+    color: black;
 }
 
 #account-settings h1,
@@ -18,14 +35,26 @@ body {
     color: #404040;
 }
 
-.text-center {
-    text-align: center;
+#account-settings li.status-field {
+    margin-bottom: 10px;
+}
+#account-settings nav > ul.nav {
+    background-color: #f0f0f0;
 }
 
-.text-left {
-    text-align: left;
+#account-settings nav > ul.nav > li > a {
+    border-radius: 0;
 }
 
-.text-right {
-    text-align: right;
+#account-settings nav > ul.nav > li > a:hover,
+#account-settings nav > ul.nav > li > a:hover {
+    background-color: #ddd;
+}
+
+#account-settings nav > ul.nav > li.active > a {
+    background-color: #002037;
+}
+
+#account-settings nav > ul.nav > li.active > a:hover {
+    color: white;
 }
