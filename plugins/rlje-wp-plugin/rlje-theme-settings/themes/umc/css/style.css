@@ -75,6 +75,7 @@
 body {
     background: #011f36;
     font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 h1,
@@ -90,6 +91,9 @@ button {
 }
 
 /* CAROUSEL */
+.carousel-controls {
+    max-width: calc(510px / (9/16));
+}
 .carousel .item .container {
     max-width: calc(510px / (9/16));
 }
@@ -105,75 +109,89 @@ button {
 .navbar-nav>li>a,
 .log-in,
 .free-month {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* BUTTONS, TABS, AND ICONS  */
 
 #page-subhead {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* DROPDOWN */
 
 #options {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 #drop-select li {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* BROWSE TEMPLATE*/
 
 .browse li {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* SCHEDULE TEMPLATE */
 
 .schedule li {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 .schedule h6 {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* CONTACT US */
 
 #contact-hero h3 {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 #contact-form button {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* FOOTER TEMPLATE */
 
 .footer a {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* VALTIRA ADDITIONS */
 
 .menuOptions {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 .drop-select li {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 #nextEpisodeOverlay p {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 /* HOME TEMPLATE*/
 
 .view-all a {
-    font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 1px;
 }
 
 
@@ -241,4 +259,8 @@ span[itemprop="trailer"] a button {
 .continueEpisodeBtn js-play-resume {
     background: #a27b43;
     border-color: #a27b43;
+}
+
+@media all and (min-width: 1100px) {
+    .carousel-controls {top: calc(50% - (130px/2));}
 }
