@@ -4,7 +4,7 @@ body {
 #account-settings {
     padding: 40px 0;
     background-color: white;
-    color: #404040;
+    color: #424242;
 }
 
 #account-settings h1,
@@ -13,9 +13,19 @@ body {
 #account-settings h4,
 #account-settings h5,
 #account-settings h6 {
+    letter-spacing: initial;
+    text-transform: initial;
     color: #404040;
 }
 
-#account-settings nav {
-    color: #222;
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
 }

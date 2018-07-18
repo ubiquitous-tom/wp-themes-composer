@@ -167,6 +167,8 @@ class RLJE_Account_Page {
         $action = get_query_var('action');
         if(!empty($action)) {
             $this->account_action = $action;
+        } else {
+            $this->account_action = "status";
         }
         
         if("account" === $pagename) {
