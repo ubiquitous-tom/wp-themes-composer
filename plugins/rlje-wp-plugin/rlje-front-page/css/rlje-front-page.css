@@ -43,7 +43,7 @@
 /* HERO CAROUSEL (BOOTSTRAP CAROUSEL ALSO USED FOR SPOTLIGHT ROWS) */
 .feature-slide.carousel {margin: 0 auto;max-width: 2100px;position: relative;}
 .feature-slide .carousel-control {opacity: .65}
-.feature-slide .carousel-inner {margin-top: 55px;min-height: 0px;overflow: hidden;position: relative;width: 100%;}
+.feature-slide .carousel-inner {/*margin-top: 55px;*/min-height: 0px;overflow: hidden;position: relative;width: 100%;}
 .feature-slide .carousel-inner .active.left { left: -33%; }
 .feature-slide .carousel-inner > .active.right,.feature-slide .carousel-inner > .next    { left:  33%; }
 .feature-slide .carousel-inner > .active.left, .feature-slide .carousel-inner > .prev    { left: -33%; }
@@ -73,4 +73,4 @@
 .carousel-fade .carousel-inner .next.left,
 .carousel-fade .carousel-inner .prev.right {opacity: 1;}
 .carousel-fade .carousel-control {z-index: 2;}
-.control-position {position:relative;margin-top:-32%}
+.control-position {position:relative;/*margin-top:-32%*/}

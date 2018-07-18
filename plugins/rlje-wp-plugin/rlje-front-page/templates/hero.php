@@ -1,9 +1,14 @@
 <section class="home-hero-carousel">
 	<div class="carousel feature-slide slide carousel-fade" id="heroCarousel">
+		<?php $total_items = count( $data_carousel ); ?>
+		<ol class="carousel-indicators">
+			<?php for ( $j = 0; $j < $total_items; $j++ ) : ?>
+			<li data-target="#heroCarousel" data-slide-to="<?php echo $j; ?>" class="<?php echo ( $j === 0 ) ? 'active' : ''; ?>"></li>
+			<?php endfor; ?>
+		</ol>
 		<div class="carousel-inner">
 			<?php
 			$i = 0;
-			$total_items = count( $data_carousel );
 			foreach ( $data_carousel as $item ) :
 				$prev_item = ( $i > 0 ) ? $data_carousel[ $i - 1 ] : $data_carousel[ $total_items - 1 ];
 				$next_item = ( $i < $total_items - 1 ) ? $data_carousel[ $i + 1 ] : $data_carousel[0];
@@ -42,26 +47,18 @@
 			</div>
 			<?php endforeach; ?>
 		</div>
-		<div class="container">
+		<div class="container carousel-controls">
 			<div class="control-position">
 				<a class="left carousel-control" href="#heroCarousel" data-slide="prev">
-					<img class="hero-left-arrow" src="<?php echo rljeApiWP_getImageUrlFromServices( 'hero-left?t=Icons' ); ?>"/>
+					<img class="hero-left-arrow" src="<?php echo plugins_url( '../img/hero-left.png', __FILE__ ); //rljeApiWP_getImageUrlFromServices( 'hero-left?t=Icons' ); ?>"/>
 				</a>
 			</div>
 
 			<div class="control-position">
 				<a class="right carousel-control" href="#heroCarousel" data-slide="next">
-					<div>
-						<img class="hero-right-arrow" src="<?php echo rljeApiWP_getImageUrlFromServices( 'hero-right?t=Icons' ); ?>"/>
-					</div>
+					<img class="hero-right-arrow" src="<?php echo plugins_url( '../img/hero-right.png', __FILE__ );//rljeApiWP_getImageUrlFromServices( 'hero-right?t=Icons' ); ?>"/>
 				</a>
 			</div>
-
-			<ol class="carousel-indicators">
-				<?php for ( $j = 0; $j < $total_items; $j++ ) : ?>
-				<li data-target="#heroCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo ( $i === 0 ) ? 'active' : ''; ?>"></li>
-				<?php endfor; ?>
-			</ol>
 		</div>
 	</div>
 </section>

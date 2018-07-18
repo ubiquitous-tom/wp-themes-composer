@@ -11,9 +11,9 @@
 		$(sel2).toggleClass('out');});
 
 		//feature carousel state change
-		$('#myCarousel').carousel({
-			interval: 40000
-		});
+		// $('#myCarousel').carousel({
+		// 	interval: 40000
+		// });
 
 		// Carousel state change for various screen sizes
 
