@@ -152,6 +152,10 @@ class RLJE_Account_Page {
 			case 'editPasword':
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-password.php';
 				break;
+			
+			case 'editBilling':
+				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-billing.php';
+				break;
 			default:
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/status.php';
 		}
@@ -194,6 +198,18 @@ class RLJE_Account_Page {
 							}
 						}
 					}
+				} elseif ( 'editBilling' === $action ) {
+					$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+					// Prevent internal 404 on custome search page because of template_redirect hook.
+					status_header( 200 );
+					$wp_query->is_404  = false;
+					$wp_query->is_page = true;
+					// $wp_query->is_archive = true;
+					ob_start();
+					require_once plugin_dir_path( __FILE__ ) . 'templates/updatecard.php';
+					$html = ob_get_clean();
+					echo $html;
+					exit();
 				}
 				$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
 				// Prevent internal 404 on custome search page because of template_redirect hook.
