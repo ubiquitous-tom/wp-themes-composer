@@ -1,6 +1,6 @@
 <?php
 
-class RLJE_Episode_Page {
+class RLJE_Episode_Page extends RLJE_Franchise_Page {
 
 	protected $episodes;
 	protected $brightcove;
@@ -47,8 +47,9 @@ class RLJE_Episode_Page {
 		wp_localize_script( 'rlje-episode', 'episode_object', array(
 			// 'ajax_url' => home_url( 'ajax_atv' ),
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'token' => wp_create_nonce( $this->nonce )
-		));
+			'token' => wp_create_nonce( $this->nonce ),
+			'episode_id' => $this->episode_id,
+		) );
 	}
 
 	public function enqueue_debugger_scripts() {
