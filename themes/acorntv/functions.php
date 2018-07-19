@@ -615,5 +615,12 @@ function acorntv_get_episode_number($episode, $order){
 }
 add_filter('atv_get_episode_number', 'acorntv_get_episode_number', 10, 2);
 
-// require_once('admLandingPages.php');
-// require_once('admNewsAndReviews.php');
+
+
+function add_favicon_to_header() {
+	$favicon_url = apply_filters( 'rlje_main_favicon_url', get_bloginfo( 'template_url' ) . '/img/favicon.ico' );
+	?>
+	<link rel="shortcut icon" href="<?php echo esc_url( $favicon_url ); ?>">
+	<?php
+}
+add_action( 'wp_head', 'add_favicon_to_header', 1 );

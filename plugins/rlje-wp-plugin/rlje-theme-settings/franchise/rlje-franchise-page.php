@@ -37,6 +37,15 @@ class RLJE_Franchise_Page {
 			return;
 		}
 
+		if ( is_ssl() ) {
+			$bc_admin_js = 'https://sadmin.brightcove.com/';
+		} else {
+			$bc_admin_js = 'http://admin.brightcove.com/';
+		}
+
+		// Register script for later usages on Episode, and Trailer pages
+		wp_register_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
 		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 		$franchise_object = [

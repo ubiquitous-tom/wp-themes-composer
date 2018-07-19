@@ -40,7 +40,6 @@ class RLJE_Trailer_Page extends RLJE_Franchise_Page {
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/trailer.js' ) );
 
 		wp_enqueue_style( 'rlje-trailer', plugins_url( 'css/trailer.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
-		wp_enqueue_script( 'brightcove', '//admin.brightcove.com/js/BrightcoveExperiences.js', array(), false, true );
 		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-trailer', plugins_url( 'js/trailer.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 
