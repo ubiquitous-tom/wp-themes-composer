@@ -256,9 +256,20 @@ span[itemprop="trailer"] a button {
     border-color: #011f36;
 }
 
-.continueEpisodeBtn js-play-resume {
+.continueEpisodeBtn.js-play-start,
+.continueEpisodeBtn.js-player-start {
     background: #a27b43;
     border-color: #a27b43;
+}
+
+/* .footer {
+    position: absolute;
+} */
+.footer ul {
+    margin-top: 0;
+}
+.footer p {
+    margin-top: 0;
 }
 
 @media all and (min-width: 1100px) {

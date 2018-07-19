@@ -62,13 +62,13 @@ class RLJE_Index_Page {
 			<div class="container">
 				<?php
 					if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
-						$watchSpotlightItems = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
-						if ( 0 < count( $watchSpotlightItems ) ) :
+						$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
+						if ( 0 < count( $watch_spotlight_items ) ) :
 				?>
 				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
 				<div class="col-md-12">
 					<?php
-						set_query_var( 'carousel-items', $watchSpotlightItems );
+						set_query_var( 'carousel-items', $watch_spotlight_items );
 						get_template_part( 'partials/section-generic-carousel' );
 					?>
 				</div>

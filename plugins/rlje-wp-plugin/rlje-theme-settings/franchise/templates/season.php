@@ -41,7 +41,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			<div class="col-xs-12 col-sm-6 col-lg-8">
 				<p id="franchise-description"><?php echo $franchise->longDescription; ?></p>
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
-				<a id="inline" href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer/'; ?>">
+				<a id="inline" class="view-trailer" href="<?php echo $base_url_path . '/' . $franchise->id . '/trailer/'; ?>">
 					<button>View Trailer</button>
 				</a>
 					<?php

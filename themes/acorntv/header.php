@@ -11,7 +11,7 @@
 	<meta name="apple-itunes-app" content="app-id=896014310">
 	<meta name="google-play-app" content="app-id=com.acorn.tv">
 	<meta name="google-site-verification" content="QCrNnLN11eCtEq_RIVjUQEXRabEJewu4tPwxbjJHHj4" />
-	<link rel="shortcut icon" href="<?php echo get_bloginfo( 'template_url' ); ?>/img/favicon.ico">
+
 	<?php
 	// Add dynamic title and meta description when it is a franchise.
 	$is_custom_meta_title_and_desc = false;
@@ -182,3 +182,4 @@
 	?>
 
 	<?php do_action( 'rlje_header_navigation' ); ?>
+

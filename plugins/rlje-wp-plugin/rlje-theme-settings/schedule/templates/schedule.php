@@ -8,7 +8,7 @@ $base_url_path   = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP
 // 	'leavingsoon' => 'Leaving Soon',
 // );
 ?>
-<div class="container schedule">
+<section class="container schedule">
 	<?php require_once plugin_dir_path( __FILE__ ) . '../partials/navigation.php'; ?>
 	<?php
 	$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'section' );
@@ -74,6 +74,6 @@ $base_url_path   = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP
 		get_template_part( 'partials/franchises-unavailable-message' );
 	endif;
 	?>
-</div>
+</section>
 <?php
 get_footer();

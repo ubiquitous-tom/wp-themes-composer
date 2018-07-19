@@ -1,17 +1,17 @@
 <?php
 $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-if ( count( $_POST ) > 0 && isset( $_COOKIE['ATVSessionCookie'], $_POST['action'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
+// if ( count( $_POST ) > 0 && isset( $_COOKIE['ATVSessionCookie'], $_POST['action'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
 
-	switch ( $_POST['action'] ) {
-		case 'add':
-			rljeApiWP_addToWatchlist( $_POST['franchise'], $_COOKIE['ATVSessionCookie'] );
-			break;
-		case 'remove':
-			rljeApiWP_removeFromWatchlist( $_POST['franchise'], $_COOKIE['ATVSessionCookie'] );
-			break;
-	}
+// 	switch ( $_POST['action'] ) {
+// 		case 'add':
+// 			rljeApiWP_addToWatchlist( $_POST['franchise'], $_COOKIE['ATVSessionCookie'] );
+// 			break;
+// 		case 'remove':
+// 			rljeApiWP_removeFromWatchlist( $_POST['franchise'], $_COOKIE['ATVSessionCookie'] );
+// 			break;
+// 	}
 
-else :
+// else :
 
 	if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 		$franchise_id = get_query_var( 'franchise_id' );
@@ -132,9 +132,9 @@ else :
 					if ( isset( $_COOKIE['ATVSessionCookie'], $franchise->id ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) && $have_franchises_available ) :
 						if ( ! rljeApiWP_isFranchiseAddedToWatchlist( $franchise->id, $_COOKIE['ATVSessionCookie'] ) ) :
 							?>
-					<a class="inline"><button id="watchlistActionButton" onclick="addToWatchlist('<?php echo $franchise->id; ?>')">Add to Watchlist</button></a>
+					<a id="watchlist-button" class="inline"><button id="watchlistActionButton" data-action="add">Add to Watchlist</button></a>
 					<?php else : ?>
-					<a class="inline"><button id="watchlistActionButton" onclick="removeFromWatchlist('<?php echo $franchise->id; ?>')">Remove from Watchlist</button></a>
+					<a id="watchlist-button" class="inline"><button id="watchlistActionButton" data-action="remove">Remove from Watchlist</button></a>
 					<?php endif; ?>
 						<?php
 						endif;
@@ -211,4 +211,4 @@ else :
 		get_template_part( 'partials/plugin-deactivated-message' );
 		get_footer();
 	endif;
-endif;
+// endif;

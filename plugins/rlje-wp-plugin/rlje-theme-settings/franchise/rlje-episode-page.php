@@ -41,7 +41,6 @@ class RLJE_Episode_Page {
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/episode.js' ) );
 
 		wp_enqueue_style( 'rlje-episode', plugins_url( 'css/episode.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
-		wp_enqueue_script( 'brightcove', '//admin.brightcove.com/js/BrightcoveExperiences.js', array(), false, true );
 		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-episode', plugins_url( 'js/episode.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 
@@ -142,6 +141,7 @@ class RLJE_Episode_Page {
 		// Prevent internal 404 on custome search page because of template_redirect hook.
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
+		status_header( 200 );
 		set_query_var( 'franchise_id', $this->franchise_id );
 		set_query_var( 'season_name', $this->season_id );
 		set_query_var( 'episode_name', $this->episode_id );
