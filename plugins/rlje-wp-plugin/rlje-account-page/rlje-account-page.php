@@ -1,7 +1,7 @@
 <?php
 class RLJE_Account_Page {
 
-	private $account_action;
+	private $account_action = 'status';
 	private $user_profile;
 	private $api_base;
 
@@ -78,11 +78,7 @@ class RLJE_Account_Page {
 	}
 
 	public function add_browse_rewrite_rules() {
-		add_rewrite_rule( '^account/status/?', 'index.php?pagename=account&action=status', 'top' );
-		add_rewrite_rule( '^account/editEmail/?', 'index.php?pagename=account&action=editEmail', 'top' );
-		add_rewrite_rule( '^account/editPassword/?', 'index.php?pagename=account&action=editPassword', 'top' );
-		add_rewrite_rule( '^account/logout/?', 'index.php?pagename=account&action=logout', 'top' );
-		add_rewrite_rule( '^account/?', 'index.php?pagename=account', 'top' );
+		add_rewrite_rule( '^account/([^/]*)/?', 'index.php?pagename=account&action=$matches[1]', 'top' );
 		add_rewrite_tag( '%action%', '([^&]+)' );
 	}
 
@@ -166,50 +162,50 @@ class RLJE_Account_Page {
 		global $wp_query;
 		$pagename = get_query_var( 'pagename' );
 		$action   = get_query_var( 'action' );
-		if ( ! empty( $action ) ) {
-			$this->account_action = $action;
-		} else {
-			$this->account_action = 'status';
-		}
 
 		if ( 'account' === $pagename ) {
-			if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
-				wp_redirect( home_url( 'signin' ), 303 );
-				exit();
+			if ( ! empty( $action ) ) {
+				$this->account_action = $action;
 			}
-			if ( 'logout' === $action ) {
-				$this->logUserOut( $_COOKIE['ATVSessionCookie'] );
-				setcookie( 'ATVSessionCookie', '', time() - 3600 );
-				wp_redirect( home_url(), 303 );
-				exit();
-			} elseif ( 'editEmail' === $action ) {
-				if ( ! empty( $_POST ) ) {
-					if ( empty( $_POST['new-email'] ) || empty( $_POST['new-email-confirm'] ) || $_POST['new-email'] !== $_POST['new-email-confirm'] ) {
-						$message_error = 'The two email address do not match';
-					} else {
-						$email_response = $this->updateUserEmail( $_COOKIE['ATVSessionCookie'], $_POST['new-email'] );
-						if ( isset( $email_response['error'] ) ) {
-							$message_error = $email_response['error'];
-
-						} elseif ( isset( $email_response['Email'] ) ) {
-							$message_sucess = 'E-Mail address was successfully updated';
+			if ( in_array( $this->account_action, ( [ 'status', 'editEmail', 'editPassword', 'editBilling', 'cancelMembership', 'applyCode', 'logout' ] ) ) ) {
+				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+					wp_redirect( home_url( 'signin' ), 303 );
+					exit();
+				}
+				if ( 'logout' === $action ) {
+					$this->logUserOut( $_COOKIE['ATVSessionCookie'] );
+					setcookie( 'ATVSessionCookie', '', time() - 3600 );
+					wp_redirect( home_url(), 303 );
+					exit();
+				} elseif ( 'editEmail' === $action ) {
+					if ( ! empty( $_POST ) ) {
+						if ( empty( $_POST['new-email'] ) || empty( $_POST['new-email-confirm'] ) || $_POST['new-email'] !== $_POST['new-email-confirm'] ) {
+							$message_error = 'The two email address do not match';
 						} else {
-							$message_error = 'There was an error updating E-mail address.';
+							$email_response = $this->updateUserEmail( $_COOKIE['ATVSessionCookie'], $_POST['new-email'] );
+							if ( isset( $email_response['error'] ) ) {
+								$message_error = $email_response['error'];
+
+							} elseif ( isset( $email_response['Email'] ) ) {
+								$message_sucess = 'E-Mail address was successfully updated';
+							} else {
+								$message_error = 'There was an error updating E-mail address.';
+							}
 						}
 					}
 				}
+				$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+				// Prevent internal 404 on custome search page because of template_redirect hook.
+				status_header( 200 );
+				$wp_query->is_404  = false;
+				$wp_query->is_page = true;
+				// $wp_query->is_archive = true;
+				ob_start();
+				require_once plugin_dir_path( __FILE__ ) . 'templates/main.php';
+				$html = ob_get_clean();
+				echo $html;
+				exit();
 			}
-			$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
-			// Prevent internal 404 on custome search page because of template_redirect hook.
-			status_header( 200 );
-			$wp_query->is_404  = false;
-			$wp_query->is_page = true;
-			// $wp_query->is_archive = true;
-			ob_start();
-			require_once plugin_dir_path( __FILE__ ) . 'templates/main.php';
-			$html = ob_get_clean();
-			echo $html;
-			exit();
 		}
 	}
 }
