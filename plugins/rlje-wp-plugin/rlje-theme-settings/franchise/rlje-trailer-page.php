@@ -21,20 +21,19 @@ class RLJE_Trailer_Page extends RLJE_Franchise_Page {
 			return;
 		}
 
+		// We need all these brightcove stuff because this page uses share account only.
 		$this->brightcove = get_option( 'rlje_theme_brightcove_shared_settings' );
-		if ( empty( $this->brightcove ) ) {
-			return;
-		}
-
-		// UMC FREE ACCOUNT
-		// $bc_account_id = '3392051363001';
-		// $bc_player_id = '0066661d-8f08-4e7b-a5b4-8d48755a3057';
-		// UMC PAYWALL ACCOUNT
-		// $bc_account_id = '3392051362001';
-		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
-
 		$bc_account_id = $this->brightcove['shared_account_id'];
 		$bc_player_id = $this->brightcove['shared_player_id'];
+
+		if ( is_ssl() ) {
+			$bc_admin_js = 'https://sadmin.brightcove.com/';
+		} else {
+			$bc_admin_js = 'http://admin.brightcove.com/';
+		}
+
+		wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+
 		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/trailer.css' ) );
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/trailer.js' ) );

@@ -202,9 +202,9 @@ var scrollToPlayer = function(elm) {
   $(document).ready(function() {
     $('.acorntv-slogan button.js-play').on('click', function(e) {
       e.preventDefault();
-				$('#brightcove-episode-trailer-player').removeClass('hidden');
-				var player = videojs('brightcove-episode-trailer-player');
-				player.play();
+        $('#brightcove-episode-trailer-player').removeClass('hidden');
+        var player = videojs('brightcove-episode-trailer-player');
+        player.play();
     });
   });
 })(jQuery);
