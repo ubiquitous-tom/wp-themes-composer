@@ -44,7 +44,6 @@ class RLJE_Theme_Menu_Settings {
 	}
 
 	public function get_user_information() {
-		$this->is_logged_in();
 		$this->http_user_agent = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
 	}
 
@@ -156,43 +155,6 @@ class RLJE_Theme_Menu_Settings {
 		$logo_url = plugin_dir_url( __FILE__ ) . 'img/logo.png';
 
 		return $logo_url;
-	}
-
-	public function is_logged_in() {
-		if ( ! isset( $_COOKIE['ATVSessionCookie'] ) ) {
-			$post_headers = array(
-				'accept' => 'application/json',
-				'content-type' => 'application/json',
-			);
-			$post_data = array(
-				'App'         => array(
-					'AppVersion' => 'UMC-Website',
-				),
-				'Credentials' => array(
-					'Username' => 'toms02@test.com',
-					'Password' => 'tomtom00',
-				),
-				'Request'     => array(
-					'OperationalScenario' => 'SIGNIN',
-				),
-			);
-			$body = array(
-				'headers' => $post_headers,
-				'body' => json_encode( $post_data ),
-			);
-			$url = RLJE_BASE_URL . '/initializeapp';
-			$response = wp_remote_post( $url, $body );
-			$body = wp_remote_retrieve_body( $response );
-			$data = json_decode( $body, true );
-			// var_dump($data);
-			$session_id = ( ! empty( $data['Session']['SessionID'] ) ) ? $data['Session']['SessionID'] : '';
-			if ( ! empty( $session_id ) ) {
-				// $this->is_user_logged_and_active = true;
-				setcookie( 'ATVSessionCookie', $session_id, 10 * 365 * 24 * 60 * 60 );
-			}
-		} else {
-			$status = rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] );
-		}
 	}
 }
 

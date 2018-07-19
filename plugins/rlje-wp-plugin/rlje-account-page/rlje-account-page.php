@@ -179,7 +179,7 @@ class RLJE_Account_Page {
 			}
 			if ( 'logout' === $action ) {
 				$this->logUserOut( $_COOKIE['ATVSessionCookie'] );
-				setcookie( 'ATVSessionCookie', '', time() - 3600 );
+				setcookie( 'ATVSessionCookie', '', time() - 3600, '/' );
 				wp_redirect( home_url(), 303 );
 				exit();
 			} elseif ( 'editEmail' === $action ) {

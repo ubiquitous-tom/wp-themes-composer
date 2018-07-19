@@ -41,7 +41,7 @@ class RLJE_Signin_Page {
 		set_transient( 'atv_userProfile_' . md5( $session_id ), $user_profile, $this->api_time_refresh_cache );
 	}
 
-	private function encodeHash( $data, $api_key = API_KEY ) {
+	private function encodeHash( $data, $api_key ) {
 		$hash = json_encode( $data ) . $api_key;
 		return base64_encode( $hash );
 	}
@@ -51,7 +51,7 @@ class RLJE_Signin_Page {
 		$raw_response = wp_remote_post(
 			$this->api_endpoint . '/' . $method, [
 				'headers' => [
-					'x-atv-hash' => $this->encodeHash( $request ),
+					'x-atv-hash' => $this->encodeHash( $request, $this->api_key ),
 					'Accept'     => 'application/json',
 				],
 				'body'    => json_encode( $request ),
@@ -87,7 +87,7 @@ class RLJE_Signin_Page {
 			$success    = true;
 			$session_id = $response['Session']['SessionID'];
 			// Set ATVSessionCookie for the authenticated user
-			setcookie( 'ATVSessionCookie', $session_id, time() + ( 2 * 7 * 24 * 60 * 60 ) );
+			setcookie( 'ATVSessionCookie', $session_id, time() + ( 2 * 7 * 24 * 60 * 60 ), '/' );
 			// Ask Transients to cache user data
 			$this->cacheUserProfile( $response );
 		}
