@@ -174,13 +174,14 @@ class RLJE_Account_Page {
 				}
 				if ( 'logout' === $action ) {
 					$this->logUserOut( $_COOKIE['ATVSessionCookie'] );
-					setcookie( 'ATVSessionCookie', '', time() - 3600 );
+					setcookie( 'ATVSessionCookie', '', time() - 3600, '/' );
 					wp_redirect( home_url(), 303 );
 					exit();
 				} elseif ( 'editEmail' === $action ) {
 					if ( ! empty( $_POST ) ) {
 						if ( empty( $_POST['new-email'] ) || empty( $_POST['new-email-confirm'] ) || $_POST['new-email'] !== $_POST['new-email-confirm'] ) {
 							$message_error = 'The two email address do not match';
+
 						} else {
 							$email_response = $this->updateUserEmail( $_COOKIE['ATVSessionCookie'], $_POST['new-email'] );
 							if ( isset( $email_response['error'] ) ) {

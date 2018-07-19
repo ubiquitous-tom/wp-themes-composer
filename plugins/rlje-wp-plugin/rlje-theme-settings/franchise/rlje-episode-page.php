@@ -90,7 +90,7 @@ class RLJE_Episode_Page {
 		$page = ( ! empty( $_POST['page'] ) ) ? $_POST['page'] : null;
 
 		$data = array(
-			'isActive' => rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ),
+			'isActive' => rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ),
 		);
 		wp_send_json_success( $data );
 	}
@@ -100,7 +100,7 @@ class RLJE_Episode_Page {
 			die( 'Action Not Allow!' );
 		}
 
-		if ( ! rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ) ) {
+		if ( ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
 			die( wp_get_server_protocol() . ' 401 Unauthorized' );
 		}
 
@@ -195,7 +195,7 @@ class RLJE_Episode_Page {
 		// $bc_account_id = '3392051362001';
 		// $bc_player_id = 'e148573c-29cd-4ede-a267-a3947918ea4a';
 
-		if ( rljeApiWP_isUserActive( $_COOKIE["ATVSessionCookie"] ) ) {
+		if ( rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
 			$this->brightcove = get_option( 'rlje_theme_brightcove_restricted_settings' );
 			$brightcove['bc_account_id'] = $this->brightcove['restricted_account_id'];
 			$brightcove['bc_player_id'] = $this->brightcove['restricted_player_id'];

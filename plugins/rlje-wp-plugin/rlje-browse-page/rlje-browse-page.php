@@ -68,6 +68,8 @@ class RLJE_Browse_Page {
 			$wp_query->is_page    = true;
 			// $wp_query->is_archive = true;
 
+			status_header( 200 );
+
 			ob_start();
 			require_once plugin_dir_path( __FILE__ ) . 'templates/browse.php';
 			$html = ob_get_clean();
