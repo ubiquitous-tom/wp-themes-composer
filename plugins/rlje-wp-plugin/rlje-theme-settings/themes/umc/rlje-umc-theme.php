@@ -5,18 +5,11 @@ class RLJE_UMC_Theme {
 	protected $theme = 'umc';
 
 	public function __construct() {
-		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'wp_head', array( $this, 'remove_og_favicon_from_header' ) );
-		// add_action( 'wp_head', array( $this, 'add_umc_favicon_to_header' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_filter( 'rlje_main_favicon_url', array( $this, 'umc_main_favicon_url' ) );
 		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ), 11 );
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
-	}
-
-	public function remove_og_favicon_from_header() {
-		var_dump(function_exists('add_favicon_to_header'));
-		// remove_action( 'wp_head', 'add_favicon_to_header' );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -32,13 +25,6 @@ class RLJE_UMC_Theme {
 		// Special js hook to update carousel pagination image url to use the right one for umc.
 		wp_enqueue_script( 'rlje-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
 		wp_enqueue_script( 'rlje-umc-carousel-pagination-js', plugins_url( 'js/umc-carousel-pagination.js', __FILE__ ), array( 'rlje-carousel-pagination-js' ), $umc_carousel_pagination_js_ver, true );
-	}
-
-	public function add_umc_favicon_to_header() {
-		$favicon_url = plugins_url( 'img/favicon.ico', __FILE__ );
-		?>
-		<link rel="shortcut icon" href="<?php echo esc_url( $favicon_url ); ?>">
-		<?php
 	}
 
 	public function umc_main_favicon_url( $favicon_url ) {
