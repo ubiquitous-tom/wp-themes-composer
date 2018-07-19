@@ -41,6 +41,7 @@ class RLJE_Season_Page extends RLJE_Franchise_Page {
 		// Prevent internal 404 on custome search page because of template_redirect hook.
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
+		status_header( 200 );
 		set_query_var( 'franchise_id', $this->franchise_id );
 		set_query_var( 'season_name', $this->season_id );
 

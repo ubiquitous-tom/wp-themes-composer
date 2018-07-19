@@ -106,6 +106,7 @@ class RLJE_Schedule_Page {
 		// Prevent internal 404 on custome search page because of template_redirect hook.
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
+		status_header( 200 );
 
 		ob_start();
 		require_once plugin_dir_path( __FILE__ ) . 'templates/schedule.php';

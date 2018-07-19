@@ -36,6 +36,7 @@ class RLJE_Theme_Search_Settings {
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_search = true;
 			$wp_query->is_404    = false;
+			status_header( 200 );
 
 			ob_start();
 			require_once plugin_dir_path( __FILE__ ) . 'templates/search.php';

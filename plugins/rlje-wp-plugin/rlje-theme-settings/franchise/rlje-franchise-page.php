@@ -10,11 +10,14 @@ class RLJE_Franchise_Page {
 	protected $franchise_id;
 	protected $season_id;
 	protected $episode_id;
+	protected $nonce = 'rlje-franchise-token-nonce';
 
 	public function __construct() {
 		add_action( 'wp', array( $this, 'get_pagename' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ), 20 );
+		add_action( 'wp_ajax_add', array( $this, 'add_to_watchlist' ) );
+		add_action( 'wp_ajax_remove', array( $this, 'remove_from_watchlist' ) );
 
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
 	}
@@ -36,6 +39,12 @@ class RLJE_Franchise_Page {
 
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
 		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
+		$franchise_object = [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'franchise_id' => $this->franchise_id,
+			'nonce' => wp_create_nonce( $this->nonce ),
+		];
+		wp_localize_script( 'rlje-franchise', 'franchise_object', $franchise_object );
 	}
 
 	public function franchise_template_redirect() {
@@ -45,6 +54,7 @@ class RLJE_Franchise_Page {
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;
 			$wp_query->is_page = true;
+			status_header( 200 );
 			set_query_var( 'franchise_id', $this->franchise_id );
 
 			ob_start();
@@ -54,6 +64,46 @@ class RLJE_Franchise_Page {
 
 			exit();
 		}
+	}
+
+	public function add_to_watchlist() {
+		if ( ! wp_verify_nonce( $_POST['nonce'], $this->nonce ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		$franchise_id = ( ! empty( $_POST['franchise_id'] ) ) ? $_POST['franchise_id'] : '';
+		if ( empty( $franchise_id ) ) {
+			wp_send_json_error( array( 'message' => 'Please provide franchise ID.' ) );
+		}
+
+		$data = [
+			'message' => rljeApiWP_addToWatchlist( $franchise_id, $_COOKIE['ATVSessionCookie'] ),
+		];
+		wp_send_json_success( $data );
+	}
+
+	public function remove_from_watchlist() {
+		if ( ! wp_verify_nonce( $_POST['nonce'], $this->nonce ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		$franchise_id = ( ! empty( $_POST['franchise_id'] ) ) ? $_POST['franchise_id'] : '';
+		if ( empty( $franchise_id ) ) {
+			wp_send_json_error( array( 'message' => 'Please provide franchise ID.' ) );
+		}
+
+		$data = [
+			'message' => rljeApiWP_removeFromWatchlist( $franchise_id, $_COOKIE['ATVSessionCookie'] ),
+		];
+		wp_send_json_success( $data );
 	}
 
 	public function franchise_body_class( $classes ) {
@@ -81,50 +131,12 @@ class RLJE_Franchise_Page {
 			return array();
 		}
 
-
 		$available_franchises = $current_country_available_franchises[ $country ];
 		foreach ( $available_franchises as $franchise_id => $franchise_info ) {
 			$franchise_name = $franchise_info['name'];
 			$franchises[ $country ][ $franchise_id ] = $franchise_name;
 		}
-		$available_franchise_list =  $franchises;
 
-		// $franchises = array(
-		// 	'US' => array(
-		// 		'docmartin'    => array(
-		// 			'name' => 'Doc Martin',
-		// 		),
-		// 		'vexed'        => array(
-		// 			'name' => 'Vexed',
-		// 		),
-		// 		'vera'         => array(
-		// 			'name' => 'Vera',
-		// 		),
-		// 		'indiandoctor' => array(
-		// 			'name' => 'Indian Doctor',
-		// 		),
-		// 	),
-		// );
-
-		// $franchises = array(
-		// 	'US' => array(
-		// 		'divadiaries'    => array(
-		// 			'name' => 'Diva Diaries',
-		// 		),
-		// 		'lineofdutyumc'        => array(
-		// 			'name' => 'Line of Duty',
-		// 		),
-		// 		'richandruthless'         => array(
-		// 			'name' => 'The Rich and The Ruthless',
-		// 		),
-		// 		'monogamy' => array(
-		// 			'name' => 'Craig Ross Jr.\'s Monogamy',
-		// 		),
-		// 		'thefix' => array(
-		// 			'name' => 'The Fix',
-		// 		),
-		// 	),
-		// );
 		$available_franchise_list = ( ! empty( $franchises[ $country ] ) ) ? $franchises[ $country ] : array();
 
 		return ( ! empty( $available_franchise_list ) ) ? $available_franchise_list : array();

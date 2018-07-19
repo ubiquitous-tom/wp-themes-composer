@@ -67,7 +67,6 @@ class RLJE_Browse_Page {
 			$wp_query->is_404     = false;
 			$wp_query->is_page    = true;
 			// $wp_query->is_archive = true;
-
 			status_header( 200 );
 
 			ob_start();
