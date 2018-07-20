@@ -10,6 +10,7 @@ class RLJE_UMC_Theme {
 		add_filter( 'rlje_main_favicon_url', array( $this, 'umc_main_favicon_url' ) );
 		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ), 11 );
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
+		add_filter( 'rlje_title', array( $this, 'umc_title_format' ) );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -52,6 +53,22 @@ class RLJE_UMC_Theme {
 		}
 
 		return $item;
+	}
+
+	public function umc_title_format( $title ) {
+		if ( ! empty( get_query_var( 'franchise_id' ) ) ) {
+			$franchise = rljeApiWP_getFranchiseById( get_query_var( 'franchise_id' ) );
+			if ( is_object( $franchise ) ) {
+				$meta_title = htmlentities( $franchise->name );
+				$meta_descr = htmlentities( $franchise->longDescription );
+			}
+
+			$title['title'] = $meta_title;
+			$title['tagline'] = $title['site'] . ' - ' . get_bloginfo( 'description' );
+			unset( $title['site'] );
+		}
+
+		return $title;
 	}
 }
 

@@ -8,6 +8,8 @@ class RLJE_Landing_page {
 		add_action( 'wp_restore_post_revision', array( $this, 'acorntv_landing_page_restore_revision' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'rlje_description_meta_tag_content', array( $this, 'add_landing_page_description_meta_tag_content' ) );
+		add_filter( 'document_title_parts', array( $this, 'landing_pages_title_parts' ), 11 );
 		add_filter( '_wp_post_revision_fields', array( $this, 'acorntv_landing_page_revision_fields' ) );
 		add_filter( 'wp_save_post_revision_check_for_changes', array( $this, 'force_save_revision' ), 10, 3 );
 	}
@@ -290,6 +292,28 @@ class RLJE_Landing_page {
 			$metaDatas[ $fieldKey ] = get_metadata( 'post', $post_id, $fieldKey, true );
 		}
 		return $metaDatas;
+	}
+
+	public function add_landing_page_description_meta_tag_content( $description_content ) {
+		if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
+			$meta_title = htmlentities( get_the_title() );
+			$meta_descr = htmlentities( get_the_excerpt() );
+
+			$description_content = $meta_descr;
+		}
+
+		return $description_content;
+	}
+
+	public function landing_pages_title_parts( $title ) {
+		if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
+			$meta_title = htmlentities( get_the_title() );
+			$meta_descr = htmlentities( get_the_excerpt() );
+
+			$title['tagline'] = $meta_title;
+		}
+
+		return $title;
 	}
 }
 

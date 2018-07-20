@@ -2,17 +2,14 @@
 // $environment = apply_filters( 'atv_get_extenal_subdomain', '' ); // Leave the else value empty to production, now is .dev because it is not implemented in prod yet (used in uat.acorn.tv).
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
-	<meta charset="utf-8">
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="code" content="<?php echo ( $code = rljeApiWP_getCountryCode() ) ? $code : 'us'; ?>"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="apple-itunes-app" content="app-id=896014310">
-	<meta name="google-play-app" content="app-id=com.acorn.tv">
-	<meta name="google-site-verification" content="QCrNnLN11eCtEq_RIVjUQEXRabEJewu4tPwxbjJHHj4" />
 
-	<?php
+	<?php /*
 	// Add dynamic title and meta description when it is a franchise.
 	$is_custom_meta_title_and_desc = false;
 	if ( ! empty( $wp_query->query_vars['franchise_id'] ) ) {
@@ -33,7 +30,7 @@
 	<title>Acorn TV | <?php echo $meta_title; ?></title>
 	<meta name="description" content="<?php echo $meta_descr; ?>">
 		<?php
-	endif;
+	endif; */
 	wp_head();
 	// get_template_part( '/partials/redirect-signup' );
 	// get_template_part( '/partials/google-analytics' );
