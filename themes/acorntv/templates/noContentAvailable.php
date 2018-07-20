@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="<?php echo get_bloginfo('template_url') ?>/img/favicon.ico">
     <title>Acorn TV | <?php bloginfo('description'); ?></title>
     <meta name="description" content="<?php bloginfo('description'); ?>">
-    <link rel="stylesheet" id="bootstrap_css-css" href="<?php echo content_url('themes/acorntv/lib/bootstrap/css/bootstrap.min.css?ver=3.3.5') ?>" type="text/css" media="all">    
+    <link rel="stylesheet" id="bootstrap_css-css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" media="all">    
     <?php
     get_template_part('/partials/google-analytics');
     ?>
