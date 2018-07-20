@@ -74,7 +74,7 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'normalize_css', get_template_directory_uri() . '/lib/normalize/normalize.min.css', false, '3.0.2' );
 	wp_enqueue_style( 'jquery_ui_css', get_template_directory_uri() . '/lib/jquery/ui/jquery-ui.min.css', false, '1.11.4' );
 	wp_enqueue_style( 'fontawesome_css', get_template_directory_uri() . '/genericons/font-awesome.min.css', false, '1.0.0' );
-	wp_enqueue_style( 'bootstrap_css', get_template_directory_uri() . '/lib/bootstrap/css/bootstrap.min.css', false, '3.3.5' );
+	wp_enqueue_style( 'bootstrap_css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', false, '3.3.7' );
 	wp_enqueue_style( 'fancybox_css', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.css', false, '1.0.0' );
 	wp_enqueue_style( 'smartbanner_css', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.css', false, '1.0.0' );
 	wp_enqueue_style( 'main_style_css', get_template_directory_uri() . '/css/main-style.css', false, '1.4.8' );
@@ -87,7 +87,7 @@ function acorntv_hook_css_js() {
 	wp_enqueue_script( 'jquery-unveil-js', get_template_directory_uri() . '/lib/jquery/jquery-unveil/jquery.unveil.min.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'jquery-smartbanner-js', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.js', array( 'jquery-ui-core' ), null, true );
 	wp_enqueue_script( 'modernizr-js', get_template_directory_uri() . '/lib/modernizr/modernizr.min.js', array(), null, true );
-	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/lib/bootstrap/js/bootstrap.min.js', array( 'jquery' ), null, true );
+	wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array( 'jquery' ), null, '3.3.7' );
 	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), null, true );
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
