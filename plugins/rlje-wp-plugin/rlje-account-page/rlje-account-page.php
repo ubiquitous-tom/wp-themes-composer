@@ -12,12 +12,17 @@ class RLJE_Account_Page {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'wp_ajax_cancel_sub', array( $this, 'cancelMembership' ) );
+		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancelMembership' ] );
+
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
 
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'account' ] ) ) {
 			wp_enqueue_style( 'account-main-style', plugins_url( 'css/style.css', __FILE__ ) );
+			wp_enqueue_script( 'account-main-script', plugins_url( 'js/account-management.js', __FILE__ ) );
+			wp_localize_script( 'account-main-script', 'account_management_vars', [ 'ajax_url' => admin_url( 'admin-ajax.php' ), 'session_id' => $_COOKIE['ATVSessionCookie'] ] );
 		}
 	}
 
@@ -104,6 +109,23 @@ class RLJE_Account_Page {
 					$response = false;
 				}
 				break;
+			
+			case 'DELETE':
+				$raw_response = wp_remote_request(
+					$url, [
+						'method' => 'DELETE',
+						'headers' => [
+							'x-atv-hash' => $this->encodeHash( $params ),
+							'Accept'     => 'application/json',
+						],
+						'body' => json_encode( $params )
+					]
+				);
+				if ( is_wp_error( $raw_response ) ) {
+					error_log( 'Error hiting API ' . $raw_response->get_error_message() );
+					$response = false;
+				}
+				break;
 
 			default:
 				// code...
@@ -139,6 +161,20 @@ class RLJE_Account_Page {
 		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
 	}
 
+	function cancelMembership() {
+		$session_id = strval( $_POST['session_id'] );
+		$params   = [
+			'SessionID' => $session_id
+		];
+		$api_response = $this->hitApi( $params, 'membership', 'DELETE');
+		if(isset($api_response['Membership'])) {
+			$ajax_response = ['success' => true];
+		} else {
+			$ajax_response = ['success' => false];
+		}
+		wp_send_json($ajax_response);
+	}
+
 	public function show_subsection() {
 		switch ( $this->account_action ) {
 			case 'status':
@@ -156,6 +192,11 @@ class RLJE_Account_Page {
 			case 'editBilling':
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-billing.php';
 				break;
+
+			case 'cancelMembership':
+				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/cancel-membership.php';
+				break;
+
 			default:
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/status.php';
 		}
