@@ -10,6 +10,7 @@ class RLJE_UMC_Theme {
 		add_filter( 'rlje_main_favicon_url', array( $this, 'umc_main_favicon_url' ) );
 		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ), 11 );
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
+		add_filter( 'rlje_browse_page_list_browse_item_image', array( $this, 'umc_browse_page_list_browse_item_image' ), 10, 2 );
 		add_filter( 'rlje_title', array( $this, 'umc_title_format' ) );
 
 		require_once plugin_dir_path( __FILE__ ) . 'franchise/umc-franchise-page.php';
@@ -55,6 +56,14 @@ class RLJE_UMC_Theme {
 		}
 
 		return $item;
+	}
+
+	public function umc_browse_page_list_browse_item_image( $item_image, $item ) {
+		if ( ! empty( $item->img ) ) {
+			$item_image = $item->image_h;
+		}
+
+		return $item_image;
 	}
 
 	public function umc_title_format( $title ) {

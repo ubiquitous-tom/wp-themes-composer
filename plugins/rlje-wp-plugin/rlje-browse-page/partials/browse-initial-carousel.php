@@ -8,7 +8,7 @@ if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE
 		<?php
 		set_query_var( 'carousel-items', $watch_spotlight_items );
 		// get_template_part( 'partials/section-generic-carousel' );
-		require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/section-generic-carousel.php' );
+		require plugin_dir_path( __FILE__ ) . '../partials/section-generic-carousel.php';
 		?>
 </div>
 		<?php
@@ -30,7 +30,7 @@ foreach ( $spotlight_items as $spotlight ) :
 		);
 	// get_template_part( 'partials/section-carousel-pagination' );
 	ob_start();
-	require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/section-carousel-pagination.php' );
+	require plugin_dir_path( __FILE__ ) . '../partials/section-carousel-pagination.php';
 	$html = ob_get_clean();
 	echo $html;
 	?>

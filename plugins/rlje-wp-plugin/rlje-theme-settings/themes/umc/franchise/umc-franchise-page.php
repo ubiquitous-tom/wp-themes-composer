@@ -3,9 +3,9 @@
 class UMC_Franchise_page {
 
 	public function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		add_filter( 'rlje_franchise_page_template_path', array( $this, 'umc_franchise_page_template_path' ) );
+		// add_filter( 'rlje_franchise_page_template_path', array( $this, 'umc_franchise_page_template_path' ) );
 	}
 
 	public function enqueue_scripts() {

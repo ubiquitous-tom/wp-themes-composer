@@ -70,7 +70,7 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 				// Show initial Browse Page.
 				set_query_var( 'spotlight_items', $guide_items );
 				// get_template_part( 'partials/browse-initial-carousel' );
-				require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/browse-initial-carousel.php' );
+				require plugin_dir_path( __FILE__ ) . '../partials/browse-initial-carousel.php';
 				else :
 					// Show Browse Page filtered
 					?>
@@ -106,14 +106,14 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 					?>
 					<div class="item" style="margin-left:0px;width:100%;padding-bottom:30px;">
 						<?php //get_template_part( 'partials/list-browse-items' ); ?>
-						<?php require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/list-browse-items.php' ); ?>
+						<?php require plugin_dir_path( __FILE__ ) . '../partials/list-browse-items.php'; ?>
 					</div>
 		</div>
 					<?php
 				endif;
 			else :
 				// get_template_part( 'partials/franchises-unavailable-message' );
-				// require str_replace( 'templates', 'partials', plugin_dir_path( __FILE__ ) . '../partials/franchises-unavailable-message.php' );
+				// require plugin_dir_path( __FILE__ ) . '../partials/franchises-unavailable-message.php';
 			?>
 				<div id="contentPane" class="message-block">
 					<div class="row-fluid">
