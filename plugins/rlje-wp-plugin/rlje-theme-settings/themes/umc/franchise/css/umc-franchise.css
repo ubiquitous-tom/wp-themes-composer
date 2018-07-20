@@ -1,0 +1,38 @@
+#franchise-container {
+    background: transparent url('../img/Money-Matters_3840x2160_Horizontal.jpg') no-repeat center 75px fixed;
+    background-size: 100%;
+}
+#franchise-container:before {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, .75) 0, rgba(256, 0, 0, 0) 100%);
+	height: 100%;
+	width: 100%;
+}
+#franchise-container:after {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 45%, rgba(256, 0, 0, 0) 73%);
+	height: 100%;
+	width: 100%;
+}
+
+#franchise-container .secondary-bg {
+    background: transparent;
+}
+
+.admin-bar #franchise-container {
+    background-position-y: 140px;
+}
+
+#fanchise-synopsis {
+	margin-top: 75px
+}
+
+#franchise-actor,
+#franchise-director {
+    text-transform: uppercase;
+}
