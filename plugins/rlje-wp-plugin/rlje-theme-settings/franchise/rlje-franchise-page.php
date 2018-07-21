@@ -10,6 +10,7 @@ class RLJE_Franchise_Page {
 	protected $franchise_id;
 	protected $season_id;
 	protected $episode_id;
+	protected $session_cookie;
 	protected $nonce = 'rlje-franchise-token-nonce';
 
 	public function __construct() {
@@ -46,7 +47,10 @@ class RLJE_Franchise_Page {
 		// Register script for later usages on Episode, and Trailer pages
 		wp_register_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
 
+		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/franchise.css' ) );
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
+
+		wp_enqueue_style( 'rlje-franchise', plugins_url( 'css/franchise.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 		$franchise_object = [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -64,10 +68,16 @@ class RLJE_Franchise_Page {
 			$wp_query->is_404  = false;
 			$wp_query->is_page = true;
 			status_header( 200 );
-			set_query_var( 'franchise_id', $this->franchise_id );
+			// set_query_var( 'franchise_id', $this->franchise_id );
+			$franchise_id = $this->franchise_id;
+			$franchise   = rljeApiWP_getFranchiseById( $franchise_id );
 
+			$stream_positions = $this->get_stream_positions( $franchise_id );
+			$total_episodes = $this->get_total_episodes( $franchise );
+
+			$template_path = apply_filters( 'rlje_franchise_page_template_path', plugin_dir_path( __FILE__ ) . 'templates/franchise.php' );
 			ob_start();
-			require_once plugin_dir_path( __FILE__ ) . 'templates/franchise.php';
+			require_once $template_path;
 			$html = ob_get_clean();
 			echo $html;
 
@@ -122,6 +132,37 @@ class RLJE_Franchise_Page {
 		}
 
 		return $classes;
+	}
+
+	public function get_stream_positions( $franchise_id ) {
+		$stream_positions = [];
+		if ( ! $this->is_user_active() ) {
+			return $stream_positions;
+		}
+
+		$get_stream_positions = rljeApiWP_getStreamPositionsByFranchise( $franchise_id, $_COOKIE['ATVSessionCookie'] );
+		if ( isset( $get_stream_positions->streamPositions ) ) {
+			$count_positions  = 1;
+			foreach ( $get_stream_positions->streamPositions as $stream_position ) {
+				$stream_positions[ $stream_position->EpisodeID ] = [
+					'Position'      => $stream_position->Position,
+					'EpisodeLength' => $stream_position->EpisodeLength,
+					'Counter'       => $count_positions,
+				];
+				$count_positions++;
+			}
+		}
+
+		return $stream_positions;
+	}
+
+	public function get_total_episodes( $franchise ) {
+		$total_episodes = 0;
+		foreach ( $franchise->seasons as $season_item ) {
+			$total_episodes += count( $season_item->episodes );
+		}
+
+		return $total_episodes;
 	}
 
 	protected function get_available_franchise_list() {
@@ -185,6 +226,24 @@ class RLJE_Franchise_Page {
 
 		return true;
 	}
+
+	protected function is_user_active() {
+		if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			$this->session_cookie = $_COOKIE['ATVSessionCookie'];
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function is_trailer_available( $franchise ) {
+		if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
 
 $rlje_franchise_page = new RLJE_Franchise_Page();
