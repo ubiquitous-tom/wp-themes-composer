@@ -54,7 +54,7 @@ if ( isset( $stream_positions ) ) {
 	$franchise_art_title = 'Click to watch the first episode';
 }
 
-$franchise_image     = $franchise->image;
+$franchise_image     = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise );
 $franchise_image_url = 'https://api.rlje.net/acorn/artwork/size/' . $franchise_image . '?w=460';
 ?>
 <div class="col-xs-12 col-sm-6 col-lg-4">

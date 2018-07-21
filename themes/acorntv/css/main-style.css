@@ -229,7 +229,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .schedule #schedule-item-border {border-bottom:1px solid #121212;padding-bottom:20px;padding-top:20px}
 
 /* SEARCH TEMPLATE */
-.search{margin-top:55px;}
+.search{margin-top:32px;}
 .search-episode{margin-top:55px;padding-bottom: 40px;}
 .search-episode h6 {color: #98c1d9;font-size: 14.5px;letter-spacing: 0.04em;margin-top: -7px;text-transform: none;}
 
@@ -501,7 +501,7 @@ p {font-size: 14.5px;}
 .episode-starring {font-size: 14.5px;}
 
 /* SEARCH TEMPLATE */
-.search{margin-top:75px;}
+/* .search{margin-top:75px;} */
 .search-episode{margin-top:60px;padding-bottom: 50px;}
 
  /* CONTACT US */

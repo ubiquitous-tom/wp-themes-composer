@@ -37,6 +37,7 @@ if ( $have_franchises_available ) :
 					?>
 				<div class="col-sm-6 col-md-6 col-lg-3">
 					<a href="<?php echo $base_url_path . '/' . $franchise->id; ?>">
+						<?php $franchise->image = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise ); ?>
 						<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=550' ); ?>" style="width:100%; height:auto; ">
 					</a>
 				</div>
@@ -65,6 +66,7 @@ if ( $have_franchises_available ) :
 						?>
 						<div class="col-sm-6 col-md-6 col-lg-3">
 							<a href="<?php echo $base_url_path . '/' . $franchise->id; ?>">
+								<?php $franchise->image = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise ); ?>
 								<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=550' ); ?>" style="width:100%; height:auto; ">
 							</a>
 						</div>

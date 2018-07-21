@@ -29,7 +29,7 @@ if ( $total_list_items > 0 ) :
 <?php endif; ?>
 	<div class="col-sm-6 col-md-6 col-lg-3" itemscope itemtype="http://schema.org/TVSeries" data-az="<?php echo $data_a_z; ?>" data-added="<?php echo $key + 1; ?>">
 		<a itemprop="url" href="<?php echo $base_url_path . '/' . $item->id; ?>/">
-			<?php $item_image = apply_filters( 'rlje_browse_page_list_browse_item_image', $item->image, $item ); ?>
+			<?php $item_image = apply_filters( 'rlje_franchise_artwork', $item->image, $item ); ?>
 			<img title="<?php echo $item->name; ?>" alt="<?php echo $item->id; ?>" class="wp-post-image" itemprop="image" src="<?php echo rljeApiWP_getImageUrlFromServices( $item_image . '?w=550' ); ?>" style="width:100%; height:auto;" />
 		</a>
 		<p itemprop="name" class="franchise-title"><?php echo $item->name; ?></p>
