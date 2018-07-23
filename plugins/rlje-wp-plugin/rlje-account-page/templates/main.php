@@ -23,7 +23,7 @@ get_header();
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'cancelMembership' ? 'active' : '' ) ); ?>">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/cancelMembership' ) ) ); ?>">Cancel Membership</a>
 				</li>
-				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'applycode' ? 'active' : '' ) ); ?>">
+				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'applyCode' ? 'active' : '' ) ); ?>">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/applyCode' ) ) ); ?>">Apply Code</a>
 				</li>
 				<?php } ?>

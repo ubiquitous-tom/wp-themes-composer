@@ -15,6 +15,9 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_cancel_sub', array( $this, 'cancelMembership' ) );
 		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancelMembership' ] );
 
+		add_action( 'wp_ajax_apply_promo_code', array( $this, 'applyCode' ) );
+		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'applyCode' ] );
+
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
 
@@ -193,6 +196,22 @@ class RLJE_Account_Page {
 		wp_send_json( $ajax_response );
 	}
 
+	function applyCode() {
+		// Go hit api and apply code
+		$session_id   = strval( $_POST['session_id'] );
+		$promo_code   = strval( $_POST['promo_code'] );
+		$params       = [
+			'Session'   => [
+				'SessionID' => $session_id,
+			],
+			'PromoCode' => [
+				'Code' => $promo_code,
+			],
+		];
+		$api_response = $this->hitApi( $params, 'promo', 'POST' );
+		wp_send_json( $api_response );
+	}
+
 	public function show_subsection() {
 		switch ( $this->account_action ) {
 			case 'status':
@@ -213,6 +232,10 @@ class RLJE_Account_Page {
 
 			case 'cancelMembership':
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/cancel-membership.php';
+				break;
+
+			case 'applyCode':
+				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/apply-code.php';
 				break;
 
 			default:
