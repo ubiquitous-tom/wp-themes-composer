@@ -22,7 +22,12 @@ class RLJE_Account_Page {
 		if ( in_array( get_query_var( 'pagename' ), [ 'account' ] ) ) {
 			wp_enqueue_style( 'account-main-style', plugins_url( 'css/style.css', __FILE__ ) );
 			wp_enqueue_script( 'account-main-script', plugins_url( 'js/account-management.js', __FILE__ ) );
-			wp_localize_script( 'account-main-script', 'account_management_vars', [ 'ajax_url' => admin_url( 'admin-ajax.php' ), 'session_id' => $_COOKIE['ATVSessionCookie'] ] );
+			wp_localize_script(
+				'account-main-script', 'account_management_vars', [
+					'ajax_url'   => admin_url( 'admin-ajax.php' ),
+					'session_id' => $_COOKIE['ATVSessionCookie'],
+				]
+			);
 		}
 	}
 
@@ -109,16 +114,16 @@ class RLJE_Account_Page {
 					$response = false;
 				}
 				break;
-			
+
 			case 'DELETE':
 				$raw_response = wp_remote_request(
 					$url, [
-						'method' => 'DELETE',
+						'method'  => 'DELETE',
 						'headers' => [
 							'x-atv-hash' => $this->encodeHash( $params ),
 							'Accept'     => 'application/json',
 						],
-						'body' => json_encode( $params )
+						'body'    => json_encode( $params ),
 					]
 				);
 				if ( is_wp_error( $raw_response ) ) {
@@ -154,6 +159,19 @@ class RLJE_Account_Page {
 		return $response;
 	}
 
+	function updateUserPassword( $session_id, $new_password ) {
+		$params   = [
+			'Session'     => [
+				'SessionID' => $session_id,
+			],
+			'Credentials' => [
+				'Password' => $new_password,
+			],
+		];
+		$response = $this->hitApi( $params, 'password', 'POST' );
+		return $response;
+	}
+
 	function logUserOut( $session_id ) {
 		// Mark the session as inactive in WP object cache
 		wp_cache_set( 'userStatus_' . md5( $session_id ), 'inactive', 'userStatus' );
@@ -162,17 +180,17 @@ class RLJE_Account_Page {
 	}
 
 	function cancelMembership() {
-		$session_id = strval( $_POST['session_id'] );
-		$params   = [
-			'SessionID' => $session_id
+		$session_id   = strval( $_POST['session_id'] );
+		$params       = [
+			'SessionID' => $session_id,
 		];
-		$api_response = $this->hitApi( $params, 'membership', 'DELETE');
-		if(isset($api_response['Membership'])) {
-			$ajax_response = ['success' => true];
+		$api_response = $this->hitApi( $params, 'membership', 'DELETE' );
+		if ( isset( $api_response['Membership'] ) ) {
+			$ajax_response = [ 'success' => true ];
 		} else {
-			$ajax_response = ['success' => false];
+			$ajax_response = [ 'success' => false ];
 		}
-		wp_send_json($ajax_response);
+		wp_send_json( $ajax_response );
 	}
 
 	public function show_subsection() {
@@ -185,10 +203,10 @@ class RLJE_Account_Page {
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-email.php';
 				break;
 
-			case 'editPasword':
+			case 'editPassword':
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-password.php';
 				break;
-			
+
 			case 'editBilling':
 				$partial_url = plugin_dir_path( __FILE__ ) . 'partials/edit-billing.php';
 				break;
@@ -234,6 +252,22 @@ class RLJE_Account_Page {
 
 							} elseif ( isset( $email_response['Email'] ) ) {
 								$message_sucess = 'E-Mail address was successfully updated';
+							} else {
+								$message_error = 'There was an error updating E-mail address.';
+							}
+						}
+					}
+				} elseif ( 'editPassword' === $action ) {
+					if ( ! empty( $_POST ) ) {
+						if ( empty( $_POST['new-password'] ) || empty( $_POST['new-password-confirm'] ) || $_POST['new-password'] !== $_POST['new-password-confirm'] ) {
+							$message_error = 'The password and confirmation password do not match or are less than 6 characters';
+						} else {
+							$password_response = $this->updateUserPassword( $_COOKIE['ATVSessionCookie'], $_POST['new-password'] );
+							if ( isset( $password_response['error'] ) ) {
+								$message_error = $password_response['error'];
+
+							} elseif ( isset( $password_response['success'] ) && $password_response['success'] ) {
+								$message_sucess = 'Password was successfully updated';
 							} else {
 								$message_error = 'There was an error updating E-mail address.';
 							}
