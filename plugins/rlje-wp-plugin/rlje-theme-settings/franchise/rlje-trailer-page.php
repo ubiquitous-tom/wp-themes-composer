@@ -59,7 +59,8 @@ class RLJE_Trailer_Page extends RLJE_Franchise_Page {
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
 		status_header( 200 );
-		set_query_var( 'franchise_id', $this->franchise_id );
+		// set_query_var( 'franchise_id', $this->franchise_id );
+		$franchise_id = $this->franchise_id;
 
 		ob_start();
 		require_once plugin_dir_path( __FILE__ ) . 'templates/trailer.php';

@@ -8,7 +8,7 @@ $franchise_url            = home_url( $franchise->id );
 	<div class="secondary-bg">
 		<div class="container franchise">
 			<!-- <p id="franchise-cast" itemprop="cast"><?php echo esc_html( $franchise->longDescription ); ?></p> -->
-			<!-- <h4 class="subnav">
+			<h4 class="subnav hidden">
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
 						<img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" id="archive-arrows">
@@ -18,7 +18,7 @@ $franchise_url            = home_url( $franchise->id );
 				<span itemprop="name"><?php echo $franchise->name; ?></span>
 				<meta itemprop="numberOfEpisodes" content="<?php echo $total_episodes; ?>" />
 				<meta itemprop="numberOfSeasons" content="<?php echo count( $franchise->seasons ); ?>" />
-				<span  class="subnav-next hidden-xs hidden-sm">
+				<span class="subnav-next hidden-xs hidden-sm">
 					<?php if ( ! empty( $first_episode_link ) ) : ?>
 					<a href="<?php echo esc_url( trailingslashit( $first_episode_link ) ); ?>">
 						<span>Watch Episode</span>
@@ -26,7 +26,7 @@ $franchise_url            = home_url( $franchise->id );
 					</a>
 					<?php endif; ?>
 				</span>
-			</h4> -->
+			</h4>
 			<div class="row" >
 				<?php require_once plugin_dir_path( __FILE__ ) . '../partials/synopsis.php'; ?>
 			</div>

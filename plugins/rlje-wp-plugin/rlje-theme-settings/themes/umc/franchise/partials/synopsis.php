@@ -45,7 +45,7 @@ $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountr
 
 	<?php if ( ! empty( $franchise->director ) ) : ?>
 	<p id="franchise-director" itemprop="director">
-		<strong>Cast:</strong>
+		<strong>Director:</strong>
 		<?php echo esc_html( join( ', ', $franchise->director ) ); ?>
 	</p>
 	<?php endif; ?>
