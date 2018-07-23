@@ -28,7 +28,7 @@ class RLJE_Franchise_Page {
 
 		$pagename = $wp_query->query['pagename'];
 		// var_dump($pagename,explode( '/', $pagename ));
-		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
+		list( $this->franchise_id, $this->season_id, $this->episode_id ) = array_pad( explode( '/', $pagename ), 3, '' );
 		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
 		$this->franchise = ( ! empty( $this->franchise_id ) ) ? rljeApiWP_getFranchiseById( $this->franchise_id ) : false;
 	}

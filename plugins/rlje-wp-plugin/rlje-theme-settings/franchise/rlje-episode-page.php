@@ -22,7 +22,7 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 
 		$pagename = $wp_query->query['pagename'];
 		// var_dump($pagename,explode( '/', $pagename ));
-		list( $this->franchise_id, $this->season_id, $this->episode_id ) = explode( '/', $pagename );
+		list( $this->franchise_id, $this->season_id, $this->episode_id ) = array_pad( explode( '/', $pagename ), 3, '' );
 		// var_dump($this->franchise_id, $this->season_id, $this->episode_id);
 		$this->get_current_franchise_season_episodes();
 	}

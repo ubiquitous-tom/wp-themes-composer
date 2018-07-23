@@ -1,12 +1,11 @@
 <?php
 get_header();
-$base_url_Path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
+
 	$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise' );
 	if ( $have_franchises_available ) :
 		$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
 
-		$franchise_id = get_query_var( 'franchise_id' );
+		// $franchise_id = get_query_var( 'franchise_id' );
 
 		$franchise = rljeApiWP_getFranchiseById( $franchise_id );
 
@@ -37,12 +36,12 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			<h4 class="subnav">
 				<!-- Previous link -->
 				<span class="subnav-prev hidden-xs hidden-sm">
-					<a href="<?php echo $base_url_Path . '/' . $franchise->id; ?>">
+					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
 						<img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows">
 						<span>Back to Series</span>
 					</a>
 				</span>
-				<a href="<?php echo $base_url_Path . '/' . $franchise_id; ?>/" id="subnav-title"><span itemprop="name"><?php echo $franchise->name; ?></span></a> Trailer   <!-- Next link -->
+				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>" id="subnav-title"><span itemprop="name"><?php echo $franchise->name; ?></span></a> Trailer   <!-- Next link -->
 				<meta itemprop="image" content="<?php echo apply_filters( 'atv_get_image_url', $franchise->image ); ?>" />
 				<meta itemprop="description" content="<?php echo $franchise->longDescription; ?>" />
 				<meta itemprop="numberOfEpisodes" content="<?php echo $total_episodes; ?>" />
@@ -50,7 +49,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 
 				<span class="subnav-next hidden-xs hidden-sm">
 					<?php if ( isset( $franchise->seasons[0], $franchise->seasons[0]->episodes[0] ) ) : ?>
-					<a href="<?php echo esc_url( trailingslashit( $base_url_Path . '/' . $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ); ?>">
+					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ) ); ?>">
 						<span>Watch Episode</span>
 						<img src="<?php echo apply_filters( 'atv_get_image_url', 'right-arrow?t=Icons' ); ?>" id="archive-arrows">
 					</a>
@@ -64,6 +63,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 					$trailerId = $franchise->episodes[0]->id;
 					?>
 				<span itemprop="trailer" itemscope itemtype="http://schema.org/VideoObject">
+					<?php $franchise->image = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise ); ?>
 					<meta itemprop="thumbnailUrl" content="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ); ?>" />
 					<meta itemprop="description" content="<?php echo $franchise->longDescription; ?>" />
 					<meta itemprop="name" content="<?php echo $franchise->name; ?>" />
@@ -158,7 +158,4 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	else :
 		get_template_part( 'templates/franchisesUnavailable' );
 	endif;
-else :
-	get_template_part( 'partials/plugin-deactivated-message' );
-endif;
 get_footer();
