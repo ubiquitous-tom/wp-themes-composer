@@ -9,7 +9,7 @@ if (isset($wp_query->query_vars['streamPositions'])) {
 if (isset($wp_query->query_vars['ignoreSeasonHeader'])) {
     $ignoreSeasonHeader = $wp_query->query_vars['ignoreSeasonHeader'];
 }
-
+$franchiseId = $wp_query->query_vars['franchiseId'];
 $season = $wp_query->query_vars['season'];
 
 $template = get_query_var('pagecustom');
