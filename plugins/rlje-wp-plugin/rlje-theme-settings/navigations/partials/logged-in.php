@@ -1,7 +1,7 @@
 <ul class="navbar-right-ul accountUser">
 	<li class="navbar-right">
 		<div class="menuOptions">
-			<span class="accountOptions hidden-md hidden-sm hidden-xs">My Acorn Tv</span>
+			<span class="accountOptions hidden-md hidden-sm hidden-xs">My <?php bloginfo( 'name' ); ?></span>
 			<span id="clicker">
 				<img width="18" class="accountIcon" src="https://api.rlje.net/acorn/artwork/size/account-icon?t=Icons">
 			</span>
