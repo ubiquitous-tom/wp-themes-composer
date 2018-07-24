@@ -130,7 +130,7 @@ class RLJE_Signin_Page {
 					wp_redirect( home_url(), 303 );
 					exit();
 				} else {
-					$message = 'No account with that email address exists.';
+					$message_error = 'No account with that email address exists.';
 				}
 			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
