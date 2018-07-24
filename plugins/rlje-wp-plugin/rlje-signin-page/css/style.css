@@ -3,9 +3,19 @@ body {
 }
 
 #signin, #forgotpassword {
-    padding: 5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0;
     background-color: white;
     color: #424242;
+}
+
+@media (min-width: 768px) {
+    #signin,
+    #forgotpassword {
+        padding: 30px 0;
+    }
 }
 
 #signin a,
@@ -42,5 +52,40 @@ body {
 
 #signin h4,
 #forgotpassword h4 {
-    font-size: 34px;
+    font-size: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    #signin h4,
+    #forgotpassword h4 {
+        font-size: 3rem;
+    }
+}
+
+#signin header,
+#forgotpassword header {
+    margin-bottom: 20px;
+}
+
+#signin p,
+#forgotpassword p {
+    font-size: 1.5rem;
+}
+
+.login-form {
+    padding: 0;
+}
+
+.login-form button {
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.login-form label small {
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+.forgot-password a {
+    font-size: inherit;
 }
