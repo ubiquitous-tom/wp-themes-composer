@@ -80,15 +80,15 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'main_style_css', get_template_directory_uri() . '/css/main-style.css', false, '1.4.8' );
 
 	// Enqueue scripts.
-	wp_enqueue_script( 'cookies-js', get_template_directory_uri() . '/lib/cookies/cookies.js', array(), null, false );
+	wp_enqueue_script( 'cookies-js', get_template_directory_uri() . '/lib/cookies/cookies.js', array(), null, true );
 	// wp_enqueue_script( 'jquery-min-js', get_template_directory_uri() . '/lib/jquery/jquery.min.js', array(), null, true );
 	// wp_enqueue_script( 'jquery-ui-min-js', get_template_directory_uri() . '/lib/jquery/ui/jquery-ui.min.js', array(), null, true );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-unveil-js', get_template_directory_uri() . '/lib/jquery/jquery-unveil/jquery.unveil.min.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'jquery-smartbanner-js', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.js', array( 'jquery-ui-core' ), null, true );
 	wp_enqueue_script( 'modernizr-js', get_template_directory_uri() . '/lib/modernizr/modernizr.min.js', array(), null, true );
-	wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array( 'jquery' ), null, '3.3.7' );
-	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), null, true );
+	wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array( 'jquery' ), '3.3.7', true );
+	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
 
@@ -246,7 +246,7 @@ function acorntv_loading_template( $template ) {
 /**
  * Remove admin menu options don't used.
  */
-add_action( 'admin_menu', 'remove_admin_menus' );
+// add_action( 'admin_menu', 'remove_admin_menus' );
 function remove_admin_menus() {
 	remove_menu_page( 'edit.php' );
 	remove_menu_page( 'edit-comments.php' );
