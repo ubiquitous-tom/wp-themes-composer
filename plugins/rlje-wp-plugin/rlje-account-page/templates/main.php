@@ -3,7 +3,7 @@ get_header();
 ?>
 <section id="account-settings">
 	<div class="container">
-		<nav class="col-md-3">
+		<nav class="col-sm-4">
 			<ul class="nav nav-pills nav-stacked">
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'status' ? 'active' : '' ) ); ?> ">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/status' ) ) ); ?>">Account Status</a>
@@ -29,7 +29,7 @@ get_header();
 				<?php } ?>
 			</ul>
 		</nav>
-		<section class="col-md-9">
+		<section class="col-sm-8">
 		<?php
 		$partial = $this->show_subsection();
 		require $partial;

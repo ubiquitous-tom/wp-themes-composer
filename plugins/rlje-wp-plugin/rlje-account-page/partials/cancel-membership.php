@@ -1,6 +1,6 @@
 <h3>Cancel Membership</h3>
-<h5>Hello <?php echo $this->get_user_name(); ?>!</h5>
-<div class="bg-info">
+<h4>Hello <?php echo $this->get_user_name(); ?>!</h4>
+<div class="alert alert-info">
 	<p>You've been <?php bloginfo( 'name' ); ?> member since <strong><?php echo $this->get_user_join_date(); ?></strong>.</p>
 	<p>On <strong><?php echo $this->get_next_billing_date(); ?></strong>, your card will be charged <strong>$<?php echo $this->get_next_billing_amount(); ?></strong> to continue with another month of <?php bloginfo( 'name' ); ?> benefits.</p>
 	<p>If you wish to cancel, please select the button below. You may be asked to sign in again.</p>
@@ -21,7 +21,7 @@ Cancel <?php bloginfo( 'name' ); ?> Membership
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Nervermind!</button>
-			<button type="button" class="btn btn-primary" id="confirmCancel">Cancel <?php bloginfo( 'name' ); ?></button>
+			<button type="button" class="btn btn-danger" id="confirmCancel">Cancel <?php bloginfo( 'name' ); ?></button>
 		</div>
 		</div>
 	</div>
