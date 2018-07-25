@@ -18,7 +18,7 @@
 	</li>
 	<li class="row status-field">
 		<div class="col-xs-6 text-right">Amount to be Charged</div>
-		<div class="col-xs-6"><strong><?php echo $this->get_next_billing_amount(); ?></strong></div>
+		<div class="col-xs-6"><strong>$<?php echo $this->get_next_billing_amount(); ?></strong></div>
 	</li>
 	<li class="row status-field">
 		<div class="col-xs-6 text-right">Name</div>
