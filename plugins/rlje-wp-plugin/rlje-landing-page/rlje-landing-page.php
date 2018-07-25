@@ -250,7 +250,7 @@ class RLJE_Landing_page {
 
 	// Indicate to WordPress which fields to show in the revision screen.
 	public function acorntv_landing_page_revision_fields( $fields ) {
-		return acorntv_get_fields( $fields );
+		return $this->acorntv_get_fields( $fields );
 	}
 
 	// Check changes in the custom metadata to create a revision.
@@ -287,7 +287,7 @@ class RLJE_Landing_page {
 
 	// Get ALL the MetaData values from each meta field created.
 	protected function acorntv_get_metadatas( $post_id ) {
-		$fields = acorntv_get_fields();
+		$fields = $this->acorntv_get_fields();
 		foreach ( $fields as $fieldKey => $fieldValue ) {
 			$metaDatas[ $fieldKey ] = get_metadata( 'post', $post_id, $fieldKey, true );
 		}
