@@ -624,3 +624,32 @@ function add_favicon_to_header() {
 	<?php
 }
 add_action( 'wp_head', 'add_favicon_to_header', 1 );
+
+
+function add_theme_json_ld_to_header() {
+	$json_ld = [];
+	$json_ld['@context'] = 'http://schema.org';
+	$json_ld['@type'] = 'Website';
+	$json_ld['name'] = get_bloginfo( 'name' );
+	// $json_ld['headline'] = get_bloginfo( 'description' );
+	$json_ld['url'] = get_bloginfo( 'url' );
+	$json_ld['image'] = 'https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300';
+	$json_ld['description'] = get_bloginfo( 'description' );
+	$json_ld['publisher'] = [
+		'@type' => 'Organization',
+		'logo' => [
+			'@type' => 'ImageObject',
+			'url' =>'https://acorn.dev/wp-content/plugins/rlje-wp-plugin/rlje-theme-settings/themes/umc/img/logo.png',
+			'name' => get_bloginfo( 'name' ),
+			'width' => 300,
+			'height' => 50,
+		],
+	];
+	$json_ld = apply_filters( 'rlje_json_ld_header', $json_ld );
+	?>
+	<script type="application/ld+json">
+		<?php echo wp_json_encode( $json_ld ); ?>
+	</script>
+	<?php
+}
+add_action( 'wp_head', 'add_theme_json_ld_to_header' );

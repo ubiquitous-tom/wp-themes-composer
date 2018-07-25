@@ -9,9 +9,11 @@ class RLJE_Browse_Page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
+		// add_action( 'add_meta_boxes', array( $this, 'add_browse_template_meta_box' ) );
 
 		// add_filter( 'query_vars', array( $this, 'add_browse_query_vars' ) );
 		add_filter( 'body_class', array( $this, 'browse_body_class' ) );
+		add_filter( 'theme_page_templates', array( $this, 'add_browse_page_template' ), 10, 4 );
 	}
 
 	public function add_browse_rewrite_rules() {
@@ -78,6 +80,31 @@ class RLJE_Browse_Page {
 		}
 	}
 
+	public function add_browse_template_meta_box() {
+		add_meta_box( 'browse_template_id', 'Custom Template', array( $this, 'browse_template_meta_box' ), 'page', 'side', 'default' );
+	}
+
+	public function browse_template_meta_box( $post, $post_id ) {
+		$templates[] = [
+			'path' => 'templates/browse.php',
+			'name' => 'Browse Template',
+			'value' => 'Browse',
+		];
+		$page_template = get_post_meta($post->ID, '_rlje_custom_page_template', true);
+		?>
+		<p class="post-attributes-label-wrapper">
+			<label for="rlje-custom-page-template" class="post-attributes-label">Custom Template</label>
+		</p>
+		<select name="rlje_custom_page_template" id="rlje-custom-page-template" class="widefat">
+			<option value="">Custom Template</option>
+			<?php foreach ( $templates as $template ) : ?>
+			<option value="<?php echo esc_attr( $template['value'] ); ?>" <?php selected( $current_page_template, $template['path'] ); ?>><?php echo esc_html( $template['name']) ?></option>
+			<?php endforeach; ?>
+		</select>
+		<p>Use this Custom Template to set up <i>RLJE specific page</i>. Such as "Browse" page.</p>
+		<?php
+	}
+
 	public function browse_body_class( $classes ) {
 		$pagename = get_query_var( 'pagename' );
 		if ( 'browse' === $pagename ) {
@@ -93,6 +120,14 @@ class RLJE_Browse_Page {
 		}
 
 		return $classes;
+	}
+
+	public function add_browse_page_template( $post_templates, $wp_theme, $post, $post_type ) {
+		if ( 'page' === $post_type ) {
+			$post_templates['templates/browse.php'] = 'Browse';
+		}
+
+		return $post_templates;
 	}
 }
 
