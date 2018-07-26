@@ -230,8 +230,10 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<div id="episode-trailer" class="video">
 					<img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
 					<div class="acorntv-slogan">
-						<h3>Watch world-class TV from Britain and beyond</h3>
-						<h4>Always available, always commercial free</h4>
+						<!-- <h3>Watch world-class TV from Britain and beyond</h3> -->
+						<h3>Stream UMC Anywhere!</h3>
+						<!-- <h4>Always available, always commercial free</h4> -->
+						<h4>Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!</h4>
 						<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Your Free Trial</a>
 						<h5>
 							<button class="transparent js-play">
@@ -288,8 +290,10 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				?>
 			<img title="Play trailer" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
 			<div class="acorntv-slogan">
-				<h3>Watch world-class TV from Britain and beyond</h3>
-				<h4>Always available, always commercial free</h4>
+				<!-- <h3>Watch world-class TV from Britain and beyond</h3> -->
+				<h3>Stream UMC Anywhere!</h3>
+				<!-- <h4>Always available, always commercial free</h4> -->
+				<h4>Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!</h4>
 				<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Your Free Trial</a>
 			</div>
 				<?php

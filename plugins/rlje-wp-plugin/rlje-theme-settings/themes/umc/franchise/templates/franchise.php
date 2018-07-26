@@ -50,11 +50,12 @@ $franchise_url            = home_url( $franchise->id );
 		<?php
 		foreach ( $franchise->seasons as $season_key => $season ) {
 			$season->seasonNumber = $season_key + 1;
-			set_query_var( 'season', $season );
-			if ( isset( $stream_positions ) ) {
-				set_query_var( 'streamPositions', $stream_positions );
-			}
-			get_template_part( 'partials/list-episode-items' );
+			// set_query_var( 'season', $season );
+			// if ( isset( $stream_positions ) ) {
+			// 	set_query_var( 'streamPositions', $stream_positions );
+			// }
+			// get_template_part( 'partials/list-episode-items' );
+			require plugin_dir_path( __FILE__ ) . '../partials/list-episode-items.php';
 		}
 		?>
 
