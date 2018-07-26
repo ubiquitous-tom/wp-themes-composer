@@ -21,6 +21,7 @@ class RLJE_Franchise_Page {
 		add_action( 'wp_ajax_remove', array( $this, 'remove_from_watchlist' ) );
 
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
+		add_filter( 'rlje_json_ld_header', array( $this,'add_franchise_json_ld_to_header' ) );
 	}
 
 	public function get_pagename() {
@@ -134,6 +135,86 @@ class RLJE_Franchise_Page {
 		return $classes;
 	}
 
+	public function add_franchise_json_ld_to_header( $json_ld ) {
+		if ( $this->is_current_franchise() ) {
+			if ( ! $this->franchise ) {
+				return $json_ld;
+			}
+			$season = ( ! empty( $this->franchise->seasons[0] ) ) ? $this->franchise->seasons[0] : [];
+			$episode = ( ! empty( $season->episodes[0] ) ) ? $season->episodes[0] : [];
+			$franchise_type = ( ! empty( $episode->type ) ) ? ucfirst( strtolower( $episode->type ) ) : 'TVSeries';
+			$type = ( 'Movie' === $franchise_type ) ? $franchise_type : 'TVSeries';
+			$url = trailingslashit( home_url( $this->franchise_id ) );
+			$image = ( ! empty( $episode->image ) ) ? rljeApiWP_getImageUrlFromServices( $episode->image ) : '';
+			$name = ( ! empty( $this->franchise->name ) ) ? $this->franchise->name : '';
+			$actors = ( ! empty( $this->franchise->actors ) ) ? $this->franchise->actors: [];
+			$actor = [];
+			foreach ( $actors as $actor_person ) {
+				$actor[] = [
+					'@type' => 'Person',
+					'name' => $actor_person,
+				];
+			}
+			$directors =( ! empty( $this->franchise->director ) ) ? $this->franchise->director: [];
+			$director = [];
+			foreach ( $directors as $director_person ) {
+				$director[] = [
+					'@type' => 'Person',
+					'name' => $director_person,
+				];
+			}
+			$description = $this->franchise->longDescription;
+			$trailer_info = ( ! empty( $this->franchise->episodes[0] ) ) ? $this->franchise->episodes[0] : [];
+			$trailer_name = ( ! empty( $trailer_info->name ) ) ? $trailer_info->name : '';
+			$trailer_description = ( ! empty( $trailer_info->shortDescription ) ) ? $trailer_info->shortDescription : $trailer_info->longDescription;
+			$trailer_image = rljeApiWP_getImageUrlFromServices( $trailer_info->image );
+			$trailer_upload_date = ( ! empty( $trailer_info->startDate ) ) ? date( 'Y-m-d', ( $trailer_info->startDate / 1000 ) ) : strval( $trailer_info->year );
+			$trailer = [
+				'@type' => 'VideoObject',
+				'name' => $trailer_name,
+				'description' => $trailer_description,
+				'thumbnail' => [
+					'@type' => 'ImageObject',
+					'contentUrl' => $trailer_image,
+				],
+				'thumbnailUrl' => $trailer_image,
+				'uploadDate' => $trailer_upload_date,
+			];
+			$json_ld = [
+				'@context' => 'http://schema.org',
+				'@type' => $type,
+				'url' => $url,
+				'name' => $name,
+				'image' => $image,
+				'dateCreated' => date( 'Y-m-d', ( $this->franchise->createdDate / 1000 ) ),
+				// 'genre' => [
+				// 	'Action',
+				// 	'Adventure',
+				// 	'Fantasy',
+				// 	'Sci-Fi'
+				// ],
+				'actor' => $actor,
+				'director' => $director,
+				'description' => $description,
+				// 'datePublished' => $season['episode']->year,
+				// 'keywords' => 'atlantis,dc extended universe,dc cinematic universe,based on comic,dc comics,superhero,one word title,based on comic book,character name in title,aquaman character,army,super villain,supernatural power,ocean,underwater',
+				// 'trailer' => $trailer
+			];
+
+			if ( 'Movie' === $type ) {
+				if ( ! empty( $episode->length ) ) {
+					$json_ld['duration'] = $this->iso8601_duration( $episode->length );
+				}
+			}
+
+			if ( ! empty( $trailer_name ) ) {
+				$json_ld['trailer'] = $trailer;
+			}
+		}
+
+		return $json_ld;
+	}
+
 	public function get_stream_positions( $franchise_id ) {
 		$stream_positions = [];
 		if ( ! $this->is_user_active() ) {
@@ -242,6 +323,33 @@ class RLJE_Franchise_Page {
 		}
 
 		return false;
+	}
+
+	protected function iso8601_duration( $seconds ) {
+		$intervals = [
+			'D' => 60*60*24,
+			'H' => 60*60,
+			'M' => 60,
+			'S' => 1
+		];
+
+		$pt = 'P';
+		$result = '';
+		foreach ( $intervals as $tag => $divisor ) {
+			$qty = floor( $seconds / $divisor );
+			if ( ! $qty && '' === $result ) {
+				$pt = 'T';
+				continue;
+			}
+
+			$seconds -= $qty * $divisor;
+			$result  .= "$qty$tag";
+		}
+		if ( '' === $result ) {
+			$result = '0S';
+		}
+
+		return "$pt$result";
 	}
 
 }
