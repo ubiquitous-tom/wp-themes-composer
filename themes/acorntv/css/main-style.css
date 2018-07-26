@@ -190,7 +190,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .franchise-eps-bg.no-margin-bottom {margin-bottom:0;}
 
 /* EPISODE TEMPLATE */
-.episode{margin-top:15px;padding-bottom:40px;}
+.episode{/*margin-top:15px;padding-bottom:40px;*/}
 .episode p {margin-bottom:0px; margin-top:15px;}
 .episode h5{font-size:13px}
 .episode h6{color: #98C1D9;margin-top:-7px;font-size:14.5px;text-transform:none;letter-spacing:.04em;}
