@@ -2,14 +2,14 @@
 global $wp_query;
 $ignore_season_header = false;
 
-if ( isset( $wp_query->query_vars['streamPositions'] ) ) {
-	$stream_positions = $wp_query->query_vars['streamPositions'];
-}
+// if ( isset( $wp_query->query_vars['streamPositions'] ) ) {
+// 	$stream_positions = $wp_query->query_vars['streamPositions'];
+// }
 
-// SEASON SPECIFIC VARIABLE
-if ( isset( $wp_query->query_vars['ignoreSeasonHeader'] ) ) {
-	$ignore_season_header = $wp_query->query_vars['ignoreSeasonHeader'];
-}
+// SEASON SPECIFIC VARIABLE.
+// if ( isset( $wp_query->query_vars['ignoreSeasonHeader'] ) ) {
+// 	$ignore_season_header = $wp_query->query_vars['ignoreSeasonHeader'];
+// }
 // $franchise_id = $wp_query->query_vars['franchiseId'];
 // $season      = $wp_query->query_vars['season'];
 
@@ -21,7 +21,8 @@ $highlight_templates_enabled = array(
 );
 
 $count                 = 0;
-$franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
+// SEASON SPECIFIC VARIABLE.
+// $franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
 $franchise_total        = count( $season->episodes ) - 1;
 // $franchise_id           = ( isset( $wp_query->query_vars['franchise_id'] ) ) ? '/' . $wp_query->query_vars['franchise_id'] : null;
 $season_name_url         = ( isset( $franchise_id, $wp_query->query_vars['season_name'] ) ) ? '/' . $wp_query->query_vars['season_name'] : '/' . rljeApiWP_convertSeasonNameToURL( $season->name );
@@ -43,15 +44,12 @@ if ( $is_logged && $is_highligthing_enabled && $is_stream_position && $is_first_
 	<meta itemprop="numberOfEpisodes" content="<?php echo count( $season->episodes ); ?>" />
 	<meta itemprop="seasonNumber" content="<?php echo ( isset( $season->seasonNumber ) ) ? $season->seasonNumber : ''; ?>" />
 	<meta itemprop="partOfSeries" content="<?php echo $franchise_name; ?>"/>
-<?php
-if ( ! $ignore_season_header ) :
-	?>
+	<?php if ( ! empty( $ignore_season_header ) ) : ?>
 	<div class="row">
 		<h4 class="subnav2"><?php echo $season->name; ?></h4>
 	</div>
-	<?php
-endif;
-
+	<?php endif; ?>
+<?
 foreach ( $season->episodes as $key => $episode ) :
 	$show_episode_highlighted = ( $is_highligthing_episode && 0 == $key );
 	$is_new_row              = ( $key % 4 == 0 ) ? true : false;

@@ -1,11 +1,11 @@
 <?php
 $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
+// if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
 
-	$franchise_id     = get_query_var( 'franchise_id' );
-	$season_name_url  = get_query_var( 'season_name' );
-	$episode_name_url = get_query_var( 'episode_name' );
+	// $franchise_id     = get_query_var( 'franchise_id' );
+	// $season_name_url  = get_query_var( 'season_name' );
+	// $episode_name_url = get_query_var( 'episode_name' );
 
 	$franchise = rljeApiWP_getFranchiseById( $franchise_id );
 	$season    = rljeApiWP_getCurrentSeason( $franchise_id, $season_name_url );
@@ -52,12 +52,12 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			<span class="subnav-prev hidden-xs hidden-sm">
 				<span> <img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows"></span>
 				<?php if ( ! isset( $prev_episode_url ) ) : ?>
-				<a href="<?php echo $base_url_path . '/' . $franchise_id; ?>">Back to Series</a>
+				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>">Back to Series</a>
 				<?php else : ?>
-				<a href="<?php echo $base_url_path . $prev_episode_url; ?>">Last Episode</a>
+				<a href="<?php echo esc_url( trailingslashit( home_url( $prev_episode_url ) ) ); ?>">Last Episode</a>
 				<?php endif; ?>
 			</span>
-			<a href="<?php echo $base_url_path . '/' . $franchise_id; ?>/" id="subnav-title"><span itemprop="partOfSeries"><?php echo $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?php echo $season->name; ?></span> : <span itemprop="name"><?php echo ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name; ?></span>   <!-- Next link -->
+			<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>" id="subnav-title"><span itemprop="partOfSeries"><?php echo $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?php echo $season->name; ?></span> : <span itemprop="name"><?php echo ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name; ?></span>   <!-- Next link -->
 			<meta itemprop="image" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image ); ?>" />
 			<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
 			<meta itemprop="episodeNumber" content="<?php echo $episode->episodeNumber; ?>" />
@@ -72,7 +72,7 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			?>
 			">
 			<?php if ( isset( $next_episode_url ) ) : ?>
-			<a href="<?php echo $base_url_path . $next_episode_url; ?>">Next Episode </a><span> <img src="<?php echo apply_filters( 'atv_get_image_url', 'right-arrow?t=Icons' ); ?>" id="archive-arrows"/></span>
+			<a href="<?php echo esc_url( trailingslashit( home_url( $next_episode_url ) ) ); ?>">Next Episode </a><span> <img src="<?php echo apply_filters( 'atv_get_image_url', 'right-arrow?t=Icons' ); ?>" id="archive-arrows"/></span>
 			<?php endif; ?>
 			</span>
 		</h4>
@@ -178,23 +178,23 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 				<?php endif; ?>
 				<div class="playNextEpisode">
 					<?php if ( isset( $next_episode_data ) ) : ?>
-					<button class="js-play-next" data-next="<?php echo $base_url_path . $next_episode_url; ?>">
+					<button class="js-play-next" data-next="<?php echo esc_url( trailingslashit( home_url( $next_episode_url ) ) ); ?>">
 						<span>PLAY NEXT EPISODE</span>
 						<i class="fa fa-play-circle-o" aria-hidden="true"></i>
 					</button>
 					<?php elseif ( is_array( $watchlist ) && 0 < count( $watchlist ) ) : ?>
-					<button class="js-go-to" data-url="<?php echo $base_url_path . '/browse/yourwatchlist'; ?>">
+					<button class="js-go-to" data-url="<?php echo esc_url( home_url( '/browse/yourwatchlist/' ) ); ?>">
 						<span>MY WATCHLIST</span>
 					</button>
 					<?php else : ?>
-					<button class="js-go-to" data-url="<?php echo $base_url_path; ?>">
+					<button class="js-go-to" data-url="<?php echo esc_url( home_url( '/' ) ); ?>">
 						<span>HOME</span>
 					</button>
 					<?php endif; ?>
 				</div>
 				<?php if ( isset( $next_episode_data ) ) : ?>
 				<div id="nextEpisodeOverlay" class="episode">
-					<a class="js-play-start js-episode-loading" href="<?php echo $next_episode_url; ?>">
+					<a class="js-play-start js-episode-loading" href="<?php echo esc_url( trailingslashit( home_url( $next_episode_url ) ) ); ?>">
 						<p class="headerText">Play Next Episode</p>
 						<div class="episodeOverlay">
 							<div class="imgOverlayContainer">
@@ -331,33 +331,48 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 	</div>
 
 		<?php
-		if ( isset( $stream_positions ) ) :
-			set_query_var( 'continueWatchingItems', $franchise->seasons );
-			set_query_var( 'episodeID', $episode->id );
-			set_query_var( 'totalEpisodes', $total_episodes );
-			set_query_var( 'streamposition', $stream_positions );
-			get_template_part( 'partials/continue-watching-carousel' );
-		else :
-			?>
+		if ( ! empty( $stream_positions ) ) :
+			// set_query_var( 'continueWatchingItems', $franchise->seasons );
+			// set_query_var( 'episodeID', $episode->id );
+			// set_query_var( 'totalEpisodes', $total_episodes );
+			// set_query_var( 'streamposition', $stream_positions );
+			$continue_watching_items = $franchise->seasons;// get_query_var('continueWatchingItems');
+			$total_episodes          = $total_episodes;// get_query_var('totalEpisodes');
+			$stream_positions        = $stream_positions;// get_query_var('streamposition');
+			$episode_id              = $episode->id;
+			// get_template_part( 'partials/continue-watching-carousel' );
+			if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 0 ) {
+				require_once plugin_dir_path( __FILE__ ) . '../partials/shared/continue-watching-carousel.php';
+			}
+		?>
+		<?php else : ?>
 	<!-- More Episodes Carousel -->
 	<!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->
 
 	<div class="col-md-12">
-		<h4 class="subnav2" >More Episodes</h4>
+		<h4 class="subnav2">More Episodes</h4>
 			<?php
-			set_query_var( 'franchiseName', $franchise->name );
-			set_query_var( 'streamPositions', $stream_positions );
+			// set_query_var( 'franchiseName', $franchise->name );
+			$franchise_name = $franchise->name;
+			// set_query_var( 'streamPositions', $stream_positions );
 
 			$is_less_than_4_episodes = apply_filters( 'atv_is_less_than_4_episodes', $franchise->seasons );
 
 			if ( $is_less_than_4_episodes ) {
-				set_query_var( 'season', $franchise->seasons[0] );
-				set_query_var( 'ignoreSeasonHeader', true );
-				get_template_part( 'partials/list-episode-items' );
+				// set_query_var( 'season', $franchise->seasons[0] );
+				$season = $franchise->seasons[0];
+				// set_query_var( 'ignoreSeasonHeader', true );
+				$ignore_season_header = true;
+				// get_template_part( 'partials/list-episode-items' );
+				require_once plugin_dir_path( __FILE__ ) . '../partials/shared/list-episode-items.php';
 			} else {
-				set_query_var( 'current_episode_id', $episode->id );
-				set_query_var( 'seasons_carousel', $franchise->seasons );
-				get_template_part( 'partials/more-episodes-carousel' );
+				// set_query_var( 'current_episode_id', $episode->id );
+				// set_query_var( 'seasons_carousel', $franchise->seasons );
+				// $franchise_id           = $wp_query->query_vars['franchise_id'];
+				$current_episode_number = $episode->id;
+				$seasons                = $franchise->seasons;
+				// get_template_part( 'partials/more-episodes-carousel' );
+				require_once plugin_dir_path( __FILE__ ) . '../partials/shared/more-episodes-carousel.php';
 			}
 			?>
 	</div>
@@ -368,8 +383,9 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 
 	<!-- You May Also Like Carousel -->
 		<?php
-		set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
-		get_template_part( 'partials/viewers-also-watched' );
+		// THIS DID NOTHING. WHY IS IT HERE.
+		// set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
+		// get_template_part( 'partials/viewers-also-watched' );
 		?>
 </div>
 		<?php
@@ -382,8 +398,8 @@ if ( function_exists( 'rljeApiWP_getFranchiseById' ) ) :
 			get_template_part( 'templates/franchisesUnavailable' );
 		}
 	endif;
-else :
-	get_header();
-	get_template_part( 'partials/plugin-deactivated-message' );
-	get_footer();
-endif;
+// else :
+// 	get_header();
+// 	get_template_part( 'partials/plugin-deactivated-message' );
+// 	get_footer();
+// endif;

@@ -22,7 +22,7 @@ class RLJE_Theme_Search_Settings {
 	public function search_template_redirect() {
 		// First, redirect from ?s=text to /search/text.
 		if ( is_search() and false === strpos( $_SERVER['REQUEST_URI'], '/search/' ) ) {
-			wp_redirect( get_bloginfo( 'home' ) . '/search/' . str_replace( ' ', '+', str_replace( '%20', '+', get_query_var( 's' ) ) ) );
+			wp_redirect( trailingslashit( get_bloginfo( 'home' ) . '/search/' . str_replace( ' ', '+', str_replace( '%20', '+', get_query_var( 's' ) ) ) ) );
 			exit();
 		}
 

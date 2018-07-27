@@ -17,6 +17,7 @@ li{font-size:15px;text-transform: none;font-weight: 400;}
 img {vertical-align: middle;}
 img.wp-post-image {height: auto;width: 100%;}
 button {border: 1px solid #444; background:#444;color:#eeeeee; font-family:'oxygen',sans-serif; box-shadow:none; padding: 10px 25px;letter-spacing:.06em;font-size:12.5px;margin-top:5px;}
+button:hover {border:1px solid #4f5d66; background: #4f5d66;}
 object, embed { outline: 0;}
 section {flex: 1;}
 
@@ -151,6 +152,7 @@ input:-ms-input-placeholder {color: #ccc;}
 #cover {border: 1px solid #222;display: inline-block;height: 40px;margin: 15px 0 0 0;position: relative;width: auto;z-index: 3;}
 #clicker{cursor: pointer;float: right;margin-left: 10px;padding: 4px 0 0;position: relative;width: 0;z-index: 400;}
 #options {background: #444;color: #eeeeee;display: inline-block;font-family: 'oxygen',sans-serif;font-size: 12px;letter-spacing: 0.05em;padding: 11px 30px 10px 15px;}
+#options:hover {background: #4f5d66;}
 #options a { color: #eeeeee;font-size: 13px;letter-spacing: 0.06em;text-transform: none;}
 #drop-select {list-style:none;width:175px;position:absolute;top:39px;border-top:none;background-color:#444;margin:0;padding:0;display:none;border-radius: 3px;}
 #drop-select li {padding:10px;font-weight:200;font-family:'oxygen',sans-serif;font-size:13px;}

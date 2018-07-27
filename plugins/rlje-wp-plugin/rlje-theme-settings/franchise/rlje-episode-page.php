@@ -143,9 +143,12 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 		$wp_query->is_404  = false;
 		$wp_query->is_page = true;
 		status_header( 200 );
-		set_query_var( 'franchise_id', $this->franchise_id );
-		set_query_var( 'season_name', $this->season_id );
-		set_query_var( 'episode_name', $this->episode_id );
+		// set_query_var( 'franchise_id', $this->franchise_id );
+		// set_query_var( 'season_name', $this->season_id );
+		// set_query_var( 'episode_name', $this->episode_id );
+		$franchise_id     = $this->franchise_id;
+		$season_name_url  = $this->season_id;
+		$episode_name_url = $this->episode_id;
 
 		ob_start();
 		require_once plugin_dir_path( __FILE__ ) . 'templates/episode.php';
