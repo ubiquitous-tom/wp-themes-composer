@@ -1,7 +1,7 @@
 <?php
 get_header();
 $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'franchise' );
-$franchise_url            = home_url( $franchise->id );
+$franchise_url             = home_url( $franchise->id );
 
 ?>
 <div id="franchise-container" itemscope itemtype="http://schema.org/TVSeries">
@@ -39,7 +39,7 @@ $franchise_url            = home_url( $franchise->id );
 			?>
 	<!-- Continue Watching  -->
 	<div class="container">
-	<?php require_once plugin_dir_path( __FILE__ ) . '../partials/continue-watching-carousel.php'; ?>
+		<?php require_once plugin_dir_path( __FILE__ ) . '../partials/continue-watching-carousel.php'; ?>
 	</div>
 			<?php
 		endif;
@@ -52,7 +52,7 @@ $franchise_url            = home_url( $franchise->id );
 			$season->seasonNumber = $season_key + 1;
 			// set_query_var( 'season', $season );
 			// if ( isset( $stream_positions ) ) {
-			// 	set_query_var( 'streamPositions', $stream_positions );
+			// set_query_var( 'streamPositions', $stream_positions );
 			// }
 			// get_template_part( 'partials/list-episode-items' );
 			require plugin_dir_path( __FILE__ ) . '../partials/list-episode-items.php';
@@ -61,13 +61,14 @@ $franchise_url            = home_url( $franchise->id );
 
 		<!-- Viewers Also Watched -->
 		<?php
-		set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
-		get_template_part( 'partials/viewers-also-watched' );
+		// THIS DID NOTHING. WHY IS IT HERE.
+		// set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
+		// get_template_part( 'partials/viewers-also-watched' );
 		?>
 	</div>
-	<?php
+		<?php
 	else :
-			get_template_part( 'partials/franchises-unavailable-message' );
+		get_template_part( 'partials/franchises-unavailable-message' );
 	endif;
 	?>
 </div>

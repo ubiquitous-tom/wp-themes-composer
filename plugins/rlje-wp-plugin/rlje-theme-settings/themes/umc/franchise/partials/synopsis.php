@@ -34,7 +34,7 @@ $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountr
 	</a>
 	<?php endif; ?>
 
-	<?php require_once plugin_dir_path( __FILE__ ) . '../partials/season-dropdown.php'; ?>
+	<?php require_once plugin_dir_path( __FILE__ ) . '../partials/seasons-dropdown.php'; ?>
 
 	<?php if ( ! empty( $franchise->actors ) ) : ?>
 	<p id="franchise-actor" itemprop="actor">

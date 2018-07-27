@@ -126,18 +126,25 @@ get_header();
 	<div class="col-md-12">
 		<h4 class="subnav2" >Episodes</h4>
 			<?php
-			$wp_query->query_vars['franchiseName'] = $franchise->name;
-			$isLessThan4Episodes                   = apply_filters( 'atv_is_less_than_4_episodes', $franchise->seasons );
+			// $wp_query->query_vars['franchiseName'] = $franchise->name;
+			$franchise_name      = $franchise->name;
+			$isLessThan4Episodes = apply_filters( 'atv_is_less_than_4_episodes', $franchise->seasons );
 
 			if ( $isLessThan4Episodes ) {
-				$wp_query->query_vars['season']             = $franchise->seasons[0];
-				$wp_query->query_vars['ignoreSeasonHeader'] = true;
-				get_template_part( 'partials/list-episode-items' );
+				// $wp_query->query_vars['season']             = $franchise->seasons[0];
+				$season = $franchise->seasons[0];
+				// $wp_query->query_vars['ignoreSeasonHeader'] = true;
+				$ignore_season_header = true;
+				// get_template_part( 'partials/list-episode-items' );
+				require_once plugin_dir_path( __FILE__ ) . '../partials/shared/list-episode-items.php';
 			} else {
-				$wp_query->query_vars['current_episode_id'] = $franchise->seasons[0]->episodes[0]->id;
-				$wp_query->query_vars['seasons_carousel']   = $franchise->seasons;
-				$wp_query->query_vars['streamPositions']    = $stream_positions;
-				get_template_part( 'partials/more-episodes-carousel' );
+				// $wp_query->query_vars['current_episode_id'] = $franchise->seasons[0]->episodes[0]->id;
+				// $wp_query->query_vars['seasons_carousel']   = $franchise->seasons;
+				// $wp_query->query_vars['streamPositions']    = $stream_positions;
+				$current_episode_number =  $franchise->seasons[0]->episodes[0]->id;
+				$seasons                = $franchise->seasons;
+				// get_template_part( 'partials/more-episodes-carousel' );
+				require_once plugin_dir_path( __FILE__ ) . '../partials/shared/more-episodes-carousel.php';
 			}
 			?>
 	</div>
@@ -147,8 +154,9 @@ get_header();
 
 	<!-- You May Also Like Carousel -->
 			<?php
-			$wp_query->query_vars['also_watched_items'] = rljeApiWP_getViewersAlsoWatched( $franchise_id );
-			get_template_part( 'partials/viewers-also-watched' );
+			// THIS DID NOTHING. WHY IS IT HERE.
+			// $wp_query->query_vars['also_watched_items'] = rljeApiWP_getViewersAlsoWatched( $franchise_id );
+			// get_template_part( 'partials/viewers-also-watched' );
 			?>
 </div>
 			<?php

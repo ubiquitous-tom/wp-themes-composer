@@ -118,17 +118,22 @@
 
 			<?php
 			if ( $have_franchises_available ) :
-				if ( isset( $stream_positions ) ) :
+				if ( ! empty( $stream_positions ) ) :
 					?>
 	<!-- Continue Watching  -->
 	<div class="container">
-					<?php
-					// set_query_var( 'continueWatchingItems', $franchise->seasons );
-					// set_query_var( 'totalEpisodes', $total_episodes );
-					// set_query_var( 'streamposition', $stream_positions );
-					// get_template_part( 'partials/continue-watching-carousel' );
-					?>
-	<?php require_once plugin_dir_path( __FILE__ ) . '../partials/shared/continue-watching-carousel.php'; ?>
+		<?php
+		// set_query_var( 'continueWatchingItems', $franchise->seasons );
+		// set_query_var( 'totalEpisodes', $total_episodes );
+		// set_query_var( 'streamposition', $stream_positions );
+		// get_template_part( 'partials/continue-watching-carousel' );
+		$continue_watching_items = $franchise->seasons;// get_query_var('continueWatchingItems');
+		$total_episodes          = $total_episodes;// get_query_var('totalEpisodes');
+		// $stream_positions        = $stream_positions;// get_query_var('streamposition');
+		if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 0 )  {
+			require_once plugin_dir_path( __FILE__ ) . '../partials/shared/continue-watching-carousel.php';
+		}
+		?>
 	</div>
 					<?php
 				endif;
@@ -150,8 +155,9 @@
 
 		<!-- Viewers Also Watched -->
 				<?php
-				set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
-				get_template_part( 'partials/viewers-also-watched' );
+				// THIS DID NOTHING. WHY IS IT HERE.
+				// set_query_var( 'also_watched_items', rljeApiWP_getViewersAlsoWatched( $franchise_id ) );
+				// get_template_part( 'partials/viewers-also-watched' );
 				?>
 	</div>
 				<?php

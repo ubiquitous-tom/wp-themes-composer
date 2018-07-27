@@ -1,16 +1,16 @@
 <?php
-set_query_var( 'continueWatchingItems', $franchise->seasons );
-set_query_var( 'totalEpisodes', $total_episodes );
-set_query_var( 'streamposition', $stream_positions );
-$continue_watching_items = $franchise->seasons;// get_query_var('continueWatchingItems');
-$total_episodes          = $total_episodes;// get_query_var('totalEpisodes');
-$stream_positions        = $stream_positions;// get_query_var('streamposition');
+// set_query_var( 'continueWatchingItems', $franchise->seasons );
+// set_query_var( 'totalEpisodes', $total_episodes );
+// set_query_var( 'streamposition', $stream_positions );
+// $continue_watching_items = $franchise->seasons;// get_query_var('continueWatchingItems');
+// $total_episodes          = $total_episodes;// get_query_var('totalEpisodes');
+// $stream_positions        = $stream_positions;// get_query_var('streamposition');
 // $franchise_id = get_query_var('franchise_id');
 // $base_url_path = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
 $showing_carosel = ( $total_episodes > 4 );
 // $episode_id = get_query_var('episodeID');
-if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 0 ) :
-	?>
+// if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 0 ) :
+?>
 <div id="continueWatching" class="col-md-12 episode">
 	<h4 class="subnav2">CONTINUE WATCHING</h4>
 	<?php if ( $showing_carosel ) : ?>
@@ -110,5 +110,5 @@ if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 
 	<?php endif; ?>
 </div>
 	<?php
-endif;
+// endif;
 ?>

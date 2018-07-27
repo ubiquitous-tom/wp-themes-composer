@@ -247,6 +247,10 @@ button {
 }
 
 span[itemprop="trailer"] a button {
+    background: #976d31;
+    border-color: #976d31;
+}
+span[itemprop="trailer"] a button:hover {
     background: #a27b43;
     border-color: #a27b43;
 }
@@ -258,13 +262,30 @@ span[itemprop="trailer"] a button {
 
 .continueEpisodeBtn.js-play-start,
 .continueEpisodeBtn.js-player-start {
+    background: #976d31;
+    border-color: #976d31;
+}
+.continueEpisodeBtn.js-play-start:hover,
+.continueEpisodeBtn.js-player-start:hover {
     background: #a27b43;
     border-color: #a27b43;
 }
 
-/* .footer {
-    position: absolute;
-} */
+
+.home-callout {
+    background: #052e45;
+}
+.home-callout #border-carousel {
+    border-color: #fff;
+}
+.home-callout .home-callout-content button {
+    background: #976d31;
+    text-transform: uppercase;
+}
+.home-callout .home-callout-content button:hover {
+    background: #a27b43;
+}
+
 .footer ul {
     margin-top: 0;
 }
