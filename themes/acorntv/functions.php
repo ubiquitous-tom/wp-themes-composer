@@ -261,6 +261,11 @@ function remove_admin_menus() {
 }
 
 /**
+ * Remove admin menu bar on mobile view.
+ */
+// add_filter( 'show_admin_bar', '__return_false' );
+
+/**
  * Custom permalink to page content type.
  */
 // add_action( 'init', 'acorntv_custom_page_permalink' );
