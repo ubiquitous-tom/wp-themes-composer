@@ -9,6 +9,8 @@
  * License: GPL2
  */
 
+require_once 'helpers/api.php';
+
 require_once 'rlje-theme-settings/rlje-theme-settings.php';
 
 $rlje_theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
