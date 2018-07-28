@@ -50,7 +50,7 @@ while ( have_posts() ) :
 			<a href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html" class="landing-link">Start free month</a>
 			<?php if ( ! empty( $franchise_link ) ) : ?>
 			<span class="landing-or">or </span>
-			<a href="<?php echo $franchise_link; ?>" class="landing-link">View Episode</a>
+			<a href="<?php echo esc_url( $franchise_link ); ?>" class="landing-link">View Episode</a>
 			<?php endif; ?>
 		</div>
 
