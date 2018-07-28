@@ -35,17 +35,17 @@
  */
 (function($) {
   $(document).ready(function() {
-    if (!rlje_android_app_banner) {
+    if (!rlje_app_smart_banner) {
       return;
     }
     //Init SmartBanner
     $.smartbanner({
-      title: rlje_android_app_banner.title,
-      author: rlje_android_app_banner.author,
-      price: rlje_android_app_banner.price,
-      inAppStore: rlje_android_app_banner.in_app_store,
-      inGooglePlay: rlje_android_app_banner.in_google_play,
-      icon: rlje_android_app_banner.icon,
+      title: rlje_app_smart_banner.title,
+      author: rlje_app_smart_banner.author,
+      price: rlje_app_smart_banner.price,
+      inAppStore: rlje_app_smart_banner.in_app_store,
+      inGooglePlay: rlje_app_smart_banner.in_google_play,
+      icon: rlje_app_smart_banner.icon,
       button: 'OPEN'
     });
 
