@@ -37,7 +37,7 @@
 	?>
 </head>
 <body <?php body_class(); ?>>
-	<?php get_template_part( '/partials/smart-android-app-banner' ); ?>
+	<?php // get_template_part( '/partials/smart-android-app-banner' ); ?>
 	<?php
 	/*
 	<script>
