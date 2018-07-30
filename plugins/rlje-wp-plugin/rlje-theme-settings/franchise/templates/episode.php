@@ -216,14 +216,14 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 			<?php
 		else :
 			if ( isset( $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) :
-				$trailerId = $franchise->episodes[0]->id;
+				$trailer_id = $franchise->episodes[0]->id;
 				?>
 			<span itemprop="trailer" itemscope itemtype="http://schema.org/VideoObject">
-				<meta itemprop="thumbnailUrl" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>" />
-				<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
-				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
-				<meta itemprop="uploadDate" content="<?php echo ( isset( $episode->startDate ) && $episode->startDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
-				<!-- <div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/<?php echo esc_attr( $bc_account_id ); ?>/<?php echo esc_attr( $bc_player_id ); ?>_default/index.html?videoId=<?php echo $trailerId; ?>'
+				<meta itemprop="thumbnailUrl" content="<?php echo esc_url( apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ) ); ?>" />
+				<meta itemprop="description" content="<?php echo esc_html( $episode->longDescription ); ?>" />
+				<meta itemprop="name" content="<?php echo esc_html( $episode->name ); ?>" />
+				<meta itemprop="uploadDate" content="<?php echo esc_attr( ( isset( $episode->startDate ) && $episode->startDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : '' ); ?>" />
+				<!-- <div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/<?php echo esc_attr( $bc_account_id ); ?>/<?php echo esc_attr( $bc_player_id ); ?>_default/index.html?videoId=<?php echo $trailer_id; ?>'
 					allowfullscreen
 					webkitallowfullscreen
 					mozallowfullscreen></iframe>"> -->
@@ -248,8 +248,8 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 						data-account="<?php echo esc_attr( $bc_account_id ); ?>"
 						data-player="<?php echo esc_attr( $bc_player_id ); ?>"
 						data-embed="default"
-						data-video-id="ref:<?php echo $trailerId; ?>"
-						poster="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"
+						data-video-id="ref:<?php echo esc_attr( $trailer_id ); ?>"
+						poster="<?php echo esc_url( apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ) ); ?>"
 						class="video-js embed-responsive embed-responsive-16by9"
 						controls></video>
 					<script>
@@ -288,7 +288,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 				<?php
 			else :
 				?>
-			<img title="Play trailer" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
+			<img title="Play trailer" class="wp-post-image" src="<?php echo esc_url( apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ) ); ?>"/>
 			<div class="acorntv-slogan">
 				<!-- <h3>Watch world-class TV from Britain and beyond</h3> -->
 				<h3>Stream UMC Anywhere!</h3>
@@ -311,7 +311,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 		<!-- Episode Title and Description -->
 		<div class="col-md-<?php echo ( $is_cast ) ? '6' : '12'; ?>" id="eps-desc">
 			<h4 class="subnav2">Description</h4>
-			<p><?php echo $episode->name; ?>: <?php echo $episode->longDescription; ?></p>
+			<p><?php echo esc_html( $episode->name ); ?>: <?php echo esc_html( $episode->longDescription ); ?></p>
 		</div>
 
 			<?php if ( $is_cast ) : ?>

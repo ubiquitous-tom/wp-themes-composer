@@ -21,7 +21,7 @@ class RLJE_Franchise_Page {
 		add_action( 'wp_ajax_remove', array( $this, 'remove_from_watchlist' ) );
 
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
-		add_filter( 'rlje_json_ld_header', array( $this,'add_franchise_json_ld_to_header' ) );
+		add_filter( 'rlje_json_ld_header', array( $this, 'add_franchise_json_ld_to_header' ) );
 	}
 
 	public function get_pagename() {
@@ -49,14 +49,14 @@ class RLJE_Franchise_Page {
 		wp_register_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
 
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/franchise.css' ) );
-		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
+		$js_ver  = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/franchise.js' ) );
 
 		wp_enqueue_style( 'rlje-franchise', plugins_url( 'css/franchise.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 		wp_enqueue_script( 'rlje-franchise', plugins_url( 'js/franchise.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 		$franchise_object = [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'ajax_url'     => admin_url( 'admin-ajax.php' ),
 			'franchise_id' => $this->franchise_id,
-			'nonce' => wp_create_nonce( $this->nonce ),
+			'nonce'        => wp_create_nonce( $this->nonce ),
 		];
 		wp_localize_script( 'rlje-franchise', 'franchise_object', $franchise_object );
 	}
@@ -71,10 +71,10 @@ class RLJE_Franchise_Page {
 			status_header( 200 );
 			// set_query_var( 'franchise_id', $this->franchise_id );
 			$franchise_id = $this->franchise_id;
-			$franchise   = rljeApiWP_getFranchiseById( $franchise_id );
+			$franchise    = rljeApiWP_getFranchiseById( $franchise_id );
 
 			$stream_positions = $this->get_stream_positions( $franchise_id );
-			$total_episodes = $this->get_total_episodes( $franchise );
+			$total_episodes   = $this->get_total_episodes( $franchise );
 
 			$template_path = apply_filters( 'rlje_franchise_page_template_path', plugin_dir_path( __FILE__ ) . 'templates/franchise.php' );
 			ob_start();
@@ -140,61 +140,62 @@ class RLJE_Franchise_Page {
 			if ( ! $this->franchise ) {
 				return $json_ld;
 			}
-			$season = ( ! empty( $this->franchise->seasons[0] ) ) ? $this->franchise->seasons[0] : [];
-			$episode = ( ! empty( $season->episodes[0] ) ) ? $season->episodes[0] : [];
+			$season         = ( ! empty( $this->franchise->seasons[0] ) ) ? $this->franchise->seasons[0] : [];
+			$episode        = ( ! empty( $season->episodes[0] ) ) ? $season->episodes[0] : [];
 			$franchise_type = ( ! empty( $episode->type ) ) ? ucfirst( strtolower( $episode->type ) ) : 'TVSeries';
-			$type = ( 'Movie' === $franchise_type ) ? $franchise_type : 'TVSeries';
-			$url = trailingslashit( home_url( $this->franchise_id ) );
-			$image = ( ! empty( $episode->image ) ) ? rljeApiWP_getImageUrlFromServices( $episode->image ) : '';
-			$name = ( ! empty( $this->franchise->name ) ) ? $this->franchise->name : '';
-			$actors = ( ! empty( $this->franchise->actors ) ) ? $this->franchise->actors: [];
-			$actor = [];
+			$type           = ( 'Movie' === $franchise_type ) ? $franchise_type : 'TVSeries';
+			$url            = trailingslashit( home_url( $this->franchise_id ) );
+			$image          = ( ! empty( $episode->image ) ) ? rljeApiWP_getImageUrlFromServices( $episode->image ) : '';
+			$name           = ( ! empty( $this->franchise->name ) ) ? $this->franchise->name : '';
+			$actors         = ( ! empty( $this->franchise->actors ) ) ? $this->franchise->actors : [];
+			$actor          = [];
 			foreach ( $actors as $actor_person ) {
 				$actor[] = [
 					'@type' => 'Person',
-					'name' => $actor_person,
+					'name'  => $actor_person,
 				];
 			}
-			$directors =( ! empty( $this->franchise->director ) ) ? $this->franchise->director: [];
-			$director = [];
+			$directors = ( ! empty( $this->franchise->director ) ) ? $this->franchise->director : [];
+			$director  = [];
 			foreach ( $directors as $director_person ) {
 				$director[] = [
 					'@type' => 'Person',
-					'name' => $director_person,
+					'name'  => $director_person,
 				];
 			}
-			$description = $this->franchise->longDescription;
-			$trailer_info = ( ! empty( $this->franchise->episodes[0] ) ) ? $this->franchise->episodes[0] : [];
-			$trailer_name = ( ! empty( $trailer_info->name ) ) ? $trailer_info->name : '';
+			$date_created        = date( 'Y-m-d', ( $this->franchise->createdDate / 1000 ) );
+			$description         = $this->franchise->longDescription;
+			$trailer_info        = ( ! empty( $this->franchise->episodes[0] ) ) ? $this->franchise->episodes[0] : [];
+			$trailer_name        = ( ! empty( $trailer_info->name ) ) ? $trailer_info->name : '';
 			$trailer_description = ( ! empty( $trailer_info->shortDescription ) ) ? $trailer_info->shortDescription : $trailer_info->longDescription;
-			$trailer_image = rljeApiWP_getImageUrlFromServices( $trailer_info->image );
+			$trailer_image       = rljeApiWP_getImageUrlFromServices( $trailer_info->image );
 			$trailer_upload_date = ( ! empty( $trailer_info->startDate ) ) ? date( 'Y-m-d', ( $trailer_info->startDate / 1000 ) ) : strval( $trailer_info->year );
-			$trailer = [
-				'@type' => 'VideoObject',
-				'name' => $trailer_name,
-				'description' => $trailer_description,
-				'thumbnail' => [
-					'@type' => 'ImageObject',
+			$trailer             = [
+				'@type'        => 'VideoObject',
+				'name'         => $trailer_name,
+				'description'  => $trailer_description,
+				'thumbnail'    => [
+					'@type'      => 'ImageObject',
 					'contentUrl' => $trailer_image,
 				],
 				'thumbnailUrl' => $trailer_image,
-				'uploadDate' => $trailer_upload_date,
+				'uploadDate'   => $trailer_upload_date,
 			];
-			$json_ld = [
-				'@context' => 'http://schema.org',
-				'@type' => $type,
-				'url' => $url,
-				'name' => $name,
-				'image' => $image,
-				'dateCreated' => date( 'Y-m-d', ( $this->franchise->createdDate / 1000 ) ),
+			$json_ld             = [
+				'@context'    => 'http://schema.org',
+				'@type'       => $type,
+				'url'         => $url,
+				'name'        => $name,
+				'image'       => $image,
+				'dateCreated' => $date_created,
 				// 'genre' => [
-				// 	'Action',
-				// 	'Adventure',
-				// 	'Fantasy',
-				// 	'Sci-Fi'
+				// 'Action',
+				// 'Adventure',
+				// 'Fantasy',
+				// 'Sci-Fi'
 				// ],
-				'actor' => $actor,
-				'director' => $director,
+				'actor'       => $actor,
+				'director'    => $director,
 				'description' => $description,
 				// 'datePublished' => $season['episode']->year,
 				// 'keywords' => 'atlantis,dc extended universe,dc cinematic universe,based on comic,dc comics,superhero,one word title,based on comic book,character name in title,aquaman character,army,super villain,supernatural power,ocean,underwater',
@@ -223,7 +224,7 @@ class RLJE_Franchise_Page {
 
 		$get_stream_positions = rljeApiWP_getStreamPositionsByFranchise( $franchise_id, $_COOKIE['ATVSessionCookie'] );
 		if ( isset( $get_stream_positions->streamPositions ) ) {
-			$count_positions  = 1;
+			$count_positions = 1;
 			foreach ( $get_stream_positions->streamPositions as $stream_position ) {
 				$stream_positions[ $stream_position->EpisodeID ] = [
 					'Position'      => $stream_position->Position,
@@ -247,16 +248,15 @@ class RLJE_Franchise_Page {
 	}
 
 	protected function get_available_franchise_list() {
-		$country = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
+		$country  = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
 		$response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
 
 		if ( is_wp_error( $response ) ) {
 			return array();
 		}
-		$body = wp_remote_retrieve_body( $response );
+		$body                                 = wp_remote_retrieve_body( $response );
 		$current_country_available_franchises = json_decode( $body, true );
 		// var_dump($current_country_available_franchises);
-
 		$franchises = array();
 		if ( empty( $current_country_available_franchises[ $country ] ) ) {
 			return array();
@@ -264,7 +264,7 @@ class RLJE_Franchise_Page {
 
 		$available_franchises = $current_country_available_franchises[ $country ];
 		foreach ( $available_franchises as $franchise_id => $franchise_info ) {
-			$franchise_name = $franchise_info['name'];
+			$franchise_name                          = $franchise_info['name'];
 			$franchises[ $country ][ $franchise_id ] = $franchise_name;
 		}
 
@@ -327,13 +327,13 @@ class RLJE_Franchise_Page {
 
 	protected function iso8601_duration( $seconds ) {
 		$intervals = [
-			'D' => 60*60*24,
-			'H' => 60*60,
+			'D' => 60 * 60 * 24,
+			'H' => 60 * 60,
 			'M' => 60,
-			'S' => 1
+			'S' => 1,
 		];
 
-		$pt = 'P';
+		$pt     = 'P';
 		$result = '';
 		foreach ( $intervals as $tag => $divisor ) {
 			$qty = floor( $seconds / $divisor );
