@@ -15,6 +15,7 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 		add_action( 'template_redirect', array( $this, 'episode_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'episode_body_class' ) );
+		add_filter( 'rlje_json_ld_header', array( $this,'add_episode_json_ld_to_header' ),15 );
 	}
 
 	public function get_pagename() {
@@ -167,6 +168,49 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 		}
 
 		return $classes;
+	}
+
+	public function add_episode_json_ld_to_header( $json_ld ) {
+		if ( $this->is_episode() ) {
+			$url = trailingslashit( home_url( join( '/', [ $this->franchise_id, $this->season_id, $this->episode_id ] ) ) );
+			$image = ( ! empty( $this->episodes->image ) ) ? rljeApiWP_getImageUrlFromServices( $this->episodes->image ) : '';
+			$description = ( ! empty( $this->episodes->shortDescription ) ) ? $this->episodes->shortDescription : $this->episodes->longDescription;
+			$date_created = date( 'Y-m-d' , ( $this->episodes->startDate / 1000 ) );
+			$duration = $this->iso8601_duration( $this->episodes->length );
+			$json_ld['@type'] = 'TVEpisode';
+			$json_ld['url'] = $url;
+			$json_ld['name'] = $this->episodes->name;
+			$json_ld['image'] = $image;
+			$json_ld['description'] = $description;
+			$json_ld['dateCreated'] = $date_created;
+			$json_ld['timeRequired'] = $duration;
+
+			if ( ! empty( $this->episodes->actors ) ) {
+				$actors = $this->episodes->actors;
+				$actor = [];
+				foreach ( $actors as $actor_person ) {
+					$actor[] = [
+						'@type' => 'Person',
+						'name' => $actor_person,
+					];
+				}
+				$json_ld['actor'] = $actor;
+			}
+
+			if ( ! empty( $this->episodes->director ) ) {
+				$directors = $this->episodes->director;
+				$director = [];
+				foreach ( $directors as $director_person ) {
+					$director[] = [
+						'@type' => 'Person',
+						'name' => $director_person,
+					];
+				}
+				$json_ld['director'] = $director;
+			}
+		}
+
+		return $json_ld;
 	}
 
 	protected function is_episode() {

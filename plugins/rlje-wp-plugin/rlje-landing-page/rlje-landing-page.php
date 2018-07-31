@@ -2,21 +2,25 @@
 
 class RLJE_Landing_page {
 
+	protected $post_type = 'atv_landing_page';
+
 	public function __construct() {
 		add_action( 'init', array( $this, 'acorntv_create_landing_pages_post_type' ) );
 		add_action( 'save_post', array( $this, 'acorntv_landing_page_save_meta' ), 10, 2 );
 		add_action( 'wp_restore_post_revision', array( $this, 'acorntv_landing_page_restore_revision' ), 10, 2 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'rlje_description_meta_tag_content', array( $this, 'add_landing_page_description_meta_tag_content' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+
 		add_filter( 'document_title_parts', array( $this, 'landing_pages_title_parts' ), 11 );
 		add_filter( '_wp_post_revision_fields', array( $this, 'acorntv_landing_page_revision_fields' ) );
 		add_filter( 'wp_save_post_revision_check_for_changes', array( $this, 'force_save_revision' ), 10, 3 );
+		add_filter( 'template_include', array( $this, 'landing_page_template' ) );
 	}
 
-	public function enqueue_scripts( $hook ) {
+	public function admin_enqueue_scripts( $hook ) {
 		// Versioning for cachebuster.
-		if ( 'atv_landing_page' === get_post_type() ) {
+		if ( $this->post_type === get_post_type() ) {
 			$js_version  = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/script.js' ) );
 			$css_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 
@@ -27,9 +31,26 @@ class RLJE_Landing_page {
 		}
 	}
 
+	public function wp_enqueue_scripts() {
+		$post_type = get_post_type();
+		if ( $this->post_type === $post_type ) {
+			$css_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/landing.css' ) );
+			wp_enqueue_style( 'rlje-landing-page', plugins_url( 'css/landing.css', __FILE__ ), array(), $css_version );
+		}
+	}
+
+	public function landing_page_template( $template ) {
+		$post_type = get_post_type();
+		if ( $this->post_type === $post_type ) {
+			$template = plugin_dir_path( __FILE__ ) . 'templates/landing.php';
+		}
+
+		return $template;
+	}
+
 	public function acorntv_create_landing_pages_post_type() {
 		register_post_type(
-			'atv_landing_page',
+			$this->post_type,
 			array(
 				'labels'               => array(
 					'name'          => __( 'Landing Pages' ),
@@ -60,10 +81,10 @@ class RLJE_Landing_page {
 	}
 
 	public function acorntv_add_landing_page_metaboxs( $post ) {
-		add_meta_box( 'atv_trailer_metabox', 'Trailer', array( $this, 'acorntv_trailer_metabox' ), 'atv_landing_page', 'normal' );
-		add_meta_box( 'atv_quote_metabox', 'Quote', array( $this, 'acorntv_quote_metabox' ), 'atv_landing_page', 'normal' );
-		add_meta_box( 'atv_franchiseId_metabox', 'Franchise', array( $this, 'acorntv_franchise_id_metabox' ), 'atv_landing_page', 'side' );
-		add_meta_box( 'atv_featuredImageUrl_metabox', 'Featured Image', array( $this, 'acorntv_featured_image_url_metabox' ), 'atv_landing_page', 'side' );
+		add_meta_box( 'atv_trailer_metabox', 'Trailer', array( $this, 'acorntv_trailer_metabox' ), $this->post_type, 'normal' );
+		add_meta_box( 'atv_quote_metabox', 'Quote', array( $this, 'acorntv_quote_metabox' ), $this->post_type, 'normal' );
+		add_meta_box( 'atv_franchiseId_metabox', 'Franchise', array( $this, 'acorntv_franchise_id_metabox' ), $this->post_type, 'side' );
+		add_meta_box( 'atv_featuredImageUrl_metabox', 'Featured Image', array( $this, 'acorntv_featured_image_url_metabox' ), $this->post_type, 'side' );
 	}
 
 	public function acorntv_trailer_metabox( $post ) {
@@ -256,8 +277,8 @@ class RLJE_Landing_page {
 	// Check changes in the custom metadata to create a revision.
 	public function force_save_revision( $return, $last_revision, $post ) {
 		// Force to save a revision only if it is an atv_landing_page and it has a change.
-		if ( isset( $_POST['post_type'] ) && $_POST['post_type'] == 'atv_landing_page' ) {
-			$metaDatas = acorntv_get_metadatas( $_POST['post_ID'] );
+		if ( isset( $_POST['post_type'] ) && $_POST['post_type'] == $this->post_type ) {
+			$metaDatas = $this->acorntv_get_metadatas( $_POST['post_ID'] );
 			$isChanged = false;
 			foreach ( $metaDatas as $metaDataKey => $metaDatasValue ) {
 				// Only save a revision if the any of the meta data has a change.
@@ -277,7 +298,7 @@ class RLJE_Landing_page {
 	// Add metabox data to post revision
 	public function acorntv_landing_page_restore_revision( $post_id, $revision_id ) {
 		$revision  = get_post( $revision_id );
-		$metaDatas = acorntv_get_metadatas( $revision->ID );
+		$metaDatas = $this->acorntv_get_metadatas( $revision->ID );
 		foreach ( $metaDatas as $metaName => $metaValue ) {
 			if ( false !== $metaValue ) {
 				update_post_meta( $post_id, $metaName, $metaValue );
@@ -295,7 +316,7 @@ class RLJE_Landing_page {
 	}
 
 	public function add_landing_page_description_meta_tag_content( $description_content ) {
-		if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
+		if ( $this->post_type === get_query_var( 'post_type' ) ) {
 			$meta_title = htmlentities( get_the_title() );
 			$meta_descr = htmlentities( get_the_excerpt() );
 
@@ -306,7 +327,7 @@ class RLJE_Landing_page {
 	}
 
 	public function landing_pages_title_parts( $title ) {
-		if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
+		if ( $this->post_type === get_query_var( 'post_type' ) ) {
 			$meta_title = htmlentities( get_the_title() );
 			$meta_descr = htmlentities( get_the_excerpt() );
 

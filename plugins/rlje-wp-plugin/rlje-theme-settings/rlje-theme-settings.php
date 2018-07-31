@@ -28,6 +28,7 @@ class RLJE_Theme_Settings {
 		require_once 'plugins/country/rlje-country-plugin.php';
 		require_once 'plugins/futuredate/rlje-futuredate-plugin.php';
 		require_once 'plugins/videodebugger/rlje-videodebugger-plugin.php';
+		require_once 'plugins/app-smart-banner/rlje-app-smart-banner-plugin.php';
 
 		// CORE THEME SETTINGS PAGES.
 		require_once 'rlje-theme-settings-3rd-party-tab.php';

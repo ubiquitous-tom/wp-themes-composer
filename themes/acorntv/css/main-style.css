@@ -160,7 +160,7 @@ input:-ms-input-placeholder {color: #ccc;}
 #drop-select li a {text-transform: capitalize;}
 
 /* HOME TEMPLATE*/
-.home-hero-carousel{background:#060606;margin-top: 75px;}
+.home-hero-carousel{background:#060606;margin-top: 55px;}
 .home-featured{background:#060606;width:100%;padding-bottom:50px;}
 .home-middle{margin-top:15px;margin-bottom:30px}
 .home-spotlights{background:#060606;width:100%;margin-top:0px;padding-bottom:35px;}
@@ -440,6 +440,7 @@ p {font-size: 14.5px;}
 .subnav2 {margin-top:30px;font-size:14px;padding-bottom: 15px}
 
 /* CAROUSEL */
+.home-hero-carousel{margin-top: 75px;}
 .feature-slide .carousel-inner {min-height: 0px;}
 .feature-slide .carousel-control {opacity: .95}
 .carousel-respond-slide .carousel-control.left,
@@ -640,6 +641,10 @@ p {font-size: 14.5px;}
 /* Video Debugger - Header Block */
 .navbar-video-debugging {bottom: 5px;}
 
+}
+
+@media (max-width: 1275px) {
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: none;}
 }
 
 @media (min-width: 1251px) {

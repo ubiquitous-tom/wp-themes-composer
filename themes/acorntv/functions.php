@@ -79,7 +79,7 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', array(), '3.3.7' );
 	wp_enqueue_style( 'fancybox_css', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.css', array(), '1.0.0' );
 	// wp_enqueue_style( 'smartbanner_css', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.css', array(), '1.0.0' );
-	wp_enqueue_style( 'smartbanner_css', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.css', array( 'jquery_ui_css' ), '1.0.0' );
+	// wp_enqueue_style( 'smartbanner_css', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.css', array( 'jquery_ui_css' ), '1.0.0' );
 	wp_enqueue_style( 'main_style_css', get_template_directory_uri() . '/css/main-style.css', array(), '1.4.8' );
 
 	// Enqueue scripts.
@@ -91,7 +91,7 @@ function acorntv_hook_css_js() {
 	// wp_enqueue_script( 'jquery-unveil-js', get_template_directory_uri() . '/lib/jquery/jquery-unveil/jquery.unveil.min.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'jquery-unveil-js', '//cdnjs.cloudflare.com/ajax/libs/unveil/1.3.0/jquery.unveil.min.js', array( 'jquery' ), '1.3.0', true );
 	// wp_enqueue_script( 'jquery-smartbanner-js', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.js', array( 'jquery-ui-core' ), null, true );
-	wp_enqueue_script( 'jquery-smartbanner-js', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.js', array( 'jquery-ui-core' ), '1.0.0', true );
+	// wp_enqueue_script( 'jquery-smartbanner-js', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.js', array( 'jquery-ui-core' ), '1.0.0', true );
 	// wp_enqueue_script( 'modernizr-js', get_template_directory_uri() . '/lib/modernizr/modernizr.min.js', array(), null, true );
 	wp_enqueue_script( 'modernizr-js', '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js', array(), '2.8.3', true );
 	wp_enqueue_script( 'bootstrap-js', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array( 'jquery' ), '3.3.7', true );
@@ -259,6 +259,11 @@ function remove_admin_menus() {
 	remove_menu_page( 'edit-comments.php' );
 	remove_menu_page( 'users.php' );
 }
+
+/**
+ * Remove admin menu bar on mobile view.
+ */
+// add_filter( 'show_admin_bar', '__return_false' );
 
 /**
  * Custom permalink to page content type.

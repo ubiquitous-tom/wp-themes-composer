@@ -1,75 +1,3 @@
-@font-face {
-    font-family: 'Avenir Black';
-    src: url('../font/Avenir-Black-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/Avenir-Black-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/Avenir-Black-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/Avenir-Black-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/Avenir-Black-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/Avenir-Black-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Avenir Medium Oblique';
-    src: url('../font/Avenir-MediumOblique-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/Avenir-MediumOblique-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/Avenir-MediumOblique-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/Avenir-MediumOblique-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/Avenir-MediumOblique-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/Avenir-MediumOblique-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: 300;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Avenir Medium';
-    src: url('../font/Avenir-Medium-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/Avenir-Medium-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/Avenir-Medium-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/Avenir-Medium-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/Avenir-Medium-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/Avenir-Medium-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Avenir Oblique';
-    src: url('../font/Avenir-Oblique-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/Avenir-Oblique-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/Avenir-Oblique-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/Avenir-Oblique-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/Avenir-Oblique-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/Avenir-Oblique-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Avenir Roman';
-    src: url('../font/Avenir-Roman-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/Avenir-Roman-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/Avenir-Roman-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/Avenir-Roman-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/Avenir-Roman-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/Avenir-Roman-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Avenir Light';
-    src: url('../font/avenir-light-webfont.eot');/* IE9 Compat Modes */
-    src: url('../font/avenir-light-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('../font/avenir-light-webfont.woff2') format('woff2'), /* Super Modern Browsers */
-        url('../font/avenir-light-webfont.woff') format('woff'), /* Pretty Modern Browsers */
-        url('../font/avenir-light-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('../font/avenir-light-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
-    font-weight: 100;
-    font-style: normal;
-}
-
 /* BASE CSS */
 
 body {
@@ -91,15 +19,19 @@ button {
 }
 
 /* CAROUSEL */
+
 .carousel-controls {
     max-width: calc(510px / (9/16));
 }
+
 .carousel .item .container {
     max-width: calc(510px / (9/16));
 }
+
 .carousel .item .left {
     max-width: calc(485px / (9/16));
 }
+
 .carousel .item .right {
     max-width: calc(485px / (9/16));
 }
@@ -109,93 +41,93 @@ button {
 .navbar-nav>li>a,
 .log-in,
 .free-month {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* BUTTONS, TABS, AND ICONS  */
 
 #page-subhead {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* DROPDOWN */
 
 #options {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 #drop-select li {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* BROWSE TEMPLATE*/
 
 .browse li {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* SCHEDULE TEMPLATE */
 
 .schedule li {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 .schedule h6 {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* CONTACT US */
 
 #contact-hero h3 {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 #contact-form button {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* FOOTER TEMPLATE */
 
 .footer a {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* VALTIRA ADDITIONS */
 
 .menuOptions {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 .drop-select li {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 #nextEpisodeOverlay p {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
 /* HOME TEMPLATE*/
 
 .view-all a {
-	font-family: 'Nunito', sans-serif;
-	letter-spacing: 1px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 1px;
 }
 
-
 /* OTHERS */
+
 .atv-logo {
     width: auto;
     margin-top: 15px;
@@ -207,6 +139,9 @@ button {
 .home-spotlights,
 .sub-footer {
     background: #011f36;
+}
+.navbar {
+    margin: 0;
 }
 
 .carousel .item .hero-img {
@@ -231,6 +166,7 @@ button {
     background: #000;
     width: 100% !important;
 }
+
 .acorntv-slogan .free-month,
 .free-month {
     background: rgba(11, 152, 184, 0.85);
@@ -250,6 +186,7 @@ span[itemprop="trailer"] a button {
     background: #976d31;
     border-color: #976d31;
 }
+
 span[itemprop="trailer"] a button:hover {
     background: #a27b43;
     border-color: #a27b43;
@@ -265,23 +202,26 @@ span[itemprop="trailer"] a button:hover {
     background: #976d31;
     border-color: #976d31;
 }
+
 .continueEpisodeBtn.js-play-start:hover,
 .continueEpisodeBtn.js-player-start:hover {
     background: #a27b43;
     border-color: #a27b43;
 }
 
-
 .home-callout {
     background: #052e45;
 }
+
 .home-callout #border-carousel {
     border-color: #fff;
 }
+
 .home-callout .home-callout-content button {
     background: #976d31;
     text-transform: uppercase;
 }
+
 .home-callout .home-callout-content button:hover {
     background: #a27b43;
 }
@@ -289,10 +229,20 @@ span[itemprop="trailer"] a button:hover {
 .footer ul {
     margin-top: 0;
 }
+
 .footer p {
     margin-top: 0;
 }
 
+@media all and (max-width: 768px) {
+    .atv-logo {
+        height: 35px;
+        margin-top: 12px;
+    }
+}
+
 @media all and (min-width: 1100px) {
-    .carousel-controls {top: calc(50% - (130px/2));}
+    .carousel-controls {
+        top: calc(50% - (130px/2));
+    }
 }
