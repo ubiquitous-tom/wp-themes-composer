@@ -8,7 +8,17 @@ get_header();
 				<h3 class="text-center">Ready to start your free trial?</h3>
 				<p class="text-center side">Watch the best in Black films &amp; television all in one place, always commercial free.</p>
 			</header>
-			<div id="progress-steps">show steps here</div>
+			<div id="progress-steps" class="row">
+				<div class="step active text-center">
+					<span>Step 1</span>
+				</div>
+				<div class="step text-center">
+					<span>Step 2</span>
+				</div>
+				<div class="step text-center">
+					<span>Finish</span>
+				</div>
+			</div>
 			<form class="signup step-one row">
 				<div class="form-group">
 					<label for="signup-email">E-Mail Address *</label>
