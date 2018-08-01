@@ -1,5 +1,3 @@
-var stripeKey = 'pk_live_iZzVasGhV9WI0qeyuGMdsheP';
-var stripeKeyTest = 'pk_test_yr7778XnhKRkXRCUtqfLEjTU';
 var sessionId;
 var stripe;
 var card;
@@ -33,6 +31,9 @@ function renderStripeInput($) {
 
 function showStepTwo($, signup_form) {
     // Render second step.
+    // Mark step 2 as active
+    $('#progress-steps .step').removeClass('active');
+    $('#progress-steps .step:nth-child(2)').addClass('active');
     // Update header and side description of the page
     $('#signup h3').html('Last step and then start watching');
     $('#signup p.side').html('Watch free for 7 days. Just $4.99/month after that. No commitment: cancel within 7 days to avoid payment.');
@@ -89,7 +90,7 @@ function showStepTwo($, signup_form) {
     signup_form.append(first_name_group, last_name_group, country_group, card_name_group, stripe_group, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
-    initializeStripeElements(stripeKeyTest);
+    initializeStripeElements(signup_vars.stripe_key);
 
     // Attach form submit handler
     signup_form.on('submit', submitStepTwo);
@@ -132,6 +133,9 @@ function submitStepTwo(event) {
 
 function showStepThree() {
     // Render last step.
+    // Mark last step as active
+    jQuery('#progress-steps .step').removeClass('active');
+    jQuery('#progress-steps .step:nth-child(3)').addClass('active');
     // Update header and side description of the page
     jQuery('#signup h3').html('Congratulations! Sign up complete.');
     jQuery('#signup p.side').html('Thanks for trying UMC! We think you\'ll love it.');
