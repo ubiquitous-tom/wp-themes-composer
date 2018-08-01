@@ -1,5 +1,3 @@
-var stripeKey = 'pk_live_iZzVasGhV9WI0qeyuGMdsheP';
-var stripeKeyTest = 'pk_test_yr7778XnhKRkXRCUtqfLEjTU';
 var sessionId;
 var stripe;
 var card;
@@ -89,7 +87,7 @@ function showStepTwo($, signup_form) {
     signup_form.append(first_name_group, last_name_group, country_group, card_name_group, stripe_group, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
-    initializeStripeElements(stripeKeyTest);
+    initializeStripeElements(signup_vars.stripe_key);
 
     // Attach form submit handler
     signup_form.on('submit', submitStepTwo);
