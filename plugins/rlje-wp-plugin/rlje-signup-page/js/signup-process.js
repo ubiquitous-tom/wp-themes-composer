@@ -31,6 +31,9 @@ function renderStripeInput($) {
 
 function showStepTwo($, signup_form) {
     // Render second step.
+    // Mark step 2 as active
+    $('#progress-steps .step').removeClass('active');
+    $('#progress-steps .step:nth-child(2)').addClass('active');
     // Update header and side description of the page
     $('#signup h3').html('Last step and then start watching');
     $('#signup p.side').html('Watch free for 7 days. Just $4.99/month after that. No commitment: cancel within 7 days to avoid payment.');
@@ -130,6 +133,9 @@ function submitStepTwo(event) {
 
 function showStepThree() {
     // Render last step.
+    // Mark last step as active
+    jQuery('#progress-steps .step').removeClass('active');
+    jQuery('#progress-steps .step:nth-child(3)').addClass('active');
     // Update header and side description of the page
     jQuery('#signup h3').html('Congratulations! Sign up complete.');
     jQuery('#signup p.side').html('Thanks for trying UMC! We think you\'ll love it.');
