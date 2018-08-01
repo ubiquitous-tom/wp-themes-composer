@@ -6,10 +6,10 @@ get_header();
 		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<header class="row">
 				<h3 class="text-center">Ready to start your free trial?</h3>
-				<p class="text-center">Watch the best in Black films &amp; television all in one place, always commercial free.</p>
+				<p class="text-center side">Watch the best in Black films &amp; television all in one place, always commercial free.</p>
 			</header>
 			<div id="progress-steps">show steps here</div>
-			<form id="signup-step-one" class="row">
+			<form class="signup step-one row">
 				<div class="form-group">
 					<label for="signup-email">E-Mail Address *</label>
 					<input id="signup-email" class="form-control" required name="signup_email" type="email">

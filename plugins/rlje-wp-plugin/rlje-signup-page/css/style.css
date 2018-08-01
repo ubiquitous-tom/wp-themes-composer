@@ -35,3 +35,10 @@ body {
     margin: 20px 0;
     padding: 10px 0;
 }
+
+form.signup .StripeElement {
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
