@@ -35,7 +35,7 @@ $franchise_url             = home_url( $franchise->id );
 
 	<?php
 	if ( $have_franchises_available ) :
-		if ( isset( $stream_positions ) ) :
+		if ( ! empty( $stream_positions ) ) :
 			?>
 	<!-- Continue Watching  -->
 	<div class="container">

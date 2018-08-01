@@ -90,13 +90,13 @@ get_header();
 						</script>
 					</div> -->
 					<div id="trailer-video" class="video">
-						<video
+						<video preload
 							id="brightcove-trailer-player"
 							data-account="3392051363001"
 							data-player="0066661d-8f08-4e7b-a5b4-8d48755a3057"
 							data-embed="default"
 							data-video-id="ref:<?php echo $trailerId; ?>"
-							poster="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ); ?>"
+							poster="<?php echo esc_url( apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ) ); ?>"
 							class="video-js embed-responsive embed-responsive-16by9"
 							controls></video>
 					</div>
@@ -104,7 +104,7 @@ get_header();
 					<?php
 				else :
 					?>
-				<img title="Play trailer" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ); ?>"/>
+				<img title="Play trailer" class="wp-post-image" src="<?php echo esc_url( apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ) ); ?>"/>
 				<div class="acorntv-slogan">
 					<h3>Watch world-class TV from Britain and beyond</h3>
 					<h4>Always available, always commercial free</h4>

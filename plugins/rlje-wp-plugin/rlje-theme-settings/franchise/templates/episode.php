@@ -242,7 +242,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 							</button>
 						</h5>
 					</div>
-					<video
+					<video preload
 						id="brightcove-episode-trailer-player"
 						class="hidden"
 						data-account="<?php echo esc_attr( $bc_account_id ); ?>"
