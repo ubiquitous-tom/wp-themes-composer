@@ -69,7 +69,7 @@ function showStepTwo($, signup_form) {
         $(document.createElement('option')).attr('value', 'AR').html('Argentina')
     ]
     var country_label = $(document.createElement('label')).html('Country *');
-    var country_select = $(document.createElement('select')).addClass('form-control').append(countries);
+    var country_select = $(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
     var country_group = $(document.createElement('div')).addClass('form-group').append(country_label, country_select);
 
     // Name on card field
