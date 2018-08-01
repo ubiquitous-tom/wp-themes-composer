@@ -52,7 +52,7 @@ function showStepTwo($, signup_form) {
     ).prop('required', true);
     var first_name_group = $(document.createElement('div')).addClass('form-group').append(first_name_label, first_name_input);
 
-    var last_name_label = $(document.createElement('label')).html('Last Name *');
+    var last_name_label = $(document.createElement('label')).attr('for', 'user-last-name').html('Last Name *');
     var last_name_input = $(document.createElement('input')).addClass('form-control').attr(
         {
             id: 'user-last-name',
