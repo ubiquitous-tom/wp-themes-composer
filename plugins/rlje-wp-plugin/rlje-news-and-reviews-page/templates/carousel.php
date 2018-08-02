@@ -1,48 +1,51 @@
 <?php
-$baseUrlPath = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+$base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 ?>
 <div class="col-md-12 col-lg-6">
 	<div class="home-hero-carousel">
-		<div id="carousel_fade" class="carousel slide carousel-fade " style="margin-top:25px;" data-pause="true"  data-interval="false" data-ride="carousel">
-			<div class="carousel-inner">
-				<a class="left carousel-control" style="margin-left:0px;width:35px;top:42%" href="#carousel_fade" data-slide="prev" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" width="35px"></a>
-				<a class="right carousel-control" href="#carousel_fade" data-slide="next" id="carousel-arrow" style="width:32px;top:42%"><img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" width="35px"></a>
+		<div id="carousel_fade" class="carousel slide carousel-fade " data-pause="true"  data-interval="false" data-ride="carousel">
+			<?php if ( count( $marketing_places ) > 1 ) : ?>
+			<a class="left carousel-control" href="#carousel_fade" data-slide="prev" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" width="35px"></a>
+			<a class="right carousel-control" href="#carousel_fade" data-slide="next" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" width="35px"></a>
+			<?php endif; ?>
 
-				<?php
-				foreach ( $marketingPlaces as $key => $item ) :
-					if ( ! empty( $item['src'] ) ) :
-					?>
+			<div class="carousel-inner">
+			<?php foreach ( $marketing_places as $key => $item ) : ?>
 				<div class="item <?php echo ( $key == 0 ) ? 'active' : ''; ?>">
-					<?php if ( $item['type'] == 'image' ) : ?>
-					<a <?php if ( ! empty( $item['franchiseId'] ) ) : ?> href="<?php echo $baseUrlPath . '/' . $item['franchiseId']; ?>" <?php endif; ?>>
-						<img alt="thumb marketing image" class="sliderimage" src="<?php echo $item['src']; ?>" style="height:auto;opacity:.9">
+					<?php if ( 'image' === $item['type'] ) : ?>
+					<a <?php if ( ! empty( $item['franchiseId'] ) ) : ?> href="<?php echo esc_url( trailingslashit( home_url( $item['franchiseId'] ) ) ); ?>" <?php endif; ?>>
+						<img alt="thumb marketing image" class="sliderimage" src="<?php echo esc_url( $item['src'] ); ?>">
 					</a>
 					<?php
-						elseif ( $item['type'] == 'extImage' ) :
-						$externalLink = ( preg_match( '/^http[s]*\:[\/]{2}/i', $item['externalLink'] ) ) ? $item['externalLink'] : 'http://' . str_replace( [ ':', '//' ], '', $item['externalLink'] );
+						elseif ( 'extImage' === $item['type'] ) :
+						$external_link = ( preg_match( '/^http[s]*\:[\/]{2}/i', $item['externalLink'] ) ) ? $item['externalLink'] : 'http://' . str_replace( [ ':', '//' ], '', $item['externalLink'] );
 					?>
-					<a <?php if ( ! empty( $item['externalLink'] ) ) : ?> href="<?php echo $externalLink; ?>" <?php endif; ?> onclick="window.open('<?php echo $externalLink; ?>', 'newwindow', 'scrollbars=yes,top=200, left=100,width=850, height=600'); return false;" target="_blank">
-						<img alt="thumb marketing image" class="sliderimage" src="<?php echo $item['src']; ?>" style="height:auto;opacity:.9">
+					<a <?php if ( ! empty( $item['externalLink'] ) ) : ?> href="<?php echo esc_url( $external_link ); ?>" <?php endif; ?> onclick="window.open('<?php echo esc_url( $external_link ); ?>', 'newwindow', 'scrollbars=yes,top=200, left=100,width=850, height=600'); return false;" target="_blank">
+						<img alt="thumb marketing image" class="sliderimage" src="<?php echo $item['src']; ?>">
 					</a>
 					<?php else : ?>
-					<div style="display: block; position: relative; max-width: 100%;">
-						<div style="padding-top: 50%;">
-							<iframe
-								class="embed-responsive"
-								style="width: 100%; height: 100%; position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px;border:none;"
-								src="//players.brightcove.net/3047407010001/r1ZjWi4Ab_default/index.html?videoId=<?php echo $item['src']; ?>"
-								allowfullscreen=""
-								webkitallowfullscreen=""
-								mozallowfullscreen="">
-							</iframe>
-						</div>
+					<div class="news-carousel">
+						<!-- <iframe
+							class="embed-responsive"
+							style="width: 100%; height: 100%; position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px;border:none;"
+							src="//players.brightcove.net/3047407010001/r1ZjWi4Ab_default/index.html?videoId=<?php echo $item['src']; ?>"
+							allowfullscreen=""
+							webkitallowfullscreen=""
+							mozallowfullscreen="">
+						</iframe> -->
+						<video preload
+							id="brightcove-news-carousel-player"
+							data-account="<?php echo esc_attr( $this->brightcove['bc_account_id'] ); ?>"
+							data-player="<?php echo esc_attr( $this->brightcove['bc_player_id'] ); ?>"
+							data-embed="default"
+							data-video-id="ref:<?php echo esc_attr( $item['src'] ); ?>"
+
+							class="video-js embed-responsive embed-responsive-16by9"
+							controls></video>
 					</div>
 					<?php endif; ?>
 				</div>
-					<?php
-					endif;
-				endforeach;
-				?>
+			<?php endforeach; ?>
 			</div>
 		</div>
 	</div>
