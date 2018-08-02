@@ -153,7 +153,7 @@ class RLJE_Index_Page {
 						</div>
 					</div>
 
-					<div class="col-md-6" style="padding:0px 30px;padding-bottom:50px;">
+					<div class="col-md-6">
 						<div class="home-callout-content">
 							<img src="https://api.rlje.net/acorn/artwork/size/signup-icon?t=Icons" id="home-trial-img">
 							<p class="home-callout-description">Over 1,800 hours of programming, including 60 shows you won't find anywhere else. </p>

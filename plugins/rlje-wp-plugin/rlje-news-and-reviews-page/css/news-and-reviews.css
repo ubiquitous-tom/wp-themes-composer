@@ -1,24 +1,34 @@
-.form-table tr {
-    border-bottom: 1px solid #ddd;
+.home-middle .home-hero-carousel {
+    margin-top: 25px;
 }
 
-.form-table tr.ui-sortable-handle {
-    cursor: move;
+.home-middle .home-hero-carousel #carousel-arrow {
+    top: calc(50% - (40px/2));
 }
 
-.form-table .ui-state-default th {
-    vertical-align: middle;
+.home-middle .home-hero-carousel .sliderimage {
+    height: auto;
+    opacity: .9;
 }
 
-.sortable-placeholder {
-    background-color: #ccc;
+.home-middle .home-hero-carousel .news-carousel {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
 }
 
-.ui-icon-arrowthick-2-n-s {
-    display: inline-block;
-    vertical-align: top;
+.home-middle .home-hero-carousel .news-carousel #brightcove-news-carousel-player {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.news_section th {
-    width: 125px;
+.home-middle .press-border img {
+    width: 100%;
+    height: auto;
+    opacity: .55;
+    max-width: 80px;
 }
