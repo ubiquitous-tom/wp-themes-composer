@@ -56,11 +56,14 @@ class RLJE_Theme_Settings {
 			add_settings_field( 'navigation_signup_text', 'Navigation Sign Up Text', array( $this, 'display_navigation_signup_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 			add_settings_field( 'navigation_login_text', 'Navigation Log In Text', array( $this, 'display_navigation_login_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 			add_settings_field( 'navigation_free_trial_text', 'Navigation Free Trial Text', array( $this, 'display_navigation_free_trial_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
+			add_settings_field( 'home_callout_left_section_text', 'Home Callout Left Section Text', array( $this, 'display_home_callout_one_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
+			add_settings_field( 'home_callout_right_section_text', 'Home Callout Right Section Text', array( $this, 'display_home_callout_two_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 
 			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+			add_settings_field( 'theme_plugins_home_callout', 'Home Callout', array( $this, 'display_theme_home_callout' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 		}
 	}
 
@@ -173,6 +176,60 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
+	public function display_home_callout_one_text() {
+		$callout = ( ! empty( $this->theme_text_settings['callout']['one'] ) ) ? $this->theme_text_settings['callout']['one'] : array();
+		$callout_text = ( ! empty( $callout['text'] ) ) ? $callout['text'] : 'Available on Roku, Apple TV, Samsung Smart TV, iPhone, iPad, web and more.';
+		$callout_link = ( ! empty( $callout['link'] ) ) ? $callout['link'] : home_url( '/' );
+		$callout_link_text = ( ! empty( $callout['link_text'] ) ) ? $callout['link_text'] : 'Learn More';
+		?>
+		<p>
+			<label for="callout-one-text"><strong>Main Text:</strong></label><br>
+			<textarea type="text" name="rlje_theme_text_settings[callout][one][text]" class="widefat" id="callout-one-text" placeholder="Insert Text Here" rows="5"><?php echo esc_html( $callout_text ); ?></textarea>
+		</p>
+		<p class="description">Right home callout section main text</p>
+		<hr>
+		<p>
+			<label for="callout-one-text"><strong>Button URL:</strong></label><br>
+			<input type="text" name="rlje_theme_text_settings[callout][one][link]" class="widefat" id="callout-one-link" value="<?php echo esc_attr( $callout_link ); ?>" placeholder="<?php echo esc_url( home_url( '/' ) ); ?>">
+		</p>
+		<p class="description">Right home callout section button url</p>
+		<hr>
+		<p>
+			<label for="callout-one-text"><strong>Button Text:</strong></label><br>
+			<input type="text" name="rlje_theme_text_settings[callout][one][link_text]" class="regular-text" id="callout-one-link-text" value="<?php echo esc_attr( $callout_link_text ); ?>" placeholder="Learn More">
+		</p>
+		<p class="description">Right home callout section button url</p>
+		<hr>
+		<?php
+	}
+
+	public function display_home_callout_two_text() {
+		$callout = ( ! empty( $this->theme_text_settings['callout']['two'] ) ) ? $this->theme_text_settings['callout']['two'] : array();
+		$callout_text = ( ! empty( $callout['text'] ) ) ? $callout['text'] : 'Over 1,800 hours of programming, including 60 shows you won\'t find anywhere else.';
+		$callout_link = ( ! empty( $callout['link'] ) ) ? $callout['link'] : home_url( '/' );
+		$callout_link_text = ( ! empty( $callout['link_text'] ) ) ? $callout['link_text'] : 'Start Your Free Trial';
+		?>
+		<p>
+			<label for="callout-one-text"><strong>Main Text:</strong></label><br>
+			<textarea type="text" name="rlje_theme_text_settings[callout][two][text]" class="widefat" id="callout-two-text" placeholder="Insert Text Here" rows="5"><?php echo esc_html( $callout_text ); ?></textarea>
+		</p>
+		<p class="description">Left home callout section main text</p>
+		<hr>
+		<p>
+			<label for="callout-one-text"><strong>Button URL:</strong></label><br>
+			<input type="text" name="rlje_theme_text_settings[callout][two][link]" class="widefat" id="callout-two-link" value="<?php echo esc_attr( $callout_link ); ?>" placeholder="<?php echo esc_url( home_url( '/' ) ); ?>">
+		</p>
+		<p class="description">Left home callout section button url</p>
+		<hr>
+		<p>
+			<label for="callout-one-text"><strong>Button Text:</strong></label><br>
+			<input type="text" name="rlje_theme_text_settings[callout][two][link_text]" class="regular-text" id="callout-two-link-text" value="<?php echo esc_attr( $callout_link_text ); ?>" placeholder="Start Your Free Trial">
+		</p>
+		<p class="description">Left home callout section button url</p>
+		<hr>
+		<?php
+	}
+
 	public function display_rlje_theme_plugins_content() {
 		echo 'Toggle for other RLJE plugins for the theme';
 		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
@@ -212,6 +269,19 @@ class RLJE_Theme_Settings {
 		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review=of" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
 		<label for="rlje-plugins-news-and-review-off">Off</label>
 		<p class="description">For activating Homepage section</p>
+		<?php
+	}
+
+	public function display_theme_home_callout() {
+		$home_callout = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[home_callout]" id="rlje-plugins-home-callout-on" class="regular-text" value="1" <?php checked( $home_callout, 1 ); ?>>
+		<label for="rlje-plugins-home-callout-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[home_callout]" id="rlje-plugins-home-callout-off" class="regular-text" value="0" <?php checked( $home_callout, 0 ); ?>>
+		<label for="rlje-plugins-home-callout-off">Off</label>
+		<p class="description">For activating Homepage Callout section</p>
+		<p class="description">* Please insert all the needed text and links before activating this section.</p>
 		<?php
 	}
 
