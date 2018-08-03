@@ -12,6 +12,7 @@ class RLJE_UMC_Theme {
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
 		add_filter( 'rlje_franchise_artwork', array( $this, 'umc_franchise_artwork_image_h' ), 10, 2 );
 		add_filter( 'rlje_title', array( $this, 'umc_title_format' ) );
+		add_filter( 'rlje_seasons_dropdown_filter_by_text', array( $this, 'umc_seasons_dropdown_filter_by_text' ) );
 
 		require_once plugin_dir_path( __FILE__ ) . 'franchise/umc-franchise-page.php';
 	}
@@ -80,6 +81,12 @@ class RLJE_UMC_Theme {
 		}
 
 		return $title;
+	}
+
+	public function umc_seasons_dropdown_filter_by_text( $filter_by_text ) {
+		$filter_by_text = 'Filter By Seasons';
+
+		return $filter_by_text;
 	}
 }
 
