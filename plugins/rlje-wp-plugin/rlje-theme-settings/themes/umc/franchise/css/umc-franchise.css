@@ -4,6 +4,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
+    min-height: 80vh;
 }
 
 #franchise-container:before {
