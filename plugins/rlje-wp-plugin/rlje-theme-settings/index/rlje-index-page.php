@@ -2,6 +2,8 @@
 
 class RLJE_Index_Page {
 
+	protected $theme_text_settings;
+	protected $theme_plugins_settings;
 	protected $categories_home;
 	protected $categories_items;
 	protected $spotlight_name;
@@ -18,6 +20,8 @@ class RLJE_Index_Page {
 	}
 
 	public function initialize_index() {
+		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
+		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
 		$this->browse_id_list_availables = apply_filters( 'atv_get_browse_genres_availables', '' );
@@ -142,6 +146,21 @@ class RLJE_Index_Page {
 	public function display_callback() {
 		if ( is_home() || is_front_page() ) :
 			$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
+			$is_activated = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
+			if ( ! $is_activated ) {
+				return;
+			}
+
+			$callout_one = ( ! empty( $this->theme_text_settings['callout']['one'] ) ) ? $this->theme_text_settings['callout']['one'] : array();
+			$callout_one_text = ( ! empty( $callout_one['text'] ) ) ? $callout_one['text'] : 'Available on Roku, Apple TV, Samsung Smart TV, iPhone, iPad, web and more.';
+			$callout_one_link = ( ! empty( $callout_one['link'] ) ) ? $callout_one['link'] : home_url( '/' );
+			$callout_one_link_text = ( ! empty( $callout_one['link_text'] ) ) ? $callout_one['link_text'] : 'Learn More';
+
+			$callout_two = ( ! empty( $this->theme_text_settings['callout']['two'] ) ) ? $this->theme_text_settings['callout']['two'] : array();
+			$callout_two_text = ( ! empty( $callout_two['text'] ) ) ? $callout_two['text'] : 'Over 1,800 hours of programming, including 60 shows you won\'t find anywhere else.';
+			$callout_two_link = ( ! empty( $callout_two['link'] ) ) ? $callout_two['link'] : home_url( '/' );
+			$callout_two_link_text = ( ! empty( $callout_two['link_text'] ) ) ? $callout_two['link_text'] : 'Start Your Free Trial';
+
 			ob_start();
 			?>
 		<section class="home-callout">
@@ -150,9 +169,9 @@ class RLJE_Index_Page {
 					<div class="col-md-6" id="border-carousel">
 						<div class="home-callout-content">
 							<img src="https://api.rlje.net/acorn/artwork/size/devices-icon?t=Icons" id="home-devices-img">
-							<p class="home-callout-description">Available on Roku, Apple TV, Samsung Smart TV, iPhone, iPad, web and more. </p>
-							<a href="http://www2.acorn.tv/how-to-watch/">
-								<button>Learn More</button>
+							<p class="home-callout-description"><?php echo esc_html( $callout_one_text ); ?></p>
+							<a href="<?php echo esc_url( $callout_one_link ); ?>">
+								<button><?php echo esc_html( $callout_one_link_text ); ?></button>
 							</a>
 						</div>
 					</div>
@@ -160,10 +179,9 @@ class RLJE_Index_Page {
 					<div class="col-md-6">
 						<div class="home-callout-content">
 							<img src="https://api.rlje.net/acorn/artwork/size/signup-icon?t=Icons" id="home-trial-img">
-							<p class="home-callout-description">Over 1,800 hours of programming, including 60 shows you won't find anywhere else. </p>
-							<?php $environment = apply_filters( 'atv_get_extenal_subdomain', '' ); ?>
-							<a href="<?php echo esc_url( 'https://signup' . $environment . '.acorn.tv/createaccount.html' ); ?>">
-								<button>Start Your Free Trial</button>
+							<p class="home-callout-description"><?php echo esc_html( $callout_two_text ); ?></p>
+							<a href="<?php echo esc_url( $callout_two_link ); ?>">
+								<button><?php echo esc_html( $callout_two_link_text ); ?></button>
 							</a>
 						</div>
 					</div>
