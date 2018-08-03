@@ -2,17 +2,18 @@
   'use strict';
 
   $(document).ready(function() {
-    $( '.sortable' ).sortable({
+    $('.sortable').sortable({
       connectWith: '.draggable',
+      items: 'li:not(.header)',
       // placeholder: 'ui-state-highlight',
       revert: true,
       over: function(event, ui) {
         // console.log('over',event, ui);
-        $(ui.item).css({'width': '48%'});
+        $(ui.item).css({ width: '48%' });
       },
       update: function(event, ui) {
         // console.log('update',event, ui);
-        $(ui.item).css({'width': '90%'});
+        $(ui.item).css({ width: '90%' });
         var area_one = $('#area-one').sortable('toArray');
         var area_two = $('#area-two').sortable('toArray');
         console.log(area_one, area_two);
@@ -21,12 +22,17 @@
       }
     });
 
-    $( '.draggable' ).draggable({
+    $('.draggable').draggable({
+      cancel: '.header',
       connectToSortable: '.sortable',
       connectWith: '.sortable',
-      // helper: 'clone',
+      container: '#drag-n-drop-section',
       // placeholder: 'ui-state-highlight',
-      revert: 'invalid'
+      revert: 'invalid',
+      stop: function(event, ui) {
+        console.log('stop', event, ui);
+        $(ui.item).css({ width: '200px' });
+      }
     });
 
     // $( '.sortable' ).droppable({

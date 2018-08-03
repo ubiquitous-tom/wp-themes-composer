@@ -99,10 +99,12 @@ class RLJE_Section_Position extends RLJE_Front_page {
 
 	public function section_listing() {
 		// echo 'section_listing';
-		$areas = array_merge( $this->section['area_one'], $this->section['area_two'] );
+		$area_one = ( ! empty( $this->section['area_one'] ) ) ?$this->section['area_one'] : array();
+		$area_two = ( ! empty( $this->section['area_two'] ) ) ?$this->section['area_two'] : array();
+		$areas = array_merge( $area_one, $area_two );
 		?>
 		<div id="drag-n-drop-section">
-			<ul id="categories-list-draggable">
+			<ul id="categories-list-draggable" class="sortable">
 				<li class="header">Available Categories</li>
 				<?php foreach ( $this->categories_items as $categories_item ) : ?>
 					<?php if ( ! in_array( $categories_item->id, array_keys( $areas ) ) ) : ?>
