@@ -132,6 +132,11 @@ function submitStepTwo(event) {
 }
 
 function showStepThree() {
+    var playerData = {
+        'accountId': '3392051363001',
+        'playerId': '74083534-1840-4d5f-9156-1a151598de2b',
+        'videoID': '5180867444001'
+    }
     // Render last step.
     // Mark last step as active
     jQuery('#progress-steps .step').removeClass('active');
@@ -141,6 +146,49 @@ function showStepThree() {
     jQuery('#signup p.side').html('Thanks for trying UMC! We think you\'ll love it.');
     // Get rid of the form.
     jQuery('form.signup').remove();
+    // Adds the player and its parents to the dom
+    var brightCoveVideo = jQuery(document.createElement('video')).attr({
+        'id': 'umc-about',
+        'data-video-id': playerData.videoID,
+        'data-account': playerData.accountId,
+        'data-player': playerData.playerId,
+        'data-embed': 'default'
+    }).addClass('video-js embed-responsive-item').prop('controls', true);
+    var brightCoveVideoContainer = jQuery(document.createElement('div')).addClass('row')
+        .append(
+            jQuery(document.createElement('div')).addClass('embed-responsive embed-responsive-16by9').append(brightCoveVideo)
+        )
+        .appendTo('#signup .container > div');
+
+    var watchNowContainer = jQuery(document.createElement('div')).addClass('row')
+        .append(
+            jQuery(document.createElement('div')).addClass('text-center')
+            .append(
+                jQuery(document.createElement('a'))
+                .attr(
+                    {
+                        'id': 'finish-singup',
+                        'href': '/signin',
+                        'role': 'button'
+                    }
+                )
+                .addClass('btn btn-primary btn-lg')
+                .html('Start watching now')
+            )
+            
+        );
+
+    jQuery('#signup .container > div').append(brightCoveVideoContainer, watchNowContainer);
+        
+    var brightCove=document.createElement('script');
+    brightCove.src = '//players.brightcove.net/' + playerData.accountId + '/' + playerData.playerId + '_default/index.min.js';
+    jQuery('body').append(brightCove);
+    brightCove.onload = initBrightCove;
+}
+
+function initBrightCove() {
+    var video = videojs('umc-about');
+    video.pause();
 }
 
 jQuery(document).ready(function ($) {
