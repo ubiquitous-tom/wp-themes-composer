@@ -132,11 +132,6 @@ function submitStepTwo(event) {
 }
 
 function showStepThree() {
-    var playerData = {
-        'accountId': '3392051363001',
-        'playerId': '74083534-1840-4d5f-9156-1a151598de2b',
-        'videoID': '5180867444001'
-    }
     // Render last step.
     // Mark last step as active
     jQuery('#progress-steps .step').removeClass('active');
@@ -149,9 +144,9 @@ function showStepThree() {
     // Adds the player and its parents to the dom
     var brightCoveVideo = jQuery(document.createElement('video')).attr({
         'id': 'umc-about',
-        'data-video-id': playerData.videoID,
-        'data-account': playerData.accountId,
-        'data-player': playerData.playerId,
+        'data-video-id': signup_vars.bc_video_id,
+        'data-account': signup_vars.bc_account_id,
+        'data-player': signup_vars.bc_player_id,
         'data-embed': 'default'
     }).addClass('video-js embed-responsive-item').prop('controls', true);
     var brightCoveVideoContainer = jQuery(document.createElement('div')).addClass('row')
@@ -179,16 +174,15 @@ function showStepThree() {
         );
 
     jQuery('#signup .container > div').append(brightCoveVideoContainer, watchNowContainer);
-        
-    var brightCove=document.createElement('script');
-    brightCove.src = '//players.brightcove.net/' + playerData.accountId + '/' + playerData.playerId + '_default/index.min.js';
-    jQuery('body').append(brightCove);
-    brightCove.onload = initBrightCove;
+    initBrightCove();
 }
 
 function initBrightCove() {
-    var video = videojs('umc-about');
-    video.pause();
+    bc(document.getElementById('umc-about'));
+    videojs('umc-about').ready(function() {
+        myPlayer = this;
+        myPlayer.pause();
+    })
 }
 
 jQuery(document).ready(function ($) {
