@@ -41,7 +41,9 @@ get_header();
 						<input checked type="checkbox">Sign me up for the <?php bloginfo( 'name' ); ?> newsletter
 					</label>
 				</div>
-				<button class="btn btn-primary btn-lg center-block">Continue to step 2 →</button>
+				<div class="text-center">
+					<button class="btn btn-primary btn-lg">Continue to step 2 →</button>
+				</div>
 			</form>
 		</div>
 	</div>

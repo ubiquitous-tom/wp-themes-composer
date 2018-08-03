@@ -52,7 +52,7 @@ function showStepTwo($, signup_form) {
     ).prop('required', true);
     var first_name_group = $(document.createElement('div')).addClass('form-group').append(first_name_label, first_name_input);
 
-    var last_name_label = $(document.createElement('label')).html('Last Name *');
+    var last_name_label = $(document.createElement('label')).attr('for', 'user-last-name').html('Last Name *');
     var last_name_input = $(document.createElement('input')).addClass('form-control').attr(
         {
             id: 'user-last-name',
@@ -69,7 +69,7 @@ function showStepTwo($, signup_form) {
         $(document.createElement('option')).attr('value', 'AR').html('Argentina')
     ]
     var country_label = $(document.createElement('label')).html('Country *');
-    var country_select = $(document.createElement('select')).addClass('form-control').append(countries);
+    var country_select = $(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
     var country_group = $(document.createElement('div')).addClass('form-group').append(country_label, country_select);
 
     // Name on card field
@@ -141,6 +141,48 @@ function showStepThree() {
     jQuery('#signup p.side').html('Thanks for trying UMC! We think you\'ll love it.');
     // Get rid of the form.
     jQuery('form.signup').remove();
+    // Adds the player and its parents to the dom
+    var brightCoveVideo = jQuery(document.createElement('video')).attr({
+        'id': 'umc-about',
+        'data-video-id': signup_vars.bc_video_id,
+        'data-account': signup_vars.bc_account_id,
+        'data-player': signup_vars.bc_player_id,
+        'data-embed': 'default'
+    }).addClass('video-js embed-responsive-item').prop('controls', true);
+    var brightCoveVideoContainer = jQuery(document.createElement('div')).addClass('row')
+        .append(
+            jQuery(document.createElement('div')).addClass('embed-responsive embed-responsive-16by9').append(brightCoveVideo)
+        )
+        .appendTo('#signup .container > div');
+
+    var watchNowContainer = jQuery(document.createElement('div')).addClass('row')
+        .append(
+            jQuery(document.createElement('div')).addClass('text-center')
+            .append(
+                jQuery(document.createElement('a'))
+                .attr(
+                    {
+                        'id': 'finish-singup',
+                        'href': '/signin',
+                        'role': 'button'
+                    }
+                )
+                .addClass('btn btn-primary btn-lg')
+                .html('Start watching now')
+            )
+            
+        );
+
+    jQuery('#signup .container > div').append(brightCoveVideoContainer, watchNowContainer);
+    initBrightCove();
+}
+
+function initBrightCove() {
+    bc(document.getElementById('umc-about'));
+    videojs('umc-about').ready(function() {
+        myPlayer = this;
+        myPlayer.pause();
+    })
 }
 
 jQuery(document).ready(function ($) {

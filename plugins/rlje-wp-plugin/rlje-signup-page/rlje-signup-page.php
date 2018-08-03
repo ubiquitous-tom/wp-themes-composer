@@ -3,9 +3,16 @@ class RLJE_signup_page {
 
 	private $api_helper;
 	private $stripe_key;
+	private $brightcove_account_id;
+	private $brightcove_player_id;
+	private $brightcove_video_id = '5180867444001';
 
 	public function __construct() {
-		$this->api_helper = new RLJE_api_helper();
+		$this->api_helper            = new RLJE_api_helper();
+		$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
+		$this->brightcove_account_id = $brightcove_settings['shared_account_id'];
+		$this->brightcove_player_id  = $brightcove_settings['shared_player_id'];
+
 		add_action( 'init', array( $this, 'add_signup_rewrite_rule' ) );
 		add_action( 'init', [ $this, 'fetch_stripe_key' ] );
 		add_action( 'template_redirect', array( $this, 'signup_template_redirect' ) );
@@ -19,19 +26,25 @@ class RLJE_signup_page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
+
 	public function fetch_stripe_key() {
-		$this->stripe_key = $this->api_helper->hit_api('', 'stripekey')['StripeKey'];
+		$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
 	}
 
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signup' ] ) ) {
+			$bc_url = '//players.brightcove.net/' . $this->brightcove_account_id . '/' . $this->brightcove_player_id . '_default/index.min.js';
+			wp_register_script( 'brighcove-public-player', $bc_url );
+			wp_register_script( 'stripe-js', 'https://js.stripe.com/v3/' );
 			wp_enqueue_style( 'signup-main-style', plugins_url( 'css/style.css', __FILE__ ) );
-			wp_enqueue_script( 'stipe-js', 'https://js.stripe.com/v3/' );
-			wp_enqueue_script( 'signup-script', plugins_url( 'js/signup-process.js', __FILE__ ) );
+			wp_enqueue_script( 'signup-script', plugins_url( 'js/signup-process.js', __FILE__ ), [ 'jquery', 'stripe-js', 'brighcove-public-player' ] );
 			wp_localize_script(
 				'signup-script', 'signup_vars', [
-					'ajax_url' => admin_url( 'admin-ajax.php' ),
-					'stripe_key' => $this->stripe_key,
+					'ajax_url'      => admin_url( 'admin-ajax.php' ),
+					'stripe_key'    => $this->stripe_key,
+					'bc_account_id' => $this->brightcove_account_id,
+					'bc_player_id'  => $this->brightcove_player_id,
+					'bc_video_id'   => $this->brightcove_video_id,
 				]
 			);
 		}
