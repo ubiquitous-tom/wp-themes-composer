@@ -12,6 +12,7 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 		'before_title'  => '<h5>',
 		'after_title'   => '</h5>',
 	);
+	private $nonce = 'rlje-newsletter-widget-!#$QWE%19';
 
 	public function __construct() {
 		parent::__construct( false, 'Signup Newsletter Widget' );
@@ -19,6 +20,7 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		add_action( 'wp_ajax_rlje_newsletter_signup', array( $this, 'newsletter_signup' ) );
+		add_action( 'wp_ajax_nopriv_rlje_newsletter_signup', array( $this, 'newsletter_signup' ) );
 
 		add_filter( 'rlje_widget_footer_areas', array( $this, 'add_widget' ) );
 	}
@@ -39,6 +41,11 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 
 		wp_enqueue_style( 'rlje-newsletter-widget', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 		wp_enqueue_script( 'rlje-newsletter-widget', plugins_url( 'js/script.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
+		$newsletter_object = [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'token'    => wp_create_nonce( $this->nonce ),
+		];
+		wp_localize_script( 'rlje-newsletter-widget', 'rlje_newsletter_widget_object', $newsletter_object );
 	}
 
 	public function widget( $args, $instance ) {
@@ -79,24 +86,37 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 	}
 
 	public function newsletter_signup() {
-		$email = sanitize_email( stripslashes( $_POST['email'] ) );
 		$data  = array(
 			'type'    => 'alert-error',
 			'message' => 'Invalid email address.',
 		);
 
+		if ( ! wp_verify_nonce( $_POST['token'], $this->nonce ) ) {
+			$data['message'] = 'There was a problem. Cannot verify your identity';
+			wp_send_json_error( $data );
+		}
+
+		$email = sanitize_email( stripslashes( $_POST['email'] ) );
 		if ( is_email( $email ) ) {
 			$is_subscribed = rljeApiWP_signupNewsletter( $email );
 			if ( $is_subscribed ) {
-				$data['type']    = 'alert-success';
-				$data['message'] = 'Thank you for subscribing!';
+				$type = 'success';
 			} else {
-				$data['type']    = 'alert-error';
-				$data['message'] = 'There was a problem with your submission, please try again.';
+				$type = 'error';
 			}
 		}
 
-		wp_send_json( $data );
+		if ( 'success' === $type ) {
+			$data['type']    = 'alert-success';
+			$data['message'] = 'Thank you for subscribing!';
+
+			wp_send_json_success( $data );
+		} else {
+			$data['type']    = 'alert-error';
+			$data['message'] = 'There was a problem with your submission, please try again.';
+
+			wp_send_json_error( $data );
+		}
 	}
 }
 

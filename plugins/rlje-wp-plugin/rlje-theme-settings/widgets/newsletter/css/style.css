@@ -12,6 +12,10 @@
     font-size: 13.5px;
     min-width: 225px;
 }
+#signup-newsletter-widget #signup-newsletter-email:disabled {
+    background: #ddd;
+    cursor: not-allowed;
+}
 
 #signup-newsletter-widget #signup-newsletter-button {
     background: #222 url('https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons') no-repeat center 4px scroll;
@@ -21,6 +25,9 @@
     width: 45px;
     margin-left: 2px;
     text-indent: -9999px;
+}
+#signup-newsletter-widget #signup-newsletter-button:disabled {
+    cursor: not-allowed;
 }
 
 #signup-newsletter-widget #signup-newsletter-message .alert {
@@ -34,6 +41,7 @@
     color: #cccccc;
     font-size: 13.5px;
     font-weight: 300;
+    background: transparent;
 }
 
 #signup-newsletter-widget #signup-newsletter-message .alert-error {
@@ -41,5 +49,6 @@
     background-color: none;
     border: 0px;
     font-size: 13.5px;
-    font-weight: 300
+    font-weight: 300;
+    background: transparent;
 }
