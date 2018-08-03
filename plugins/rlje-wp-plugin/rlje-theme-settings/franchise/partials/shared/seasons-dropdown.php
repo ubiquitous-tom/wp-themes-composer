@@ -6,6 +6,8 @@
 // $seasons       = $wp_query->query_vars['seasons'];
 // $franchise_id  = $wp_query->query_vars['franchise_id'];
 
+$filter_by_text = apply_filters( 'rlje_seasons_dropdown_filter_by_text', 'Filter By Series' );
+
 // $season_name = get_q
 if ( ! empty( $franchise->seasons ) ) {
 	$seasons = $franchise->seasons;
@@ -17,7 +19,7 @@ if ( $seasons_count > 1 ) :
 <!-- Drop Down Series Filter -->
 <div id="cover">
 	<div id="options">
-		<a><?php echo esc_html( ( isset( $season_name ) ) ? $season_name : 'Filter By Series' ); ?></a>
+		<a><?php echo esc_html( ( isset( $season_name ) ) ? $season_name : $filter_by_text ); ?></a>
 		<span id="clicker">
 			<img src="https://api.rlje.net/acorn/artwork/size/dropdown-arrow?t=Icons" width="13" style="opacity:.7"/>
 		</span>
