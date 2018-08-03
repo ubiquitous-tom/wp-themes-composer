@@ -8,6 +8,12 @@ class RLJE_Theme_Menu_Settings {
 	private $theme_menu_settings;
 	private $is_user_logged_and_active;
 	private $http_user_agent;
+	private $navigation_text;
+	private $default_navigation_text = [
+		'signup'     => 'Sign Up',
+		'login'      => 'Log In',
+		'free_trial' => 'Start Free Trial',
+	];
 
 	public function __construct() {
 		$this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) );
@@ -45,6 +51,7 @@ class RLJE_Theme_Menu_Settings {
 
 	public function get_user_information() {
 		$this->http_user_agent = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
+		$this->navigation_text = get_option( 'rlje_theme_text_settings', $this->default_navigation_text );
 	}
 
 	public function is_user_logged_in_and_active() {
@@ -56,6 +63,7 @@ class RLJE_Theme_Menu_Settings {
 			$web_payment_edit = rljeApiWP_getWebPaymentEdit( $_COOKIE['ATVSessionCookie'] );
 			require_once plugin_dir_path( __FILE__ ) . 'partials/logged-in.php';
 		} else {
+			$navigation_text = array_merge( $this->default_navigation_text, array_filter( $this->navigation_text ) );
 			require_once plugin_dir_path( __FILE__ ) . 'partials/not-logged-in.php';
 		}
 		$desktop_search_form = get_search_form( false ); // Desktop searchbox.
@@ -93,8 +101,8 @@ class RLJE_Theme_Menu_Settings {
 
 	public function display_header_navigation() {
 		$mobile_search_form = get_search_form( false ); // Mobile searchbox.
-		$item_wrap   = '<ul class="%2$s">' . $mobile_search_form . '%3$s</ul>';
-		$menu_args   = array(
+		$item_wrap          = '<ul class="%2$s">' . $mobile_search_form . '%3$s</ul>';
+		$menu_args          = array(
 			'menu_class'      => 'nav navbar-nav',
 			'menu_id'         => '',
 			'container_class' => 'navbar-collapse side-collapse in',
