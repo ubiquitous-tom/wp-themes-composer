@@ -3,6 +3,7 @@
 class RLJE_Theme_Settings {
 
 	protected $theme_settings         = array();
+	protected $theme_text_settings    = array();
 	protected $theme_plugins_settings = array();
 	protected $rlje_redis_table;
 
@@ -42,13 +43,19 @@ class RLJE_Theme_Settings {
 		$this->rlje_redis_table = new RLJE_Redis_Table();
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
+		register_setting( 'rlje_theme_section', 'rlje_theme_text_settings' );
 		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
 
 		// Here we display the sections and options in the settings page based on the active tab.
 		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
 		if ( empty( $tab ) || ( 'main-options' === $tab ) ) {
 			add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
-			add_settings_field( 'environment_type', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+			add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+
+			add_settings_section( 'rlje_theme_text_section', 'Theme Text Options', array( $this, 'display_rlje_theme_text_options_content' ), 'rlje-theme-settings' );
+			add_settings_field( 'navigation_signup_text', 'Navigation Sign Up Text', array( $this, 'display_navigation_signup_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
+			add_settings_field( 'navigation_login_text', 'Navigation Log In Text', array( $this, 'display_navigation_login_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
+			add_settings_field( 'navigation_free_trial_text', 'Navigation Free Trial Text', array( $this, 'display_navigation_free_trial_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 
 			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
@@ -136,6 +143,33 @@ class RLJE_Theme_Settings {
 			<option value="acorn" <?php selected( $current_theme, 'acorn' ); ?>>Acorn</option>
 			<option value="umc" <?php selected( $current_theme, 'umc' ); ?>>UMC</option>
 		</select>
+		<?php
+	}
+
+	public function display_rlje_theme_text_options_content() {
+		echo 'Text to display on the theme navigation';
+		$this->theme_text_settings = get_option( 'rlje_theme_text_settings' );
+		var_dump( $this->theme_text_settings );
+	}
+
+	public function display_navigation_signup_text() {
+		$signup_text = ( ! empty( $this->theme_text_settings['signup'] ) ) ? $this->theme_text_settings['signup'] : 'Sign Up';
+		?>
+		<input type="text" name="rlje_theme_text_settings[signup]" class="regular-text" id="signup-text" value="<?php echo esc_attr( $signup_text ); ?>" placeholder="Sign Up">
+		<?php
+	}
+
+	public function display_navigation_login_text() {
+		$login_text = ( ! empty( $this->theme_text_settings['login'] ) ) ? $this->theme_text_settings['login'] : 'Log In';
+		?>
+		<input type="text" name="rlje_theme_text_settings[login]" class="regular-text" id="login-text" value="<?php echo esc_attr( $login_text ); ?>" placeholder="Log In">
+		<?php
+	}
+
+	public function display_navigation_free_trial_text() {
+		$free_trial_text = ( ! empty( $this->theme_text_settings['free_trial'] ) ) ? $this->theme_text_settings['free_trial'] : 'Start Free Trial';
+		?>
+		<input type="text" name="rlje_theme_text_settings[free_trial]" class="regular-text" id="free-trial-text" value="<?php echo esc_attr( $free_trial_text ); ?>" placeholder="Start Free Trial">
 		<?php
 	}
 
