@@ -13,6 +13,7 @@ class RLJE_Front_page {
 		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 
 		// add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'load_new_country' ) );
+		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_country_list_cache_table_list' ) );
 		require_once 'rlje-section-position.php';
 		require_once 'includes/rlje-hero.php';
 	}
@@ -100,6 +101,7 @@ class RLJE_Front_page {
 	// }
 	// return $data;
 	// }
+
 	protected function get_countries() {
 		// https://acorn.dev/wp-admin/admin.php?page=rlje-front-page&country=mx
 		// wp_safe_redirect( add_query_arg( array( 'page' => 'rlje-front-page', 'country' => 'mx' ), admin_url( 'admin.php' ) ) );
@@ -123,6 +125,12 @@ class RLJE_Front_page {
 				return $countries;
 			}
 		}
+	}
+
+	public function add_country_list_cache_table_list( $cache_list ) {
+		$cache_list[] = 'rlje_country_code_list';
+
+		return $cache_list;
 	}
 
 	protected function get_current_country() {
