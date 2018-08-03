@@ -3,10 +3,36 @@
 class RLJE_Section_Position extends RLJE_Front_page {
 
 	protected $section = array();
+	protected $categories_home;
+	protected $categories_items;
+	protected $browse_id_list_availables;
 
 	public function __construct() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_init', array( $this, 'initialize_section_index' ) );
 		add_action( 'admin_init', array( $this, 'display_options' ) );
 		add_action( 'admin_menu', array( $this, 'add_front_page_submenu' ) );
+	}
+
+	public function enqueue_scripts( $hook ) {
+		if ( 'homepage-hero_page_rlje-section-position' === $hook ) {
+			wp_enqueue_style( 'jquery-ui-core' , '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css', array(), '1.11.4' );
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-draggable' );
+			wp_enqueue_script( 'jquery-ui-sortable' );
+			// wp_enqueue_script( 'jquery-ui-droppable' );
+
+			$section_css_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-section-position.css' ) );
+			$section_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-section-position.js' ) );
+			wp_enqueue_style( 'rlje-admin-section-position' , plugins_url( 'css/admin-section-position.css', __FILE__ ), array(), '1.0.0' );
+			wp_enqueue_script( 'rlje-admin-section-position', plugins_url( 'js/admin-section-position.js', __FILE__ ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable' ), $section_js_version, true );
+		}
+	}
+
+	public function initialize_section_index() {
+		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
+		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
+		$this->browse_id_list_availables = apply_filters( 'atv_get_browse_genres_availables', '' );
 	}
 
 	public function display_options() {
@@ -72,7 +98,44 @@ class RLJE_Section_Position extends RLJE_Front_page {
 	}
 
 	public function section_listing() {
-		echo 'section_listing';
+		// echo 'section_listing';
+		$areas = array_merge( $this->section['area_one'], $this->section['area_two'] );
+		?>
+		<div id="drag-n-drop-section">
+			<ul id="categories-list-draggable">
+				<li class="header">Available Categories</li>
+				<?php foreach ( $this->categories_items as $categories_item ) : ?>
+					<?php if ( ! in_array( $categories_item->id, array_keys( $areas ) ) ) : ?>
+					<li id="<?php echo esc_attr( $categories_item->id ); ?>" class="draggable ui-state-highlight categories-item"><?php echo esc_html( $categories_item->name ); ?></li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</ul>
+
+			<ul id="homepage-layout">
+				<li class="header">Homepage Layout</li>
+				<li id="hero-carousel" class="disabled">Hero Carousel</li>
+				<li>
+					<ul id="area-one" class="sortable">
+						<?php foreach ( $this->section['area_one'] as $area_one_item ) : ?>
+						<li id="<?php echo esc_attr( $area_one_item->id ); ?>" class="draggable ui-state-highlight categories-item" style="width: 90%; right: auto; height: 18px; bottom: auto; z-index: 1;"><?php echo esc_html( $area_one_item->name ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<li id="news-and-reviews" class="disabled">News and Reviews</li>
+				<li>
+					<ul id="area-two" class="sortable">
+						<?php foreach ( $this->section['area_two'] as $area_two_item ) : ?>
+						<li id="<?php echo esc_attr( $area_two_item->id ); ?>" class="draggable ui-state-highlight categories-item" style="width: 90%; right: auto; height: 18px; bottom: auto; z-index: 1;"><?php echo esc_html( $area_two_item->name ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<li id="sub-footer" class="disabled">Sub Footer</li>
+			</ul>
+		</div>
+
+		<input type="hidden" class="area-one" name="rlje_front_page_section[area_one]" value="<?php echo esc_attr( join( ',', array_keys( $this->section['area_one'] ) ) ); ?>">
+		<input type="hidden" class="area-two" name="rlje_front_page_section[area_two]" value="<?php echo esc_attr( join( ',', array_keys( $this->section['area_two'] ) ) ); ?>">
+		<?php
 	}
 
 	public function section_setting() {
@@ -80,6 +143,33 @@ class RLJE_Section_Position extends RLJE_Front_page {
 	}
 
 	public function sanitize_callback( $data ) {
+		$this->initialize_section_index();
+		if ( ! empty( $data['area_one'] ) ) {
+			$area_one_array = explode( ',', $data['area_one'] );
+			$area_one = [];
+			foreach ( $area_one_array as $area_one_id ) {
+				foreach ( $this->categories_items as $categories_item ) {
+					if ( strtolower( $categories_item->id ) === strtolower( $area_one_id ) ) {
+						$area_one[ $area_one_id ] = $categories_item;
+					}
+				}
+			}
+			$data['area_one'] = $area_one;
+		}
+
+		if ( ! empty( $data['area_two'] ) ) {
+			$area_two_array = explode( ',', $data['area_two'] );
+			$area_two = [];
+			foreach ( $area_two_array as $area_two_id ) {
+				foreach ( $this->categories_items as $categories_item ) {
+					if ( strtolower( $categories_item->id ) === strtolower( $area_two_id ) ) {
+						$area_two[ $area_two_id ] = $categories_item;
+					}
+				}
+			}
+			$data['area_two'] = $area_two;
+		}
+
 		add_settings_error( 'rlje-theme-settings', 'settings_updated', 'Successfully updated', 'updated' );
 
 		return $data;

@@ -242,7 +242,7 @@ class RLJE_Redis_Table extends WP_List_Table {
 
 		$data = array();
 		foreach ( $api_cache_groups as $partial_key ) {
-			$found_keys = $this->redis->keys( '*' . $partial_key . ':*' );
+			$found_keys = $this->redis->keys( '*' . $partial_key . '*' );
 			foreach ( $found_keys as $key ) {
 				$data[ $key ] = array(
 					'key'   => $key,
@@ -256,6 +256,14 @@ class RLJE_Redis_Table extends WP_List_Table {
 	}
 
 	public function delete_redis_caches( $caches ) {
+		// Delete each transient caches if it exists
+		foreach ( $caches as $cache ) {
+			$transient_exists = get_transient( $cache );
+			if ( false !== $transient_exists ) {
+				delete_transient( $cache );
+			}
+		}
+
 		$is_deleted = $this->redis->del( $caches );
 
 		return $is_deleted;

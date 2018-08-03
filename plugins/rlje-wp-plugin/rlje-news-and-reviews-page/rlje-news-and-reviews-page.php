@@ -6,6 +6,7 @@
 class RLJE_News_And_Reviews {
 
 	private $prefix = 'acorntv_';
+	private $transient_key = 'rlje_news_and_review_';
 	protected $acorntv_marketing_placeholder;
 	protected $acorntv_latest_news;
 	protected $acorntv_news_options;
@@ -18,6 +19,8 @@ class RLJE_News_And_Reviews {
 		add_action( 'admin_init', array( $this, 'create_settings' ) );
 		add_action( 'admin_menu', array( $this, 'register_news_and_reviews_page' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_news_and_reviews' ) );
+
+		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_news_and_review_cache_table_list' ) );
 	}
 
 	public function admin_enqueue_scripts( $hook ) {
@@ -176,7 +179,7 @@ class RLJE_News_And_Reviews {
 		register_setting(
 			$this->prefix . 'news_and_reviews',
 			$this->prefix . 'marketing_placeholder',
-			null //array( 'sanitize_callback' => array( $this, 'marketing_placeholder_sanitize_callback'), )
+			array( $this, 'marketing_placeholder_sanitize_callback' )
 		);
 		register_setting(
 			$this->prefix . 'news_and_reviews',
@@ -427,6 +430,12 @@ class RLJE_News_And_Reviews {
 		endif;
 	}
 
+	public function add_news_and_review_cache_table_list( $cache_list ) {
+		$cache_list[] = $this->transient_key;
+
+		return $cache_list;
+	}
+
 	public function marketing_placeholder_sanitize_callback( $data ) {
 		// Detect multiple sanitizing passes.
 		// Accomodates bug: https://core.trac.wordpress.org/ticket/21989
@@ -441,12 +450,13 @@ class RLJE_News_And_Reviews {
 					$new_data[] = $carousel;
 				}
 			}
-			update_option( 'acorntv_marketing_placeholder', $new_data );
 		}
 
 		$country_code = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
-		$transient_key = 'rlje_news_and_review_' . $country_code;
+		$transient_key = $this->transient_key . strtolower( $country_code );
 		delete_transient( $transient_key );
+
+		return $new_data;
 	}
 
 	/**
@@ -526,7 +536,7 @@ class RLJE_News_And_Reviews {
 		}
 
 		$country_code = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
-		$transient_key = 'rlje_news_and_review_' . $country_code;
+		$transient_key = $this->transient_key . strtolower( $country_code );
 		$html = get_transient( $transient_key );
 		if ( false === $html ) :
 			ob_start();
