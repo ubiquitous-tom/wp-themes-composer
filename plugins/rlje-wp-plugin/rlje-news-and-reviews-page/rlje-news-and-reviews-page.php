@@ -620,7 +620,22 @@ class RLJE_News_And_Reviews {
 
 					<!-- LATEST NEWS -->
 					<?php // get_template_part( 'partials/homepage-section-lastnews' ); ?>
-					<?php echo $reviews; //$this->display_reviews(); ?>
+					<?php // echo $reviews; //$this->display_reviews(); ?>
+
+					<div class="col-md-12 col-lg-6">
+						<div class="home-hero-carousel">
+							<div id="carousel_fade" class="carousel slide carousel-fade " data-pause="true"  data-interval="false" data-ride="carousel">
+								<div class="carousel-inner">
+									<div class="item active">
+										<a href="<?php echo esc_url( trailingslashit( home_url( '/' ) ) ); ?>">
+											<img alt="thumb marketing image" class="sliderimage" src="<?php echo esc_url( plugins_url( 'img/web_devices.jpg', __FILE__ ) ); ?>">
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</section>
