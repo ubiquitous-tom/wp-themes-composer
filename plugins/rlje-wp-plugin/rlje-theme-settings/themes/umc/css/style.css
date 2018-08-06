@@ -2,7 +2,7 @@
 
 body {
     /* background: #011f36; */
-    background: rgba(1, 31, 54, .5) url(../img/umc_bkg.jpg) no-repeat center center scroll;
+    background: #011f36 url(../img/umc_bkg.jpg) no-repeat center center scroll;
     background-size: cover;
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
