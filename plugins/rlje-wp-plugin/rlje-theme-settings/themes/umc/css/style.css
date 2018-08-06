@@ -1,7 +1,9 @@
 /* BASE CSS */
 
 body {
-    background: #011f36;
+    /* background: #011f36; */
+    background: rgba(1, 31, 54, .5) url(../img/umc_bkg.jpg) no-repeat center center scroll;
+    background-size: cover;
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
 }
@@ -71,6 +73,16 @@ button {
     letter-spacing: 1px;
 }
 
+/* FRANCHISE TEMPLATE */
+
+#franchise-container {
+    margin-top: 7px;
+}
+
+.secondary-bg {
+    background: rgba(6, 2, 6, 0.7);
+}
+
 /* SCHEDULE TEMPLATE */
 
 .schedule li {
@@ -81,6 +93,12 @@ button {
 .schedule h6 {
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
+}
+
+.schedule .alert-info {
+    background: transparent;
+    border: none;
+    color: #fff;
 }
 
 /* CONTACT US */
@@ -133,19 +151,24 @@ button {
     margin-top: 15px;
 }
 
-.navbar,
+.navbar {
+    background: #011f36;
+}
 .home-hero-carousel,
 .home-featured,
 .home-spotlights,
 .sub-footer {
-    background: #011f36;
+    /* background: #011f36; */
+    /* background: transparent; */
+    background: rgba(1, 31, 54, .5);
 }
 .navbar {
     margin: 0;
 }
 
 .carousel .item .hero-img {
-    background: #011f36;
+    /* background: #011f36; */
+    background: transparent;
     opacity: .45;
 }
 
@@ -210,7 +233,8 @@ span[itemprop="trailer"] a button:hover {
 }
 
 .home-callout {
-    background: #052e45;
+    /* background: #052e45; */
+    background: rgba(5, 46, 69, 0.5);
 }
 
 .home-callout #border-carousel {
