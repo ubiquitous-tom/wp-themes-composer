@@ -178,6 +178,11 @@ class RLJE_News_And_Reviews {
 
 		register_setting(
 			$this->prefix . 'news_and_reviews',
+			$this->prefix . 'display_type',
+			null
+		);
+		register_setting(
+			$this->prefix . 'news_and_reviews',
 			$this->prefix . 'marketing_placeholder',
 			array( $this, 'marketing_placeholder_sanitize_callback' )
 		);
@@ -187,6 +192,14 @@ class RLJE_News_And_Reviews {
 			null
 		);
 
+		add_settings_section(
+			$this->prefix . 'display_type_options',
+			'Display Type',
+			function() {
+				print '<p>The combinations of News and Reviews to display</p>';
+			},
+			'newsAndReviews'
+		);
 		add_settings_section(
 			$this->prefix . 'marketing_placeholder_options',
 			'News',
@@ -204,7 +217,19 @@ class RLJE_News_And_Reviews {
 			'newsAndReviews'
 		);
 
-		$review_items = array(
+		add_settings_field(
+			'display_type',
+			'Display Combinations',
+			array( $this, 'news_and_reviews_display_type' ),
+			'newsAndReviews',
+			$this->prefix . 'display_type_options'
+		);
+
+		$news_items = array(
+			'one',
+			'two',
+		);
+		$reviews_items = array(
 			'1st',
 			'2nd',
 			'3rd',
@@ -215,7 +240,7 @@ class RLJE_News_And_Reviews {
 		for ( $i = 0; $i < 5; $i++ ) {
 			add_settings_field(
 				'marketing_placeholder_' . $i,
-				'<span class="ui-icon ui-icon-arrowthick-2-n-s" style="display:inline-block;vertical-align:top;"></span><span>' . $review_items[ $i ] . ' News:</span>',
+				'<span class="ui-icon ui-icon-arrowthick-2-n-s" style="display:inline-block;vertical-align:top;"></span><span>' . $reviews_items[ $i ] . ' News:</span>',
 				array( $this, 'acorntv_marketing_placeholder_field' ),
 				'newsAndReviews',
 				$this->prefix . 'marketing_placeholder_options',
@@ -225,7 +250,7 @@ class RLJE_News_And_Reviews {
 			if ( $i < 4 ) {
 				add_settings_field(
 					'latest_news_fields_' . $i,
-					'<span class="ui-icon ui-icon-arrowthick-2-n-s"></span><span>' . $review_items[ $i ] . ' Review:</span>',
+					'<span class="ui-icon ui-icon-arrowthick-2-n-s"></span><span>' . $reviews_items[ $i ] . ' Review:</span>',
 					array( $this, 'acorntv_latest_news_fields' ),
 					'newsAndReviews',
 					$this->prefix . 'latest_news_options',
@@ -264,6 +289,40 @@ class RLJE_News_And_Reviews {
 				);
 			}
 		}
+	}
+
+	public function news_and_reviews_display_type() {
+		$news_and_reviews_display_type = get_option( $this->prefix . 'display_type' );
+		var_dump($news_and_reviews_display_type);
+		$display_type = ( ! intval( $news_and_reviews_display_type['display_type'] ) ) ? intval( $news_and_reviews_display_type['display_type'] ) : 1;
+		?>
+		<div class="display-type">
+			<div class="display-type-1">
+				<input type="radio" name="acorntv_display_type[display_type]" id="display-type-1" value="0" <?php checked( $display_type, 0 );?>>
+				<label for="display-type-1">News And Reviews</label>
+				<table>
+					<tbody>
+						<tr>
+							<td>News</td>
+							<td>Reviews</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="display-type-2">
+				<input type="radio" name="acorntv_display_type[display_type]" id="display-type-2" value="1" <?php checked( $display_type, 1 );?>>
+				<label for="display-type-2">News And News</label>
+				<table>
+					<tbody>
+						<tr>
+							<td>News</td>
+							<td>News</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -538,8 +597,18 @@ class RLJE_News_And_Reviews {
 		$country_code = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
 		$transient_key = $this->transient_key . strtolower( $country_code );
 		$html = get_transient( $transient_key );
-		if ( false === $html ) :
+		// if ( false === $html ) :
 			ob_start();
+
+			$news_and_reviews_display_type = get_option( $this->prefix . 'display_type' );
+			$display_type = ( ! intval( $news_and_reviews_display_type['display_type'] ) ) ? intval( $news_and_reviews_display_type['display_type'] ) : 1;
+			if ( 1 === $display_type ) {
+				$news    = $this->display_carousel( 'one', false );
+				$reviews = $this->display_carousel( 'two', false );
+			} else {
+				$news    = $this->display_carousel( 'one', false );
+				$reviews = $this->display_reviews( false );
+			}
 		?>
 		<section class="home-middle hidden-xs hidden-sm">
 			<div class="container">
@@ -547,37 +616,45 @@ class RLJE_News_And_Reviews {
 					<h4 class="subnav">News &amp; Reviews</h4>
 					<!-- MARKETING PLACEHOLDER -->
 					<?php // get_template_part( 'partials/homepage-section-marketing-placeholder' ); ?>
-					<?php $this->display_carousel(); ?>
+					<?php echo $news;//$this->display_carousel(); ?>
 
 					<!-- LATEST NEWS -->
 					<?php // get_template_part( 'partials/homepage-section-lastnews' ); ?>
-					<?php $this->display_reviews(); ?>
+					<?php echo $reviews; //$this->display_reviews(); ?>
 				</div>
 			</div>
 		</section>
 		<?php
 			$html = ob_get_clean();
 			set_transient( $transient_key, $html, 15 * MINUTE_IN_SECONDS );
-		endif;
+		// endif;
 
 		echo $html;
 	}
 
-	public function display_carousel() {
+	public function display_carousel( $type = 'one', $echo = true ) {
 		$marketing_places = $this->get_display_carousels();//get_option( 'acorntv_marketing_placeholder' );
 		ob_start();
-		require_once plugin_dir_path( __FILE__ ) . 'templates/carousel.php';
+		require plugin_dir_path( __FILE__ ) . 'templates/carousel.php';
 		$html = ob_get_clean();
-		echo $html;
+		if ( (boolean) $echo ) {
+			echo $html;
+		} else {
+			return $html;
+		}
 	}
 
-	public function display_reviews() {
+	public function display_reviews( $echo = true ) {
 		$reviews        = get_option( 'acorntv_latest_news' );
 		$reviewsSources = get_option( 'acorntv_news_options' );
 		ob_start();
-		require_once plugin_dir_path( __FILE__ ) . 'templates/reviews.php';
+		require plugin_dir_path( __FILE__ ) . 'templates/reviews.php';
 		$html = ob_get_clean();
-		echo $html;
+		if ( (boolean) $echo ) {
+			echo $html;
+		} else {
+			return $html;
+		}
 	}
 
 	protected function get_display_carousels() {
