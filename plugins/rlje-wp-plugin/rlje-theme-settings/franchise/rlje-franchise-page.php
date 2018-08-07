@@ -18,7 +18,9 @@ class RLJE_Franchise_Page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'template_redirect', array( $this, 'franchise_template_redirect' ), 20 );
 		add_action( 'wp_ajax_add', array( $this, 'add_to_watchlist' ) );
+		add_action( 'wp_ajax_nopriv_add', array( $this, 'add_to_watchlist' ) );
 		add_action( 'wp_ajax_remove', array( $this, 'remove_from_watchlist' ) );
+		add_action( 'wp_ajax_nopriv_remove', array( $this, 'remove_from_watchlist' ) );
 
 		add_filter( 'body_class', array( $this, 'franchise_body_class' ) );
 		add_filter( 'rlje_json_ld_header', array( $this, 'add_franchise_json_ld_to_header' ) );

@@ -14,6 +14,7 @@ class RLJE_Index_Page {
 		add_action( 'init', array( $this, 'initialize_index' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_spotlights' ) );
 		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callback' ) );

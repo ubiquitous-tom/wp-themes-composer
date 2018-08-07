@@ -73,6 +73,13 @@ button {
     letter-spacing: 1px;
 }
 
+.browse .alert-info {
+    background: transparent;
+    border: none;
+    color: #fff;
+}
+
+
 /* FRANCHISE TEMPLATE */
 
 #franchise-container {

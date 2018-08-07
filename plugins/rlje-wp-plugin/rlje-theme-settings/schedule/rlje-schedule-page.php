@@ -13,6 +13,7 @@ class RLJE_Schedule_Page {
 		add_action( 'init', array( $this, 'add_schedule_rewrite_rules' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'template_redirect', array( $this, 'schedule_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'schedule_body_class' ) );

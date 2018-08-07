@@ -457,10 +457,10 @@ function acorntv_get_watch_spotlight_items( $watch_type ) {
 		default:
 			$result = apply_filters( 'atv_get_user_watch', $watch_type );
 			set_query_var( 'carousel-section', 'Recently Watched' );
-			if ( 1 > count( $result ) ) {
-				$result = apply_filters( 'atv_get_user_watch', 'watchlist' );
-				set_query_var( 'carousel-section', 'Watchlist' );
-			}
+			// if ( 1 > count( $result ) ) {
+			// 	$result = apply_filters( 'atv_get_user_watch', 'watchlist' );
+			// 	set_query_var( 'carousel-section', 'Watchlist' );
+			// }
 	}
 
 	return $result;
