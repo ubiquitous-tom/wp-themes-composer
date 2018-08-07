@@ -8,6 +8,7 @@ class RLJE_Browse_Page {
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 		// add_action( 'add_meta_boxes', array( $this, 'add_browse_template_meta_box' ) );
 

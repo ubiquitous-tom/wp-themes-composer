@@ -14,6 +14,7 @@ class RLJE_Index_Page {
 		add_action( 'init', array( $this, 'initialize_index' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_spotlights' ) );
 		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callback' ) );
@@ -64,48 +65,59 @@ class RLJE_Index_Page {
 			?>
 		<section class="home-featured">
 			<div class="container">
-				<?php
-				if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
-					$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
-					if ( 0 < count( $watch_spotlight_items ) ) :
-						?>
+			<?php
+			if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
+				$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
+				if ( 0 < count( $watch_spotlight_items ) ) :
+			?>
 				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
 				<div class="col-md-12">
-						<?php
-						set_query_var( 'carousel-items', $watch_spotlight_items );
-						get_template_part( 'partials/section-generic-carousel' );
-						?>
+				<?php
+					set_query_var( 'carousel-items', $watch_spotlight_items );
+					get_template_part( 'partials/section-generic-carousel' );
+				?>
 				</div>
-						<?php
-						endif;
-					endif;
+				<?php
+				endif;
 
-				for ( $i = 0; $i < 2 && isset( $this->categories_items[ $i ] ); $i++ ) :
-					$spotlight            = $this->categories_items[ $i ];
-					$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
-					?>
+				$watchlist_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'watchlist' );
+				if ( 0 < count( $watchlist_spotlight_items ) ) :
+				?>
+				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
+				<div class="col-md-12">
+				<?php
+					set_query_var( 'carousel-items', $watchlist_spotlight_items );
+					get_template_part( 'partials/section-generic-carousel' );
+				?>
+				</div>
+				<?php
+				endif;
+			endif;
+
+			for ( $i = 0; $i < 2 && isset( $this->categories_items[ $i ] ); $i++ ) :
+				$spotlight            = $this->categories_items[ $i ];
+				$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
+				?>
 				<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT-->
 				<div class="col-md-12">
-					<?php
-						set_query_var(
-							'carousel-section', array(
-								'title'           => $this->spotlight_name,
-								'categoryObj'     => $spotlight,
-								'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
-							)
-						);
+				<?php
+					set_query_var(
+						'carousel-section', array(
+							'title'           => $this->spotlight_name,
+							'categoryObj'     => $spotlight,
+							'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
+						)
+					);
 					get_template_part( 'partials/section-carousel-pagination' );
-					?>
-				</div>
-					<?php
-					endfor;
 				?>
+				</div>
+				<?php endfor; ?>
 			</div>
 		</section>
 			<?php
 			$html = ob_get_clean();
 			echo $html;
-		endif;
+			endif;
 	}
 
 	public function display_home_spotlights() {

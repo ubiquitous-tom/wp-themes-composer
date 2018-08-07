@@ -11,7 +11,9 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_debugger_scripts' ) );
 		add_action( 'wp_ajax_is_user_active', array( $this, 'ajax_is_user_active' ) );
+		add_action( 'wp_ajax_nopriv_is_user_active', array( $this, 'ajax_is_user_active' ) );
 		add_action( 'wp_ajax_streamposition', array( $this, 'ajax_set_stream_position' ) );
+		add_action( 'wp_ajax_nopriv_streamposition', array( $this, 'ajax_set_stream_position' ) );
 		add_action( 'template_redirect', array( $this, 'episode_template_redirect' ) );
 
 		add_filter( 'body_class', array( $this, 'episode_body_class' ) );
