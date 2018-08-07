@@ -448,13 +448,21 @@ function acorntv_get_user_watch($type) {
  * This Filter gets the watch spotlight.
  */
 add_filter('atv_get_watch_spotlight_items', 'acorntv_get_watch_spotlight_items');
-function acorntv_get_watch_spotlight_items($watchType) {
-	$result = apply_filters('atv_get_user_watch', $watchType);
-	set_query_var('carousel-section', 'Recently Watched');
-	if(1 > count($result)) {
-		$result = apply_filters('atv_get_user_watch', 'watchlist');
-		set_query_var('carousel-section', 'Watchlist');
+function acorntv_get_watch_spotlight_items( $watch_type ) {
+	switch ( $watch_type ) {
+		case 'watchlist':
+			$result = apply_filters( 'atv_get_user_watch', 'watchlist' );
+			set_query_var( 'carousel-section', 'Watchlist' );
+			break;
+		default:
+			$result = apply_filters( 'atv_get_user_watch', $watch_type );
+			set_query_var( 'carousel-section', 'Recently Watched' );
+			if ( 1 > count( $result ) ) {
+				$result = apply_filters( 'atv_get_user_watch', 'watchlist' );
+				set_query_var( 'carousel-section', 'Watchlist' );
+			}
 	}
+
 	return $result;
 }
 
