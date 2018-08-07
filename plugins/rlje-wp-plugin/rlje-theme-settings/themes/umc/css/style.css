@@ -152,18 +152,18 @@ button {
 }
 
 .navbar {
+    margin: 0;
     background: #011f36;
 }
 .home-hero-carousel,
-.home-featured,
-.home-spotlights,
 .sub-footer {
     /* background: #011f36; */
     /* background: transparent; */
     background: rgba(1, 31, 54, .5);
 }
-.navbar {
-    margin: 0;
+.home-featured,
+.home-spotlights {
+    background: transparent;
 }
 
 .carousel .item .hero-img {
