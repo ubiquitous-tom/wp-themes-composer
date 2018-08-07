@@ -237,27 +237,19 @@ input:-ms-input-placeholder {color: #ccc;}
 
 /* CONTACT US */
 #contact-hero{background: #000000;padding:2.5em 0;margin-top: 58px;}
-#contact-hero h3{font-family: "oxygen", sans-serif; font-size: 23px;margin-bottom: 20px;font-weight: 400; letter-spacing: .03em; line-height: 30.625px;margin-top: 10px;text-transform: none; }
-#contact-form {background: #ffffff;padding: 1px 0px 90px;}
-#contact-form h4{color:#444;}
-#contact-form .control-group {margin-bottom: 10px;}
-#contact-form button{background: #444444 none repeat scroll 0 0;border: medium none;color: #ffffff;font-family: "source sans pro",sans-serif;font-size: 11.5px;font-weight: 600;letter-spacing: 0.15em;text-transform: uppercase;}
+#contact-form {
+    background: #ffffff;
+    padding: 1px 0px 90px;
+}
+#contact-form h3,
+#contact-form h4,
+#contact-form h5 {
+    text-transform: initial;
+}
+
 #contact-form .url-view {background: #f4f4f4 none repeat scroll 0 0;border: 1px solid #ddd;color: #333;margin: 0 auto;max-width: 800px;padding: 25px;}
 #contact-form .url-view p{line-height: 23px;font-size: 13.5px}
 #contact-form .url-view label{font-size: 13.5px}
-#contact-form #acornDiagnostic .controls,#acornDiagnostic select,#acornDiagnostic select option {color: #000;}
-#contact-form .customerHidden {display: none;}
-#contact-form .input-block-level {display: block;width: 100%;min-height: 30px;}
-#contact-form #acornDiagnostic .alert-info {color: #3a87ad;background-color: #d9edf7;border-color: #bce8f1;width: 100%;padding: 10px;}
-#contact-form #diagnostic a { font-size: 14px;text-decoration: underline;text-transform: none;}
-#contact-form #diagnostic a:hover { color:#666;}
-#contact-form #acornDiagnostic .alert-info a:hover {color: #0a656f;}
-#contact-form #acornDiagnostic .error { color: #9c1111;}
-#contact-form #formMessage {width: 93%;}
-#contact-form #msg .alert-success, #formMessage .alert-success {border: medium none;color: #222;line-height:24px;font-size: 14px;font-weight: 400;}
-#contact-form #msg .alert, #formMessage .alert {padding: 9px 31px 4px 3px;margin-bottom: 20px;text-shadow: none;}
-#contact-form #msg .alert-danger, #msg .alert-error, #formMessage .alert-error {color: #222;background-color:none;border:0px;font-size: 13.5px;font-weight: 300}
-
 /* BLOG-SINGLE-POST-TEMPLATE */
 .single-post{margin-top:60px;}
 .single-post h5{margin-bottom:8px;font-size: 15.5px;}
@@ -284,9 +276,6 @@ input:-ms-input-placeholder {color: #ccc;}
 .footer li {display: inline-block;margin-right: 10px;font-weight:200;}
 .footer a {font-family:'oxygen',sans-serif;font-weight: 400;letter-spacing: 0.03em;text-transform: none;}
 .footer p{font-size: 12px;}
-#msg .alert-success, #formMessage .alert-success {border: medium none;color: #cccccc;font-size: 13.5px;font-weight: 300;}
-#msg .alert, #formMessage .alert {padding: 9px 31px 4px 3px;margin-bottom: 20px;text-shadow: none;}
-#msg .alert-danger, #msg .alert-error, #formMessage .alert-error {color: #cccccc;background-color:none;border:0px;font-size: 13.5px;font-weight: 300}
 
 /* -- 404 Page -- */
 #page404 {padding: 2.5em 0;color: #333;}
@@ -298,7 +287,6 @@ input:-ms-input-placeholder {color: #ccc;}
 #page404 #contentPane, .message-block {margin: 0 auto;max-width: 800px;text-align: center;}
 
 /* VALTIRA ADDITIONS */
-.alert {padding-top: 15px;}
 .text-center {text-align: center;}
 #player-section {background-color: #000;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 100;display: none;}
 .close-btn {position: absolute;top: 5%;right: 3%;z-index: 100;}

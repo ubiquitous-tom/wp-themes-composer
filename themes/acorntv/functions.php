@@ -99,6 +99,14 @@ function acorntv_hook_css_js() {
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
 
+	if( is_page('contact-us') ) {
+		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
+		wp_localize_script(
+			'contact-us-script', 'contact_vars', [
+				'ajax_url'      => admin_url( 'admin-ajax.php' )
+			]
+		);
+	}
 	// if ( get_query_var( 'pagecustom' ) === 'browse' ) {
 	// 	wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
 	// }
@@ -128,7 +136,6 @@ function acorntv_rewrites_urls() {
 	// Remember add or remove the rule in acorntv_check_rewrite_rules function too.
 	// add_rewrite_rule( 'wp\-.+$', 'index.php', 'top' );
 	// add_rewrite_rule( '^content/.+$', 'index.php', 'top' );
-	// add_rewrite_rule( 'ios\-contact$', 'index.php?pagecustom=ios-support', 'top' );
 	// add_rewrite_rule( '^ajax_atv$', 'index.php?pagecustom=ajax', 'top' );
 	// add_rewrite_rule( 'browse$', 'index.php?pagecustom=browse', 'top' );
 	// add_rewrite_rule( 'browse/(.+)$', 'index.php?pagecustom=browse&section=$matches[1]', 'top' );
@@ -144,7 +151,6 @@ function acorntv_rewrites_urls() {
 	// add_rewrite_rule( 'videodebugger$', 'index.php?pagecustom=videodebugger&section=off', 'top' );
 	// add_rewrite_rule( 'streamposition$', 'index.php?pagecustom=streamposition', 'top' );
 	// add_rewrite_rule( 'search/(.+)', 'index.php?pagecustom=search&search_text=$matches[1]', 'top' );
-	add_rewrite_rule( 'contactus$', 'index.php?pagecustom=contact', 'top' );
 	// add_rewrite_rule( 'signupnewsletter$', 'index.php?pagecustom=signupnewsletter', 'top' );
 	// add_rewrite_rule( '(.+)/(.+)/(.+)$', 'index.php?pagecustom=episode&franchise_id=$matches[1]&season_name=$matches[2]&episode_name=$matches[3]', 'top' );
 	// add_rewrite_rule( '(.+)/trailer$', 'index.php?pagecustom=trailer&franchise_id=$matches[1]', 'top' );
@@ -192,45 +198,6 @@ function acorntv_wp_query_vars( $query_vars ) {
 add_action( 'switch_theme', 'acorntv_deactivation_function' );
 function acorntv_deactivation_function () {
 	flush_rewrite_rules( false );
-}
-
-add_action( 'generate_rewrite_rules', 'acorntv_check_rewrite_rules');
-function acorntv_check_rewrite_rules( $wp_rewrite ) {
-	// This hook is execute when goes to Settings > Permalinks and after to active the theme.
-	// To flush and add the rules is necessary to press save button in Settings > Permalinks .
-	// To check and add new rules is not necessary to press save button in Settings > Permalinks.
-	$acorntv_rewrite_rules = array(
-		// 'wp\-.+$' => 'index.php',
-		// '^content/.+$' => 'index.php',
-		// 'ios\-contact$' => 'index.php?pagecustom=ios-support',
-		// '^ajax_atv$' => 'index.php?pagecustom=ajax',
-		// 'browse$' => 'index.php?pagecustom=browse',
-		// 'browse/(.+)$' => 'index.php?pagecustom=browse&section=$matches[1]',
-		// 'schedule$' => 'index.php?pagecustom=schedule&section=featured',
-		// 'schedule/comingsoon$' => 'index.php?pagecustom=schedule&section=comingsoon',
-		// 'schedule/leavingsoon$' => 'index.php?pagecustom=schedule&section=leavingsoon',
-		// 'futuredate(\/today)*$' => 'index.php?pagecustom=futuredate&section=today',
-		// 'futuredate/([\d]{8})$' => 'index.php?pagecustom=futuredate&section=$matches[1]',
-		// 'country(\/clear)*$' => 'index.php?pagecustom=countryfilter&section=clear',
-		// 'videodebugger/on$' => 'index.php?pagecustom=videodebugger&section=on',
-		// 'videodebugger/off$' => 'index.php?pagecustom=videodebugger&section=off',
-		// 'videodebugger$' => 'index.php?pagecustom=videodebugger&section=off',
-		// 'country/([\w]{2})$' => 'index.php?pagecustom=countryfilter&section=$matches[1]',
-		// 'streamposition$' => 'index.php?pagecustom=streamposition',
-		// 'search/(.+)' => 'index.php?pagecustom=search&search_text=$matches[1]',
-		'contactus$' => 'index.php?pagecustom=contact',
-		// 'signupnewsletter$' => 'index.php?pagecustom=signupnewsletter',
-		// '(.+)/(.+)/(.+)$' => 'index.php?pagecustom=episode&franchise_id=$matches[1]&season_name=$matches[2]&episode_name=$matches[3]',
-		// '(.+)/trailer$' => 'index.php?pagecustom=trailer&franchise_id=$matches[1]',
-		// '^(?!landing\/|page\/)(.+)/(.+)$' => 'index.php?pagecustom=season&franchise_id=$matches[1]&season_name=$matches[2]',
-		// '^(?!landing\/|page\/)(.+)$' => 'index.php?pagecustom=franchise&franchise_id=$matches[1]',
-	);
-	// Checks if it exists each rewrite rules.
-	foreach ( $acorntv_rewrite_rules as $key => $rule) {
-		if ( ! isset( $wp_rewrite->rules[ $key ] ) ) {
-			$wp_rewrite->rules = array( $key => $rule ) + $wp_rewrite->rules;
-		}
-	}
 }
 
 add_filter( 'template_include', 'acorntv_loading_template', 1, 1 );
@@ -664,3 +631,38 @@ function add_theme_json_ld_to_header() {
 	<?php
 }
 add_action( 'wp_head', 'add_theme_json_ld_to_header' );
+
+function process_contact_us() {
+	$api_helper = new RLJE_api_helper();
+	$name = strval( $_POST['name'] );
+	$email = strval( $_POST['email'] );
+	$subject = strval( $_POST['subject'] );
+	$desc = strval( $_POST['desc'] );
+
+	// $params = [
+	// 	'Email' => $email,
+	// 	'Title' => $subject,
+	// 	'Description' => $desc
+	// ];
+
+	// $api_helper->hit_api($params, 'problem', 'POST');
+
+	$sent = wp_mail( 'support@umc.tv',  $subject, $desc);
+
+	if($sent) {
+		$response = [
+			'success' => true,
+			'error' => ''
+		];
+	} else {
+		$response = [
+			'success' => false,
+			'error'   => 'We were not able to contact support.'
+		];
+	}
+	
+	wp_send_json($response);
+}
+
+add_action( 'wp_ajax_process_contact_us', 'process_contact_us' );
+add_action( 'wp_ajax_nopriv_process_contact_us', 'process_contact_us' );
