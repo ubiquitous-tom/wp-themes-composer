@@ -639,14 +639,6 @@ function process_contact_us() {
 	$subject = strval( $_POST['subject'] );
 	$desc = strval( $_POST['desc'] );
 
-	// $params = [
-	// 	'Email' => $email,
-	// 	'Title' => $subject,
-	// 	'Description' => $desc
-	// ];
-
-	// $api_helper->hit_api($params, 'problem', 'POST');
-
 	$sent = wp_mail( 'support@umc.tv',  $subject, $desc);
 
 	if($sent) {
