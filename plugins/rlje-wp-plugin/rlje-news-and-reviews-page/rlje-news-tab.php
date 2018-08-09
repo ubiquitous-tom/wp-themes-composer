@@ -239,6 +239,8 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 		$transient_key = $this->transient_key . strtolower( $country_code );
 		delete_transient( $transient_key );
 
+		add_settings_error( 'rlje-news-and-reviews', 'settings_updated', 'Successfully updated', 'updated' );
+
 		return $new_data;
 	}
 }

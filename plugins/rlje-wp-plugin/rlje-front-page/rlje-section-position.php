@@ -99,44 +99,28 @@ class RLJE_Section_Position extends RLJE_Front_page {
 
 	public function section_listing() {
 		// echo 'section_listing';
-		$area_one = ( ! empty( $this->section['area_one'] ) ) ?$this->section['area_one'] : array();
-		$area_two = ( ! empty( $this->section['area_two'] ) ) ?$this->section['area_two'] : array();
-		$areas = array_merge( $area_one, $area_two );
+
+		$section_position = ( ! empty( $this->section['section_position'] ) ) ? $this->section['section_position'] : array();
+		if ( empty( $section_position ) ) {
+			$section_position = $this->categories_items;
+			$news_and_reviews = new stdClass();
+			$news_and_reviews->id = 'news-and-reviews';
+			$news_and_reviews->name = 'News And Reviews';
+			$section_position[] = $news_and_reviews;
+		}
 		?>
 		<div id="drag-n-drop-section">
-			<ul id="categories-list-draggable" class="sortable">
-				<li class="header">Available Categories</li>
-				<?php foreach ( $this->categories_items as $categories_item ) : ?>
-					<?php if ( ! in_array( $categories_item->id, array_keys( $areas ) ) ) : ?>
-					<li id="<?php echo esc_attr( $categories_item->id ); ?>" class="draggable ui-state-highlight categories-item"><?php echo esc_html( $categories_item->name ); ?></li>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</ul>
-
 			<ul id="homepage-layout">
-				<li class="header">Homepage Layout</li>
 				<li id="hero-carousel" class="disabled">Hero Carousel</li>
-				<li>
-					<ul id="area-one" class="sortable">
-						<?php foreach ( $this->section['area_one'] as $area_one_item ) : ?>
-						<li id="<?php echo esc_attr( $area_one_item->id ); ?>" class="draggable ui-state-highlight categories-item" style="width: 90%; right: auto; height: 18px; bottom: auto; z-index: 1;"><?php echo esc_html( $area_one_item->name ); ?></li>
-						<?php endforeach; ?>
-					</ul>
-				</li>
-				<li id="news-and-reviews" class="disabled">News and Reviews</li>
-				<li>
-					<ul id="area-two" class="sortable">
-						<?php foreach ( $this->section['area_two'] as $area_two_item ) : ?>
-						<li id="<?php echo esc_attr( $area_two_item->id ); ?>" class="draggable ui-state-highlight categories-item" style="width: 90%; right: auto; height: 18px; bottom: auto; z-index: 1;"><?php echo esc_html( $area_two_item->name ); ?></li>
-						<?php endforeach; ?>
-					</ul>
-				</li>
+				<?php foreach ( $section_position as $section_position_item ) : ?>
+					<?php $classes = ( 'news-and-reviews' === $section_position_item->id ) ? '' : 'ui-state-highlight categories-item'; ?>
+				<li id="<?php echo esc_attr( $section_position_item->id ); ?>" class="<?php echo esc_attr( $classes ); ?>"><?php echo esc_html( $section_position_item->name ); ?></li>
+				<?php endforeach; ?>
 				<li id="sub-footer" class="disabled">Sub Footer</li>
 			</ul>
 		</div>
 
-		<input type="hidden" class="area-one" name="rlje_front_page_section[area_one]" value="<?php echo esc_attr( join( ',', array_keys( $this->section['area_one'] ) ) ); ?>">
-		<input type="hidden" class="area-two" name="rlje_front_page_section[area_two]" value="<?php echo esc_attr( join( ',', array_keys( $this->section['area_two'] ) ) ); ?>">
+		<input type="hidden" id="section-position-layout" name="rlje_front_page_section[section_position]" value="<?php echo esc_attr( join( ',', array_keys( $this->section['section_position'] ) ) ); ?>">
 		<?php
 	}
 
@@ -146,30 +130,23 @@ class RLJE_Section_Position extends RLJE_Front_page {
 
 	public function sanitize_callback( $data ) {
 		$this->initialize_section_index();
-		if ( ! empty( $data['area_one'] ) ) {
-			$area_one_array = explode( ',', $data['area_one'] );
-			$area_one = [];
-			foreach ( $area_one_array as $area_one_id ) {
+		if ( ! empty( $data['section_position'] ) ) {
+			$section_position_array = explode( ',', $data['section_position'] );
+			$section_position = [];
+			foreach ( $section_position_array as $section_position_id ) {
 				foreach ( $this->categories_items as $categories_item ) {
-					if ( strtolower( $categories_item->id ) === strtolower( $area_one_id ) ) {
-						$area_one[ $area_one_id ] = $categories_item;
+					if ( strtolower( $categories_item->id ) === strtolower( $section_position_id ) ) {
+						$section_position[ $section_position_id ] = $categories_item;
+					}
+					if ( 'news-and-reviews' === strtolower( $section_position_id ) ) {
+						$news_and_reviews_item = new stdClass();
+						$news_and_reviews_item->id = 'news-and-reviews';
+						$news_and_reviews_item->name = 'News And Reviews';
+						$section_position[ $section_position_id ] = $news_and_reviews_item;
 					}
 				}
 			}
-			$data['area_one'] = $area_one;
-		}
-
-		if ( ! empty( $data['area_two'] ) ) {
-			$area_two_array = explode( ',', $data['area_two'] );
-			$area_two = [];
-			foreach ( $area_two_array as $area_two_id ) {
-				foreach ( $this->categories_items as $categories_item ) {
-					if ( strtolower( $categories_item->id ) === strtolower( $area_two_id ) ) {
-						$area_two[ $area_two_id ] = $categories_item;
-					}
-				}
-			}
-			$data['area_two'] = $area_two;
+			$data['section_position'] = $section_position;
 		}
 
 		add_settings_error( 'rlje-theme-settings', 'settings_updated', 'Successfully updated', 'updated' );
