@@ -3,10 +3,10 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 ?>
 <div class="col-md-12 col-lg-6">
 	<div class="home-hero-carousel">
-		<div id="carousel_fade" class="carousel slide carousel-fade " data-pause="true"  data-interval="false" data-ride="carousel">
+		<div id="<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" class="carousel slide carousel-fade " data-pause="true"  data-interval="false" data-ride="carousel">
 			<?php if ( count( $marketing_places ) > 1 ) : ?>
-			<a class="left carousel-control" href="#carousel_fade" data-slide="prev" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" width="35px"></a>
-			<a class="right carousel-control" href="#carousel_fade" data-slide="next" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" width="35px"></a>
+			<a class="left carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="prev" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" width="35px"></a>
+			<a class="right carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="next" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" width="35px"></a>
 			<?php endif; ?>
 
 			<div class="carousel-inner">
