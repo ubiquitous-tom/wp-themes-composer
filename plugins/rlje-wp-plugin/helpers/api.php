@@ -22,7 +22,12 @@ class RLJE_api_helper {
 		$url = $this->api_base . '/' . $method;
 		switch ( $verb ) {
 			case 'GET':
-				$raw_response = wp_remote_get( $url . '?' . http_build_query( $params ) );
+				if ( empty( $params ) ) {
+					$raw_response = wp_remote_get( $url );
+				} else {
+					$raw_response = wp_remote_get( $url . '?' . http_build_query( $params ) );
+				}
+
 				break;
 
 			case 'POST':
