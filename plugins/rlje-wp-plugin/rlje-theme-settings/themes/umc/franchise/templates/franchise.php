@@ -16,8 +16,8 @@ $franchise_wallpaper       = rljeApiWP_getImageUrlFromServices( $franchise_image
 						<span>Back to Home</span>
 					</a>
 				</span>
-				<span itemprop="name"><?php echo $franchise->name; ?></span>
-				<meta itemprop="numberOfEpisodes" content="<?php echo $total_episodes; ?>" />
+				<span itemprop="name"><?php echo esc_html( $franchise->name ); ?></span>
+				<meta itemprop="numberOfEpisodes" content="<?php echo esc_html( $total_episodes ); ?>" />
 				<meta itemprop="numberOfSeasons" content="<?php echo count( $franchise->seasons ); ?>" />
 				<span class="subnav-next hidden-xs hidden-sm">
 					<?php if ( ! empty( $first_episode_link ) ) : ?>
@@ -28,7 +28,7 @@ $franchise_wallpaper       = rljeApiWP_getImageUrlFromServices( $franchise_image
 					<?php endif; ?>
 				</span>
 			</h4>
-			<div class="row" >
+			<div class="row">
 				<?php require_once plugin_dir_path( __FILE__ ) . '../partials/synopsis.php'; ?>
 			</div>
 		</div>
@@ -46,7 +46,6 @@ $franchise_wallpaper       = rljeApiWP_getImageUrlFromServices( $franchise_image
 		endif;
 		?>
 	<div class="container episode">
-
 		<!-- Seasons and Episodes -->
 		<?php
 		foreach ( $franchise->seasons as $season_key => $season ) {

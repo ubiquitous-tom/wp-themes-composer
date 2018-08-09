@@ -232,7 +232,7 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 				}
 			}
 			$old_data = get_option( 'rlje_news_and_reviews_news' );
-			$new_data = array_replace( $old_data, $new_data );
+			$new_data = array_replace( (array) array_filter( $old_data ), (array) array_filter( $new_data ) );
 		}
 
 		$country_code  = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
