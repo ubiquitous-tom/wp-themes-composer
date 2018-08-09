@@ -1,0 +1,110 @@
+body {
+    padding-top: 75px;
+}
+
+#watch-options {
+    background-color: white;
+}
+
+section.intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-image: url('../img/umc_topshelf.jpg');
+    background-position: center;
+    background-size: cover;
+    background-color: black;
+}
+
+section.selection {
+    background-color: #1b1b1b;
+}
+
+section.selection ul {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin: 0;
+}
+
+section.selection li {
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    min-width: 130px;
+    min-height: 130px;
+}
+
+section.selection li:hover,
+section.selection li.active {
+    background-color: #0b0b0b;
+}
+
+section.selection li a {
+    display: block;
+    padding: 0 15px;
+}
+
+section.selection i {
+    font-size: 40px;
+}
+
+section.selection span {
+    margin-top: 15px;
+    font-size: 11px;
+    display: block;
+}
+
+section.selection li.watch-xfinity img {
+    width: 80px;
+}
+
+section.choices {
+    color: #222222;
+    background-color: white;
+}
+
+section.choices h5 {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #222;
+    letter-spacing: initial;
+    text-transform: initial;
+}
+
+section.choices a:hover {
+    color: #666666;
+}
+
+section.choices .device-link a {
+    font-size: 13px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    color: #333;
+}
+
+section.choices > div {
+    padding: 60px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+section.choices > div:last-child {
+    border-bottom: none;
+}
+
+section.choices > div .device-logo {
+    width: 135px;
+}
+
+/* .appletv, .roku, .fire-tv, .chromecast, .ios, .android,
+.online, .amazon-channels, .xfinity {
+    padding: 60px 0;
+} */
+
+#umc-about {
+    width: 480px;
+    height: 270px;
+}
