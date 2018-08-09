@@ -119,6 +119,7 @@ class RLJE_News_And_Reviews {
 			}
 			?>
 
+			<?php settings_errors(); ?>
 			<!-- WordPress provides the styling for tabs. -->
 			<h2 class="nav-tab-wrapper">
 				<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
