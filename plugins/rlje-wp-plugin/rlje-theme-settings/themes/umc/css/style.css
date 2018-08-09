@@ -151,6 +151,10 @@ button {
     letter-spacing: 1px;
 }
 
+.home-middle h4.subnav {
+    display: none;
+}
+
 /* OTHERS */
 
 .atv-logo {
