@@ -2,7 +2,7 @@
     margin-top: 0px;
 }
 #franchise-container .secondary-bg {
-    background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(256, 0, 0, 0) 90%), url('../img/Money-Matters_3840x2160_Horizontal.jpg');
+    background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(256, 0, 0, 0) 90%), url('../../img/umc_bkg.jpg');
     background-position: center 7px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -23,7 +23,7 @@
     content: '';
     display: none;
     position: absolute;
-    background: #0B7C9C url(https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons) no-repeat 3px -5px;
+    background: transparent url(https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons) no-repeat 3px -5px;
     top: 75vh;
     width: 60px;
     height: 60px;
