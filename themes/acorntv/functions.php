@@ -9,7 +9,6 @@ if ( ! function_exists( 'acorntv_setup' ) ) :
 	 * Note that this function is hooked into the after_setup_theme hook, which
 	 * runs before the init hook. The init hook is too late for some features, such
 	 * as indicating support for post thumbnails.
-	 *
 	 */
 	function acorntv_setup() {
 		/*
@@ -29,39 +28,45 @@ if ( ! function_exists( 'acorntv_setup' ) ) :
 		set_post_thumbnail_size( 1200, 9999 );
 
 		// This theme uses wp_nav_menu() in two locations.
-		register_nav_menus( array(
-			'primary'   => __( 'Top primary menu', 'acorntv' ),
-			'secondary' => __( 'Footer secondary menu', 'acorntv' ),
-		) );
+		register_nav_menus(
+			array(
+				'primary'   => __( 'Top primary menu', 'acorntv' ),
+				'secondary' => __( 'Footer secondary menu', 'acorntv' ),
+			)
+		);
 
 		/*
 		* Switch default core markup for search form, comment form, and comments
 		* to output valid HTML5.
 		*/
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
+		add_theme_support(
+			'html5', array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+			)
+		);
 
 		/*
 		* Enable support for Post Formats.
 		*
 		* See: https://codex.wordpress.org/Post_Formats
 		*/
-		add_theme_support( 'post-formats', array(
-			'aside',
-			'image',
-			'video',
-			'quote',
-			'link',
-			'gallery',
-			'status',
-			'audio',
-			'chat',
-		) );
+		add_theme_support(
+			'post-formats', array(
+				'aside',
+				'image',
+				'video',
+				'quote',
+				'link',
+				'gallery',
+				'status',
+				'audio',
+				'chat',
+			)
+		);
 
 	}
 endif;
@@ -99,35 +104,33 @@ function acorntv_hook_css_js() {
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
 
-	if( is_page('contact-us') ) {
+	if ( is_page( 'contact-us' ) ) {
 		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
 		wp_localize_script(
 			'contact-us-script', 'contact_vars', [
-				'ajax_url'      => admin_url( 'admin-ajax.php' )
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
 			]
 		);
 	}
 	// if ( get_query_var( 'pagecustom' ) === 'browse' ) {
-	// 	wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
+	// wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
 	// }
-
 	// if ( get_query_var( 'pagecustom' ) === 'episode' ) {
-	// 	wp_localize_script('main-js', 'atv_player_object', array(
-	// 		'ajax_url' => home_url( 'ajax_atv' ),
-	// 		'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
-	// 	));
+	// wp_localize_script('main-js', 'atv_player_object', array(
+	// 'ajax_url' => home_url( 'ajax_atv' ),
+	// 'token' => wp_create_nonce( 'atv#episodePlayer@token_nonce' )
+	// ));
 	// }
-
 	// if ( is_home() ) {
-	// 	wp_enqueue_script( 'carousel-pagination-js', get_template_directory_uri() . '/js/carouselPagination.js', array( 'jquery' ), '1.1.2', true );
-	// 	// Add javascript global variables.
-	// 	$atv_global = array(
-	// 		'ajax_url'  => home_url( 'ajax_atv' ),
-	// 		'home_url'  => home_url(),
-	// 		'image_url' => rljeApiWP_getImageUrlFromServices(''),
-	// 		'token'     => wp_create_nonce( 'atv#contentPage@token_nonce' ),
-	// 	);
-	// 	wp_localize_script( 'carousel-pagination-js', 'atv_object', $atv_global );
+	// wp_enqueue_script( 'carousel-pagination-js', get_template_directory_uri() . '/js/carouselPagination.js', array( 'jquery' ), '1.1.2', true );
+	// Add javascript global variables.
+	// $atv_global = array(
+	// 'ajax_url'  => home_url( 'ajax_atv' ),
+	// 'home_url'  => home_url(),
+	// 'image_url' => rljeApiWP_getImageUrlFromServices(''),
+	// 'token'     => wp_create_nonce( 'atv#contentPage@token_nonce' ),
+	// );
+	// wp_localize_script( 'carousel-pagination-js', 'atv_object', $atv_global );
 	// }
 }
 
@@ -196,16 +199,16 @@ function acorntv_wp_query_vars( $query_vars ) {
 }
 
 add_action( 'switch_theme', 'acorntv_deactivation_function' );
-function acorntv_deactivation_function () {
+function acorntv_deactivation_function() {
 	flush_rewrite_rules( false );
 }
 
 add_filter( 'template_include', 'acorntv_loading_template', 1, 1 );
 function acorntv_loading_template( $template ) {
-	$page_name = get_query_var( 'pagecustom' );
+	$page_name              = get_query_var( 'pagecustom' );
 	$have_content_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'home' );
-	$template_name = ( ! $have_content_available && $page_name != 'countryfilter' ) ? 'noContentAvailable' : $page_name;
-	$is_page = get_post();
+	$template_name          = ( ! $have_content_available && $page_name != 'countryfilter' ) ? 'noContentAvailable' : $page_name;
+	$is_page                = get_post();
 	if ( ! empty( $template_name ) ) {
 		$path = '/templates/' . $template_name . '.php';
 		if ( 'ajax' === $page_name ) {
@@ -248,7 +251,7 @@ function acorntv_custom_page_permalink() {
 add_filter( 'atv_get_extenal_subdomain', 'acorntv_get_extenal_subdomain' );
 function acorntv_get_extenal_subdomain( $extenal_subdomain ) {
 	$extenal_subdomain = '';
-	$environments = array( 'dev', 'qa' );
+	$environments      = array( 'dev', 'qa' );
 
 	foreach ( $environments as $environment ) {
 		if ( strpos( RLJE_BASE_URL, $environment ) !== false ) {
@@ -274,16 +277,16 @@ function acorntv_get_image_url( $image ) {
  */
 add_filter( 'atv_is_less_than_4_episodes', 'acorntv_is_less_than_4_episodes' );
 function acorntv_is_less_than_4_episodes( $seasons ) {
-	$isLessThan4Episodes = true;
-	$totalEpisodes = 0;
+	$is_less_than_4_episodes = true;
+	$total_episodes       = 0;
 	foreach ( $seasons as $season ) {
-		$totalEpisodes += count( $season->episodes );
-		if ( $totalEpisodes > 3 ) {
-			$isLessThan4Episodes = false;
+		$total_episodes += count( $season->episodes );
+		if ( $total_episodes > 3 ) {
+			$is_less_than_4_episodes = false;
 			break;
 		}
 	}
-	return $isLessThan4Episodes;
+	return $is_less_than_4_episodes;
 }
 
 /**
@@ -295,20 +298,20 @@ function acorntv_haveFranchisesAvailableByCountry( $page ) {
 	switch ( $page ) {
 		case 'franchise':
 			$franchiseId = get_query_var( 'franchise_id' );
-			$franchise = rljeApiWP_getFranchiseById( $franchiseId );
+			$franchise   = rljeApiWP_getFranchiseById( $franchiseId );
 			if ( is_object( $franchise ) && count( $franchise->seasons ) == 0 && ! isset( $franchise->episodes ) ) {
 				$haveFranchisesAvailableByContry = false;
 			}
 			break;
 		case 'section':
 			$ignoreSection = array(
-				'all' => 'section',
+				'all'             => 'section',
 				'recentlywatched' => 'section',
-				'yourwatchlist' => 'section',
+				'yourwatchlist'   => 'section',
 			);
-			$section = get_query_var( 'section' );
+			$section       = get_query_var( 'section' );
 			if ( ! empty( $section ) && ! isset( $ignoreSection[ $section ] ) ) {
-				$section = str_replace( '-', '+', $section );
+				$section          = str_replace( '-', '+', $section );
 				$getBrowseSection = rljeApiWP_getItemsByCategoryOrCollection( $section );
 				if ( isset( $getBrowseSection['code'] ) && $getBrowseSection['code'] == 204 ) {
 					$haveFranchisesAvailableByContry = false;
@@ -317,7 +320,7 @@ function acorntv_haveFranchisesAvailableByCountry( $page ) {
 			}
 		default:
 			$getInitJson = rljeApiWP_getInitialJSONItems();
-			if ( isset ( $getInitJson['code'] ) && $getInitJson['code'] == 204 ) {
+			if ( isset( $getInitJson['code'] ) && $getInitJson['code'] == 204 ) {
 				$haveFranchisesAvailableByContry = false;
 			}
 	}
@@ -328,64 +331,63 @@ function acorntv_haveFranchisesAvailableByCountry( $page ) {
  * This Filter checks the browser version.
  */
 add_filter( 'atv_browser_detection', 'acorntv_browser_detection' );
-function acorntv_browser_detection($userAgent) {
+function acorntv_browser_detection( $userAgent ) {
 	$isUpgrageMsgShown = false;
-	if(!isset($_COOKIE['dismissUpgradeMessage'])) {
-	$uagent = strtolower($userAgent);
-	$isMobile = preg_match("/(iphone|ipod|ipad|android|blackberry|iemobile|silk)/", $uagent);
-	$browsers = array(
-		'chrome' => (preg_match("/webkit/", $uagent)  && preg_match("/chrome/", $uagent) && !preg_match("/edge/", $uagent)),
-		'firefox' => (preg_match("/mozilla/", $uagent) && preg_match("/firefox/", $uagent)),
-		'msie' => ((preg_match("/msie/", $uagent) && !preg_match("/edge/", $uagent)) || (preg_match("/trident/", $uagent) && !preg_match("/edge/", $uagent))),
-		'safari' => (preg_match("/safari/", $uagent) && preg_match("/applewebkit/", $uagent) && !preg_match("/chrome/", $uagent))
-	);
-	if(!$isMobile) {
-		foreach($browsers as $key=>$browser) {
-			if($browser) {
-				$version = '';
-				preg_match('/('.$key.')(\s|\/)([0-9]+)/', $uagent, $browserMatched);
-				if ($browserMatched) {
-					$version = $browserMatched[3];
-				} else {
-					if(preg_match("/version\/([0-9]+)/", $uagent)) {
-						preg_match("/version\/([0-9]+)/", $uagent, $browserMatched);
-					}else {
-						preg_match("/rv:([0-9]+)/", $uagent, $browserMatched);
+	if ( ! isset( $_COOKIE['dismissUpgradeMessage'] ) ) {
+		$uagent   = strtolower( $userAgent );
+		$isMobile = preg_match( '/(iphone|ipod|ipad|android|blackberry|iemobile|silk)/', $uagent );
+		$browsers = array(
+			'chrome'  => ( preg_match( '/webkit/', $uagent ) && preg_match( '/chrome/', $uagent ) && ! preg_match( '/edge/', $uagent ) ),
+			'firefox' => ( preg_match( '/mozilla/', $uagent ) && preg_match( '/firefox/', $uagent ) ),
+			'msie'    => ( ( preg_match( '/msie/', $uagent ) && ! preg_match( '/edge/', $uagent ) ) || ( preg_match( '/trident/', $uagent ) && ! preg_match( '/edge/', $uagent ) ) ),
+			'safari'  => ( preg_match( '/safari/', $uagent ) && preg_match( '/applewebkit/', $uagent ) && ! preg_match( '/chrome/', $uagent ) ),
+		);
+		if ( ! $isMobile ) {
+			foreach ( $browsers as $key => $browser ) {
+				if ( $browser ) {
+					$version = '';
+					preg_match( '/(' . $key . ')(\s|\/)([0-9]+)/', $uagent, $browserMatched );
+					if ( $browserMatched ) {
+						$version = $browserMatched[3];
+					} else {
+						if ( preg_match( '/version\/([0-9]+)/', $uagent ) ) {
+							preg_match( '/version\/([0-9]+)/', $uagent, $browserMatched );
+						} else {
+							preg_match( '/rv:([0-9]+)/', $uagent, $browserMatched );
+						}
+						$version = $browserMatched ? $browserMatched[1] : '';
 					}
-					$version = $browserMatched ? $browserMatched[1] : '';
-				}
 
-				switch ($key) {
-					case 'chrome':
-						if('' !== $version && intval($version) <= 56) {
-							$isUpgrageMsgShown = true;
-						}
-						break;
-					case 'firefox':
-						if('' !== $version && intval($version) <= 51) {
-							$isUpgrageMsgShown = true;
-						}
-						break;
-					case 'safari':
-						// Safari 8
-						preg_match("/version\/([0-9]+)/", $uagent, $safariVersion);
-						if((isset($safariVersion[1]) && intval($safariVersion[1]) <= 8)) {
-							$isUpgrageMsgShown = true;
-						}
-						break;
-					case 'msie':
-						if('' !== $version && intval($version) <= 10) {
-							$isUpgrageMsgShown = true;
-						}
-						break;
-					default:
-						$isUpgrageMsgShown = false;
+					switch ( $key ) {
+						case 'chrome':
+							if ( '' !== $version && intval( $version ) <= 56 ) {
+								$isUpgrageMsgShown = true;
+							}
+							break;
+						case 'firefox':
+							if ( '' !== $version && intval( $version ) <= 51 ) {
+								$isUpgrageMsgShown = true;
+							}
+							break;
+						case 'safari':
+							// Safari 8
+							preg_match( '/version\/([0-9]+)/', $uagent, $safariVersion );
+							if ( ( isset( $safariVersion[1] ) && intval( $safariVersion[1] ) <= 8 ) ) {
+								$isUpgrageMsgShown = true;
+							}
+							break;
+						case 'msie':
+							if ( '' !== $version && intval( $version ) <= 10 ) {
+								$isUpgrageMsgShown = true;
+							}
+							break;
+						default:
+							$isUpgrageMsgShown = false;
+					}
+					break;
 				}
-				break;
 			}
-
 		}
-	}
 	}
 	return $isUpgrageMsgShown;
 }
@@ -393,17 +395,17 @@ function acorntv_browser_detection($userAgent) {
 /**
  * This Filter gets the Recently Watched or Watchlist by the current user.
  */
-add_filter('atv_get_user_watch', 'acorntv_get_user_watch');
-function acorntv_get_user_watch($type) {
+add_filter( 'atv_get_user_watch', 'acorntv_get_user_watch' );
+function acorntv_get_user_watch( $type ) {
 	$result = array();
-	if(!empty($_COOKIE['ATVSessionCookie'])) {
+	if ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) {
 		$atvSessionCookie = $_COOKIE['ATVSessionCookie'];
-		switch($type) {
-			case 'recentlyWatched' :
-				$result = rljeApiWP_getUserRecentlyWatched($atvSessionCookie);
+		switch ( $type ) {
+			case 'recentlyWatched':
+				$result = rljeApiWP_getUserRecentlyWatched( $atvSessionCookie );
 				break;
-			case 'watchlist' :
-				$result = rljeApiWP_getUserWatchlist($atvSessionCookie);
+			case 'watchlist':
+				$result = rljeApiWP_getUserWatchlist( $atvSessionCookie );
 				break;
 		}
 	}
@@ -414,7 +416,7 @@ function acorntv_get_user_watch($type) {
 /**
  * This Filter gets the watch spotlight.
  */
-add_filter('atv_get_watch_spotlight_items', 'acorntv_get_watch_spotlight_items');
+add_filter( 'atv_get_watch_spotlight_items', 'acorntv_get_watch_spotlight_items' );
 function acorntv_get_watch_spotlight_items( $watch_type ) {
 	switch ( $watch_type ) {
 		case 'watchlist':
@@ -425,8 +427,8 @@ function acorntv_get_watch_spotlight_items( $watch_type ) {
 			$result = apply_filters( 'atv_get_user_watch', $watch_type );
 			set_query_var( 'carousel-section', 'Recently Watched' );
 			// if ( 1 > count( $result ) ) {
-			// 	$result = apply_filters( 'atv_get_user_watch', 'watchlist' );
-			// 	set_query_var( 'carousel-section', 'Watchlist' );
+			// $result = apply_filters( 'atv_get_user_watch', 'watchlist' );
+			// set_query_var( 'carousel-section', 'Watchlist' );
 			// }
 	}
 
@@ -436,28 +438,27 @@ function acorntv_get_watch_spotlight_items( $watch_type ) {
 /**
  * This Filter gets the next episode data.
  */
-add_filter('atv_get_next_episode_data', 'acorntv_get_next_episode_data', 10, 3);
-function acorntv_get_next_episode_data($franchise, $seasonID, $episodeID) {
-	$result = null;
+add_filter( 'atv_get_next_episode_data', 'acorntv_get_next_episode_data', 10, 3 );
+function acorntv_get_next_episode_data( $franchise, $seasonID, $episodeID ) {
+	$result      = null;
 	$nextEpisode = false;
-	$break = false;
-	foreach($franchise->seasons as $season){
-		if($season->id === $seasonID || $nextEpisode) {
-		foreach($season->episodes as $key=>$episode) {
-			if($nextEpisode){
-				$result = $episode;
-				$result->seasonName = $season->name;
-				$result->episodeNumber = $key+1;
-				$break = true;
+	$break       = false;
+	foreach ( $franchise->seasons as $season ) {
+		if ( $season->id === $seasonID || $nextEpisode ) {
+			foreach ( $season->episodes as $key => $episode ) {
+				if ( $nextEpisode ) {
+					$result                = $episode;
+					$result->seasonName    = $season->name;
+					$result->episodeNumber = $key + 1;
+					$break                 = true;
+					break;
+				} elseif ( $episode->id === $episodeID ) {
+					$nextEpisode = true;
+				}
+			}
+			if ( $break ) {
 				break;
 			}
-			else if($episode->id === $episodeID) {
-				$nextEpisode = true;
-			}
-		}
-		if($break) {
-			break;
-		}
 		}
 	}
 	return $result;
@@ -466,12 +467,12 @@ function acorntv_get_next_episode_data($franchise, $seasonID, $episodeID) {
 /**
  * This Filter gets a franchise by ID checking before if it is a valid ID.
  */
-add_filter('atv_get_franchise_by_ID', 'acorntv_get_franchise_by_ID');
-function acorntv_get_franchise_by_ID($franchiseId) {
-	$return = false;
-	$isValidID = apply_filters('atv_is_franchiseID_valid', $franchiseId);
-	if($isValidID) {
-		$return = rljeApiWP_getFranchiseById($franchiseId);
+add_filter( 'atv_get_franchise_by_ID', 'acorntv_get_franchise_by_ID' );
+function acorntv_get_franchise_by_ID( $franchiseId ) {
+	$return    = false;
+	$isValidID = apply_filters( 'atv_is_franchiseID_valid', $franchiseId );
+	if ( $isValidID ) {
+		$return = rljeApiWP_getFranchiseById( $franchiseId );
 	}
 	return $return;
 }
@@ -479,14 +480,14 @@ function acorntv_get_franchise_by_ID($franchiseId) {
 /**
  * This Filter checks if a franchiseId is valid (true|false).
  */
-add_filter('atv_is_franchiseID_valid', 'acorntv_is_franchiseID_valid');
-function acorntv_is_franchiseID_valid($franchiseId) {
+add_filter( 'atv_is_franchiseID_valid', 'acorntv_is_franchiseID_valid' );
+function acorntv_is_franchiseID_valid( $franchiseId ) {
 	$return = false;
-	$browse = rljeApiWP_reducedInitialJSONItems('browse');
-	if(is_object($browse) && isset($browse->options)) {
-		foreach($browse->options as $genre) {
-			$media = (isset($genre->media)) ? $genre->media: false;
-			if($media && isset($media[$franchiseId])) {
+	$browse = rljeApiWP_reducedInitialJSONItems( 'browse' );
+	if ( is_object( $browse ) && isset( $browse->options ) ) {
+		foreach ( $browse->options as $genre ) {
+			$media = ( isset( $genre->media ) ) ? $genre->media : false;
+			if ( $media && isset( $media[ $franchiseId ] ) ) {
 				$return = true;
 				break;
 			}
@@ -498,109 +499,109 @@ function acorntv_is_franchiseID_valid($franchiseId) {
 /**
  * This Filter return the elements for responsive lg carousel.
  */
-function acorntv_get_completed_carousel_items($array) {
-	$total = count($array);
+function acorntv_get_completed_carousel_items( $array ) {
+	$total  = count( $array );
 	$return = $array;
-	$key = 0;
-	while($total %4 != 0) {
-		$return[] = $array[$key];
+	$key    = 0;
+	while ( $total % 4 != 0 ) {
+		$return[] = $array[ $key ];
 		$key++;
-		$total = count($return);
+		$total = count( $return );
 	}
 	return $return;
 }
-add_filter('atv_get_completed_carousel_items', 'acorntv_get_completed_carousel_items');
+add_filter( 'atv_get_completed_carousel_items', 'acorntv_get_completed_carousel_items' );
 
 /**
  * This Filter return the section id for the contentPage API.
  */
-function acorntv_get_contentPage_section_id($sectionId) {
+function acorntv_get_contentPage_section_id( $sectionId ) {
 	$return = '';
-	if(!empty($sectionId)) {
-		$return = str_replace(' ', '+', $sectionId);
+	if ( ! empty( $sectionId ) ) {
+		$return = str_replace( ' ', '+', $sectionId );
 	}
 	return $return;
 }
-add_filter('atv_get_contentPage_section_id', 'acorntv_get_contentPage_section_id');
+add_filter( 'atv_get_contentPage_section_id', 'acorntv_get_contentPage_section_id' );
 
 /**
  * This Filter return the section id for the contentPage API.
  */
-function acorntv_convert_browseSlug_to_contentID($sectionId) {
+function acorntv_convert_browseSlug_to_contentID( $sectionId ) {
 	$return = '';
-	if(!empty($sectionId)) {
-		$return = str_replace('-', '+', $sectionId);
+	if ( ! empty( $sectionId ) ) {
+		$return = str_replace( '-', '+', $sectionId );
 	}
 	return $return;
 }
-add_filter('atv_convert_browseSlug_to_contentID', 'acorntv_convert_browseSlug_to_contentID');
+add_filter( 'atv_convert_browseSlug_to_contentID', 'acorntv_convert_browseSlug_to_contentID' );
 
 /**
  * This Filter return the section id for browse page.
  */
-function acorntv_get_browse_section_id($sectionId) {
-	$return = str_replace(' ', '-', strtolower($sectionId));
+function acorntv_get_browse_section_id( $sectionId ) {
+	$return = str_replace( ' ', '-', strtolower( $sectionId ) );
 	return $return;
 }
-add_filter('atv_get_browse_section_id', 'acorntv_get_browse_section_id');
+add_filter( 'atv_get_browse_section_id', 'acorntv_get_browse_section_id' );
 
 /**
  * Get Browse genres availables.
  */
 function acorntv_get_browse_genres_availables() {
-	$return = array();
-	$guideObj = rljeApiWP_getBrowseItems('guide');
-	if(!empty($guideObj->options) && is_array($guideObj->options)) {
+	$return   = array();
+	$guideObj = rljeApiWP_getBrowseItems( 'guide' );
+	if ( ! empty( $guideObj->options ) && is_array( $guideObj->options ) ) {
 		$guideItems = $guideObj->options;
-		foreach ($guideItems as $guide) {
-			$browseId = $guide->id;
-			$return[$browseId] = $guide->name;
+		foreach ( $guideItems as $guide ) {
+			$browseId            = $guide->id;
+			$return[ $browseId ] = $guide->name;
 		}
 	}
 	return $return;
 }
-add_filter('atv_get_browse_genres_availables', 'acorntv_get_browse_genres_availables');
+add_filter( 'atv_get_browse_genres_availables', 'acorntv_get_browse_genres_availables' );
 
 /**
  * This Filter returns the proper link for the hero carousel item.
  */
-function acorntv_heroCarusel_link($item) {
-	$baseUrlPath = (function_exists('rljeApiWP_getBaseUrlPath')) ? rljeApiWP_getBaseUrlPath() : '';
-	$link = $baseUrlPath.'/'.$item->franchiseID;
-	if (!empty($item->seriesName)) {
-		$link = $link.'/'.rljeApiWP_convertSeasonNameToURL($item->seriesName);
+function acorntv_heroCarusel_link( $item ) {
+	$baseUrlPath = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+	$link        = $baseUrlPath . '/' . $item->franchiseID;
+	if ( ! empty( $item->seriesName ) ) {
+		$link = $link . '/' . rljeApiWP_convertSeasonNameToURL( $item->seriesName );
 	}
 	return $link;
 }
-add_filter('atv_heroCarusel_link', 'acorntv_heroCarusel_link');
+add_filter( 'atv_heroCarusel_link', 'acorntv_heroCarusel_link' );
 
 /**
  * This Filter returns the item with its proper img and href related to its id.
  */
-function acorntv_add_img_and_href($item){
-	if(!isset($item->href)) {
-		$id = (isset($item->id)) ? $item->id: $item->franchiseID;
+function acorntv_add_img_and_href( $item ) {
+	if ( ! isset( $item->href ) ) {
+		$id         = ( isset( $item->id ) ) ? $item->id : $item->franchiseID;
 		$item->href = $id;
 	}
-	if(!isset($item->img)) {
-		$img = (isset($item->image)) ? $item->image: $item->href.'_avatar';
-		$item->img = rljeApiWP_getImageUrlFromServices($img);
+	if ( ! isset( $item->img ) ) {
+		$img       = ( isset( $item->image ) ) ? $item->image : $item->href . '_avatar';
+		$item->img = rljeApiWP_getImageUrlFromServices( $img );
 	}
 	return $item;
 }
-add_filter('atv_add_img_and_href', 'acorntv_add_img_and_href');
+add_filter( 'atv_add_img_and_href', 'acorntv_add_img_and_href' );
 
 /**
  * This Filter returns the episode number if sequence value exist else its order.
  */
-function acorntv_get_episode_number($episode, $order){
+function acorntv_get_episode_number( $episode, $order ) {
 	$episodeNumber = $order;
-	if(!empty($episode->sequence)) {
+	if ( ! empty( $episode->sequence ) ) {
 		$episodeNumber = $episode->sequence;
 	}
 	return $episodeNumber;
 }
-add_filter('atv_get_episode_number', 'acorntv_get_episode_number', 10, 2);
+add_filter( 'atv_get_episode_number', 'acorntv_get_episode_number', 10, 2 );
 
 
 
@@ -614,24 +615,24 @@ add_action( 'wp_head', 'add_favicon_to_header', 1 );
 
 
 function add_theme_json_ld_to_header() {
-	$json_ld = [];
-	$json_ld['@context'] = 'http://schema.org';
-	$json_ld['@type'] = 'Website';
-	$json_ld['name'] = get_bloginfo( 'name' );
-	$json_ld['url'] = get_bloginfo( 'url' );
-	$json_ld['image'] = 'https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300';
+	$json_ld                = [];
+	$json_ld['@context']    = 'http://schema.org';
+	$json_ld['@type']       = 'Website';
+	$json_ld['name']        = get_bloginfo( 'name' );
+	$json_ld['url']         = get_bloginfo( 'url' );
+	$json_ld['image']       = 'https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300';
 	$json_ld['description'] = get_bloginfo( 'description' );
-	$json_ld['publisher'] = [
+	$json_ld['publisher']   = [
 		'@type' => 'Organization',
-		'logo' => [
-			'@type' => 'ImageObject',
-			'url' =>'https://acorn.dev/wp-content/plugins/rlje-wp-plugin/rlje-theme-settings/themes/umc/img/logo.png',
-			'name' => get_bloginfo( 'name' ),
-			'width' => 300,
+		'logo'  => [
+			'@type'  => 'ImageObject',
+			'url'    => 'https://acorn.dev/wp-content/plugins/rlje-wp-plugin/rlje-theme-settings/themes/umc/img/logo.png',
+			'name'   => get_bloginfo( 'name' ),
+			'width'  => 300,
 			'height' => 50,
 		],
 	];
-	$json_ld = apply_filters( 'rlje_json_ld_header', $json_ld );
+	$json_ld                = apply_filters( 'rlje_json_ld_header', $json_ld );
 	?>
 	<script type="application/ld+json">
 		<?php echo wp_json_encode( $json_ld ); ?>
@@ -642,26 +643,26 @@ add_action( 'wp_head', 'add_theme_json_ld_to_header' );
 
 function process_contact_us() {
 	$api_helper = new RLJE_api_helper();
-	$name = strval( $_POST['name'] );
-	$email = strval( $_POST['email'] );
-	$subject = strval( $_POST['subject'] );
-	$desc = strval( $_POST['desc'] );
+	$name       = strval( $_POST['name'] );
+	$email      = strval( $_POST['email'] );
+	$subject    = strval( $_POST['subject'] );
+	$desc       = strval( $_POST['desc'] );
 
-	$sent = wp_mail( 'support@umc.tv',  $subject, $desc);
+	$sent = wp_mail( 'support@umc.tv', $subject, $desc );
 
-	if($sent) {
+	if ( $sent ) {
 		$response = [
 			'success' => true,
-			'error' => ''
+			'error'   => '',
 		];
 	} else {
 		$response = [
 			'success' => false,
-			'error'   => 'We were not able to contact support.'
+			'error'   => 'We were not able to contact support.',
 		];
 	}
-	
-	wp_send_json($response);
+
+	wp_send_json( $response );
 }
 
 add_action( 'wp_ajax_process_contact_us', 'process_contact_us' );

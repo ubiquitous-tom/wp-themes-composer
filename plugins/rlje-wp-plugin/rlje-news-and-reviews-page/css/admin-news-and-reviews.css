@@ -62,14 +62,3 @@
 .image-preview {
     max-width: 640px;
 }
-
-.display-type table {
-    margin: 20px 0;
-}
-
-.display-type table td {
-    border: 1px solid #000;
-    width: 100px;
-    height: 45px;
-    text-align: center;
-}
