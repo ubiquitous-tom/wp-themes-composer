@@ -22,70 +22,66 @@ function initializeStripeElements(stripeKey) {
 
 }
 
-function renderStripeInput($) {
-    var card_label = $(document.createElement('label')).attr('for', 'card-element').html('Credit or debit card');
-    var card_container = $(document.createElement('div')).attr('id', 'card-element');
-    var card_group = $(document.createElement('div')).addClass('form-group').append(card_label, card_container);
-    return card_group;
-}
-
-function showStepTwo($, signup_form) {
+function showStepTwo() {
+    var signup_form = jQuery('form.signup')
     // Render second step.
     // Mark step 2 as active
-    $('#progress-steps .step').removeClass('active');
-    $('#progress-steps .step:nth-child(2)').addClass('active');
+    jQuery('#progress-steps .step').removeClass('active');
+    jQuery('#progress-steps .step:nth-child(2)').addClass('active');
     // Update header and side description of the page
-    $('#signup h3').html('Last step and then start watching');
-    $('#signup p.side').html('Watch free for 7 days. Just $4.99/month after that. No commitment: cancel within 7 days to avoid payment.');
+    jQuery('#signup h3').html('Last step and then start watching');
+    jQuery('#signup p.side').html('Watch free for 7 days. Just $4.99/month after that. No commitment: cancel within 7 days to avoid payment.');
     // Attach new handlers to handle form submit event
     signup_form.off('submit');
     // Update the form fields
     signup_form.empty();
 
-    var first_name_label = $(document.createElement('label')).attr('for', 'user-first-name').html('First Name *');
-    var first_name_input = $(document.createElement('input')).addClass('form-control').attr(
+    var first_name_label = jQuery(document.createElement('label')).attr('for', 'user-first-name').html('First Name *');
+    var first_name_input = jQuery(document.createElement('input')).addClass('form-control').attr(
         {
             id: 'user-first-name',
             name: 'user_first_name',
             type: 'text'
         }
     ).prop('required', true);
-    var first_name_group = $(document.createElement('div')).addClass('form-group').append(first_name_label, first_name_input);
+    var first_name_group = jQuery(document.createElement('div')).addClass('form-group').append(first_name_label, first_name_input);
 
-    var last_name_label = $(document.createElement('label')).attr('for', 'user-last-name').html('Last Name *');
-    var last_name_input = $(document.createElement('input')).addClass('form-control').attr(
+    var last_name_label = jQuery(document.createElement('label')).attr('for', 'user-last-name').html('Last Name *');
+    var last_name_input = jQuery(document.createElement('input')).addClass('form-control').attr(
         {
             id: 'user-last-name',
             name: 'user_last_name',
             type: 'text'
         }
     ).prop('required', true);
-    var last_name_group = $(document.createElement('div')).addClass('form-group').append(last_name_label, last_name_input);
+    var last_name_group = jQuery(document.createElement('div')).addClass('form-group').append(last_name_label, last_name_input);
 
     var countries = [
-        $(document.createElement('option')).attr('value', 'US').html('United States'),
-        $(document.createElement('option')).attr('value', 'CA').html('Canada'),
-        $(document.createElement('option')).attr('value', 'AS').html('American Samoa'),
-        $(document.createElement('option')).attr('value', 'AR').html('Argentina')
+        jQuery(document.createElement('option')).attr('value', 'US').html('United States'),
+        jQuery(document.createElement('option')).attr('value', 'CA').html('Canada'),
+        jQuery(document.createElement('option')).attr('value', 'AS').html('American Samoa'),
+        jQuery(document.createElement('option')).attr('value', 'AR').html('Argentina')
     ]
-    var country_label = $(document.createElement('label')).html('Country *');
-    var country_select = $(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
-    var country_group = $(document.createElement('div')).addClass('form-group').append(country_label, country_select);
+    var country_label = jQuery(document.createElement('label')).html('Country *');
+    var country_select = jQuery(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
+    var country_group = jQuery(document.createElement('div')).addClass('form-group').append(country_label, country_select);
 
     // Name on card field
-    var card_name_label = $(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
-    var card_name_input = $(document.createElement('input')).addClass('form-control').attr({
+    var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
+    var card_name_input = jQuery(document.createElement('input')).addClass('form-control').attr({
         id: 'card-name',
         name: 'card_name',
         type: 'text'
     }).prop('required', true);
-    var card_name_group = $(document.createElement('div')).addClass('form-group').append(card_name_label, card_name_input);
+    var card_name_group = jQuery(document.createElement('div')).addClass('form-group').append(card_name_label, card_name_input);
 
     // Card number input elements for strip js to mount to
-    var stripe_group = renderStripeInput($);
+    var card_label = jQuery(document.createElement('label')).attr('for', 'card-element').html('Credit or debit card');
+    var card_container = jQuery(document.createElement('div')).attr('id', 'card-element');
+    var stripe_group = jQuery(document.createElement('div')).addClass('form-group').append(card_label, card_container);
 
     // Submit button
-    var step_two_submit = $(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
+    var step_two_submit = jQuery(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
 
     signup_form.append(first_name_group, last_name_group, country_group, card_name_group, stripe_group, step_two_submit);
 
@@ -220,7 +216,7 @@ jQuery(document).ready(function ($) {
                     } else {
                         // Update the form to show step two fields
                         sessionId = response.session_id;
-                        showStepTwo($, signup_form);
+                        showStepTwo();
                     }
                 }
             )
