@@ -15,7 +15,7 @@ class RLJE_News_And_Reviews {
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 		// add_action( 'admin_init', array( $this, 'news_and_reviews_init_setup' ) );
 		add_action( 'admin_menu', array( $this, 'register_news_and_reviews_page' ) );
-		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_news_and_reviews' ) );
+		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_news_and_reviews' ) );
 
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_news_and_review_cache_table_list' ) );
 

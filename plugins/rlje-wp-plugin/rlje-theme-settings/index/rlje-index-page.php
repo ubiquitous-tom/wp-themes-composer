@@ -8,6 +8,7 @@ class RLJE_Index_Page {
 	protected $categories_items;
 	protected $spotlight_name;
 	protected $browse_id_list_availables;
+	protected $home_sections;
 	protected $nonce = 'atv#contentPage@token_nonce';
 
 	public function __construct() {
@@ -15,6 +16,7 @@ class RLJE_Index_Page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_loggedin_featured' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_spotlights' ) );
 		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callback' ) );
@@ -23,6 +25,7 @@ class RLJE_Index_Page {
 	public function initialize_index() {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
+		$this->home_sections             = get_option( 'rlje_front_page_section', array() );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
 		$this->browse_id_list_availables = apply_filters( 'atv_get_browse_genres_availables', '' );
@@ -59,7 +62,7 @@ class RLJE_Index_Page {
 		wp_send_json_success( $data );
 	}
 
-	public function display_home_featured() {
+	public function display_home_loggedin_featured() {
 		if ( is_home() || is_front_page() ) :
 			ob_start();
 			?>
@@ -93,9 +96,65 @@ class RLJE_Index_Page {
 				<?php
 				endif;
 			endif;
+			?>
+			</div>
+		</section>
+			<?php
+		$html = ob_get_clean();
+		echo $html;
+		endif;
+	}
 
-			for ( $i = 0; $i < 2 && isset( $this->categories_items[ $i ] ); $i++ ) :
-				$spotlight            = $this->categories_items[ $i ];
+	public function display_home_featured() {
+		if ( is_home() || is_front_page() ) :
+			if ( empty( $this->home_sections['section_position'] ) ) {
+				return;
+			}
+
+			$home_featured = [];
+			foreach ( $this->home_sections['section_position'] as $section_position ) {
+				if ( 'news-and-reviews' !== $section_position->id ) {
+					$home_featured[] = $section_position;
+				} else {
+					break;
+				}
+			}
+
+			ob_start();
+			?>
+		<section class="home-featured">
+			<div class="container">
+			<?php
+			/*if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
+				$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
+				if ( 0 < count( $watch_spotlight_items ) ) :
+			?>
+				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
+				<div class="col-md-12">
+				<?php
+					set_query_var( 'carousel-items', $watch_spotlight_items );
+					get_template_part( 'partials/section-generic-carousel' );
+				?>
+				</div>
+				<?php
+				endif;
+
+				$watchlist_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'watchlist' );
+				if ( 0 < count( $watchlist_spotlight_items ) ) :
+				?>
+				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
+				<div class="col-md-12">
+				<?php
+					set_query_var( 'carousel-items', $watchlist_spotlight_items );
+					get_template_part( 'partials/section-generic-carousel' );
+				?>
+				</div>
+				<?php
+				endif;
+			endif;*/
+
+			for ( $i = 0; $i < 2 && isset( $home_featured[ $i ] ); $i++ ) :
+				$spotlight            = $home_featured[ $i ];
 				$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
 				?>
 				<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT-->
@@ -111,7 +170,7 @@ class RLJE_Index_Page {
 					get_template_part( 'partials/section-carousel-pagination' );
 				?>
 				</div>
-				<?php endfor; ?>
+			<?php endfor; ?>
 			</div>
 		</section>
 			<?php
@@ -122,13 +181,26 @@ class RLJE_Index_Page {
 
 	public function display_home_spotlights() {
 		if ( is_home() || is_front_page() ) :
+			if ( empty( $this->home_sections['section_position'] ) ) {
+				return;
+			}
+
+			$home_spotlights = [];
+			$is_found = false;
+			foreach ( $this->home_sections['section_position'] as $section_position ) {
+				if ( 'news-and-reviews' === $section_position->id || $is_found ) {
+					$is_found = true;
+					$home_spotlights[] = $section_position;
+				}
+			}
+
 			ob_start();
 			?>
 		<section class="home-spotlights">
 			<div class="container">
 				<?php
-				for ( $i =  2; $i < count( $this->categories_items ); $i++ ) :
-					$spotlight            = $this->categories_items[ $i ];
+				for ( $i =  2; $i < count( $home_spotlights ); $i++ ) :
+					$spotlight            = $home_spotlights[ $i ];
 					$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
 					?>
 			<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT -->
