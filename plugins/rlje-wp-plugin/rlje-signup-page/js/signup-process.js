@@ -36,6 +36,8 @@ function showStepTwo() {
     // Update the form fields
     signup_form.empty();
 
+    var profile_header = jQuery(document.createElement('h4')).addClass('form-head').html('Your profile');
+
     var first_name_label = jQuery(document.createElement('label')).attr('for', 'user-first-name').html('First Name *');
     var first_name_input = jQuery(document.createElement('input')).addClass('form-control').attr(
         {
@@ -66,6 +68,15 @@ function showStepTwo() {
     var country_select = jQuery(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
     var country_group = jQuery(document.createElement('div')).addClass('form-group').append(country_label, country_select);
 
+    signup_form.append(profile_header, first_name_group, last_name_group, country_group);
+
+    var plan_header = jQuery(document.createElement('h4')).addClass('form-head').html('Plan &amp; Payment');
+    var plan_desc = jQuery(document.createElement('p')).html('Please select a plan for when your 7 day FREE TRIAL comes to an end. You can cancel anytime before your trial ends and you will not be charged.');
+
+    var plans = renderPlans();
+
+    signup_form.append(plan_header, plan_desc, plans);
+
     // Name on card field
     var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
     var card_name_input = jQuery(document.createElement('input')).addClass('form-control').attr({
@@ -83,7 +94,7 @@ function showStepTwo() {
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
 
-    signup_form.append(first_name_group, last_name_group, country_group, card_name_group, stripe_group, step_two_submit);
+    signup_form.append(card_name_group, stripe_group, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
     initializeStripeElements(signup_vars.stripe_key);
@@ -103,6 +114,11 @@ function submitStepTwo(event) {
             var billing_first_name = jQuery('input#user-first-name').val();
             var billing_last_name = jQuery('input#user-last-name').val();
             var name_on_card = jQuery('input#card-name').val();
+            var plan = 'monthly';
+            if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked')) {
+                plan = 'yearly';
+            }
+
             jQuery.post(
                 signup_vars.ajax_url,
                 {
@@ -111,7 +127,8 @@ function submitStepTwo(event) {
                     'billing_first_name': billing_first_name,
                     'billing_last_name': billing_last_name,
                     'name_on_card': name_on_card,
-                    'stripe_token': stripe_token.id
+                    'stripe_token': stripe_token.id,
+                    'subscriton_plan': plan
                 },
                 function (response) {
                     if (response.success == false) {
@@ -171,6 +188,79 @@ function showStepThree() {
 
     jQuery('#signup .container > div').append(brightCoveVideoContainer, watchNowContainer);
     initBrightCove();
+}
+
+function renderPlans() {
+    return jQuery(document.createElement('fieldset'))
+    .append(
+        jQuery(document.createElement('div')).attr('id', 'plans')
+        .append(
+            jQuery(document.createElement('div')).addClass('plan monthly')
+            .append(
+                jQuery(document.createElement('input')).prop('checked', true).attr({
+                    'id': 'monthly-plan',
+                    'name': 'sub-plan',
+                    'type': 'radio',
+                    'value': 'monthly'
+                })
+            )
+            .append(
+                jQuery(document.createElement('label')).attr({
+                    'for': 'monthly-plan'
+                })
+                .append(
+                    jQuery(document.createElement('p')).addClass('plan-header text-center').html('Monthly plan')
+                )
+                .append(
+                    jQuery(document.createElement('p')).html('Join UMC for only $4.99 a month')
+                )
+                .append(
+                    jQuery(document.createElement('p'))
+                    .append(
+                        jQuery(document.createElement('span')).addClass('price').html('$4.99'),
+                        ' / 12 month'
+                    )
+                )
+                .append(
+                    jQuery(document.createElement('p')).html('Cancel at any time.')
+                )
+            )
+        )
+        .append(
+            jQuery(document.createElement('div')).addClass('plan yearly')
+            .append(
+                jQuery(document.createElement('input')).attr({
+                    'id': 'yearly-plan',
+                    'name': 'sub-plan',
+                    'type': 'radio',
+                    'value': 'yearly'
+                })
+                
+            )
+            .append(
+                jQuery(document.createElement('label')).attr({
+                    'for': 'yearly-plan'
+                })
+                .append(
+                    jQuery(document.createElement('p')).addClass('plan-header text-center').html('Yearly plan')
+                )
+                .append(
+                    jQuery(document.createElement('p')).html('Get a whole year of UMC for the price of 10 months')
+                )
+                .append(
+                    jQuery(document.createElement('p'))
+                    .append(
+                        jQuery(document.createElement('span')).addClass('price').html('$49.99'),
+                        ' / 30 day'
+                    )
+                )
+                .append(
+                    jQuery(document.createElement('p')).html('Cancel at any time.')
+                )
+            )
+        )
+    )
+    
 }
 
 function initBrightCove() {

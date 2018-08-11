@@ -60,6 +60,7 @@ class RLJE_signup_page {
 		$billing_last_name  = strval( $_POST['billing_last_name'] );
 		$name_on_card       = strval( $_POST['name_on_card'] );
 		$stripe_token       = strval( $_POST['stripe_token'] );
+		$sub_plan           = strval( $_POST['subscriton_plan'] );
 
 		$params = [
 			'Session'        => [
@@ -78,6 +79,13 @@ class RLJE_signup_page {
 				'StripeToken'   => $stripe_token,
 			],
 		];
+
+		if ( 'yearly' === $sub_plan ) {
+			$params['Membership'] = [
+				'Term'     => 12,
+				'TermType' => 'MONTH',
+			];
+		}
 
 		$response = [
 			'success' => false,
