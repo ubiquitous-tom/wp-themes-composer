@@ -85,7 +85,8 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'fancybox_css', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.css', array(), '1.0.0' );
 	// wp_enqueue_style( 'smartbanner_css', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.css', array(), '1.0.0' );
 	// wp_enqueue_style( 'smartbanner_css', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.css', array( 'jquery_ui_css' ), '1.0.0' );
-	wp_enqueue_style( 'main_style_css', get_template_directory_uri() . '/css/main-style.css', array(), '1.4.8' );
+	$main_style_version = date( 'ymd-Gis', filemtime( get_template_directory() . '/css/main-style.css' ) );
+	wp_enqueue_style( 'main_style_css', get_template_directory_uri() . '/css/main-style.css', array(), $main_style_version );
 
 	// Enqueue scripts.
 	// wp_enqueue_script( 'cookies-js', get_template_directory_uri() . '/lib/cookies/cookies.js', array(), null, true );
