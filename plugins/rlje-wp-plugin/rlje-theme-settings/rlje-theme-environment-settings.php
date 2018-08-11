@@ -19,7 +19,7 @@ class RLJE_Theme_Environment_Settings {
 		add_settings_section( 'rlje_theme_environment_section', 'Environment Options', array( $this, 'display_rlje_environment_options_content' ), 'rlje-theme-environment-settings' );
 		// Setting name, display name, callback to print form element, page in which field is displayed, section to which it belongs.
 		// Last field section is optional.
-		add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
+		// add_settings_field( 'environment_type', 'Environment Type', array( $this, 'display_environment_type' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
 		add_settings_field( 'rlje_base_url', 'RLJE Base URL', array( $this, 'display_rlje_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
 		add_settings_field( 'content_base_url', 'Content Base URL', array( $this, 'display_content_base_url' ), 'rlje-theme-environment-settings', 'rlje_theme_environment_section' );
 	}
@@ -72,6 +72,7 @@ class RLJE_Theme_Environment_Settings {
 			<option value="QA" <?php selected( $env_type, 'QA' ); ?>>QA</option>
 			<option value="PROD" <?php selected( $env_type, 'PROD' ); ?>>PROD</option>
 		</select>
+		<p class="description">This environment type is for loading "Jetpack DEV Mode" when set to "Development"</p>
 		<?php
 	}
 

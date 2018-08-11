@@ -73,6 +73,7 @@ class RLJE_Section_Position extends RLJE_Front_page {
 
 	public function section_position_settings() {
 		echo 'Rearrange Section Position for the homepage for different country';
+		// delete_option( 'rlje_front_page_section' );
 		$this->section = get_option( 'rlje_front_page_section' );
 		$this->current_country    = $this->get_current_country();
 		$country_code             = strtoupper( $this->current_country['code'] );
@@ -133,16 +134,25 @@ class RLJE_Section_Position extends RLJE_Front_page {
 		if ( ! empty( $data['section_position'] ) ) {
 			$section_position_array = explode( ',', $data['section_position'] );
 			$section_position = [];
+			$is_bottom_section = false;
 			foreach ( $section_position_array as $section_position_id ) {
 				foreach ( $this->categories_items as $categories_item ) {
-					if ( strtolower( $categories_item->id ) === strtolower( $section_position_id ) ) {
+					// Home Featured Section or Home Spotlight Section.
+					if ( ( strtolower( $categories_item->id ) === strtolower( $section_position_id ) ) ) {
+						$categories_item->section_type = ( false === $is_bottom_section ) ? 'home-featured' : 'home-spotlight';
 						$section_position[ $section_position_id ] = $categories_item;
 					}
+
+					// News And Reviews Section.
 					if ( 'news-and-reviews' === strtolower( $section_position_id ) ) {
 						$news_and_reviews_item = new stdClass();
 						$news_and_reviews_item->id = 'news-and-reviews';
 						$news_and_reviews_item->name = 'News And Reviews';
+						$news_and_reviews_item->section_type = 'news-and-reviews';
 						$section_position[ $section_position_id ] = $news_and_reviews_item;
+
+						// From here on out it's for Home Spotlight Section.
+						$is_bottom_section = true;
 					}
 				}
 			}

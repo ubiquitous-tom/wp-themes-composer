@@ -318,13 +318,13 @@ class RLJE_Theme_Settings {
 		// For RLJE API call.
 		define( 'API_TIMEOUT_SECS', '30' );
 
-		$env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
-		if ( ! empty( $env_type ) ) {
-			define( 'ENVIRONMENT', $env_type );
-			if ( 'DEV' === $env_type ) {
-				define( 'JETPACK_DEV_DEBUG', true );
-			}
-		}
+		// $env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
+		// if ( ! empty( $env_type ) ) {
+		// 	define( 'ENVIRONMENT', $env_type );
+		// 	if ( 'DEV' === $env_type ) {
+		// 		define( 'JETPACK_DEV_DEBUG', true );
+		// 	}
+		// }
 
 		$rlje_base_url = ( ! empty( $this->theme_environment_settings['rlje_base_url'] ) ) ? $this->theme_environment_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
 		if ( ! empty( $rlje_base_url ) ) {
