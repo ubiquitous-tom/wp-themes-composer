@@ -13,10 +13,22 @@ function initializeStripeElements(stripeKey) {
     }
     var elements = stripe.elements();
 
-    card = elements.create('card', { hidePostalCode: true, style: style });
-    card.mount('#card-element');
+    cardNumber = elements.create('cardNumber', { 
+        style: style
+    });
+    cardNumber.mount('#card-number');
 
-    card.addEventListener('change', function (event) {
+    cardExpiray = elements.create('cardExpiry', {
+        style: style
+    });
+    cardExpiray.mount('#card-expiration');
+
+    cardCvc = elements.create('cardCvc', {
+        style: style
+    });
+    cardCvc.mount('#card-cvc');
+
+    cardNumber.addEventListener('change', function (event) {
         console.log(event);
     })
 
@@ -87,14 +99,41 @@ function showStepTwo() {
     var card_name_group = jQuery(document.createElement('div')).addClass('form-group').append(card_name_label, card_name_input);
 
     // Card number input elements for strip js to mount to
-    var card_label = jQuery(document.createElement('label')).attr('for', 'card-element').html('Credit or debit card');
-    var card_container = jQuery(document.createElement('div')).attr('id', 'card-element');
-    var stripe_group = jQuery(document.createElement('div')).addClass('form-group').append(card_label, card_container);
+    var card_label = jQuery(document.createElement('label')).attr('for', 'card-number').html('Card number *');
+    var card_container = jQuery(document.createElement('div')).attr('id', 'card-number');
+    var card_number_element = jQuery(document.createElement('div')).addClass('form-group').append(card_label, card_container);
+
+    // Expiration date and CVC fields
+    var card_expiration_element = jQuery(document.createElement('div')).addClass('col-sm-6')
+    .append(
+        jQuery(document.createElement('div')).addClass('form-group')
+        .append(
+            jQuery(document.createElement('label')).attr('for', 'card-expiration').html('Expiration *')
+        )
+        .append(
+            jQuery(document.createElement('div')).attr('id', 'card-expiration')
+        )
+    )
+    
+
+    var card_cvc_element = jQuery(document.createElement('div')).addClass('col-sm-6')
+    .append(
+        jQuery(document.createElement('div')).addClass('form-group')
+        .append(
+            jQuery(document.createElement('label')).attr('for', 'card-cvc').html('CVC *')
+        )
+        .append(
+            jQuery(document.createElement('div')).attr('id', 'card-cvc')
+        )
+    )
+    
+
+    var some_row = jQuery(document.createElement('div')).addClass('row').append(card_expiration_element, card_cvc_element);
 
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
 
-    signup_form.append(card_name_group, stripe_group, step_two_submit);
+    signup_form.append(card_name_group, card_number_element, some_row, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
     initializeStripeElements(signup_vars.stripe_key);
@@ -106,18 +145,22 @@ function showStepTwo() {
 function submitStepTwo(event) {
     // We have an initialized 
     event.preventDefault();
-    stripe.createToken(card).then(function (result) {
+
+    var name_on_card = jQuery('input#card-name').val();
+    var billing_first_name = jQuery('input#user-first-name').val();
+    var billing_last_name = jQuery('input#user-last-name').val();
+    var plan = 'monthly';
+    if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked')) {
+        plan = 'yearly';
+    }
+
+    stripe.createToken(cardNumber, {
+        name: name_on_card
+    }).then(function (result) {
         if (result.error) {
             console.log(result.error.message);
         } else {
             var stripe_token = result.token;
-            var billing_first_name = jQuery('input#user-first-name').val();
-            var billing_last_name = jQuery('input#user-last-name').val();
-            var name_on_card = jQuery('input#card-name').val();
-            var plan = 'monthly';
-            if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked')) {
-                plan = 'yearly';
-            }
 
             jQuery.post(
                 signup_vars.ajax_url,
