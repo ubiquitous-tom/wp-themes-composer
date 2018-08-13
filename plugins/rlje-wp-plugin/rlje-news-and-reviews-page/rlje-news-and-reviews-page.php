@@ -8,7 +8,7 @@ class RLJE_News_And_Reviews {
 	private $transient_key = 'rlje_news_and_review_';
 	protected $rlje_news;
 	protected $rlje_reviews;
-	protected $brightcove = [];
+	public $brightcove = [];
 
 	public function __construct() {
 		// add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );

@@ -131,7 +131,8 @@ class RLJE_Index_Page {
 
 	public function display_home_news_and_reviews_section() {
 		if ( class_exists( 'RLJE_News_And_Reviews' ) ) {
-			$rlje_news_and_reviews = new RLJE_News_And_Reviews();
+			global $rlje_news_and_reviews;
+			// $rlje_news_and_reviews = new RLJE_News_And_Reviews();
 			$rlje_news_and_reviews->display_news_and_reviews();
 		}
 	}
