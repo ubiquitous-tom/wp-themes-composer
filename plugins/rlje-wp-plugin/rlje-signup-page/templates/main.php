@@ -20,6 +20,7 @@ get_header();
 				</div>
 			</div>
 			<form class="signup step-one row">
+				<h4 class="form-head">Create your account</h4>
 				<div class="form-group">
 					<label for="signup-email">E-Mail Address *</label>
 					<input id="signup-email" class="form-control" required name="signup_email" type="email">
