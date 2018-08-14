@@ -194,6 +194,11 @@ button {
     pointer-events: initial;
 }
 
+.subnav-prev span {
+    top: -3px;
+    position: relative;
+}
+
 .footer {
     padding-left: 10px;
     padding-right: 10px;

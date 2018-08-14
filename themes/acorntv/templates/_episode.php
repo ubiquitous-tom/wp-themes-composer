@@ -17,7 +17,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
     $streamPositions = null;
     $isCast = (isset($episode->actors) && count($episode->actors) >0) ? true : false;
     $isVideoDebuggerOn = rljeApiWP_isVideoDebuggerOn();
-    
+
     $totalEpisodes = 0;
     foreach ($franchise->seasons as $seasonItem) {
         $totalEpisodes+= count($seasonItem->episodes);
@@ -39,7 +39,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 }
             }
         }
-        get_header(); 
+        get_header();
 ?>
 
 <script>dataLayer=[];</script>
@@ -57,23 +57,23 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
               <a href="<?= $baseUrlPath.$prevEpisodeURL; ?>">Last Episode</a>
               <?php endif; ?>
           </span>
-          <a href="<?= $baseUrlPath.'/'.$franchiseId?>" id="subnav-title"><span itemprop="partOfSeries"><?= $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?= $season->name; ?></span> : <span itemprop="name"><?= (strlen($episode->name) > 45 ) ? substr($episode->name,0,45).'...' : $episode->name; ?></span>   <!-- Next link -->  
+          <a href="<?= $baseUrlPath.'/'.$franchiseId?>" id="subnav-title"><span itemprop="partOfSeries"><?= $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?= $season->name; ?></span> : <span itemprop="name"><?= (strlen($episode->name) > 45 ) ? substr($episode->name,0,45).'...' : $episode->name; ?></span>   <!-- Next link -->
           <meta itemprop="image" content="<?php echo apply_filters('atv_get_image_url', $episode->image); ?>" />
           <meta itemprop="description" content="<?= $episode->longDescription; ?>" />
           <meta itemprop="episodeNumber" content="<?= $episode->episodeNumber; ?>" />
           <meta itemprop="endDate" content="<?= (isset($episode->endDate) && $episode->endDate != '') ? date('Y-m-d', $episode->endDate) : ''; ?>" />
           <meta itemprop="startDate" content="<?= (isset($episode->endDate) && $episode->endDate != '') ? date('Y-m-d', $episode->startDate) : ''; ?>" />
           <meta itemprop="timeRequired" content="<?= 'T'.str_replace(':','M',rljeApiWP_convertSecondsToMinSecs($episode->length)).'S'; ?>"/>
-          
+
           <span class="subnav-next hidden-xs hidden-sm <?php if (!isset($nextEpisodeURL)) { echo 'invisible'; } ?>">
             <?php if (isset($nextEpisodeURL)): ?>
             <a href="<?= $baseUrlPath.$nextEpisodeURL; ?>">Next Episode </a><span> <img src="<?php echo apply_filters('atv_get_image_url', 'right-arrow?t=Icons'); ?>" id="archive-arrows"/></span>
             <?php endif; ?>
           </span>
         </h4>
-        <!-- Brightcove Episode Player -->  
+        <!-- Brightcove Episode Player -->
         <div class="outer-container episode-player">
-        <?php 
+        <?php
         if ($isUserActive) :
         ?>
             <span itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
@@ -82,7 +82,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 <meta itemprop="name" content="<?= $episode->name; ?>" />
                 <meta itemprop="uploadDate" content="<?= (isset($episode->endDate) && $episode->endDate != '') ? date('Y-m-d', $episode->startDate) : ''; ?>" />
                 <meta itemprop="duration" content="<?= 'T'.  str_replace(':', 'M', rljeApiWP_convertSecondsToMinSecs($episode->length)).'S'; ?>" />
-                <video 
+                <video
                     id="brightcove-episode-player"
                     data-account="3047407010001"
                     data-player="NJxe2G4ox"
@@ -104,7 +104,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                             var player = this;
 
                             function geoErrorMessage() {
-                            
+
                                 videojs.log('RLJ:ATV - Error');
                                 try {
                                   var errorMessage = '';
@@ -122,7 +122,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                                 } catch (err) {
                                   console.log('Raised error: ' + err);
                                 }
-                            
+
                                 if(typeof player.catalog.error !== 'undefined' && player.catalog.error.data[0].error_subcode === 'CLIENT_GEO') {
                                   var message = 'Content is not available in your current location';
                                   console.log(message);
@@ -139,7 +139,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                             }
 
                             player.on("error", geoErrorMessage);
-                            
+
                             player.on("ended", function() {
                                 // hack for BC issue
                                 if (player.autoplay()) {
@@ -207,7 +207,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                     </a>
                 </div>
                 <?php endif; ?>
-        <?php 
+        <?php
         else :
             if(isset($franchise->episodes[0]->id)&& is_numeric($franchise->episodes[0]->id)) :
                 $trailerId = $franchise->episodes[0]->id;
@@ -218,8 +218,8 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
                 <meta itemprop="name" content="<?= $episode->name; ?>" />
                 <meta itemprop="uploadDate" content="<?= (isset($episode->startDate) && $episode->startDate != '') ? date('Y-m-d', $episode->startDate) : ''; ?>" />
                 <div class="video" data-embedcode="<iframe style='border:none;z-index:4' src='//players.brightcove.net/3392051363001/2f9624d6-0dd2-46ff-9843-dadffb653bc3_default/index.html?videoId=<?= $trailerId; ?>'
-                    allowfullscreen 
-                    webkitallowfullscreen 
+                    allowfullscreen
+                    webkitallowfullscreen
                     mozallowfullscreen></iframe>">
                     <img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters('atv_get_image_url', $episode->image.'?w=750'); ?>"/>
                     <div class="acorntv-slogan">
@@ -284,17 +284,17 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
     </div>
 </div>
 
-<!-- Episode content begins (descriptions, tags, more episodes, and related titles) --> 
+<!-- Episode content begins (descriptions, tags, more episodes, and related titles) -->
 <div class="container episode">
     <div class="row">
-      <!-- Episode Title and Description --> 
+      <!-- Episode Title and Description -->
       <div class="col-md-<?= ($isCast) ? '6' : '12'; ?>" id="eps-desc">
         <h4 class="subnav2">Description</h4>
         <p><?= $episode->name; ?>: <?= $episode->longDescription; ?></p>
       </div>
 
       <?php if($isCast) :?>
-      <!-- Related Themes (wp tags) --> 
+      <!-- Related Themes (wp tags) -->
       <div class="col-md-6 col-sm-12 column " id="eps-tags">
         <h4 class="subnav2">Cast</h4>
         <div class="episode-starring">
@@ -309,8 +309,8 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
       <?php endif;?>
     </div>
 
-    <?php 
-        if(isset($streamPositions)): 
+    <?php
+        if(isset($streamPositions)):
             set_query_var('continueWatchingItems', $franchise->seasons);
             set_query_var('episodeID', $episode->id);
             set_query_var('totalEpisodes', $totalEpisodes);
@@ -319,16 +319,16 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
         else:
     ?>
     <!-- More Episodes Carousel -->
-    <!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->       
+    <!-- Multiple carousels. If there is more than four episodes use bootstrap carousel-->
 
     <div class="col-md-12">
         <h4 class="subnav2" >More Episodes</h4>
-        <?php 
+        <?php
             set_query_var('franchiseName', $franchise->name);
             set_query_var('streamPositions', $streamPositions);
-            
+
             $isLessThan4Episodes = apply_filters('atv_is_less_than_4_episodes', $franchise->seasons);
-            
+
             if($isLessThan4Episodes) {
                 set_query_var('season', $franchise->seasons[0]);
                 set_query_var('ignoreSeasonHeader', true);
@@ -342,12 +342,12 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
         ?>
     </div>
 
-    <!-- Multiple carousels. If there is less than four episodes display basic column grid-->     
+    <!-- Multiple carousels. If there is less than four episodes display basic column grid-->
     <?php endif; ?>
 
 
     <!-- You May Also Like Carousel -->
-    <?php 
+    <?php
         set_query_var('also_watched_items', rljeApiWP_getViewersAlsoWatched($franchiseId));
         get_template_part('partials/viewers-also-watched');
     ?>
@@ -364,7 +364,7 @@ if (function_exists('rljeApiWP_getFranchiseById')) :
         }
     endif;
 else :
-    get_header(); 
+    get_header();
     get_template_part('partials/plugin-deactivated-message');
     get_footer();
 endif;
