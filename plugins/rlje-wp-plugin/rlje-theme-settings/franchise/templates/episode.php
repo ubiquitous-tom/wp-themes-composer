@@ -62,7 +62,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 			if ( 'movie' === strtolower( $episode->type ) ) {
 				echo esc_html( $episode->type );
 			} else {
-				echo '<span itemprop="partOfSeason">' . esc_html( $season->name . '</span> : <span itemprop="name">' . esc_html( ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name ) .'</span>   <!-- Next link -->';
+				echo '<span itemprop="partOfSeason">' . esc_html( $season->name ) . '</span> : <span itemprop="name">' . esc_html( ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name ) .'</span>   <!-- Next link -->';
 			}
 			?>
 			<meta itemprop="image" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image ); ?>" />
