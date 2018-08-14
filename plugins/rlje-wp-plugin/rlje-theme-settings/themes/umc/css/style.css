@@ -291,3 +291,11 @@ span[itemprop="trailer"] a button:hover {
         top: calc(50% - (130px/2));
     }
 }
+
+
+@media (min-width:1400px) {
+    /* HERO-CAROUSEL */
+    .feature-slide .carousel-inner {
+        min-height: 0px;
+    }
+}
