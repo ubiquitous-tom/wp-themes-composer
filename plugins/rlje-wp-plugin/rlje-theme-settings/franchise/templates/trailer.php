@@ -37,8 +37,8 @@ get_header();
 				<!-- Previous link -->
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
-						<img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows">
-						<span>Back to Series</span>
+					<span><img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows"></span>
+						Back <!-- to Series-->
 					</a>
 				</span>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>" id="subnav-title"><span itemprop="name"><?php echo $franchise->name; ?></span></a> Trailer   <!-- Next link -->

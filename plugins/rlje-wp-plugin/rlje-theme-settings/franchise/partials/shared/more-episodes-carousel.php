@@ -43,7 +43,14 @@
 						<div>
 							<div class="franchise-eps-bg">
 								<h5 itemprop="name"><?php echo esc_html( $episode->name ); ?></h5>
-								<h6><?php echo esc_html( $season->name ); ?>: Episode <span itemprop="episodeNumber"><?php echo esc_html( $episode_number ); ?></span></h6>
+								<?php
+								if ( 'movie' === strtolower( $episode->type ) ) {
+									$more_episode_type_display = ' Movie ';
+								} else {
+									$more_episode_type_display = $season->name . ': Episode <span itemprop="episodeNumber">' . $episode_number . '</span>';
+								}
+								?>
+								<h6><?php echo $more_episode_type_display; ?></h6>
 							</div>
 						</div>
 					</div>

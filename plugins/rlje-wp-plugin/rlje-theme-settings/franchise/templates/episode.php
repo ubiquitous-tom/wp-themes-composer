@@ -52,18 +52,25 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 			<span class="subnav-prev hidden-xs hidden-sm">
 				<span> <img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows"></span>
 				<?php if ( ! isset( $prev_episode_url ) ) : ?>
-				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>">Back to Series</a>
+				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>">Back <!-- to Series --></a>
 				<?php else : ?>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $prev_episode_url ) ) ); ?>">Last Episode</a>
 				<?php endif; ?>
 			</span>
-			<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>" id="subnav-title"><span itemprop="partOfSeries"><?php echo $franchise->name; ?></span></a>, <span itemprop="partOfSeason"><?php echo $season->name; ?></span> : <span itemprop="name"><?php echo ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name; ?></span>   <!-- Next link -->
+			<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>" id="subnav-title"><span itemprop="partOfSeries"><?php echo esc_html( $franchise->name ); ?></span></a>,
+			<?php
+			if ( 'movie' === strtolower( $episode->type ) ) {
+				echo esc_html( $episode->type );
+			} else {
+				echo '<span itemprop="partOfSeason">' . esc_html( $season->name ) . '</span> : <span itemprop="name">' . esc_html( ( strlen( $episode->name ) > 45 ) ? substr( $episode->name, 0, 45 ) . '...' : $episode->name ) .'</span>   <!-- Next link -->';
+			}
+			?>
 			<meta itemprop="image" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image ); ?>" />
-			<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
-			<meta itemprop="episodeNumber" content="<?php echo $episode->episodeNumber; ?>" />
-			<meta itemprop="endDate" content="<?php echo ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->endDate ) : ''; ?>" />
-			<meta itemprop="startDate" content="<?php echo ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : ''; ?>" />
-			<meta itemprop="timeRequired" content="<?php echo 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S'; ?>"/>
+			<meta itemprop="description" content="<?php echo esc_attr( $episode->longDescription ); ?>" />
+			<meta itemprop="episodeNumber" content="<?php echo esc_attr( $episode->episodeNumber ); ?>" />
+			<meta itemprop="endDate" content="<?php echo esc_attr( ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->endDate ) : '' ); ?>" />
+			<meta itemprop="startDate" content="<?php echo esc_attr( ( isset( $episode->endDate ) && $episode->endDate != '' ) ? date( 'Y-m-d', $episode->startDate ) : '' ); ?>" />
+			<meta itemprop="timeRequired" content="<?php echo esc_attr( 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S' ); ?>"/>
 
 			<span class="subnav-next hidden-xs hidden-sm
 			<?php
