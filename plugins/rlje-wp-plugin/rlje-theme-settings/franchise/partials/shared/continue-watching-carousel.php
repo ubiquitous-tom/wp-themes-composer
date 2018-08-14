@@ -68,7 +68,14 @@ $showing_carosel = ( $total_episodes > 4 );
 							<meta itemprop="timeRequired" content="<?php echo ( ! empty( $episode->length ) ) ? 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S' : ''; ?>" />
 							<div class="franchise-eps-bg<?php echo ( $show_episode_highlighted ) ? ' no-margin-bottom' : ''; ?>">
 								<h5 itemprop="name"><?php echo $episode->name; ?></h5>
-								<h6><?php echo $season->name; ?>: Episode <span itemprop="episodeNumber"><?php echo $episode_number; ?></span></h6>
+								<?php
+								if ( 'movie' === strtolower( $episode->type ) ) {
+									$episode_type_display = ' Movie ';
+								} else {
+									$episode_type_display = $season->name .': Episode <span itemprop="episodeNumber">' . $episode_number . '</span>';
+								}
+								?>
+								<h6><?php echo $episode_type_display; ?></h6>
 							</div>
 						<?php
 						if ( $show_episode_highlighted ) :
@@ -86,7 +93,14 @@ $showing_carosel = ( $total_episodes > 4 );
 								</button>
 								<?php else : ?>
 								<button class="js-<?php echo $playType; ?>-resume">
-									<span>Play <?php echo $season->name . ': Episode ' . $episode_number; ?></span>
+									<?php
+									if ( 'movie' === strtolower( $episode->type ) ) {
+										$continue_watching_episode_type_display = ' Movie ';
+									} else {
+										$continue_watching_episode_type_display = $season->name . ': Episode ' . $episode_number;
+									}
+									?>
+									<span>Play <?php echo esc_html( $continue_watching_episode_type_display ); ?></span>
 									<i class="fa fa-play-circle-o" aria-hidden="true"></i>
 								</button>
 								<?php endif; ?>
