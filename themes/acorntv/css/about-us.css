@@ -1,0 +1,24 @@
+body {
+    padding-top: 75px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: initial;
+    text-transform: initial;
+    color: #404040;
+}
+
+.page-main {
+    background-color: white;
+    color: #424242;
+    padding: 40px 0;
+}
+
+.page-main p {
+    margin-bottom: 15px;
+}
