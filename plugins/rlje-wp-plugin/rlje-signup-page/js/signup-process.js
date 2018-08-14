@@ -261,7 +261,7 @@ function renderPlans() {
                     jQuery(document.createElement('p'))
                     .append(
                         jQuery(document.createElement('span')).addClass('price').html('$4.99'),
-                        ' / 12 month'
+                        ' / 30 day'
                     )
                 )
                 .append(
@@ -294,7 +294,7 @@ function renderPlans() {
                     jQuery(document.createElement('p'))
                     .append(
                         jQuery(document.createElement('span')).addClass('price').html('$49.99'),
-                        ' / 30 day'
+                        ' / 12 month'
                     )
                 )
                 .append(
