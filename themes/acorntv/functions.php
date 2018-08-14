@@ -111,6 +111,12 @@ function acorntv_hook_css_js() {
 	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
+	// Register brightcove public facing player js file
+	$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
+	$brightcove_account_id = $brightcove_settings['shared_account_id'];
+	$brightcove_player_id  = $brightcove_settings['shared_player_id'];
+	$bc_url = '//players.brightcove.net/' . $brightcove_account_id . '/' . $brightcove_player_id . '_default/index.min.js';
+	wp_register_script( 'brightcove-public-player', $bc_url );
 
 	if ( is_page( 'contact-us' ) ) {
 		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
@@ -122,25 +128,24 @@ function acorntv_hook_css_js() {
 	}
 
 	if( is_page('how-to-watch') ) {
-		$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
-		$brightcove_account_id = $brightcove_settings['shared_account_id'];
-		$brightcove_player_id  = $brightcove_settings['shared_player_id'];
 		$about_umc_video = '5180867444001';
-		$bc_url = '//players.brightcove.net/' . $brightcove_account_id . '/' . $brightcove_player_id . '_default/index.min.js';
-		wp_register_script( 'brighcove-public-player', $bc_url );
 		wp_register_style( 'fa-base', 'https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css' );
 		wp_register_style( 'fa-solid', 'https://use.fontawesome.com/releases/v5.2.0/css/solid.css' );
 		wp_enqueue_style( 'how_watch_style', get_template_directory_uri() . '/css/how-to-watch.css', [ 'fa-base', 'fa-solid' ] );
 		wp_enqueue_script( 'how-to-watch-script', get_template_directory_uri() . '/js/how-to-watch.js', [ 'jquery', 'brighcove-public-player' ] );
 		wp_localize_script(
 			'how-to-watch-script', 'about_video', [
-				//'ajax_url'      => admin_url( 'admin-ajax.php' ),
-				//'stripe_key'    => $this->stripe_key,
 				'bc_account_id' => $brightcove_account_id,
 				'bc_player_id'  => $brightcove_player_id,
 				'bc_video_id'   => $about_umc_video,
 			]
 		);
+	}
+
+	if( is_page('about-us') ) {
+		$about_umc_video = '5180867444001';
+		wp_enqueue_style( 'about-us-style', get_template_directory_uri() . '/css/about-us.css' );
+		wp_enqueue_script( 'about-us-script', get_template_directory_uri() . '/js/about-us.js', [ 'jquery', 'brighcove-public-player' ] );
 	}
 	// if ( get_query_var( 'pagecustom' ) === 'browse' ) {
 	// wp_enqueue_script( 'orderby-js', get_template_directory_uri() . '/js/orderby.js', array( 'jquery' ), '1.1.1', true );
