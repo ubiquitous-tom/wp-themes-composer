@@ -80,7 +80,14 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'normalize_css', '//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css', array(), '8.0.0' );
 	wp_enqueue_style( 'jquery_ui_css', get_template_directory_uri() . '/lib/jquery/ui/jquery-ui.min.css', array(), '1.11.4' );
 	// wp_enqueue_style( 'jquery_ui_css', '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css', array(), '1.11.4' );
-	wp_enqueue_style( 'fontawesome_css', get_template_directory_uri() . '/genericons/font-awesome.min.css', array(), '1.0.0' );
+	// wp_enqueue_style( 'fontawesome_css', get_template_directory_uri() . '/genericons/font-awesome.min.css', array(), '1.0.0' );
+	wp_enqueue_style( 'fontawesome_otf', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_eot', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_svg', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_ttf', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_woff', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_woff2', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2', array(), '4.7.0' );
+	wp_enqueue_style( 'fontawesome_css', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', array(), '4.7.0' );
 	wp_enqueue_style( 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', array(), '3.3.7' );
 	wp_enqueue_style( 'fancybox_css', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.css', array(), '1.0.0' );
 	// wp_enqueue_style( 'smartbanner_css', get_template_directory_uri() . '/lib/smartbanner/jquery.smartbanner.css', array(), '1.0.0' );

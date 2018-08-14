@@ -271,6 +271,9 @@ input:-ms-input-placeholder {color: #ccc;}
 .sub-footer ul{font-weight:500;}
 .sub-footer li{font-weight:200;font-size:12.5px;padding-bottom:7px;}
 .sub-footer h5{font-size:13px;}
+.sub-footer ul#menu-footer-widget-stay-connected{display:flex;flex-flow:row nowrap;}
+.sub-footer ul#menu-footer-widget-stay-connected li.fa{font-size:18px;margin-right:16px;}
+.sub-footer ul#menu-footer-widget-stay-connected li.fa span{text-indent:-9999px;position:absolute;}
 .footer{width:100%; bottom:0; position:relative;padding-top:20px;padding-bottom:5px;}
 .footer ul {margin-top:5px; padding:0;float:right;}
 .footer li {display: inline-block;margin-right: 10px;font-weight:200;}
