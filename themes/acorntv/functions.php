@@ -127,7 +127,16 @@ function acorntv_hook_css_js() {
 		);
 	}
 
-	if( is_page('how-to-watch') ) {
+	if ( is_page( 'help' ) ) {
+		wp_enqueue_script( 'help-page-script', get_template_directory_uri() . '/js/help.js', array( 'jquery' ) );
+		wp_localize_script(
+			'help-page-script', 'local_vars', [
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+			]
+		);
+	}
+
+	if ( is_page( 'how-to-watch' ) ) {
 		$about_umc_video = '5180867444001';
 		wp_register_style( 'fa-base', 'https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css' );
 		wp_register_style( 'fa-solid', 'https://use.fontawesome.com/releases/v5.2.0/css/solid.css' );
@@ -702,3 +711,68 @@ function process_contact_us() {
 
 add_action( 'wp_ajax_process_contact_us', 'process_contact_us' );
 add_action( 'wp_ajax_nopriv_process_contact_us', 'process_contact_us' );
+
+function process_customer_support() {
+	$name         = strval( $_POST['name'] );
+	$email        = strval( $_POST['email'] );
+	$topic        = strval( $_POST['topic'] );
+	$device_type  = strval( $_POST['device_type'] );
+	$device_model = strval( $_POST['device_model'] );
+	$browser      = strval( $_POST['browser'] );
+	$desc         = strval( $_POST['desc'] );
+
+	$subject = 'New help request: ' . $name;
+	$headers = [
+		"From: $name <$email>",
+		'Content-Type: text/html; charset=UTF-8',
+	];
+
+	$fields = [
+		'Name'                       => $name,
+		'Email'                      => $email,
+		'Support Topic'              => $topic,
+		'Type of Device'             => $device_type,
+		'Model'                      => $device_model,
+		'Browser & Version'          => $browser,
+		'Description of the problem' => $desc,
+	];
+
+	$sent = wp_mail( 'support@umc.tv', $subject, create_table( $fields ), $headers );
+
+	if ( $sent ) {
+		$response = [
+			'success' => true,
+			'error'   => '',
+		];
+	} else {
+		$response = [
+			'success' => false,
+			'error'   => 'We were not able to contact support.',
+		];
+	}
+
+	wp_send_json( $response );
+}
+
+add_action( 'wp_ajax_process_customer_support', 'process_customer_support' );
+add_action( 'wp_ajax_nopriv_process_customer_support', 'process_customer_support' );
+
+// Helper function to create HTML tables from arrays
+function create_table( $fields ) {
+	$output  = '<table>';
+	$output .= '<tr>';
+	foreach ( array_keys( $fields ) as $key ) {
+		$output .= '<th>' . $key . '</th>';
+	}
+	$output .= '</tr>';
+
+	$output .= '<tr>';
+	foreach ( $fields as $field ) {
+		$output .= '<td>' . $field . '</td>';
+	}
+	$output .= '</tr>';
+
+	$output .= '</table>';
+
+	return $output;
+}
