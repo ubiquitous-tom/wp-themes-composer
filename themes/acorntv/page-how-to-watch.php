@@ -8,19 +8,19 @@ get_header();
 		<ul>
 			<li class="watch-tv">
 				<a href="#tab-00">
-					<i class="fas fa-tv"></i>
+					<i class="fa fa-tv"></i>
 					<span>Watch on TV</span>
 				</a>
 			</li>
 			<li class="watch-mobile">
 				<a href="#tab-01">
-					<i class="fas fa-mobile-alt"></i>
+					<i class="fa fa-mobile"></i>
 					<span>Watch on Mobile</span>
 				</a>
 			</li>
 			<li class="watch-online">
 				<a href="#tab-02">
-					<i class="fas fa-laptop"></i>
+					<i class="fa fa-laptop"></i>
 					<span>Watch Online</span>
 				</a>
 			</li>
