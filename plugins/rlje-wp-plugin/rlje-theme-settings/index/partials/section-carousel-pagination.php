@@ -10,23 +10,20 @@ $content_page_id     = apply_filters( 'atv_get_contentPage_section_id', $categor
 $carousel_items = ( isset( $category_obj->media ) ) ? $category_obj->media : null;
 $total_page     = ( isset( $category_obj->totalpages ) ) ? $category_obj->totalpages : 0;
 
-$base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-
+// $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 $is_showing_arrows = true;
 
 if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
-	?>
+?>
 <h4 <?php echo ( $browse_id === 'mystery' ) ? 'id="third-spotlight"' : ''; ?> class="subnav2"><?php echo $section_title; ?></h4>
-	<?php
-	if ( $is_showing_view_all ) :
-		?>
+
+<?php if ( $is_showing_view_all ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo $base_url_path . '/browse/' . $browse_id; ?>"> View all <span><img width="8" src="https://api.rlje.net/acorn/artwork/size/double-arrows-white?t=Icons"/></span></a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( $browse_id ) ) ); ?>"> View all <span><img width="8" src="https://api.rlje.net/acorn/artwork/size/double-arrows-white?t=Icons"/></span></a>
 </div>
-		<?php
-	endif;
-	?>
-<div class="carousel carousel-pagination-slide slide" id="<?php echo $browse_id; ?>" data-interval="false" data-total-pages="<?php echo $total_page; ?>" data-page-loaded="1" data-content="<?php echo $content_page_id; ?>">
+<?php endif; ?>
+
+<div class="carousel carousel-pagination-slide slide" id="<?php echo esc_attr( $browse_id ); ?>" data-interval="false" data-total-pages="<?php echo esc_attr( $total_page ); ?>" data-page-loaded="1" data-content="<?php echo esc_attr( $content_page_id ); ?>">
 	<div class="row">
 		<div class="carousel-inner">
 			<?php
@@ -57,14 +54,14 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 
 						?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3<?php echo ( 0 < $i ) ? ' cloneditem-' . $i : ''; ?>" id="avatar">
-					<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+					<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
+						<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 					</a>
 				</div>
 				<?php endfor; ?>
 			</div>
 					<?php
-			endforeach;
+				endforeach;
 			else :
 				$is_showing_arrows = false;
 				?>
@@ -74,8 +71,8 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 					$item = apply_filters( 'atv_add_img_and_href', $item );
 					?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
-					<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+					<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
+						<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 					</a>
 				</div>
 				<?php endforeach; ?>
@@ -84,8 +81,8 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 		</div>
 	</div>
 	<?php if ( $is_showing_arrows ) : ?>
-	<a class="left carousel-control" href="#<?php echo $browse_id; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-	<a class="right carousel-control" href="#<?php echo $browse_id; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+	<a class="left carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
+	<a class="right carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="next"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
 	<?php endif; ?>
 </div>
 	<?php

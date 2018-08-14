@@ -79,7 +79,8 @@ class RLJE_Index_Page {
 				<div class="col-md-12">
 				<?php
 					set_query_var( 'carousel-items', $watch_spotlight_items );
-					get_template_part( 'partials/section-generic-carousel' );
+					// get_template_part( 'partials/section-generic-carousel' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
 				?>
 				</div>
 				<?php
@@ -92,7 +93,8 @@ class RLJE_Index_Page {
 				<div class="col-md-12">
 				<?php
 					set_query_var( 'carousel-items', $watchlist_spotlight_items );
-					get_template_part( 'partials/section-generic-carousel' );
+					// get_template_part( 'partials/section-generic-carousel' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
 				?>
 				</div>
 				<?php
@@ -158,7 +160,8 @@ class RLJE_Index_Page {
 							'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
 						)
 					);
-					get_template_part( 'partials/section-carousel-pagination' );
+					// get_template_part( 'partials/section-carousel-pagination' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 				?>
 				</div>
 			</div>
@@ -191,7 +194,8 @@ class RLJE_Index_Page {
 								'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
 							)
 						);
-					get_template_part( 'partials/section-carousel-pagination' );
+					// get_template_part( 'partials/section-carousel-pagination' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 					?>
 				</div>
 			</div>
@@ -236,7 +240,8 @@ class RLJE_Index_Page {
 							'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
 						)
 					);
-					get_template_part( 'partials/section-carousel-pagination' );
+					// get_template_part( 'partials/section-carousel-pagination' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 				?>
 				</div>
 			<?php endfor; ?>
@@ -282,7 +287,8 @@ class RLJE_Index_Page {
 								'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
 							)
 						);
-					get_template_part( 'partials/section-carousel-pagination' );
+					// get_template_part( 'partials/section-carousel-pagination' );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 					?>
 				</div>
 					<?php
