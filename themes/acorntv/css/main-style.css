@@ -632,11 +632,12 @@ p {font-size: 14.5px;}
 /* Video Debugger - Header Block */
 .navbar-video-debugging {bottom: 5px;}
 
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: none}
 }
 
-@media (max-width: 1275px) {
+/* @media (max-width: 1275px) {
 .navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: none;}
-}
+} */
 
 @media (min-width: 1251px) {
 /* VALTIRAS ADDITIONS */
@@ -647,6 +648,9 @@ p {font-size: 14.5px;}
 .drop-select li a {padding: 25px;display: block;font-size: 12.5px}
 .navbar-collapse .drop-select {width: 190px;}
 #searchform {margin-left: 1rem;}
+
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: inline-block;}
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+5) {display: none}
 }
 
 
@@ -654,6 +658,10 @@ p {font-size: 14.5px;}
 .carousel-inner {margin:0 auto;}
 #store-link{display:block;}
 .store-link{display:block;}
+
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: inline-block;}
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+5) {display: inline-block;}
+.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+6) {display: none}
 }
 
 @media (min-width:1400px){
