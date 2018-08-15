@@ -30,6 +30,7 @@ class RLJE_Theme_Menu_Settings {
 		add_filter( 'nav_menu_item_id', array( $this, 'remove_nav_menu_item_id' ), 10, 4 );
 		add_filter( 'nav_menu_css_class', array( $this, 'remove_nav_menu_css_class' ), 10, 4 );
 		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ) );
+		add_filter( 'body_class', array( $this, 'customer_logged_in_body_classes' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -163,6 +164,14 @@ class RLJE_Theme_Menu_Settings {
 		$logo_url = plugin_dir_url( __FILE__ ) . 'img/logo.png';
 
 		return $logo_url;
+	}
+
+	public function customer_logged_in_body_classes( $classes ) {
+		if ( $this->is_user_logged_and_active ) {
+			$classes[] = 'user-logged-in';
+		}
+
+		return $classes;
 	}
 }
 
