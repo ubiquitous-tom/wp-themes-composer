@@ -344,7 +344,10 @@ jQuery(document).ready(function ($) {
                 },
                 function (response) {
                     if (response.success == false) {
-                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in").append($(document.createElement('p'))).html(response.error);
+                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in")
+                        .append(
+                            $(document.createElement('p')).html(response.error)
+                        );
                         alert.insertAfter($('#progress-steps'));
                     } else {
                         // Update the form to show step two fields
