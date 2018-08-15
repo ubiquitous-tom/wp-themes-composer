@@ -40,10 +40,10 @@ class RLJE_News_And_Reviews {
 			}
 
 			$this->get_brightcove_info();
-			wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+			// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
 
 			$bc_url = '//players.brightcove.net/' . $this->brightcove['bc_account_id'] . '/' . $this->brightcove['bc_player_id'] . '_default/index.js';
-			wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'brightcove' ), false, true );
+			wp_enqueue_script( 'rlje-brightcove', $bc_url, array(), false, true );
 
 			// Versioning for cachebuster.
 			$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-news-and-reviews.js' ) );
@@ -58,20 +58,20 @@ class RLJE_News_And_Reviews {
 			return;
 		}
 
-		if ( is_ssl() ) {
-			$bc_admin_js = 'https://sadmin.brightcove.com/';
-		} else {
-			$bc_admin_js = 'http://admin.brightcove.com/';
-		}
+		// if ( is_ssl() ) {
+		// 	$bc_admin_js = 'https://sadmin.brightcove.com/';
+		// } else {
+		// 	$bc_admin_js = 'http://admin.brightcove.com/';
+		// }
 
 		$this->get_brightcove_info();
-		wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+		// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
 
 		$bc_url          = '//players.brightcove.net/' . $this->brightcove['bc_account_id'] . '/' . $this->brightcove['bc_player_id'] . '_default/index.js';
 		$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/news-and-reviews.js' ) );
 		$news_css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/news-and-reviews.css' ) );
 
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
+		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'main-js' ), false, true );
 		wp_enqueue_style( 'rlje-news-and-reviews', plugins_url( 'css/news-and-reviews.css', __FILE__ ), array(), $news_css_verion );
 		wp_enqueue_script( 'rlje-news-and-reviews', plugins_url( 'js/news-and-reviews.js', __FILE__ ), array( 'rlje-brightcove' ), $news_js_version, true );
 	}
