@@ -44,7 +44,7 @@ class RLJE_Episode_Page extends RLJE_Season_Page {
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/episode.js' ) );
 
 		wp_enqueue_style( 'rlje-episode', plugins_url( 'css/episode.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
+		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-episode', plugins_url( 'js/episode.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 
 		wp_localize_script( 'rlje-episode', 'episode_object', array(

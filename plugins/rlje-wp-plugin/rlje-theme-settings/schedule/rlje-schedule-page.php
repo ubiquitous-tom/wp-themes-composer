@@ -48,15 +48,15 @@ class RLJE_Schedule_Page {
 		$css_ver       = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/schedule.css' ) );
 		$js_ver        = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/schedule.js' ) );
 
-		if ( is_ssl() ) {
-			$bc_admin_js = 'https://sadmin.brightcove.com/';
-		} else {
-			$bc_admin_js = 'http://admin.brightcove.com/';
-		}
+		// if ( is_ssl() ) {
+		// 	$bc_admin_js = 'https://sadmin.brightcove.com/';
+		// } else {
+		// 	$bc_admin_js = 'http://admin.brightcove.com/';
+		// }
 
 		wp_enqueue_style( 'rlje-schedule', plugins_url( 'css/schedule.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
-		wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
+		// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-schedule', plugins_url( 'js/schedule.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 	}
 

@@ -4,8 +4,13 @@ $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountr
 $franchise_url             = home_url( $franchise->id );
 $franchise_wallpaper       = rljeApiWP_getImageUrlFromServices( $franchise->image . '?t=franchise-wallpaper' );
 ?>
+<style>
+#franchise-container .secondary-bg {
+	background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(0, 0, 0, 0) 90%), url('<?php echo esc_url( $franchise_wallpaper ); ?>');
+}
+</style>
 <div id="franchise-container" itemscope itemtype="http://schema.org/TVSeries">
-	<div class="secondary-bg" style="background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(256, 0, 0, 0) 90%), url('<?php echo esc_url( $franchise_wallpaper ); ?>')">
+	<div class="secondary-bg">
 		<div class="container franchise">
 			<!-- <p id="franchise-cast" itemprop="cast"><?php echo esc_html( $franchise->longDescription ); ?></p> -->
 			<h4 class="subnav hidden">

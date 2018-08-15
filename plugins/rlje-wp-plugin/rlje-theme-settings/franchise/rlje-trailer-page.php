@@ -26,20 +26,20 @@ class RLJE_Trailer_Page extends RLJE_Franchise_Page {
 		$bc_account_id = $this->brightcove['shared_account_id'];
 		$bc_player_id = $this->brightcove['shared_player_id'];
 
-		if ( is_ssl() ) {
-			$bc_admin_js = 'https://sadmin.brightcove.com/';
-		} else {
-			$bc_admin_js = 'http://admin.brightcove.com/';
-		}
+		// if ( is_ssl() ) {
+		// 	$bc_admin_js = 'https://sadmin.brightcove.com/';
+		// } else {
+		// 	$bc_admin_js = 'http://admin.brightcove.com/';
+		// }
 
-		wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
+		// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
 
 		$bc_url = '//players.brightcove.net/' . $bc_account_id . '/' . $bc_player_id . '_default/index.js';
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/trailer.css' ) );
 		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/trailer.js' ) );
 
 		wp_enqueue_style( 'rlje-trailer', plugins_url( 'css/trailer.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'brightcove', 'main-js' ), false, true );
+		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'main-js' ), false, true );
 		wp_enqueue_script( 'rlje-trailer', plugins_url( 'js/trailer.js', __FILE__ ), array( 'rlje-brightcove' ), $js_ver, true );
 
 		// wp_localize_script( 'rlje-episode', 'atv_player_object', array(
