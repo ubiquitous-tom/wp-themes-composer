@@ -145,6 +145,8 @@ function showStepTwo() {
 function submitStepTwo(event) {
     // We have an initialized 
     event.preventDefault();
+    // Remove any errors we have
+    $('.alert').remove();
 
     var name_on_card = jQuery('input#card-name').val();
     var billing_first_name = jQuery('input#user-first-name').val();
