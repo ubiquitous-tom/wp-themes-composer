@@ -3,16 +3,14 @@ global $wp_query;
 $ignore_season_header = false;
 
 // if ( isset( $wp_query->query_vars['streamPositions'] ) ) {
-// 	$stream_positions = $wp_query->query_vars['streamPositions'];
+// $stream_positions = $wp_query->query_vars['streamPositions'];
 // }
-
 // SEASON SPECIFIC VARIABLE.
 // if ( isset( $wp_query->query_vars['ignoreSeasonHeader'] ) ) {
-// 	$ignore_season_header = $wp_query->query_vars['ignoreSeasonHeader'];
+// $ignore_season_header = $wp_query->query_vars['ignoreSeasonHeader'];
 // }
 // $franchise_id = $wp_query->query_vars['franchiseId'];
 // $season      = $wp_query->query_vars['season'];
-
 $template = get_query_var( 'pagecustom' );
 
 $highlight_templates_enabled = array(
@@ -20,16 +18,17 @@ $highlight_templates_enabled = array(
 	'episode'   => true,
 );
 
-$count                 = 0;
+$count = 0;
 // SEASON SPECIFIC VARIABLE.
 // $franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
-$franchise_total        = count( $season->episodes ) - 1;
+$franchise_name  = ( isset( $franchise->name ) ) ? $franchise->name : null;
+$franchise_total = count( $season->episodes ) - 1;
 // $franchise_id           = ( isset( $wp_query->query_vars['franchise_id'] ) ) ? '/' . $wp_query->query_vars['franchise_id'] : null;
-$season_name_url         = ( isset( $franchise_id, $wp_query->query_vars['season_name'] ) ) ? '/' . $wp_query->query_vars['season_name'] : '/' . rljeApiWP_convertSeasonNameToURL( $season->name );
+$season_name_url = ( isset( $franchise_id, $wp_query->query_vars['season_name'] ) ) ? '/' . $wp_query->query_vars['season_name'] : '/' . rljeApiWP_convertSeasonNameToURL( $season->name );
 // $base_url_path           = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-$base_url_path          = home_url( $franchise_id . $season_name_url . '/' );
+$base_url_path           = home_url( $franchise_id . $season_name_url . '/' );
 $is_highligthing_episode = false;
-$is_logged              = isset( $_COOKIE['ATVSessionCookie'] );
+$is_logged               = isset( $_COOKIE['ATVSessionCookie'] );
 $is_highligthing_enabled = ! empty( $highlight_templates_enabled[ $template ] );
 $is_stream_position      = ! isset( $stream_positions );
 $is_first_seasson        = ( isset( $season->seasonNumber ) && 1 == $season->seasonNumber );
@@ -49,10 +48,10 @@ if ( $is_logged && $is_highligthing_enabled && $is_stream_position && $is_first_
 		<h4 class="subnav2"><?php echo $season->name; ?></h4>
 	</div>
 	<?php endif; ?>
-<?
+<?php
 foreach ( $season->episodes as $key => $episode ) :
 	$show_episode_highlighted = ( $is_highligthing_episode && 0 == $key );
-	$is_new_row              = ( $key % 4 == 0 ) ? true : false;
+	$is_new_row               = ( $key % 4 == 0 ) ? true : false;
 	$count++;
 	$episode_number = apply_filters( 'atv_get_episode_number', $episode, ( $key + 1 ) );
 	if ( $is_new_row ) :
@@ -83,7 +82,7 @@ foreach ( $season->episodes as $key => $episode ) :
 						if ( 'movie' === strtolower( $episode->type ) ) {
 							$episode_type_display = ' Movie ';
 						} else {
-							$episode_type_display = $season->name .': Episode <span itemprop="episodeNumber">' . $episode_number . '</span>';
+							$episode_type_display = $season->name . ': Episode <span itemprop="episodeNumber">' . $episode_number . '</span>';
 						}
 						?>
 						<h6><?php echo $episode_type_display; ?></h6>

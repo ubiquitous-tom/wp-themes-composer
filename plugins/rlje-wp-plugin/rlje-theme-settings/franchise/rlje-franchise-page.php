@@ -130,6 +130,7 @@ class RLJE_Franchise_Page {
 
 	public function franchise_body_class( $classes ) {
 		if ( $this->is_current_franchise() ) {
+			$classes[] = 'franchise-page';
 			$classes[] = $this->franchise_id;
 			$classes[] = 'page-' . $this->franchise_id;
 		}
@@ -288,6 +289,10 @@ class RLJE_Franchise_Page {
 			return false;
 		}
 
+		if ( ! empty( $this->season_id ) || ! empty( $this->episode_id ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -304,6 +309,10 @@ class RLJE_Franchise_Page {
 
 		if ( empty( $available_franchise_list[ $this->franchise_id ] ) ) {
 			// We should return not available for your country template
+			return false;
+		}
+
+		if ( ! empty( $this->season_id ) || ! empty( $this->episode_id ) ) {
 			return false;
 		}
 

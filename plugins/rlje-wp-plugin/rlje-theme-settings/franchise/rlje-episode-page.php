@@ -1,6 +1,6 @@
 <?php
 
-class RLJE_Episode_Page extends RLJE_Franchise_Page {
+class RLJE_Episode_Page extends RLJE_Season_Page {
 
 	protected $episodes;
 	protected $brightcove;
@@ -162,7 +162,7 @@ class RLJE_Episode_Page extends RLJE_Franchise_Page {
 	}
 
 	public function episode_body_class( $classes ) {
-		if ( $this->episodes ) {
+		if ( $this->is_episode() ) {
 			$classes[] = 'episode';
 			$classes[] = 'episode-page';
 			$classes[] = $this->episode_id;
