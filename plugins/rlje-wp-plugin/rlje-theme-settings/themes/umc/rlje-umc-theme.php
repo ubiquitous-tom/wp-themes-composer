@@ -13,6 +13,8 @@ class RLJE_UMC_Theme {
 		add_filter( 'rlje_franchise_artwork', array( $this, 'umc_franchise_artwork_image_h' ), 10, 2 );
 		add_filter( 'rlje_title', array( $this, 'umc_title_format' ) );
 		add_filter( 'rlje_seasons_dropdown_filter_by_text', array( $this, 'umc_seasons_dropdown_filter_by_text' ) );
+		add_filter( 'rlje_front_page_homepage_hero_left_arrow', array( $this, 'umc_homepage_hero_left_arrow' ) );
+		add_filter( 'rlje_front_page_homepage_hero_right_arrow', array( $this, 'umc_homepage_hero_right_arrow' ) );
 
 		require_once plugin_dir_path( __FILE__ ) . 'franchise/umc-franchise-page.php';
 	}
@@ -87,6 +89,18 @@ class RLJE_UMC_Theme {
 		$filter_by_text = 'Filter By Seasons';
 
 		return $filter_by_text;
+	}
+
+	public function umc_homepage_hero_left_arrow( $left_arrow_url ) {
+		$left_arrow_url =  plugins_url( 'img/hero-left.png', __FILE__ );
+
+		return $left_arrow_url;
+	}
+
+	public function umc_homepage_hero_right_arrow( $right_arrow_url ) {
+		$right_arrow_url =  plugins_url( 'img/hero-right.png', __FILE__ );
+
+		return $right_arrow_url;
 	}
 }
 
