@@ -3,6 +3,7 @@ class RLJE_signup_page {
 
 	private $api_helper;
 	private $stripe_key;
+	private $membership_plans;
 	private $brightcove_account_id;
 	private $brightcove_player_id;
 	private $brightcove_video_id = '5180867444001';
@@ -12,6 +13,16 @@ class RLJE_signup_page {
 		$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
 		$this->brightcove_account_id = $brightcove_settings['shared_account_id'];
 		$this->brightcove_player_id  = $brightcove_settings['shared_player_id'];
+		$this->membership_plans      = [
+			'yearly'  => [
+				'Term'     => 12,
+				'TermType' => 'MONTH',
+			],
+			'monthly' => [
+				'Term'     => 30,
+				'TermType' => 'DAY',
+			],
+		];
 
 		add_action( 'init', array( $this, 'add_signup_rewrite_rule' ) );
 		add_action( 'init', [ $this, 'fetch_stripe_key' ] );
@@ -56,6 +67,7 @@ class RLJE_signup_page {
 
 	public function create_membership() {
 		$session_id         = strval( $_POST['session_id'] );
+		$promo_code         = strval( $_POST['promo_code'] );
 		$billing_first_name = strval( $_POST['billing_first_name'] );
 		$billing_last_name  = strval( $_POST['billing_last_name'] );
 		$name_on_card       = strval( $_POST['name_on_card'] );
@@ -66,10 +78,7 @@ class RLJE_signup_page {
 			'Session'        => [
 				'SessionID' => $session_id,
 			],
-			'Membership'     => [
-				'Term'     => 30,
-				'TermType' => 'DAY',
-			],
+			'Membership'     => $this->membership_plans[ $sub_plan ],
 			'BillingAddress' => [
 				'FirstName' => $billing_first_name,
 				'LastName'  => $billing_last_name,
@@ -80,10 +89,9 @@ class RLJE_signup_page {
 			],
 		];
 
-		if ( 'yearly' === $sub_plan ) {
-			$params['Membership'] = [
-				'Term'     => 12,
-				'TermType' => 'MONTH',
+		if ( $promo_code ) {
+			$params['PromoCode'] = [
+				'Code' => $promo_code,
 			];
 		}
 
