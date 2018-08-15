@@ -21,7 +21,8 @@ $highlight_templates_enabled = array(
 );
 
 $count                 = 0;
-$franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
+// $franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
+$franchise_name = ( isset( $franchise->name ) ) ? $franchise->name : null;
 $franchise_total        = count( $season->episodes ) - 1;
 // $franchise_id           = ( isset( $wp_query->query_vars['franchise_id'] ) ) ? '/' . $wp_query->query_vars['franchise_id'] : null;
 $season_name_url         = ( isset( $franchise_id, $wp_query->query_vars['season_name'] ) ) ? '/' . $wp_query->query_vars['season_name'] : '/' . rljeApiWP_convertSeasonNameToURL( $season->name );
@@ -38,7 +39,7 @@ if ( $is_logged && $is_highligthing_enabled && $is_stream_position && $is_first_
 }
 
 ?>
-<span itemprop="containsSeason" itemscope itemtype="http://schema.org/TVSeason">
+<span class="episode-content-strip" itemprop="containsSeason" itemscope itemtype="http://schema.org/TVSeason">
 	<meta itemprop="name" content="<?php echo $season->name; ?>" />
 	<meta itemprop="numberOfEpisodes" content="<?php echo count( $season->episodes ); ?>" />
 	<meta itemprop="seasonNumber" content="<?php echo ( isset( $season->seasonNumber ) ) ? $season->seasonNumber : ''; ?>" />

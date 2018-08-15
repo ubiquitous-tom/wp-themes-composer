@@ -1,3 +1,7 @@
+body {
+    background: #011f36;
+}
+
 #franchise-container {
     margin-top: 0px;
 }
@@ -19,7 +23,7 @@
     width: 100%;
 }
 
-#franchise-container .secondary-bg:after {
+/* #franchise-container .secondary-bg:after {
     content: '';
     display: none;
     position: absolute;
@@ -37,7 +41,7 @@
     margin: 0 auto;
     border: 3px;
     border-radius: 50%;
-}
+} */
 
 .admin-bar #franchise-container {
     background-position-y: 140px;
@@ -45,6 +49,17 @@
 
 #franchise-container .inline {
     margin-left: 0;
+}
+
+#franchise-container .episode {
+    margin-top: auto;
+}
+
+#franchise-container .episode .subnav2 {
+    text-align: center;
+    margin-left: auto;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 #fanchise-synopsis {
@@ -71,6 +86,17 @@
 @media (min-width: 768px) {
     #franchise-container .secondary-bg:after {
         display: inline-block;
+    }
+    #franchise-container .episode {
+        margin-top: -15vh;
+    }
+    #franchise-container .episode .subnav2 {
+        text-align: left;
+        margin-left: 15px;
+        letter-spacing: auto;
+    }
+    #franchise-container .episode .episode-content-strip {
+        position: relative;
     }
     #fanchise-synopsis {
         margin-top: 75px;

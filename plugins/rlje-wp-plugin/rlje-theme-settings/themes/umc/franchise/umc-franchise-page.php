@@ -1,10 +1,12 @@
 <?php
 
-class UMC_Franchise_page {
+require plugin_dir_path( __FILE__ ) . '../../../franchise/rlje-franchise-page.php';
+class UMC_Franchise_page extends RLJE_Franchise_Page {
 
 	protected $umc_theme_settings;
 
 	public function __construct() {
+		parent::__construct();
 		$this->umc_theme_settings = get_option( 'rlje_umc_theme_plugins_settings' );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -15,6 +17,10 @@ class UMC_Franchise_page {
 
 	public function enqueue_scripts() {
 		if ( ! $this->is_franchise_page() ) {
+			return;
+		}
+
+		if ( ! $this->is_current_franchise() ) {
 			return;
 		}
 
@@ -55,7 +61,7 @@ class UMC_Franchise_page {
 	}
 
 	protected function is_franchise_page() {
-		$is_activated = ( ! empty( $this->umc_theme_settings['franchise_page'] ) ) ? absint( $this->umc_theme_settings['franchise_page']) : 0;
+		$is_activated = ( ! empty( $this->umc_theme_settings['franchise_page'] ) ) ? intval( $this->umc_theme_settings['franchise_page']) : 0;
 		if ( $is_activated ) {
 			return true;
 		}
