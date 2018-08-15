@@ -81,12 +81,6 @@ function acorntv_hook_css_js() {
 	wp_enqueue_style( 'jquery_ui_css', get_template_directory_uri() . '/lib/jquery/ui/jquery-ui.min.css', array(), '1.11.4' );
 	// wp_enqueue_style( 'jquery_ui_css', '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css', array(), '1.11.4' );
 	// wp_enqueue_style( 'fontawesome_css', get_template_directory_uri() . '/genericons/font-awesome.min.css', array(), '1.0.0' );
-	wp_enqueue_style( 'fontawesome_otf', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf', array(), '4.7.0' );
-	wp_enqueue_style( 'fontawesome_eot', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot', array(), '4.7.0' );
-	wp_enqueue_style( 'fontawesome_svg', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg', array(), '4.7.0' );
-	wp_enqueue_style( 'fontawesome_ttf', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf', array(), '4.7.0' );
-	wp_enqueue_style( 'fontawesome_woff', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff', array(), '4.7.0' );
-	wp_enqueue_style( 'fontawesome_woff2', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2', array(), '4.7.0' );
 	wp_enqueue_style( 'fontawesome_css', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', array(), '4.7.0' );
 	wp_enqueue_style( 'bootstrap_css', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', array(), '3.3.7' );
 	wp_enqueue_style( 'fancybox_css', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.css', array(), '1.0.0' );
@@ -138,9 +132,7 @@ function acorntv_hook_css_js() {
 
 	if ( is_page( 'how-to-watch' ) ) {
 		$about_umc_video = '5180867444001';
-		wp_register_style( 'fa-base', 'https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css' );
-		wp_register_style( 'fa-solid', 'https://use.fontawesome.com/releases/v5.2.0/css/solid.css' );
-		wp_enqueue_style( 'how_watch_style', get_template_directory_uri() . '/css/how-to-watch.css', [ 'fa-base', 'fa-solid' ] );
+		wp_enqueue_style( 'how_watch_style', get_template_directory_uri() . '/css/how-to-watch.css', [ 'fontawesome_css' ] );
 		wp_enqueue_script( 'how-to-watch-script', get_template_directory_uri() . '/js/how-to-watch.js', [ 'jquery', 'brightcove-public-player' ] );
 		wp_localize_script(
 			'how-to-watch-script', 'about_video', [
