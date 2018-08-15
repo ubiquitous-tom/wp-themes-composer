@@ -125,12 +125,18 @@ class RLJE_signup_page {
 
 		$profile_responose = $this->api_helper->hit_api( [ 'Email' => $user_email ], 'profile', 'GET' );
 
-		if ( isset( $profile_responose['Customer'] ) && ! isset( $profile_responose['Membership'] ) ) {
-			// User has an account but no membership.
-			// Pass to step two so they can select a plan.
-			$response['success']    = true;
-			$response['session_id'] = $profile_responose['Session']['SessionID'];
-			wp_send_json( $response );
+		if ( isset( $profile_responose['Customer'] ) ) {
+			if( isset( $profile_responose['Membership'] ) ) {
+				// redirect to sign in
+				$response['error'] = 'Email already registered with the site. Sign in to start watching.';
+				wp_send_json( $response );
+			} else {
+				// User has an account but no membership.
+				// Pass to step two so they can select a plan.
+				$response['success']    = true;
+				$response['session_id'] = $profile_responose['Session']['SessionID'];
+				wp_send_json( $response );
+			}
 		}
 
 		$params = [
