@@ -155,7 +155,7 @@ function submitStepTwo(event) {
     // We have an initialized 
     event.preventDefault();
     // Remove any errors we have
-    $('.alert').remove();
+    jQuery('.alert').remove();
 
     var promo_code = jQuery('input#promo-code').val();
     var name_on_card = jQuery('input#card-name').val();
