@@ -89,6 +89,15 @@ function showStepTwo() {
 
     signup_form.append(plan_header, plan_desc, plans);
 
+    // Promo code field
+    var promo_code_label = jQuery(document.createElement('label')).attr('for', 'promo-code').html('Promo Code');
+    var promo_code_input = jQuery(document.createElement('input')).addClass('form-control').attr({
+        id: 'promo-code',
+        name: 'promo_code',
+        type: 'text'
+    }).prop('required', false);
+    var promo_group = jQuery(document.createElement('div')).addClass('form-group').append(promo_code_label, promo_code_input);
+
     // Name on card field
     var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
     var card_name_input = jQuery(document.createElement('input')).addClass('form-control').attr({
@@ -133,7 +142,7 @@ function showStepTwo() {
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
 
-    signup_form.append(card_name_group, card_number_element, some_row, step_two_submit);
+    signup_form.append(promo_group, card_name_group, card_number_element, some_row, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
     initializeStripeElements(signup_vars.stripe_key);
@@ -145,7 +154,10 @@ function showStepTwo() {
 function submitStepTwo(event) {
     // We have an initialized 
     event.preventDefault();
+    // Remove any errors we have
+    jQuery('.alert').remove();
 
+    var promo_code = jQuery('input#promo-code').val();
     var name_on_card = jQuery('input#card-name').val();
     var billing_first_name = jQuery('input#user-first-name').val();
     var billing_last_name = jQuery('input#user-last-name').val();
@@ -167,6 +179,7 @@ function submitStepTwo(event) {
                 {
                     'action': 'create_membership',
                     'session_id': sessionId,
+                    'promo_code': promo_code,
                     'billing_first_name': billing_first_name,
                     'billing_last_name': billing_last_name,
                     'name_on_card': name_on_card,
@@ -344,7 +357,10 @@ jQuery(document).ready(function ($) {
                 },
                 function (response) {
                     if (response.success == false) {
-                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in").append($(document.createElement('p'))).html(response.error);
+                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in")
+                        .append(
+                            $(document.createElement('p')).html(response.error)
+                        );
                         alert.insertAfter($('#progress-steps'));
                     } else {
                         // Update the form to show step two fields

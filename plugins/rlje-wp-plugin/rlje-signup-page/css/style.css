@@ -76,7 +76,7 @@ form.signup #plans {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 15px 0;
+    margin: 15px 0 25px 0;
 }
 
 @media (min-width: 768px) {
@@ -111,6 +111,16 @@ form.signup .plan label {
     transition: all .25s ease-in-out;
     padding: 15px;
     margin: 0;
+    color: white;
+    opacity: 0.75;
+}
+
+form.signup .monthly label {
+    background-color: #2874A6;
+}
+
+form.signup .yearly label {
+    background-color: #1B4F72;
 }
 
 form.signup .plan label:hover {
@@ -128,7 +138,10 @@ form.signup .plan input[type="radio"]:active ~ label {
 }
 
 form.signup .plan input[type="radio"]:checked ~ label {
-    border-color: #3d3d3d;
+    opacity: 1;
+    border-color: #002037;
+    transform: scale(1.05);
+    /* box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6); */
 }
 
 form.signup #card-number,
