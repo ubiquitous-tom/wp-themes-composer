@@ -39,6 +39,7 @@
                     '_avatar?w=400&h=225',
                   href = carousel_pagination_object.home_url + '/' + value.franchiseID;
 
+                // console.log('index carousel-pagination imageURL');
                 imageURL = $(document).triggerHandler(
                   'carousel_pagination.add_new_item_image_url',
                   [imageURL, value]
@@ -48,6 +49,7 @@
                   imageURL = $carouselItem.attr('src');
                   href = $carouselItem.parent().attr('href');
 
+                  // console.log('index carousel-pagination 3 > i');
                   imageURL = $(document).triggerHandler(
                     'carousel_pagination.add_new_item_image_url',
                     [imageURL, value]
@@ -75,7 +77,14 @@
                     .eq(i)
                     .find('a')
                     .attr('href')
-                    .replace(carousel_pagination_object.home_url + '/', '')
+                    .replace(carousel_pagination_object.home_url + '/', ''),
+                  image_h: $carouselListItems
+                    .eq(i)
+                    .find('img')
+                    .attr('src')
+                    .replace(carousel_pagination_object.image_url, '')
+                  // image_v: 'image_loc',
+                  // name: 'Franchise Name'
                 });
               }
               return newItems;
