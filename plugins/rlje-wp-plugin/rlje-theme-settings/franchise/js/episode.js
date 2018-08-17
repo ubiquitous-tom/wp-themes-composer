@@ -1,21 +1,4 @@
 var episodePlayer = function(episodeId, setTimePosition) {
-
-  var onBeforeUnLoadEvent = false;
-
-  window.onunload = window.onbeforeunload = function(){
-  if (!onBeforeUnLoadEvent ) {
-    onBeforeUnLoadEvent = true;
-      alert('woohoo');
-      return null;
-    }
-  };
-
-    // if( someCondition == someValue ) {
-    //   return event.returnValue = "Are you sure you want to leave?  someCondition does not equal someValue..."
-    // };
-    // console.log('stuff');
-    // return event.returnValue = alert('woohoo');
-
   var player = videojs('brightcove-episode-player'),
     isPlayingSet = function(item) {
       var isSet = false;
@@ -175,6 +158,15 @@ var episodePlayer = function(episodeId, setTimePosition) {
         LastKnownAction: lastKnownAction
       }
     });
+  };
+
+  var onBeforeUnLoadEvent = false;
+  window.onunload = window.onbeforeunload = function() {
+  if (!onBeforeUnLoadEvent) {
+    onBeforeUnLoadEvent = true;
+    setStreamPosition('STOP');
+    return null;
+    }
   };
 };
 
