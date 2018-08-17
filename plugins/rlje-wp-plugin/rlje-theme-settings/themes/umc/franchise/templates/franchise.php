@@ -6,7 +6,7 @@ $franchise_wallpaper       = rljeApiWP_getImageUrlFromServices( $franchise->imag
 ?>
 <style>
 #franchise-container .secondary-bg {
-	background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(0, 0, 0, 0) 90%), url('<?php echo esc_url( $franchise_wallpaper ); ?>');
+	background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 10%, rgba(0, 0, 0, 0) 70%), url('<?php echo esc_url( $franchise_wallpaper ); ?>');
 }
 </style>
 <div id="franchise-container" itemscope itemtype="http://schema.org/TVSeries">
