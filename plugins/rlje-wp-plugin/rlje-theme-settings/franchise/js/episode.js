@@ -1,4 +1,21 @@
 var episodePlayer = function(episodeId, setTimePosition) {
+
+  var onBeforeUnLoadEvent = false;
+
+  window.onunload = window.onbeforeunload = function(){
+  if (!onBeforeUnLoadEvent ) {
+    onBeforeUnLoadEvent = true;
+      alert('woohoo');
+      return null;
+    }
+  };
+
+    // if( someCondition == someValue ) {
+    //   return event.returnValue = "Are you sure you want to leave?  someCondition does not equal someValue..."
+    // };
+    // console.log('stuff');
+    // return event.returnValue = alert('woohoo');
+
   var player = videojs('brightcove-episode-player'),
     isPlayingSet = function(item) {
       var isSet = false;
@@ -14,12 +31,12 @@ var episodePlayer = function(episodeId, setTimePosition) {
     fromStart = isPlayingSet('playFromStart'),
     resume = isPlayingSet('playResume'),
     initTime = setTimePosition,
-    strempositionInterval,
+    // strempositionInterval,
     $continueWatchingBlock = jQuery('.continueWatching'),
     $playNextEpisodeBlock = jQuery('.playNextEpisode'),
     showingExtBtn = true,
     showingNextEpisodePrompt = false,
-    isCapturingStreamPosition = false,
+    // isCapturingStreamPosition = false,
     $overlay = jQuery('#nextEpisodeOverlay'),
     $overlayCloned = $overlay.clone();
 
@@ -44,7 +61,8 @@ var episodePlayer = function(episodeId, setTimePosition) {
   });
 
   player
-    .on('play', function() {
+    .on('play', function(event) {
+      console.log('play', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       if (isPlayingSet('playFromStart')) {
         return;
       }
@@ -83,20 +101,26 @@ var episodePlayer = function(episodeId, setTimePosition) {
         console.error('Error checking if the user is active');
       });
     })
-    .on('playing', function() {
+    .on('playing', function(event) {
+      console.log('playing', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       isPlayingSet('playFromStart');
-      if (!isCapturingStreamPosition) {
-        isCapturingStreamPosition = true;
-        strempositionInterval = setInterval(function() {
-          setStreamPosition('PLAYING');
-        }, 60000);
-      }
+      // if (!isCapturingStreamPosition) {
+        // isCapturingStreamPosition = true;
+        // strempositionInterval = setInterval(function() {
+          if (parseInt(event.target.player.currentTime(), 10) === 0) {
+            setStreamPosition('START');
+          } else {
+            setStreamPosition('PLAYING');
+          }
+        // }, 60000);
+      // }
       $continueWatchingBlock.hide();
     })
-    .on('pause', function() {
-      clearInterval(strempositionInterval);
-      isCapturingStreamPosition = false;
-      setStreamPosition('STOP');
+    .on('pause', function(event) {
+      console.log('pause', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      // clearInterval(strempositionInterval);
+      // isCapturingStreamPosition = false;
+      setStreamPosition('PAUSE');
       if (showingExtBtn) {
         $continueWatchingBlock.show();
         $playNextEpisodeBlock.hide();
@@ -104,11 +128,14 @@ var episodePlayer = function(episodeId, setTimePosition) {
         showingExtBtn = true;
       }
     })
-    .on('ended', function() {
+    .on('ended', function(event) {
+      console.log('ended', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      setStreamPosition('STOP');
       $continueWatchingBlock.hide();
       $playNextEpisodeBlock.show();
     })
-    .on('timeupdate', function() {
+    .on('timeupdate', function(event) {
+      // console.log('timeupdate', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       if (!player.paused()) {
         var showNextEpisode = player.currentTime() >= player.duration() - 45;
         if (showNextEpisode && !showingNextEpisodePrompt) {
@@ -127,6 +154,13 @@ var episodePlayer = function(episodeId, setTimePosition) {
           console.log('removing nextEpisode prompt!');
         }
       }
+    })
+    // .on('seeking', function(event) {
+    //   console.log('event', seeking);
+    // })
+    .on('seeked', function(event) {
+      console.log('seeked', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      setStreamPosition('PLAYING');
     });
 
   var setStreamPosition = function(lastKnownAction) {

@@ -107,28 +107,38 @@ class RLJE_Episode_Page extends RLJE_Season_Page {
 			die( wp_get_server_protocol() . ' 401 Unauthorized' );
 		}
 
-		$is_user_active = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? $_COOKIE['ATVSessionCookie'] : null;
 		$episode_id = ( ! empty( $_POST['EpisodeID'] ) ) ? $_POST['EpisodeID'] : null;
-		$position = ( ! empty( $_POST['Position'] ) ) ? $_POST['Position'] : null;
-		$last_known_location = ( ! empty( $_POST['LastKnownAction'] ) ) ? $_POST['LastKnownAction'] : null;
+		$session_id = ( ! empty( $_COOKIE['ATVSessionCookie'] ) ) ? $_COOKIE['ATVSessionCookie'] : null;
+		$position = ( is_numeric( $_POST['Position'] ) ) ? intval( $_POST['Position'] ) : null;
+		$last_known_action = ( ! empty( $_POST['LastKnownAction'] ) ) ? $_POST['LastKnownAction'] : null;
 
 		if ( empty( $episode_id ) ) {
-			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+			// die( wp_get_server_protocol() . ' 401 Unauthorized' );
+			wp_send_json_error( [ 'message' => wp_get_server_protocol() . ' 401 Unauthorized' ] );
 		}
 
-		if ( empty( $is_user_active ) ) {
-			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		if ( empty( $session_id ) ) {
+			// die( wp_get_server_protocol() . ' 401 Unauthorized' );
+			wp_send_json_error( [ 'message' => wp_get_server_protocol() . ' 401 Unauthorized' ] );
 		}
 
-		if ( empty( $position ) ) {
-			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		// 0 (zero) is an acceptable stream position
+		if ( ! is_int( $position ) ) {
+			// die( wp_get_server_protocol() . ' 401 Unauthorized' );
+			wp_send_json_error( [ 'message' => wp_get_server_protocol() . ' 401 Unauthorized' ] );
 		}
 
-		if ( empty( $last_known_location ) ) {
-			die( wp_get_server_protocol() . ' 401 Unauthorized' );
+		if ( empty( $last_known_action ) ) {
+			// die( wp_get_server_protocol() . ' 401 Unauthorized' );
+			wp_send_json_error( [ 'message' => wp_get_server_protocol() . ' 401 Unauthorized' ] );
 		}
 
-		rljeApiWP_addStreamPosition( $episode_id, $is_user_active, $position, $last_know_location );
+		$response = rljeApiWP_addStreamPosition( $episode_id, $session_id, $position, $last_known_action );
+		if ( is_null( $response ) ) {
+			wp_send_json_error();
+		} else {
+			wp_send_json_success( $response );
+		}
 	}
 
 	public function episode_template_redirect() {
