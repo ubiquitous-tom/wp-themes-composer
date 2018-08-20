@@ -39,7 +39,7 @@ section.selection li {
 
 section.selection li:hover,
 section.selection li.active {
-    background-color: #0b0b0b;
+    background-color: #011f36;
 }
 
 section.selection li a {

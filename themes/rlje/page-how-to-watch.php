@@ -130,7 +130,7 @@ get_header();
 				<h5>Available on Amazon Channels</h5>
 				<p>Prime members can subscribe to <?php echo get_bloginfo( 'name' ); ?> via Amazon</p>
 				<p class="device-link">
-					<a href="https://support.umc.tv/">Learn more</a> or <a href="https://www.amazon.com/gp/video/offers/signup/ref=atv_3p_umc_c_kzsumc_1_1?ie=UTF8&benefitId=umc&pf_rd_i=umc&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=3534828442&pf_rd_r=MASBF0SWNEKTGQCMQMJ6&pf_rd_s=center-1&pf_rd_t=12806">Sign up on Amazon</a>
+					<a href="/faqs">Learn more</a> or <a href="https://www.amazon.com/gp/video/offers/signup/ref=atv_3p_umc_c_kzsumc_1_1?ie=UTF8&benefitId=umc&pf_rd_i=umc&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=3534828442&pf_rd_r=MASBF0SWNEKTGQCMQMJ6&pf_rd_s=center-1&pf_rd_t=12806">Sign up on Amazon</a>
 				</p>
 			</div>
 		</div>
