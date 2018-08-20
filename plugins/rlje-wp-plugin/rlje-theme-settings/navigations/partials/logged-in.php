@@ -1,19 +1,14 @@
-<ul class="navbar-right-ul accountUser">
-	<li class="navbar-right">
-		<div class="menuOptions">
-			<span class="accountOptions hidden-md hidden-sm hidden-xs">My <?php bloginfo( 'name' ); ?></span>
-			<span id="clicker">
-				<img width="18" class="accountIcon" src="https://api.rlje.net/acorn/artwork/size/account-icon?t=Icons">
-			</span>
-		</div>
-		<ul class="drop-select closed">
-			<li><a href="/browse/recentlywatched/">Recently Watched</a></li>
-			<li><a href="/browse/yourwatchlist/">My Watchlist</a></li>
+<ul class="nav pull-right">
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My <?php bloginfo( 'name' ); ?> <span class="caret"></span></a>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'browse/recentlywatched' ) ) ); ?>">Recently Watched</a></li>
+			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'browse/yourwatchlist' ) ) ); ?>">My Watchlist</a></li>
 			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/status' ) ) ); ?>">Manage Account</a></li>
 			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/editPassword' ) ) ); ?>">Change Password</a></li>
-			<?php if ( $web_payment_edit ) : ?>
+			<?php if ( $web_payment_edit ) { ?>
 			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/editEmail' ) ) ); ?>">Change Email</a></li>
-			<?php endif; ?>
+			<?php } ?>
 			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/logout' ) ) ); ?>">Log Out</a></li>
 		</ul>
 	</li>
