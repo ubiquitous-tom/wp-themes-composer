@@ -185,13 +185,7 @@ button {
 
 /* OTHERS */
 
-.atv-logo {
-    width: auto;
-    margin-top: 15px;
-}
-
 .navbar {
-    margin: 0;
     background: #011f36;
 }
 .home-hero-carousel,
@@ -302,12 +296,6 @@ span[itemprop="trailer"] a button:hover {
     margin-top: 0;
 }
 
-@media all and (max-width: 768px) {
-    .atv-logo {
-        height: 35px;
-        margin-top: 12px;
-    }
-}
 @media (min-width: 768px) {
     .navbar-right-ul {
         width: auto;
