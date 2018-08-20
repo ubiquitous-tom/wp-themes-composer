@@ -6,8 +6,6 @@ class RLJE_Theme_Search_Settings {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'init', array( $this, 'add_search_rewrite_rules' ) );
 		add_action( 'template_redirect', array( $this, 'search_template_redirect' ) );
-
-		add_filter( 'get_search_form', array( $this, 'get_new_search_form' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -47,18 +45,6 @@ class RLJE_Theme_Search_Settings {
 		}
 	}
 
-	public function get_new_search_form( $form ) {
-		ob_start();
-		?>
-		<form id="searchform" role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" >
-			<input id="search-button" type="submit" class="search-submit" value="">
-			<input id="search-input" type="search" class="search-field" value="<?php echo get_search_query(); ?>" name="s">
-		</form>
-		<?php
-		$new_form = ob_get_clean();
-
-		return $new_form;
-	}
 }
 
 $rlje_theme_search_settings = new RLJE_Theme_Search_Settings();
