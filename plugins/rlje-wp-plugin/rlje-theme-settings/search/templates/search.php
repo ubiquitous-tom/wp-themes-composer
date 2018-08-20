@@ -2,7 +2,7 @@
 $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'search' );
 if ( $have_franchises_available ) :
 	get_header();
-	$base_url_path               = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+	// $base_url_path               = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 	$search_text                 = rawurldecode( $search_query );
 	$search_by_franchises_result = null;
 	$search_by_episodes_result   = null;
@@ -36,9 +36,9 @@ if ( $have_franchises_available ) :
 					endif;
 					?>
 				<div class="col-sm-6 col-md-6 col-lg-3">
-					<a href="<?php echo $base_url_path . '/' . $franchise->id; ?>">
+					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
 						<?php $franchise->image = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise ); ?>
-						<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=550' ); ?>" style="width:100%; height:auto; ">
+						<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?t=titled-avatars&w=550' ); ?>" style="width:100%; height:auto; ">
 					</a>
 				</div>
 					<?php
@@ -65,9 +65,9 @@ if ( $have_franchises_available ) :
 							endif;
 						?>
 						<div class="col-sm-6 col-md-6 col-lg-3">
-							<a href="<?php echo $base_url_path . '/' . $franchise->id; ?>">
+							<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
 								<?php $franchise->image = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise ); ?>
-								<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?w=550' ); ?>" style="width:100%; height:auto; ">
+								<img title="<?php echo $franchise->name; ?>" alt="thumb franchise image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $franchise->image . '?t=titled-avatars&w=550' ); ?>" style="width:100%; height:auto; ">
 							</a>
 						</div>
 						<?php
@@ -106,10 +106,10 @@ if ( $have_franchises_available ) :
 						<?php
 					endif;
 					?>
-				<a href="<?php echo esc_url( $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) . '/' ); ?>">
+				<a href="<?php echo esc_url( trailingslashit( home_url( $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) ) ) ); ?>">
 					<div class="col-sm-6 col-md-3" style="margin-top:15px;">
 						<img id="play-episodes" src="<?php echo apply_filters( 'atv_get_image_url', 'play-icon?t=Icons' ); ?>"/>
-						<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=500' ); ?>"/>
+						<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?t=titled-avatar&w=500' ); ?>"/>
 						<div class="franchise-eps-bg">
 							<h4 class="text-center"><?php echo $episode->franchiseName; ?></h4>
 							<h5><?php echo $episode->name; ?></h5>
@@ -149,10 +149,10 @@ if ( $have_franchises_available ) :
 							<?php
 							endif;
 						?>
-						<a href="<?php echo esc_url( $base_url_path . '/' . $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) . '/' ); ?>">
+						<a href="<?php echo esc_url( trailingslashit( home_url( $episode->franchiseId . '/' . rljeApiWP_convertSeasonNameToURL( $episode->seriesName ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $episode->name ) ) ) ); ?>">
 							<div class="col-xs-12 col-sm-6 col-md-3" style="margin-top:15px;">
 								<img id="play-episodes" src="<?php echo apply_filters( 'atv_get_image_url', 'play-icon?t=Icons' ); ?>"/>
-								<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=500' ); ?>"/>
+								<img width="100%" title="<?php echo $episode->name; ?>" alt="thumb episode image"  src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?t=titled-avatar&w=500' ); ?>"/>
 								<div class="franchise-eps-bg">
 									<h4 class="text-center"><?php echo $episode->franchiseName; ?></h4>
 									<h5><?php echo $episode->name; ?></h5>

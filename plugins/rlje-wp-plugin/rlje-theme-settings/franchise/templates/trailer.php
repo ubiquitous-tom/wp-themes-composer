@@ -37,8 +37,8 @@ get_header();
 				<!-- Previous link -->
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
-						<img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows">
-						<span>Back to Series</span>
+					<span><img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows"></span>
+						Back <!-- to Series-->
 					</a>
 				</span>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>" id="subnav-title"><span itemprop="name"><?php echo $franchise->name; ?></span></a> Trailer   <!-- Next link -->
@@ -103,11 +103,17 @@ get_header();
 				</span>
 					<?php
 				else :
+					$rlje_theme_text_settings = get_option( 'rlje_theme_text_settings' );
+					$video_placeholder = ( ! empty( $rlje_theme_text_settings['video_placeholder'] ) ) ? $rlje_theme_text_settings['video_placeholder'] : array();
+					$video_placeholder_title_text = ( ! empty( $video_placeholder['title_text'] ) ) ? $video_placeholder['title_text'] : 'Watch world-class TV from Britain and beyond';
+					$video_placeholder_text = ( ! empty( $video_placeholder['text'] ) ) ? $video_placeholder['text'] : 'Always available, always commercial free';
 					?>
 				<img title="Play trailer" class="wp-post-image" src="<?php echo esc_url( apply_filters( 'atv_get_image_url', $franchise->image . '?w=750' ) ); ?>"/>
 				<div class="acorntv-slogan">
-					<h3>Watch world-class TV from Britain and beyond</h3>
-					<h4>Always available, always commercial free</h4>
+					<!-- <h3>Watch world-class TV from Britain and beyond</h3> -->
+					<!-- <h4>Always available, always commercial free</h4> -->
+					<h3><?php echo esc_html( $video_placeholder_title_text ); ?></h3>
+					<h4><?php echo esc_html( $video_placeholder_text ); ?></h4>
 					<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Free Trial</a>
 				</div>
 					<?php

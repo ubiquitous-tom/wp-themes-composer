@@ -18,7 +18,7 @@ ul li.header {
 ul li.categories-item {
     padding: 5px 10px;
     text-align: center;
-    width: 200px;
+    /* width: 200px; */
 }
 
 ul#homepage-layout {
@@ -31,7 +31,7 @@ ul#homepage-layout li:not(.header) {
     justify-content: center;
     align-items: center;
     align-content: center;
-    width: 100%;
+    /* width: 100%; */
     border: 1px solid #000;
 }
 
@@ -49,7 +49,7 @@ ul#homepage-layout li ul.sortable {
     justify-content: center;
     align-content: center;
     align-items: center;
-    width: 500px;
+    /* width: 500px; */
 }
 
 ul#homepage-layout li ul.sortable:before {
@@ -69,7 +69,7 @@ ul#homepage-layout li.disabled {
 ul#homepage-layout li.draggable {
     height: auto;
     padding: 5px 10px;
-    width: 100%;
+    /* width: 100%; */
     z-index: 1;
 }
 
@@ -78,7 +78,10 @@ ul#homepage-layout li#hero-carousel {
 }
 
 ul#homepage-layout li#news-and-reviews {
-    height: 100px;
+	height: 100px;
+	color: #004085;
+	border-color: #004085;
+	background: #cce5ff;
 }
 
 ul#homepage-layout li ul.sortable {

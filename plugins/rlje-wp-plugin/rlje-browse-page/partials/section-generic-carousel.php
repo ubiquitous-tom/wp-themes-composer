@@ -74,7 +74,7 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 				<div class="item <?php echo ( $item === reset( $all_carousel->$section_key ) ) ? 'active' : ''; ?>">
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 						<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo $item->img; ?>?w=400&h=225" style="width:100%; height:auto; " />
+							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 						</a>
 					</div>
 				</div>
@@ -90,7 +90,7 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 						?>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 						<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo $item->img; ?>?w=400&h=225" style="width:100%; height:auto; " />
+							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 						</a>
 					</div>
 					<?php endforeach; ?>

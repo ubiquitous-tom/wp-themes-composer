@@ -21,7 +21,8 @@ $highlight_templates_enabled = array(
 );
 
 $count                 = 0;
-$franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
+// $franchise_name         = ( isset( $wp_query->query_vars['franchiseName'] ) ) ? $wp_query->query_vars['franchiseName'] : null;
+$franchise_name = ( isset( $franchise->name ) ) ? $franchise->name : null;
 $franchise_total        = count( $season->episodes ) - 1;
 // $franchise_id           = ( isset( $wp_query->query_vars['franchise_id'] ) ) ? '/' . $wp_query->query_vars['franchise_id'] : null;
 $season_name_url         = ( isset( $franchise_id, $wp_query->query_vars['season_name'] ) ) ? '/' . $wp_query->query_vars['season_name'] : '/' . rljeApiWP_convertSeasonNameToURL( $season->name );
@@ -38,7 +39,7 @@ if ( $is_logged && $is_highligthing_enabled && $is_stream_position && $is_first_
 }
 
 ?>
-<span itemprop="containsSeason" itemscope itemtype="http://schema.org/TVSeason">
+<span class="episode-content-strip" itemprop="containsSeason" itemscope itemtype="http://schema.org/TVSeason">
 	<meta itemprop="name" content="<?php echo $season->name; ?>" />
 	<meta itemprop="numberOfEpisodes" content="<?php echo count( $season->episodes ); ?>" />
 	<meta itemprop="seasonNumber" content="<?php echo ( isset( $season->seasonNumber ) ) ? $season->seasonNumber : ''; ?>" />
@@ -81,12 +82,26 @@ foreach ( $season->episodes as $key => $episode ) :
 					<meta itemprop="timeRequired" content="<?php echo ( ! empty( $episode->length ) ) ? 'T' . str_replace( ':', 'M', rljeApiWP_convertSecondsToMinSecs( $episode->length ) ) . 'S' : ''; ?>" />
 					<div class="franchise-eps-bg<?php echo ( $show_episode_highlighted ) ? ' no-margin-bottom' : ''; ?>">
 						<h5 itemprop="name"><?php echo $episode->name; ?></h5>
-						<h6><?php echo $season->name; ?>: Episode <span itemprop="episodeNumber"><?php echo $episode_number; ?></span></h6>
+						<?php
+						if ( 'movie' === strtolower( $episode->type ) ) {
+							$episode_type_display = ' Movie ';
+						} else {
+							$episode_type_display = $season->name . ': Episode <span itemprop="episodeNumber">' . $episode_number . '</span>';
+						}
+						?>
+						<h6><?php echo $episode_type_display; ?></h6>
 					</div>
 					<?php if ( $show_episode_highlighted ) : ?>
 					<div class="continueWatching">
 						<button class="js-play-resume">
-							<span>Play <?php echo $season->name . ': Episode ' . $episode_number; ?></span>
+							<?php
+							if ( 'movie' === strtolower( $episode->type ) ) {
+								$continue_watching_episode_type_display = ' Movie ';
+							} else {
+								$continue_watching_episode_type_display = $season->name . ': Episode ' . $episode_number;
+							}
+							?>
+							<span>Play <?php echo $continue_watching_episode_type_display; ?></span>
 							<i class="fa fa-play-circle-o" aria-hidden="true"></i>
 						</button>
 					</div>

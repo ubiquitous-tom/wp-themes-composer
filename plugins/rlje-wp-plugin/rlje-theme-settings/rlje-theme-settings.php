@@ -58,6 +58,7 @@ class RLJE_Theme_Settings {
 			add_settings_field( 'navigation_free_trial_text', 'Navigation Free Trial Text', array( $this, 'display_navigation_free_trial_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 			add_settings_field( 'home_callout_left_section_text', 'Home Callout Left Section Text', array( $this, 'display_home_callout_one_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 			add_settings_field( 'home_callout_right_section_text', 'Home Callout Right Section Text', array( $this, 'display_home_callout_two_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
+			add_settings_field( 'brightcove_video_placeholder_text', 'Episode/Trailer Text', array( $this, 'display_brightcove_video_placeholder_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 
 			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
@@ -189,13 +190,13 @@ class RLJE_Theme_Settings {
 		<p class="description">Right home callout section main text</p>
 		<hr>
 		<p>
-			<label for="callout-one-text"><strong>Button URL:</strong></label><br>
+			<label for="callout-one-link"><strong>Button URL:</strong></label><br>
 			<input type="text" name="rlje_theme_text_settings[callout][one][link]" class="widefat" id="callout-one-link" value="<?php echo esc_attr( $callout_link ); ?>" placeholder="<?php echo esc_url( home_url( '/' ) ); ?>">
 		</p>
 		<p class="description">Right home callout section button url</p>
 		<hr>
 		<p>
-			<label for="callout-one-text"><strong>Button Text:</strong></label><br>
+			<label for="callout-one-link-text"><strong>Button Text:</strong></label><br>
 			<input type="text" name="rlje_theme_text_settings[callout][one][link_text]" class="regular-text" id="callout-one-link-text" value="<?php echo esc_attr( $callout_link_text ); ?>" placeholder="Learn More">
 		</p>
 		<p class="description">Right home callout section button url</p>
@@ -210,22 +211,42 @@ class RLJE_Theme_Settings {
 		$callout_link_text = ( ! empty( $callout['link_text'] ) ) ? $callout['link_text'] : 'Start Your Free Trial';
 		?>
 		<p>
-			<label for="callout-one-text"><strong>Main Text:</strong></label><br>
+			<label for="callout-two-text"><strong>Main Text:</strong></label><br>
 			<textarea type="text" name="rlje_theme_text_settings[callout][two][text]" class="widefat" id="callout-two-text" placeholder="Insert Text Here" rows="5"><?php echo esc_html( $callout_text ); ?></textarea>
 		</p>
 		<p class="description">Left home callout section main text</p>
 		<hr>
 		<p>
-			<label for="callout-one-text"><strong>Button URL:</strong></label><br>
+			<label for="callout-two-link"><strong>Button URL:</strong></label><br>
 			<input type="text" name="rlje_theme_text_settings[callout][two][link]" class="widefat" id="callout-two-link" value="<?php echo esc_attr( $callout_link ); ?>" placeholder="<?php echo esc_url( home_url( '/' ) ); ?>">
 		</p>
 		<p class="description">Left home callout section button url</p>
 		<hr>
 		<p>
-			<label for="callout-one-text"><strong>Button Text:</strong></label><br>
+			<label for="callout-two-link-text"><strong>Button Text:</strong></label><br>
 			<input type="text" name="rlje_theme_text_settings[callout][two][link_text]" class="regular-text" id="callout-two-link-text" value="<?php echo esc_attr( $callout_link_text ); ?>" placeholder="Start Your Free Trial">
 		</p>
 		<p class="description">Left home callout section button url</p>
+		<hr>
+		<?php
+	}
+
+	public function display_brightcove_video_placeholder_text() {
+		$video_placeholder = ( ! empty( $this->theme_text_settings['video_placeholder'] ) ) ? $this->theme_text_settings['video_placeholder'] : array();
+		$video_placeholder_title_text = ( ! empty( $video_placeholder['title_text'] ) ) ? $video_placeholder['title_text'] : 'Watch world-class TV from Britain and beyond';
+		$video_placeholder_text = ( ! empty( $video_placeholder['text'] ) ) ? $video_placeholder['text'] : 'Always available, always commercial free';
+		?>
+		<p>
+			<label for="video-placeholder-title-text"><strong>Title Text:</strong></label><br>
+			<input type="text" name="rlje_theme_text_settings[video_placeholder][title_text]" class="regular-text" id="video-placeholder-title-text" value="<?php echo esc_attr( $video_placeholder_title_text ); ?>" placeholder="Start Your Free Trial">
+		</p>
+		<p class="description">Episode/Trailer Brightcove placeholder title text if the video is not available</p>
+		<hr>
+		<p>
+			<label for="video-placeholder-text"><strong>Main Text:</strong></label><br>
+			<textarea type="text" name="rlje_theme_text_settings[video_placeholder][text]" class="widefat" id="video-placeholder-text" placeholder="Insert Text Here" rows="5"><?php echo esc_html( $video_placeholder_text ); ?></textarea>
+		</p>
+		<p class="description">Episode/Trailer Brightcove placeholder main text if the video is not available</p>
 		<hr>
 		<?php
 	}
@@ -318,13 +339,13 @@ class RLJE_Theme_Settings {
 		// For RLJE API call.
 		define( 'API_TIMEOUT_SECS', '30' );
 
-		$env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
-		if ( ! empty( $env_type ) ) {
-			define( 'ENVIRONMENT', $env_type );
-			if ( 'DEV' === $env_type ) {
-				define( 'JETPACK_DEV_DEBUG', true );
-			}
-		}
+		// $env_type = ( ! empty( $this->theme_environment_settings['environment_type'] ) ) ? $this->theme_environment_settings['environment_type'] : 'DEV';
+		// if ( ! empty( $env_type ) ) {
+		// 	define( 'ENVIRONMENT', $env_type );
+		// 	if ( 'DEV' === $env_type ) {
+		// 		define( 'JETPACK_DEV_DEBUG', true );
+		// 	}
+		// }
 
 		$rlje_base_url = ( ! empty( $this->theme_environment_settings['rlje_base_url'] ) ) ? $this->theme_environment_settings['rlje_base_url'] : 'https://dev-api.rlje.net/acorn';
 		if ( ! empty( $rlje_base_url ) ) {

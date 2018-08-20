@@ -1,9 +1,13 @@
+body {
+    background: #011f36;
+}
+
 #franchise-container {
     margin-top: 0px;
 }
 #franchise-container .secondary-bg {
-    background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 20%, rgba(256, 0, 0, 0) 90%), url('../../img/umc_bkg.jpg');
-    background-position: center 7px;
+    background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 10%, rgba(0, 0, 0, 0) 70%), url('../../img/umc_bkg.jpg');
+    background-position: right 7px;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -14,12 +18,12 @@
     content: '';
     display: inline-block;
     position: absolute;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .75) 0, rgba(256, 0, 0, 0) 100%);
+    background: linear-gradient(to right, rgba(0, 0, 0, .35) 0, rgba(0, 0, 0, 0) 100%);
     height: 100%;
     width: 100%;
 }
 
-#franchise-container .secondary-bg:after {
+/* #franchise-container .secondary-bg:after {
     content: '';
     display: none;
     position: absolute;
@@ -37,7 +41,7 @@
     margin: 0 auto;
     border: 3px;
     border-radius: 50%;
-}
+} */
 
 .admin-bar #franchise-container {
     background-position-y: 140px;
@@ -45,6 +49,17 @@
 
 #franchise-container .inline {
     margin-left: 0;
+}
+
+#franchise-container .episode {
+    margin-top: auto;
+}
+
+#franchise-container .episode .subnav2 {
+    text-align: center;
+    margin-left: auto;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 #fanchise-synopsis {
@@ -71,6 +86,20 @@
 @media (min-width: 768px) {
     #franchise-container .secondary-bg:after {
         display: inline-block;
+    }
+    #franchise-container .episode {
+        margin-top: -15vh;
+    }
+    .user-logged-in #franchise-container .episode {
+        margin-top: auto;
+    }
+    #franchise-container .episode .subnav2 {
+        text-align: left;
+        margin-left: 15px;
+        letter-spacing: auto;
+    }
+    #franchise-container .episode .episode-content-strip {
+        position: relative;
     }
     #fanchise-synopsis {
         margin-top: 75px;

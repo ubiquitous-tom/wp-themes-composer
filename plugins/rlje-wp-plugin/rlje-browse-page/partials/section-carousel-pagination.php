@@ -58,7 +58,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 						?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3<?php echo ( 0 < $i ) ? ' cloneditem-' . $i : ''; ?>" id="avatar">
 					<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo $item->img; ?>?w=400&h=225" style="width:100%; height:auto; " />
+						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 					</a>
 				</div>
 				<?php endfor; ?>
@@ -75,7 +75,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 					?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 					<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo $item->img; ?>?w=400&h=225" style="width:100%; height:auto; " />
+						<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
 					</a>
 				</div>
 				<?php endforeach; ?>

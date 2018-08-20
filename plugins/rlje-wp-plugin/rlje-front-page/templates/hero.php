@@ -50,13 +50,13 @@
 		<div class="container carousel-controls">
 			<div class="control-position">
 				<a class="left carousel-control" href="#heroCarousel" data-slide="prev">
-					<img class="hero-left-arrow" src="<?php echo plugins_url( '../img/hero-left.png', __FILE__ ); //rljeApiWP_getImageUrlFromServices( 'hero-left?t=Icons' ); ?>"/>
+					<img class="hero-left-arrow" src="<?php echo apply_filters( 'rlje_front_page_homepage_hero_left_arrow', plugins_url( '../img/hero-left.png', __FILE__ ) ); //rljeApiWP_getImageUrlFromServices( 'hero-left?t=Icons' ); ?>"/>
 				</a>
 			</div>
 
 			<div class="control-position">
 				<a class="right carousel-control" href="#heroCarousel" data-slide="next">
-					<img class="hero-right-arrow" src="<?php echo plugins_url( '../img/hero-right.png', __FILE__ );//rljeApiWP_getImageUrlFromServices( 'hero-right?t=Icons' ); ?>"/>
+					<img class="hero-right-arrow" src="<?php echo apply_filters( 'rlje_front_page_homepage_hero_right_arrow', plugins_url( '../img/hero-right.png', __FILE__ ) );//rljeApiWP_getImageUrlFromServices( 'hero-right?t=Icons' ); ?>"/>
 				</a>
 			</div>
 		</div>
