@@ -90,6 +90,14 @@ button {
     background: rgba(6, 2, 6, 0.7);
 }
 
+.franchise-eps-bg {
+    background: #032a45;
+}
+.item div:hover a .franchise-eps-bg,
+[itemprop="episode"] div:hover a .franchise-eps-bg {
+    background: #976d31;
+}
+
 /* SCHEDULE TEMPLATE */
 
 .schedule li {
