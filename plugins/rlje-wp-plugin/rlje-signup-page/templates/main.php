@@ -21,26 +21,28 @@ get_header();
 			</div>
 			<form class="signup step-one row">
 				<h4 class="form-head">Create your account</h4>
-				<div class="form-group">
-					<label for="signup-email">E-Mail Address *</label>
-					<input id="signup-email" class="form-control" required name="signup_email" type="email">
-				</div>
-				<div class="form-group">
-					<label for="signup-email-confirm">Confirm E-Mail Address *</label>
-					<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email">
-				</div>
-				<div class="form-group">
-					<label for="signup-password">Password *</label>
-					<input id="signup-password" class="form-control" required name="signup_password" type="password" minlength="6" placeholder="6 characters minimum">
-				</div>
-				<div class="form-group">
-					<label for="signup-password-confirm">Confirm Password *</label>
-					<input id="signup-password-confirm" class="form-control" required name="signup_password_confirm" type="password" minlength="6" placeholder="6 characters minimum">
-				</div>
-				<div class="checkbox">
-					<label>
-						<input checked type="checkbox">Sign me up for the <?php bloginfo( 'name' ); ?> newsletter
-					</label>
+				<div class="signup-form-group">
+					<div class="form-group">
+						<label for="signup-email">E-Mail Address *</label>
+						<input id="signup-email" class="form-control" required name="signup_email" type="email">
+					</div>
+					<div class="form-group">
+						<label for="signup-email-confirm">Confirm E-Mail Address *</label>
+						<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email">
+					</div>
+					<div class="form-group">
+						<label for="signup-password">Password *</label>
+						<input id="signup-password" class="form-control" required name="signup_password" type="password" minlength="6" placeholder="6 characters minimum">
+					</div>
+					<div class="form-group">
+						<label for="signup-password-confirm">Confirm Password *</label>
+						<input id="signup-password-confirm" class="form-control" required name="signup_password_confirm" type="password" minlength="6" placeholder="6 characters minimum">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input checked type="checkbox">Sign me up for the <?php bloginfo( 'name' ); ?> newsletter
+						</label>
+					</div>
 				</div>
 				<div class="text-center">
 					<button class="submit-step btn btn-primary btn-lg">Continue to step 2 →</button>

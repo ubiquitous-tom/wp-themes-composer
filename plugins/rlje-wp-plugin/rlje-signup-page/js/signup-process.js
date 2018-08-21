@@ -80,14 +80,19 @@ function showStepTwo() {
     var country_select = jQuery(document.createElement('select')).addClass('form-control').prop('disabled', true).append(countries);
     var country_group = jQuery(document.createElement('div')).addClass('form-group').append(country_label, country_select);
 
-    signup_form.append(profile_header, first_name_group, last_name_group, country_group);
+    signup_form
+        .append(profile_header)
+        .append(jQuery(document.createElement('div')).addClass('signup-form-group')
+            .append(first_name_group, last_name_group, country_group)
+        );
 
     var plan_header = jQuery(document.createElement('h4')).addClass('form-head').html('Plan &amp; Payment');
     var plan_desc = jQuery(document.createElement('p')).html('Please select a plan for when your 7 day FREE TRIAL comes to an end. You can cancel anytime before your trial ends and you will not be charged.');
 
     var plans = renderPlans();
 
-    signup_form.append(plan_header, plan_desc, plans);
+    var plan_payment_section = jQuery(document.createElement('div')).addClass('signup-form-group')
+            .append(plan_header, plan_desc, plans);
 
     // Promo code field
     var promo_code_label = jQuery(document.createElement('label')).attr('for', 'promo-code').html('Promo Code');
@@ -142,7 +147,8 @@ function showStepTwo() {
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('submit-step btn btn-primary btn-lg center-block').html('Signup');
 
-    signup_form.append(promo_group, card_name_group, card_number_element, some_row, step_two_submit);
+    plan_payment_section.append(promo_group, card_name_group, card_number_element, some_row);
+    signup_form.append(plan_payment_section, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
     initializeStripeElements(signup_vars.stripe_key);
