@@ -80,8 +80,12 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev">
+				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/>
+			</a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next">
+				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/>
+			</a>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -175,8 +179,12 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev">
+				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/>
+			</a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next">
+				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/>
+			</a>
 		</div>
 		<?php endif; ?>
 	</div>

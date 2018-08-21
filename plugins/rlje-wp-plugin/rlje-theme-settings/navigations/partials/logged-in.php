@@ -3,7 +3,7 @@
 		<div class="menuOptions">
 			<span class="accountOptions hidden-md hidden-sm hidden-xs">My <?php bloginfo( 'name' ); ?></span>
 			<span id="clicker">
-				<img width="18" class="accountIcon" src="https://api.rlje.net/acorn/artwork/size/account-icon?t=Icons">
+				<img width="18" class="accountIcon" src="<?php echo esc_url( get_template_directory_uri() . '/img/account-icon.png' ); ?>">
 			</span>
 		</div>
 		<ul class="drop-select closed">

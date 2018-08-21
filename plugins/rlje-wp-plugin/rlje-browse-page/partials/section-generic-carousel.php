@@ -50,20 +50,21 @@ if ( $is_browse_page ) {
 
 $is_showing_arrows = true;
 
-$base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+// $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
+
 if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key ) > 0 ) :
-	?>
+?>
 <<?php echo $h; ?> <?php echo ( $section_key === 'mystery' && ! $is_browse_page ) ? 'id="third-spotlight"' : ''; ?> class="subnav2"><?php echo $section_title; ?></<?php echo $h; ?>>
-	<?php
-	if ( $section_key !== 'mostpopular' ) :
-		?>
+
+<?php if ( $section_key !== 'mostpopular' ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo $base_url_path . '/browse/' . $section_key; ?>"> View all <span><img width="8" src="https://api.rlje.net/acorn/artwork/size/double-arrows-white?t=Icons"/></span></a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $browse_id ) ) ); ?>"> View all
+		<!-- <span><img width="8" src="<?php echo esc_url( plugins_url( '../img/double-arrows-white.png', __FILE__ ) ); ?>"/></span> -->
+	</a>
 </div>
-		<?php
-	endif;
-	?>
-	<div class="carousel carousel-respond-slide slide" id="<?php echo $section_key; ?>" data-interval="false">
+<?php endif; ?>
+
+	<div class="carousel carousel-respond-slide slide" id="<?php echo esc_attr( $section_key ); ?>" data-interval="false">
 		<div class="row">
 			<div class="carousel-inner">
 				<?php
@@ -73,8 +74,8 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 						?>
 				<div class="item <?php echo ( $item === reset( $all_carousel->$section_key ) ) ? 'active' : ''; ?>">
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
-						<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+						<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
+							<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" />
 						</a>
 					</div>
 				</div>
@@ -89,8 +90,8 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 						$item = apply_filters( 'atv_add_img_and_href', $item );
 						?>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
-						<a href="<?php echo $base_url_path . '/' . $item->href; ?>">
-							<img title="<?php echo $section_title; ?>" alt="<?php echo $section_title; ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+						<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
+							<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" />
 						</a>
 					</div>
 					<?php endforeach; ?>
@@ -99,9 +100,13 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 			</div>
 		</div>
 		<?php if ( $is_showing_arrows ) : ?>
-		<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-		<a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+		<a class="left carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="prev">
+			<img class="carousel-img" src="<?php echo esc_url( plugins_url( '../img/carousel-left.png', __FILE__ ) ); ?>"/>
+		</a>
+		<a class="right carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="next" >
+			<img class="carousel-img" src="<?php echo esc_url( plugins_url( '../img/carousel-right.png', __FILE__ ) ); ?>"/>
+		</a>
 		<?php endif; ?>
 	</div>
-	<?php
+<?php
 endif;

@@ -55,7 +55,7 @@ if ( isset( $stream_positions ) ) {
 }
 
 $franchise_image     = apply_filters( 'rlje_franchise_artwork', $franchise->image, $franchise );
-$franchise_image_url = 'https://api.rlje.net/acorn/artwork/size/' . $franchise_image . '?w=460';
+$franchise_image_url = rljeApiWP_getImageUrlFromServices( $franchise_image . '?w=460' );
 ?>
 <div class="col-xs-12 col-sm-6 col-lg-4">
 	<?php if ( ! empty( $franchise_art_link ) ) : ?>

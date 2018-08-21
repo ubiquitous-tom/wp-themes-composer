@@ -6,7 +6,7 @@
     position: absolute;
     top: 8px;
     right: 15px;
-    background: transparent url('https://api.rlje.net/acorn/artwork/size/search?t=Icons') no-repeat 0 0 scroll;
+    background: transparent url('../img/search.png') no-repeat 0 0 scroll;
     background-size: 23px 23px;
     display: inline-block;
     height: 23px;

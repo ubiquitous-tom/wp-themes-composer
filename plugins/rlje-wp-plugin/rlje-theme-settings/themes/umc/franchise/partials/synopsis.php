@@ -18,7 +18,7 @@ $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountr
 
 	<?php if ( $this->is_trailer_available( $franchise ) ) : ?>
 	<span itemprop="trailer" itemscope itemtype="http://schema.org/VideoObject">
-		<meta itemprop="thumbnailUrl" content="https://api.rlje.net/acorn/artwork/size/<?php echo $franchise->image; ?>?w=750" />
+		<meta itemprop="thumbnailUrl" content="<?php echo esc_url( rljeApiWP_getImageUrlFromServices( $franchise->image .'?w=750' ) ); ?>" />
 		<meta itemprop="description" content="<?php echo esc_html( $franchise->longDescription ); ?>" />
 		<meta itemprop="name" content="<?php echo esc_html( $franchise->name ); ?>" />
 		<meta itemprop="uploadDate" content="<?php echo ( isset( $franchise->episodes[0]->startDate ) && $franchise->episodes[0]->startDate != '' ) ? date( 'Y-m-d', $franchise->episodes[0]->startDate ) : ''; ?>" />

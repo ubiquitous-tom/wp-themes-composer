@@ -21,7 +21,7 @@ if ( $seasons_count > 1 ) :
 	<div id="options">
 		<a><?php echo esc_html( ( isset( $season_name ) ) ? $season_name : $filter_by_text ); ?></a>
 		<span id="clicker">
-			<img src="https://api.rlje.net/acorn/artwork/size/dropdown-arrow?t=Icons" width="13" style="opacity:.7"/>
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/img/dropdown-arrow.png' ); ?>" width="13" style="opacity:.7"/>
 		</span>
 	</div>
 	<ul id="drop-select" class="closed">

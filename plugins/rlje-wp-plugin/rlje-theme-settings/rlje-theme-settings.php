@@ -263,7 +263,7 @@ class RLJE_Theme_Settings {
 		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page-on" class="regular-text" value="1" <?php checked( $front_page, 1 ); ?>>
 		<label for="rlje-plugins-front-page-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page=of" class="regular-text" value="0" <?php checked( $front_page, 0 ); ?>>
+		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page-off" class="regular-text" value="0" <?php checked( $front_page, 0 ); ?>>
 		<label for="rlje-plugins-front-page-off">Off</label>
 		<p class="description">For activating Homepage Hero</p>
 		<?php
@@ -275,7 +275,7 @@ class RLJE_Theme_Settings {
 		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
 		<label for="rlje-plugins-landing-page-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page=of" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-off" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
 		<label for="rlje-plugins-landing-page-off">Off</label>
 		<p class="description">For activating Franchise landing page</p>
 		<?php
@@ -284,11 +284,11 @@ class RLJE_Theme_Settings {
 	public function display_theme_plugins_news_and_reviews() {
 		$news_and_reviews = ( ! intval( $this->theme_plugins_settings['news_and_reviews'] ) ) ? intval( $this->theme_plugins_settings['news_and_reviews'] ) : 1;
 		?>
-		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
-		<label for="rlje-plugins-news-and-review-on">On</label>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-review=of" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
-		<label for="rlje-plugins-news-and-review-off">Off</label>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-off" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-off">Off</label>
 		<p class="description">For activating Homepage section</p>
 		<?php
 	}

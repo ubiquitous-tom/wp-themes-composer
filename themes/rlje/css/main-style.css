@@ -140,13 +140,16 @@ input:-ms-input-placeholder {color: #ccc;}
 /* VIEW ALL  */
 .view-all{width: 100%; text-align: center;margin-top: -15px;margin-bottom: 10px;opacity:.6}
 .view-all:hover{opacity:1}
-.view-all a{color: #f9f9f9;font-size: 12.5px;}
+.view-all a{position: relative;color: #f9f9f9;font-size: 12.5px;}
+.view-all a:after {content:'';position:absolute;top:1px;background:transparent url('../img/double-arrows-white.png') no-repeat 0 0 fixed;display: inline-block; width: 16px; height:16px; background-size: 16px;}
+.view-all span img{position:relative;top:-1px;}
 
 /* BUTTONS, TABS, AND ICONS  */
 #play-episodes{color: #fff;margin-left: 37%;margin-top: 21%;opacity: 0.8;position: absolute;width: 48px;}
 #play-episodes:hover{opacity:1;}
 #page-subhead{color:#b0b0b0;font-size:12.5px; padding: 10px 15px 0;font-weight:600;font-family: 'source sans pro',sans-serif; text-transform: uppercase;letter-spacing:.1em;font-weight:400;letter-spacing:.14em;}
-#archive-arrows{width:12px;opacity:.7;margin-top:-2px;}
+.subnav-prev a .archive-arrows{width:12px;opacity:.7;position:relative;top:-7px;}
+.subnav-next a .archive-arrows{width:12px;opacity:.7;position:relative;top:-4.5px;}
 
 /* DROPDOWN */
 #cover {border: 1px solid #222;display: inline-block;height: 40px;margin: 15px 0 0 0;position: relative;width: auto;z-index: 3;}
