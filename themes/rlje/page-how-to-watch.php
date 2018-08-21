@@ -142,7 +142,7 @@ get_header();
 				<h5>Xfinity</h5>
 				<p><?php echo get_bloginfo( 'name' ); ?> is available as an add-on channel to Xfinity TV customers.</p>
 				<p class="device-link">
-					<a href="https://support.umc.tv/">Learn more</a> or <a href="https://www.xfinity.com/learn/digital-cable-tv/svod/umc">Add via Xfinity TV</a>
+					<a href="/faqs/">Learn more</a> or <a href="https://www.xfinity.com/learn/digital-cable-tv/svod/umc">Add via Xfinity TV</a>
 				</p>
 			</div>
 		</div>
