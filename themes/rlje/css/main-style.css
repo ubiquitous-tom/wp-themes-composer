@@ -327,7 +327,6 @@ input:-ms-input-placeholder {color: #ccc;}
 .acorntv-slogan h4 {text-transform: none;font-weight:lighter;letter-spacing: normal;}
 .acorntv-slogan h3 {font-size: 13.5px;}
 .acorntv-slogan h4 {font-size: 0px;}
-.acorntv-slogan .free-month {font-weight: 600;font-size: 9px;background-color: #ca0348;margin-top: -5px;}
 .acorntv-slogan button,.acorntv-slogan button:hover,.acorntv-slogan button:focus {border: none;outline: none;padding: 0;margin: 0;}
 .acorntv-slogan button {position: relative;left: 0;transform: none;}
 .acorntv-slogan button span {vertical-align: middle;}
@@ -491,7 +490,6 @@ p {font-size: 14.5px;}
  /* SPLASH-SLOGAN */
 .acorntv-slogan h3 {font-size: 18px;}
 .acorntv-slogan h4 {font-size: 14px;}
-.acorntv-slogan .free-month {font-size: 11px;margin-top: 15px;margin-bottom: 10px;}
 }
 
 @media all and (min-width: 480px) and (transform-3d), all and (min-width: 480px) and (-webkit-transform-3d) {
@@ -569,7 +567,6 @@ p {font-size: 14.5px;}
 .acorntv-slogan {top: 50px;}
 .js-play {border: none;border-radius: 1px;color: #fff;display: inline-block;font-size: 12.5px;text-transform:uppercase;left: 50%;padding: 10px 20px;position: absolute;top: 50%;transform: translateX(-50%) translateY(-50%);}
 .acorntv-slogan h4 {font-size: 18px;}
-.acorntv-slogan .free-month {font-size: 12px;}
 
 /* BUTTONS, TABS, AND ICONS  */
 #page-subhead{font-size:14px;margin-right: 20px }
