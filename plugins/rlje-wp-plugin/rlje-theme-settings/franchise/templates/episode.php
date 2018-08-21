@@ -245,7 +245,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 						<h3><?php echo esc_html( $video_placeholder_title_text ); ?></h3>
 						<!-- <h4>Always available, always commercial free</h4> -->
 						<h4><?php echo esc_html( $video_placeholder_text ); ?></h4>
-						<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Your Free Trial</a>
+						<a class="btn btn-primary" href="<?php echo home_url('/signup') ?>">Start Your Free Trial</a>
 						<h5>
 							<button class="transparent js-play">
 								<img src="<?php echo apply_filters( 'atv_get_image_url', 'play-icon?t=Icons' ); ?>" height="35" style="opacity:1">
@@ -305,7 +305,7 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 				<h3>Stream UMC Anywhere!</h3>
 				<!-- <h4>Always available, always commercial free</h4> -->
 				<h4>Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!</h4>
-				<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Your Free Trial</a>
+				<a class="btn btn-primary" href="<?php echo home_url('/signup') ?>">Start Your Free Trial</a>
 			</div>
 				<?php
 			endif;
