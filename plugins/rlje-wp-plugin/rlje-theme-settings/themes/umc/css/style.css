@@ -46,11 +46,35 @@ button {
     letter-spacing: 1px;
 }
 
+ #top-nav .nav>li>a.sign-up:hover {
+    background-color: #2E86C1;
+}
+
 /* BUTTONS, TABS, AND ICONS  */
 
 #page-subhead {
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
+}
+
+.btn {
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+.btn-primary {
+    background-color: #3498DB;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:active:hover {
+    background-color: #2E86C1;
+    border: 1px solid transparent;
+}
+
+.btn-lg {
+    border-radius: 0;
 }
 
 /* DROPDOWN */
