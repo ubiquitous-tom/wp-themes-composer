@@ -2,9 +2,7 @@
 	<li class="navbar-right">
 		<div class="menuOptions">
 			<span class="accountOptions hidden-md hidden-sm hidden-xs">My <?php bloginfo( 'name' ); ?></span>
-			<span id="clicker">
-				<img width="18" class="accountIcon" src="<?php echo esc_url( get_template_directory_uri() . '/img/account-icon.png' ); ?>">
-			</span>
+			<span id="clicker"></span>
 		</div>
 		<ul class="drop-select closed">
 			<li><a href="/browse/recentlywatched/">Recently Watched</a></li>

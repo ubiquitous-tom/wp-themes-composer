@@ -20,9 +20,7 @@ if ( $seasons_count > 1 ) :
 <div id="cover">
 	<div id="options">
 		<a><?php echo esc_html( ( isset( $season_name ) ) ? $season_name : $filter_by_text ); ?></a>
-		<span id="clicker">
-			<img src="<?php echo esc_url( get_template_directory_uri() . '/img/dropdown-arrow.png' ); ?>" width="13" style="opacity:.7"/>
-		</span>
+		<span id="clicker"></span>
 	</div>
 	<ul id="drop-select" class="closed">
 		<?php for ( $i = 0; $i < $seasons_count; $i++ ) : ?>

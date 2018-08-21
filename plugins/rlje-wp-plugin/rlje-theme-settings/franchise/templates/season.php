@@ -16,15 +16,13 @@
 		<h4 class="subnav">
 			<span class="subnav-prev hidden-xs hidden-sm">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>" class="archive-arrows">
 					<span>Back to Home</span>
 				</a>
 			</span>
-			<span><?php echo $franchise->name; ?></span>
+			<span><?php echo esc_html( $franchise->name ); ?></span>
 			<span class="subnav-next hidden-xs hidden-sm">
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ) ); ?>">
 					<span>Watch Episode</span>
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>" class="archive-arrows">
 				</a>
 			</span>
 		</h4>
@@ -39,7 +37,7 @@
 				<?php endif; ?>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-lg-8">
-				<p id="franchise-description"><?php echo $franchise->longDescription; ?></p>
+				<p id="franchise-description"><?php echo esc_html( $franchise->longDescription ); ?></p>
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
 				<a id="inline" class="view-trailer" href="<?php echo esc_url( home_url( $franchise->id . '/trailer/' ) ); ?>">
 					<button>View Trailer</button>

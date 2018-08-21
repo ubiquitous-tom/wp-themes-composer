@@ -80,12 +80,8 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev">
-				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/>
-			</a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next">
-				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/>
-			</a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"></a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next"></a>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -179,12 +175,8 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev">
-				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/>
-			</a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next">
-				<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/>
-			</a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"></a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next"></a>
 		</div>
 		<?php endif; ?>
 	</div>

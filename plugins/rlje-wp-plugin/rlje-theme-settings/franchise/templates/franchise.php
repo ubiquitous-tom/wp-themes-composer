@@ -93,7 +93,6 @@
 			<h4 class="subnav">
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>" class="archive-arrows">
 						<span>Back to Home</span>
 					</a>
 				</span>
@@ -104,7 +103,6 @@
 					<?php if ( ! empty( $first_episode_link ) ) : ?>
 					<a href="<?php echo esc_url( trailingslashit( $first_episode_link ) ); ?>">
 						<span>Watch Episode</span>
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>" class="archive-arrows">
 					</a>
 					<?php endif; ?>
 				</span>

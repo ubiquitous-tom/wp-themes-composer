@@ -57,9 +57,7 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 
 <?php if ( $section_key !== 'mostpopular' ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $section_key ) ) ); ?>"> View all
-		<span><img width="8" src="<?php echo esc_url( get_template_directory_uri() . '/img/double-arrows-white.png' ); ?>"/></span>
-	</a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $section_key ) ) ); ?>"> View all </a>
 </div>
 <?php endif; ?>
 
@@ -100,10 +98,10 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 		</div>
 		<?php if ( $is_showing_arrows ) : ?>
 		<a class="left carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="prev">
-			<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/>
+			<!-- <img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/> -->
 		</a>
 		<a class="right carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="next">
-			<img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/>
+			<!-- <img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/> -->
 		</a>
 		<?php endif; ?>
 	</div>

@@ -20,9 +20,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 
 <?php if ( $is_showing_view_all ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $browse_id ) ) ); ?>"> View all
-		<!-- <span><img width="8" src="<?php echo esc_url( plugins_url( '../img/double-arrows-white.png', __FILE__ ) ); ?>"/></span> -->
-	</a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $browse_id ) ) ); ?>"> View all </a>
 </div>
 <?php endif; ?>
 
@@ -84,12 +82,8 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 		</div>
 	</div>
 	<?php if ( $is_showing_arrows ) : ?>
-	<a class="left carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="prev">
-		<img class="carousel-img" src="<?php echo esc_url( plugins_url( '../img/carousel-left.png', __FILE__ ) ); ?>"/>
-	</a>
-	<a class="right carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="next">
-		<img class="carousel-img" src="<?php echo esc_url( plugins_url( '../img/carousel-right.png', __FILE__ ) ); ?>"/>
-	</a>
+	<a class="left carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="prev"></a>
+	<a class="right carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="next"></a>
 	<?php endif; ?>
 </div>
 <?php

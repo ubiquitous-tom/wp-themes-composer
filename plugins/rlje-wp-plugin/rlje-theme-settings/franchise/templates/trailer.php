@@ -37,7 +37,6 @@ get_header();
 				<!-- Previous link -->
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>" class="archive-arrows">
 						<span>Back <!-- to Series--></span>
 					</a>
 				</span>
@@ -51,7 +50,6 @@ get_header();
 					<?php if ( isset( $franchise->seasons[0], $franchise->seasons[0]->episodes[0] ) ) : ?>
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ) ); ?>">
 						<span>Watch Episode</span>
-						<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>" class="archive-arrows">
 					</a>
 					<?php endif; ?>
 				</span>

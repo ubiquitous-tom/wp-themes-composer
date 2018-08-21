@@ -52,12 +52,10 @@
 			<span class="subnav-prev hidden-xs hidden-sm">
 				<?php if ( ! isset( $prev_episode_url ) ) : ?>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id ) ) ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>" class="archive-arrows">
 					<span>Back <!-- to Series --></span>
 				</a>
 				<?php else : ?>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $prev_episode_url ) ) ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>" class="archive-arrows">
 					<span>Last Episode</span>
 				</a>
 				<?php endif; ?>
@@ -86,7 +84,6 @@
 			<?php if ( isset( $next_episode_url ) ) : ?>
 			<a href="<?php echo esc_url( trailingslashit( home_url( $next_episode_url ) ) ); ?>">
 				<span>Next Episode</span>
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>" class="archive-arrows"/>
 			</a>
 			<?php endif; ?>
 			</span>
