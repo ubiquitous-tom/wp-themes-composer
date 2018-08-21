@@ -47,6 +47,10 @@ button {
     letter-spacing: 1px;
 }
 
+ #top-nav .nav>li>a.sign-up:hover {
+    background-color: #2E86C1;
+}
+
 /* BUTTONS, TABS, AND ICONS  */
 
 #page-subhead {
