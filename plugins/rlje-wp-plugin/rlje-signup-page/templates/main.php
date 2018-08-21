@@ -43,7 +43,7 @@ get_header();
 					</label>
 				</div>
 				<div class="text-center">
-					<button class="btn btn-primary btn-lg">Continue to step 2 →</button>
+					<button class="submit-step btn btn-primary btn-lg">Continue to step 2 →</button>
 				</div>
 			</form>
 		</div>

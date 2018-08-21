@@ -140,7 +140,7 @@ function showStepTwo() {
     var some_row = jQuery(document.createElement('div')).addClass('row').append(card_expiration_element, card_cvc_element);
 
     // Submit button
-    var step_two_submit = jQuery(document.createElement('button')).addClass('btn btn-primary btn-lg center-block').html('Signup');
+    var step_two_submit = jQuery(document.createElement('button')).addClass('submit-step btn btn-primary btn-lg center-block').html('Signup');
 
     signup_form.append(promo_group, card_name_group, card_number_element, some_row, step_two_submit);
 
@@ -152,6 +152,11 @@ function showStepTwo() {
 }
 
 function submitStepTwo(event) {
+    var submit_button = jQuery(this).find('button.submit-step');
+    var submit_button_width = submit_button.width();
+    var submit_button_content = submit_button.html();
+    submit_button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+    submit_button.width(submit_button_width);
     // We have an initialized 
     event.preventDefault();
     // Remove any errors we have
@@ -188,6 +193,7 @@ function submitStepTwo(event) {
                 },
                 function (response) {
                     if (response.success == false) {
+                        submit_button.prop('disabled', false).html(submit_button_content);
                         var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(response.error);
                         alert.insertAfter(jQuery('#progress-steps'));
                     } else {
@@ -348,6 +354,11 @@ jQuery(document).ready(function ($) {
             alert.insertAfter($('#progress-steps'));
         }
         if (valid) {
+            var submit_button = $(this).find('button.submit-step');
+            var submit_button_width = submit_button.width();
+            var submit_button_content = submit_button.html();
+            submit_button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            submit_button.width(submit_button_width);
             $.post(
                 signup_vars.ajax_url,
                 {
@@ -362,6 +373,7 @@ jQuery(document).ready(function ($) {
                             $(document.createElement('p')).html(response.error)
                         );
                         alert.insertAfter($('#progress-steps'));
+                        submit_button.prop('disabled', false).html(submit_button_content);
                     } else {
                         // Update the form to show step two fields
                         sessionId = response.session_id;
