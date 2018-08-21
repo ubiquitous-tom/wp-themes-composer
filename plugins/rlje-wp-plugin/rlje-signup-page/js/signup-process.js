@@ -155,7 +155,7 @@ function submitStepTwo(event) {
     var submit_button = jQuery(this).find('button.submit-step');
     var submit_button_width = submit_button.width();
     var submit_button_content = submit_button.html();
-    submit_button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+    submit_button.prop('disabled', true).html('<i class="fa fa-circle-o-notch fa-spin"></i>');
     submit_button.width(submit_button_width);
     // We have an initialized 
     event.preventDefault();
@@ -357,7 +357,7 @@ jQuery(document).ready(function ($) {
             var submit_button = $(this).find('button.submit-step');
             var submit_button_width = submit_button.width();
             var submit_button_content = submit_button.html();
-            submit_button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            submit_button.prop('disabled', true).html('<i class="fa fa-circle-o-notch fa-spin"></i>');
             submit_button.width(submit_button_width);
             $.post(
                 signup_vars.ajax_url,
