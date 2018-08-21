@@ -41,8 +41,7 @@ button {
 /* NAVBAR */
 
 .navbar-nav>li>a,
-.log-in,
-.free-month {
+.log-in {
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
 }
@@ -206,11 +205,6 @@ button {
     padding-right: 10px;
     background: #000;
     width: 100% !important;
-}
-
-.acorntv-slogan .free-month,
-.free-month {
-    background: rgba(11, 152, 184, 0.85);
 }
 
 #cover {
