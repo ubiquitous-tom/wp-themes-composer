@@ -37,7 +37,7 @@ while ( have_posts() ) :
 			<h1 class="hero-header"><?php the_title(); ?> </h1>
 			<p class="hero-callout"><?php echo get_the_excerpt(); ?></p>
 			<a href="<?php echo 'https://signup' . $environment . '.acorn.tv/createaccount.html'; ?>" class="button-link">
-				<button class="free-month">Start Free Month</button>
+				<button class=".btn .btn-primary">Start Free Month</button>
 			</a>
 		</div>
 	</div>

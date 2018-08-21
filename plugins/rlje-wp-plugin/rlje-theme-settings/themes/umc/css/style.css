@@ -41,10 +41,13 @@ button {
 /* NAVBAR */
 
 .navbar-nav>li>a,
-.log-in,
-.free-month {
+.log-in {
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
+}
+
+ #top-nav .nav>li>a.sign-up:hover {
+    background-color: #2E86C1;
 }
 
 /* BUTTONS, TABS, AND ICONS  */
@@ -52,6 +55,26 @@ button {
 #page-subhead {
     font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
+}
+
+.btn {
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+.btn-primary {
+    background-color: #3498DB;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:active:hover {
+    background-color: #2E86C1;
+    border: 1px solid transparent;
+}
+
+.btn-lg {
+    border-radius: 0;
 }
 
 /* DROPDOWN */
@@ -165,13 +188,7 @@ button {
 
 /* OTHERS */
 
-.atv-logo {
-    width: auto;
-    margin-top: 15px;
-}
-
 .navbar {
-    margin: 0;
     background: #011f36;
 }
 .home-hero-carousel,
@@ -207,11 +224,6 @@ button {
     padding-right: 10px;
     background: #000;
     width: 100% !important;
-}
-
-.acorntv-slogan .free-month,
-.free-month {
-    background: rgba(11, 152, 184, 0.85);
 }
 
 #cover {
@@ -277,12 +289,6 @@ span[itemprop="trailer"] a button:hover {
     margin-top: 0;
 }
 
-@media all and (max-width: 768px) {
-    .atv-logo {
-        height: 35px;
-        margin-top: 12px;
-    }
-}
 @media (min-width: 768px) {
     .navbar-right-ul {
         width: auto;

@@ -3,12 +3,39 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
 
 /* BASE CSS */
-body { background:#0e0e0e; font-family:'oxygen',sans-serif; color:#ffffff; font-size:14.5px; letter-spacing:.03em; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;display: flex;flex-direction: column;min-height: 100vh;}
-h1, h2, h3, h4, h5, h6{ color: #ffffff;font-weight: 400;letter-spacing:.13em; text-transform: uppercase; text-decoration:none;font-family:'source sans pro',sans-serif;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;margin-bottom:10px;margin-top:10px;}
+body {
+    background:#0e0e0e;
+    font-family:'oxygen',
+    sans-serif;
+    color:#ffffff;
+    font-size:14.5px;
+    letter-spacing:.03em;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+h1, h2, h3, h4, h5, h6{
+    color: #ffffff;
+    font-weight: 400;
+    letter-spacing:.13em;
+    text-transform: uppercase;
+    text-decoration:none;
+    font-family:'source sans pro',sans-serif;
+    margin-bottom:10px;
+    margin-top:10px;
+}
 h3{font-size: 30px;}
 h5{font-size:14px;}
 h6{font-size:14px;}
-a {cursor:pointer;color:inherit;font-family: 'source sans pro',sans-serif; text-transform:uppercase;font-size:14px; text-decoration: none;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale; outline: 0;}
+a {
+    cursor:pointer;
+    color:inherit;
+    font-family: 'source sans pro',sans-serif;
+    text-transform:uppercase;
+    font-size:14px;
+    text-decoration: none;
+    outline: 0;
+}
 a:hover{text-decoration:none;color:#e0e0e0;}
 a:focus{color:#fff;text-decoration: none; -moz-outline-style: none; outline: none; outline-style: none;background: transparent;}
 p {font-family:'oxygen',sans-serif;font-weight:400;font-size: 14px;line-height:23px;letter-spacing:.02em;text-transform: none;}
@@ -26,26 +53,102 @@ section {flex: 1;}
 .secondary-bg{background:#060606;width:100%;margin-top: -16px}
 
 /* NAVBAR */
-.atv-logo{width:154px; margin-top:16px; margin-left:11px;}
-.navbar{background:#161616;border:none;height:56px;box-shadow: 0 0 30px -5px #050505;-moz-box-shadow: 0 0 20px -5px #000000;-webkit-box-shadow: 0 0 20px -5px #050505;}
-.navbar-nav {padding:0px 0px 0px 20px;}
-.navbar-nav > #searchform {display: none;}
-.navbar-nav > li > a{padding-top:27px;font-family: 'source sans pro', sans-serif;letter-spacing: .17em;font-weight:600;display: inline-block; text-transform:uppercase;font-size:11px;color:#fff;}
-.nav > li > a:hover{background:none;}
-.nav > li > a:focus{background:transparent;}
-.navbar-collapse {margin-top:5px;box-shadow: none;padding-left: 0px}
-.navbar-toggle {display: block;margin-top: 14px;float:left;margin-right: -10px}
-.navbar-right{display: block; position: relative;float:right;margin-right:0px;}
-.navbar-right-ul{float:right;width:110px;margin-top:0px;}
-.navbar-toggle .icon-bar {border-radius: 0;width: 15px;height:1px;}
-.log-in{color: #fff;display: inline-block;font-family: 'source sans pro',sans-serif;font-size: 10.3px;font-weight: 600;letter-spacing: 0.17em;margin-top: 20px;text-transform: uppercase;margin-right:0px;margin-left: 10px}
-.free-month{color: #fff;display: inline-block;font-family: 'source sans pro',sans-serif;font-size: 13.8px;font-weight: 600;letter-spacing: 0.17em;margin-top: 15px;text-transform: uppercase;padding:12px;background:rgba(11, 152, 184, 0.85) none repeat scroll 0 0;margin-left:8px;}
+#top-nav {
+    border:none;
+    box-shadow: 0 0 30px -5px #050505;
+}
+
+#top-nav ul.nav {
+    color: white;
+}
+
+#top-nav .navbar-toggle {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+#top-nav .navbar-brand {
+    height: 55px;
+    padding: 10px 15px;
+}
+
+#top-nav .navbar-brand img {
+    height: 35px;
+}
+
+#top-nav .nav>li>a {
+    padding: 18px 10px;
+}
+
+#top-nav .nav>li>a:focus,
+#top-nav .nav>li>a:hover {
+    background-color: inherit;
+}
+
+@media screen and (min-width: 768px) {
+    #top-nav .navbar-brand {
+        height: 70px;
+    }
+    #top-nav .navbar-brand img {
+        height: 50px;
+    }
+    #top-nav .nav>li>a {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+}
+
+
+@media screen and (min-width: 992px) {
+    #top-nav .nav>li>a.sign-up {
+        margin-top: 14px;
+        padding: 10px 15px;
+    }
+}
+
 .admin-bar .navbar-fixed-top {margin-top: 32px;}
 
+@media screen and (max-width: 782px ) {
+    .admin-bar .navbar-fixed-top {
+        margin-top: 46px;
+    }
+}
+
+.navbar .navbar-collapse .search-form {
+    position: static;
+    float: left;
+}
+
+@media screen and (max-width: 600px) {
+    /*
+        At smaller view ports, WP admin bar becomes relative.
+        Fix it in place so it won't overlap our fix top navbar
+    */
+    #wpadminbar {
+        position: fixed;
+    }
+}
+
 /* NAVBAR-USER DROPDOWN */
-.menuOptions {width: auto;padding: 20px 15px 18px;}
-.navbar-right-ul {width: auto;}
-.navbar-right .drop-select {position: absolute;top: 55px;right: -75px;}
+#top-nav .dropdown-menu {
+    background-color: rgba(1, 31, 54, 0.95);
+    border-radius: 0;
+}
+#top-nav .dropdown-menu>li>a {
+    color: white;
+    padding: 20px 25px;
+}
+
+#top-nav .dropdown-menu>li>a:hover,
+#top-nav .dropdown-menu>li>a:active {
+    background-color: rgba(1, 31, 54, 1);
+}
+
+#top-nav .nav .open>a,
+#top-nav .nav .open>a:focus,
+#top-nav .nav .open>a:hover {
+    background-color: inherit;
+}
 
 /* Active Features Block - Header Block */
 .active-features {position: relative;}
@@ -60,10 +163,24 @@ section {flex: 1;}
 .navbar-video-debugging {position: relative; bottom: 4px; right: 4.5%; display: inline-block; background-color: green; padding: 3px 8px; font-size: 10px;}
 
 /* SEARCH */
-#search-button{background: #9e9e9e none repeat scroll 0 0;border: medium none;color: #555;margin-left: 200px;margin-top: 20px;padding: 7.5px;position: absolute;z-index: 1;}
-#search-input{background: #9e9e9e none repeat scroll 0 0;outline-style: none;color: rgb(238, 238, 238); font-weight: 100; height: 38px; margin:20px 20px 15px 25px; width: 220px;  font-size: 14px; padding: 10px; letter-spacing: 0.02em;border:none;}
+#search-button{
+    background: #9e9e9e none repeat scroll 0 0;
+    border: medium none;
+    color: #555;
+    padding: 7.5px;
+    z-index: 1;
+}
+#search-input{
+    background: #9e9e9e none repeat scroll 0 0;
+    outline-style: none;
+    color: rgb(238, 238, 238);
+    font-weight: 100;
+    height: 38px;
+    width: 220px;
+    font-size: 14px; padding: 10px;
+    border:none;
+}
 #signup{margin-bottom:0px;}
-#searchform{display:inline-block;margin-bottom:5px;float:left;}
 input::-webkit-input-placeholder {color: #ccc;}
 input:focus::-webkit-input-placeholder {color: transparent;}
 input:-moz-placeholder {color: #ccc;}
@@ -217,7 +334,6 @@ input:-ms-input-placeholder {color: #ccc;}
 .acorntv-slogan h4 {text-transform: none;font-weight:lighter;letter-spacing: normal;}
 .acorntv-slogan h3 {font-size: 13.5px;}
 .acorntv-slogan h4 {font-size: 0px;}
-.acorntv-slogan .free-month {font-weight: 600;font-size: 9px;background-color: #ca0348;margin-top: -5px;}
 .acorntv-slogan button,.acorntv-slogan button:hover,.acorntv-slogan button:focus {border: none;outline: none;padding: 0;margin: 0;}
 .acorntv-slogan button {position: relative;left: 0;transform: none;}
 .acorntv-slogan button span {vertical-align: middle;}
@@ -319,10 +435,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .navbar-right-ul.accountUser {max-width: 155px;}
 .navbar-right-ul.accountUser > li{width: 100%;text-align: right;}
 .accountOptions {vertical-align: middle;}
-/* .accountIcon {margin-left: 5px;margin-top: 9px;} */
-.navbar-collapse .menuOptions {min-width: 200px;padding: 15px;}
-.navbar-collapse .drop-select {width: 100%;min-width: 190px;}
-.navbar-collapse.side-collapse {overflow-y: auto;}
+.accountIcon {margin-left: 5px;margin-top: 9px;}
 .outer-container.episode-player {margin: 0 auto;max-width: 965px;position: relative;overflow: visible;}
 #brightcove-episode-player {width: 100%;}
 .outer-container.episode-player img {opacity:.18;}
@@ -385,7 +498,6 @@ p {font-size: 14.5px;}
  /* SPLASH-SLOGAN */
 .acorntv-slogan h3 {font-size: 18px;}
 .acorntv-slogan h4 {font-size: 14px;}
-.acorntv-slogan .free-month {font-size: 11px;margin-top: 15px;margin-bottom: 10px;}
 }
 
 @media all and (min-width: 480px) and (transform-3d), all and (min-width: 480px) and (-webkit-transform-3d) {
@@ -416,14 +528,7 @@ p {font-size: 14.5px;}
 .secondary-bg{margin-top: 0px}
 
 /* NAVBAR */
-.navbar{height:75px;}
-.navbar-nav > li > a{font-size:13.8px;}
-.atv-logo{width:215px;margin-top:20px;margin-left: 0px;}
-.navbar-collapse {margin-top:13px;}
 .navbar-right-ul{width:275px;}
-.navbar-toggle {margin-top: 22px;margin-right: 0px}
-.navbar-toggle .icon-bar {width: 22px;height: 1.7px}
-.log-in{font-size: 13.8px;margin-top: 27px;margin-left: 20px}
 
 /* NAVBAR-USER DROPDOWN */
 .menuOptions {padding: 30px 15px 25px;text-align: right;}
@@ -472,7 +577,6 @@ p {font-size: 14.5px;}
 .acorntv-slogan {top: 50px;}
 .js-play {border: none;border-radius: 1px;color: #fff;display: inline-block;font-size: 12.5px;text-transform:uppercase;left: 50%;padding: 10px 20px;position: absolute;top: 50%;transform: translateX(-50%) translateY(-50%);}
 .acorntv-slogan h4 {font-size: 18px;}
-.acorntv-slogan .free-month {font-size: 12px;}
 
 /* BUTTONS, TABS, AND ICONS  */
 #page-subhead{font-size:14px;margin-right: 20px }
@@ -568,8 +672,6 @@ p {font-size: 14.5px;}
 .menuOptions,.drop-select li {font-size: 13.8px;}
 .drop-select li a {padding: 22px;display: block;font-size: 12.5px}
 .menuOptions {width: 190px;padding: 27px 0 0;text-align: center;}
-.navbar-collapse .menuOptions {text-align: left;}
-.navbar-toggle {display: block;}
 
 /* CAROUSEL */
 .control-position {position:relative;}
@@ -627,13 +729,6 @@ p {font-size: 14.5px;}
 @media all and (min-width: 1150px) {
 
 /* NAVBAR */
-.navbar-toggle {display:none;}
-.navbar-collapse {margin: 0px}
-#search-button{display:none;}
-#search-input{display:none;}
-#search-button{display:inline-block;margin-left:130px;}
-#search-input{display:inline-block; width: 130px;margin: 20px 3px 15px 0px;}
-#searchform{float:right;margin-left:10px}
 #store-link{display:none;}
 .store-link{display:none;}
 
@@ -645,26 +740,13 @@ p {font-size: 14.5px;}
 
 /* Video Debugger - Header Block */
 .navbar-video-debugging {bottom: 5px;}
-
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: none}
 }
-
-/* @media (max-width: 1275px) {
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: none;}
-} */
 
 @media (min-width: 1251px) {
 /* VALTIRAS ADDITIONS */
-.menuOptions, .navbar-collapse .menuOptions {font-size: 13.8px;width: 190px;padding: 27px 0 0;text-align: center;}
-.navbar-collapse.side-collapse {overflow-y: visible;}
 .drop-select {top: 28px;left: -15px;}
 .drop-select li {font-size: 12.5px;}
 .drop-select li a {padding: 25px;display: block;font-size: 12.5px}
-.navbar-collapse .drop-select {width: 190px;}
-#searchform {margin-left: 1rem;}
-
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: inline-block;}
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+5) {display: none}
 }
 
 
@@ -672,10 +754,6 @@ p {font-size: 14.5px;}
 .carousel-inner {margin:0 auto;}
 #store-link{display:block;}
 .store-link{display:block;}
-
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+4) {display: inline-block;}
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+5) {display: inline-block;}
-.navbar-collapse.side-collapse .navbar-nav li:nth-of-type(n+6) {display: none}
 }
 
 @media (min-width:1400px){
@@ -693,20 +771,7 @@ p {font-size: 14.5px;}
 
 /* NAVBAR */
 .navbar-toggle .icon-bar {background: #fff none repeat scroll 0 0;}
-.navbar-header {float: none;}
-.nav > li {display: inline-block;position: relative;width: 100%;margin-bottom: 8px;padding-left: 15px;padding-top:8px;border-top: thin solid #141414;}
-.navbar-collapse {border-top:none; background: #0b0b0b none repeat scroll 0 0;}
-.navbar-collapse.collapse {display: none!important;}
-.navbar-nav {float: none!important;margin: 7.5px -15px;}
-.navbar-nav > #searchform {display: inline-block;}
-.navbar-nav > #searchform #search-button {right: 30px;}
-.navbar-nav>li {float: none;}
-.navbar-nav>li>a {padding-top: 10px;padding-bottom: 10px;}
 .navbar-text {float: none;margin: 15px 0;}
-.navbar-collapse.collapse.in { display: block!important;}
-.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {max-height: none;}
-.admin-bar .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {margin-top: calc(32px + 15px);}
-.navbar-right-ul ~ #searchform {display: none;}
 
 /* NAVBAR-SLIDEOUT */
 .collapsing {overflow: hidden!important;}

@@ -112,7 +112,7 @@ get_header();
 					<!-- <h4>Always available, always commercial free</h4> -->
 					<h3><?php echo esc_html( $video_placeholder_title_text ); ?></h3>
 					<h4><?php echo esc_html( $video_placeholder_text ); ?></h4>
-					<a class="free-month" href="https://signup<?php echo $environment; ?>.acorn.tv/createaccount.html">Start Free Trial</a>
+					<a class="btn btn-primary" href="<?php echo home_url('/signup') ?>">Start Free Trial</a>
 				</div>
 					<?php
 				endif;
