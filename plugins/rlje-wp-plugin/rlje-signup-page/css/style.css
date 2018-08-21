@@ -1,6 +1,12 @@
 body {
     letter-spacing: initial;
-    padding-top: 75px;
+    padding-top: 55px;
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
 }
 
 #signup {
@@ -67,9 +73,13 @@ body {
 
 h4.form-head {
     font-size: 22px;
-    margin: 20px 0 15px;
+    margin: 20px 0;
     border-bottom: 1px solid #eee;
-    padding-bottom:  10px;
+    padding-bottom:  5px;
+}
+
+form.signup .signup-form-group {
+    margin-bottom: 30px;
 }
 
 form.signup #plans {
