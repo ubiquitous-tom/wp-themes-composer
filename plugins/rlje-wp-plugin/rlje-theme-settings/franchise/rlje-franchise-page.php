@@ -252,14 +252,21 @@ class RLJE_Franchise_Page {
 
 	protected function get_available_franchise_list() {
 		$country  = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
-		$response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
 
-		if ( is_wp_error( $response ) ) {
-			return array();
+		$transient_key = 'rlje_franchise_list_' . strtolower( $country );
+		$current_country_available_franchises = get_transient( $transient_key );
+		if ( false === $current_country_available_franchises ) {
+			$response = wp_remote_get( esc_url_raw( CONTENT_BASE_URL . '/today/web/franchiselist?country=' . $country ) );
+
+			if ( is_wp_error( $response ) ) {
+				return array();
+			}
+			$body                                 = wp_remote_retrieve_body( $response );
+			$current_country_available_franchises = json_decode( $body, true );
+			// var_dump($current_country_available_franchises);
+			set_transient( $transient_key, $current_country_available_franchises, 15 * MINUTE_IN_SECONDS );
 		}
-		$body                                 = wp_remote_retrieve_body( $response );
-		$current_country_available_franchises = json_decode( $body, true );
-		// var_dump($current_country_available_franchises);
+
 		$franchises = array();
 		if ( empty( $current_country_available_franchises[ $country ] ) ) {
 			return array();

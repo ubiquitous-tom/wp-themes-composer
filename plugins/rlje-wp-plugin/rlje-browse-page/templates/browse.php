@@ -38,7 +38,7 @@ if ( $rlje_api_wp_is_user_active ) {
 		$list_sections
 	);
 } elseif ( $active_section === 'recentlywatched' || $active_section === 'yourwatchlist' ) {
-	wp_safe_redirect( home_url( 'browse' ) );
+	wp_safe_redirect( trailingslashit( home_url( 'browse' ) ) );
 	exit;
 }
 $list_sections = array_merge( array( 'all' => 'All Shows' ), $list_sections ); // Add All Shows always as first item.
@@ -55,17 +55,17 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 			<?php endforeach; ?>
 		</ul>
 		<?php
-			$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'section' );
+		$have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'section' );
 		if ( $have_franchises_available ) :
 			if ( $is_order_by_enabled ) :
-				?>
+			?>
 		<div id="page-subhead" class="browse-order">
 			<span>SORT BY:</span>
 			<a class="browse-order-option active js-orderby-added" href="#date-added">Date Added</a>
 			<a class="browse-order-option js-orderby-az" href="#a-z">A to Z</a>
 		</div>
-				<?php
-				endif;
+			<?php
+			endif;
 			if ( empty( $active_section ) ) :
 				// Show initial Browse Page.
 				set_query_var( 'spotlight_items', $guide_items );
@@ -76,38 +76,40 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 					?>
 		<!-- Category Content Column Grid -->
 		<div class="objects" >
-					<?php
-					$array_list_items = array();
-					switch ( $active_section ) {
-						case 'all':
-							unset( $list_sections['all'] );
-							if ( $rlje_api_wp_is_user_active ) {
-								unset( $list_sections['recentlywatched'] );
-								unset( $list_sections['yourwatchlist'] );
-							}
-							foreach ( $list_sections as $key => $value ) {
-								$list_section_keys[] = apply_filters( 'atv_convert_browseSlug_to_contentID', $key );
-							}
-							$list_items       = rljeApiWP_getBrowseAllBySection( $list_section_keys, $atv_session_cookie );
-							$array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
-							break;
-						case 'recentlywatched':
-							$array_list_items = rljeApiWP_getUserRecentlyWatched( $atv_session_cookie );
-							break;
-						case 'yourwatchlist':
-							$array_list_items = rljeApiWP_getUserWatchlist( $atv_session_cookie );
-							break;
-						default:
-							$list_items       = rljeApiWP_getItemsByCategoryOrCollection( apply_filters( 'atv_convert_browseSlug_to_contentID', $active_section ) );
-							$array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
-							break;
+			<?php
+			$array_list_items = array();
+			switch ( $active_section ) {
+				case 'all':
+					unset( $list_sections['all'] );
+					if ( $rlje_api_wp_is_user_active ) {
+						unset( $list_sections['recentlywatched'] );
+						unset( $list_sections['yourwatchlist'] );
 					}
-					set_query_var( 'array_list_items', $array_list_items );
-					?>
-					<div class="item" style="margin-left:0px;width:100%;padding-bottom:30px;">
-						<?php //get_template_part( 'partials/list-browse-items' ); ?>
-						<?php require plugin_dir_path( __FILE__ ) . '../partials/list-browse-items.php'; ?>
-					</div>
+					foreach ( $list_sections as $key => $value ) {
+						// $list_section_keys[] = apply_filters( 'atv_convert_browseSlug_to_contentID', $key );
+						$list_section_keys[] =  $key;
+					}
+					$list_items       = rljeApiWP_getBrowseAllBySection( $list_section_keys, $atv_session_cookie );
+					$array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
+					break;
+				case 'recentlywatched':
+					$array_list_items = rljeApiWP_getUserRecentlyWatched( $atv_session_cookie );
+					break;
+				case 'yourwatchlist':
+					$array_list_items = rljeApiWP_getUserWatchlist( $atv_session_cookie );
+					break;
+				default:
+					// $list_items       = rljeApiWP_getItemsByCategoryOrCollection( apply_filters( 'atv_convert_browseSlug_to_contentID', $active_section ) );
+					$list_items       = rljeApiWP_getItemsByCategoryOrCollection( $active_section );
+					$array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
+					break;
+			}
+			set_query_var( 'array_list_items', $array_list_items );
+			?>
+			<div class="item" style="margin-left:0px;width:100%;padding-bottom:30px;">
+				<?php //get_template_part( 'partials/list-browse-items' ); ?>
+				<?php require plugin_dir_path( __FILE__ ) . '../partials/list-browse-items.php'; ?>
+			</div>
 		</div>
 					<?php
 				endif;

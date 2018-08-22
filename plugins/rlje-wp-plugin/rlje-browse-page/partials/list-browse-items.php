@@ -1,6 +1,6 @@
 <?php
-global $wp_query;
-$list_items      = $wp_query->query_vars['array_list_items'];
+// global $wp_query;
+$list_items       = get_query_var( 'array_list_items' ); //$wp_query->query_vars['array_list_items'];
 $base_url_path    = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
 $total_list_items = count( $list_items );
 if ( $total_list_items > 0 ) :
@@ -43,10 +43,13 @@ endif;
 		?>
 <div class="row">
 		<?php
-		if ( $wp_query->query_vars['section'] === 'yourwatchlist' ) {
-			$wp_query->query_vars['no_result_message'] = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
+		// if ( $wp_query->query_vars['section'] === 'yourwatchlist' ) {
+		if ( get_query_var( 'section' ) === 'yourwatchlist' ) {
+			// $wp_query->query_vars['no_result_message'] = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
+			set_query_var( 'no_result_message', 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>' );
 		}
-		$wp_query->query_vars['no_result_inline'] = true;
+		// $wp_query->query_vars['no_result_inline'] = true;
+		set_query_var( 'no_result_inline', true );
 		get_template_part( 'partials/no-result-message' );
 		?>
 	<script>
