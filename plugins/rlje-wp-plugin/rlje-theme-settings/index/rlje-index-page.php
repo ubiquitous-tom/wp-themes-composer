@@ -20,7 +20,7 @@ class RLJE_Index_Page {
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_sections' ) );
 		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
 		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_spotlights' ) );
-		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callback' ) );
+		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callout' ) );
 	}
 
 	public function initialize_index() {
@@ -72,37 +72,37 @@ class RLJE_Index_Page {
 
 				$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
 				if ( 0 < count( $watch_spotlight_items ) ) :
-			?>
+					?>
 		<section class="home-featured">
 			<div class="container">
 				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
 				<div class="col-md-12">
-				<?php
+					<?php
 					set_query_var( 'carousel-items', $watch_spotlight_items );
 					// get_template_part( 'partials/section-generic-carousel' );
 					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
-				?>
+					?>
 				</div>
-				<?php
+					<?php
 				endif;
 
 				$watchlist_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'watchlist' );
 				if ( 0 < count( $watchlist_spotlight_items ) ) :
-				?>
+					?>
 				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
 				<div class="col-md-12">
-				<?php
+					<?php
 					set_query_var( 'carousel-items', $watchlist_spotlight_items );
 					// get_template_part( 'partials/section-generic-carousel' );
 					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
-				?>
+					?>
 				</div>
-				<?php
+					<?php
 				endif;
-			?>
+				?>
 			</div>
 		</section>
-			<?php
+				<?php
 				$html = ob_get_clean();
 				echo $html;
 
@@ -113,20 +113,27 @@ class RLJE_Index_Page {
 
 	public function display_home_sections() {
 		if ( is_home() || is_front_page() ) {
-			foreach ( $this->home_sections['section_position'] as $section_position ) {
-				switch ( $section_position->section_type ) {
-					case 'news-and-reviews':
-						$this->display_home_news_and_reviews_section();
-						break;
-					case 'home-featured':
-						$this->display_home_featured_section( $section_position );
-						break;
-					case 'home-spotlight':
-						$this->display_home_spotlight_section( $section_position );
-						break;
-					default:
-						// Do nothing.
+			if ( ! empty( $this->home_sections['section_position'] ) ) {
+				foreach ( $this->home_sections['section_position'] as $section_position ) {
+					switch ( $section_position->section_type ) {
+						case 'news-and-reviews':
+							$this->display_home_news_and_reviews_section();
+							break;
+						case 'home-featured':
+							$this->display_home_featured_section( $section_position );
+							break;
+						case 'home-spotlight':
+							$this->display_home_spotlight_section( $section_position );
+							break;
+						default:
+							// Do nothing.
+					}
 				}
+			} else { // FALLBACK
+				global $rlje_news_and_reviews;
+				$this->display_home_featured();
+				$rlje_news_and_reviews->display_news_and_reviews();
+				$this->display_home_spotlights();
 			}
 		}
 	}
@@ -183,7 +190,7 @@ class RLJE_Index_Page {
 				<?php
 					$spotlight            = $home_spotlight;
 					$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
-					?>
+				?>
 				<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT -->
 				<div class="col-md-12">
 					<?php
@@ -206,28 +213,33 @@ class RLJE_Index_Page {
 		endif;
 	}
 
+	// FALLBACK FOR HOME SECTION POSITIONING - HOME FEATURED
 	public function display_home_featured() {
 		if ( is_home() || is_front_page() ) :
-			if ( empty( $this->home_sections['section_position'] ) ) {
-				return;
-			}
+			// if ( empty( $this->home_sections['section_position'] ) ) {
+			// 	return;
+			// }
 
 			$home_featured = [];
-			foreach ( $this->home_sections['section_position'] as $section_position ) {
-				if ( 'news-and-reviews' !== $section_position->id ) {
-					$home_featured[] = $section_position;
-				} else {
-					break;
-				}
-			}
+			// foreach ( $this->home_sections['section_position'] as $section_position ) {
+			// 	if ( 'news-and-reviews' !== $section_position->id ) {
+			// 		$home_featured[] = $section_position;
+			// 	} else {
+			// 		break;
+			// 	}
+			// }
+			$categories_items = $this->categories_items;
+			$home_featureds   = array_splice( $categories_items, 0, 2 );
 
 			ob_start();
 			?>
 		<section class="home-featured">
 			<div class="container">
 			<?php
-			for ( $i = 0; $i < 2 && isset( $home_featured[ $i ] ); $i++ ) :
-				$spotlight            = $home_featured[ $i ];
+			// for ( $i = 0; $i < 2 && isset( $home_featured[ $i ] ); $i++ ) :
+			foreach ( $home_featureds as $home_featured ) :
+				// $spotlight            = $home_featured[ $i ];
+				$spotlight            = $home_featured;
 				$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
 				?>
 				<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT-->
@@ -244,7 +256,7 @@ class RLJE_Index_Page {
 					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 				?>
 				</div>
-			<?php endfor; ?>
+			<?php endforeach; //endfor; ?>
 			</div>
 		</section>
 			<?php
@@ -253,47 +265,50 @@ class RLJE_Index_Page {
 		endif;
 	}
 
+	// FALLBACK FOR HOME SECTION POSITIONING - HOME SPOTLIGHTS
 	public function display_home_spotlights() {
 		if ( is_home() || is_front_page() ) :
-			if ( empty( $this->home_sections['section_position'] ) ) {
-				return;
-			}
+			// if ( empty( $this->home_sections['section_position'] ) ) {
+			// 	return;
+			// }
 
 			$home_spotlights = [];
-			$is_found = false;
-			foreach ( $this->home_sections['section_position'] as $section_position ) {
-				if ( 'news-and-reviews' === $section_position->id || $is_found ) {
-					$is_found = true;
-					$home_spotlights[] = $section_position;
-				}
-			}
+			// $is_found        = false;
+			// foreach ( $this->home_sections['section_position'] as $section_position ) {
+			// 	if ( 'news-and-reviews' === $section_position->id || $is_found ) {
+			// 		$is_found          = true;
+			// 		$home_spotlights[] = $section_position;
+			// 	}
+			// }
+			$categories_items = $this->categories_items;
+			$home_spotlights  = array_splice( $categories_items, 2 );
 
 			ob_start();
 			?>
 		<section class="home-spotlights">
 			<div class="container">
-				<?php
-				for ( $i =  2; $i < count( $home_spotlights ); $i++ ) :
-					$spotlight            = $home_spotlights[ $i ];
-					$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
-					?>
-			<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT -->
+			<?php
+			// for ( $i = 2; $i < count( $home_spotlights ); $i++ ) :
+			foreach ( $home_spotlights as $home_spotlight ) :
+				// $spotlight            = $home_spotlights[ $i ];
+				$spotlight            = $home_spotlight;
+				$this->spotlight_name = ( ! empty( $spotlight->name ) ) ? $spotlight->name : '';
+				?>
+				<!-- <?php echo strtoupper( $this->spotlight_name ); ?> SPOTLIGHT -->
 				<div class="col-md-12">
-					<?php
-						set_query_var(
-							'carousel-section', array(
-								'title'           => $this->spotlight_name,
-								'categoryObj'     => $spotlight,
-								'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
-							)
-						);
+				<?php
+					set_query_var(
+						'carousel-section', array(
+							'title'           => $this->spotlight_name,
+							'categoryObj'     => $spotlight,
+							'showViewAllLink' => ( isset( $this->browse_id_list_availables[ $spotlight->id ] ) ),
+						)
+					);
 					// get_template_part( 'partials/section-carousel-pagination' );
 					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
-					?>
-				</div>
-					<?php
-					endfor;
 				?>
+				</div>
+				<?php endforeach; //endfor; ?>
 			</div>
 		</section>
 			<?php
@@ -302,22 +317,22 @@ class RLJE_Index_Page {
 		endif;
 	}
 
-	public function display_callback() {
+	public function display_callout() {
 		if ( is_home() || is_front_page() ) :
-			$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
+			$environment  = apply_filters( 'atv_get_extenal_subdomain', '' );
 			$is_activated = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
 			if ( ! $is_activated ) {
 				return;
 			}
 
-			$callout_one = ( ! empty( $this->theme_text_settings['callout']['one'] ) ) ? $this->theme_text_settings['callout']['one'] : array();
-			$callout_one_text = ( ! empty( $callout_one['text'] ) ) ? $callout_one['text'] : 'Available on Roku, Apple TV, Samsung Smart TV, iPhone, iPad, web and more.';
-			$callout_one_link = ( ! empty( $callout_one['link'] ) ) ? $callout_one['link'] : home_url( '/' );
+			$callout_one           = ( ! empty( $this->theme_text_settings['callout']['one'] ) ) ? $this->theme_text_settings['callout']['one'] : array();
+			$callout_one_text      = ( ! empty( $callout_one['text'] ) ) ? $callout_one['text'] : 'Available on Roku, Apple TV, Samsung Smart TV, iPhone, iPad, web and more.';
+			$callout_one_link      = ( ! empty( $callout_one['link'] ) ) ? $callout_one['link'] : home_url( '/' );
 			$callout_one_link_text = ( ! empty( $callout_one['link_text'] ) ) ? $callout_one['link_text'] : 'Learn More';
 
-			$callout_two = ( ! empty( $this->theme_text_settings['callout']['two'] ) ) ? $this->theme_text_settings['callout']['two'] : array();
-			$callout_two_text = ( ! empty( $callout_two['text'] ) ) ? $callout_two['text'] : 'Over 1,800 hours of programming, including 60 shows you won\'t find anywhere else.';
-			$callout_two_link = ( ! empty( $callout_two['link'] ) ) ? $callout_two['link'] : home_url( '/' );
+			$callout_two           = ( ! empty( $this->theme_text_settings['callout']['two'] ) ) ? $this->theme_text_settings['callout']['two'] : array();
+			$callout_two_text      = ( ! empty( $callout_two['text'] ) ) ? $callout_two['text'] : 'Over 1,800 hours of programming, including 60 shows you won\'t find anywhere else.';
+			$callout_two_link      = ( ! empty( $callout_two['link'] ) ) ? $callout_two['link'] : home_url( '/' );
 			$callout_two_link_text = ( ! empty( $callout_two['link_text'] ) ) ? $callout_two['link_text'] : 'Start Your Free Trial';
 
 			ob_start();
