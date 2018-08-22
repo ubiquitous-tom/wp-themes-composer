@@ -37,8 +37,7 @@ get_header();
 				<!-- Previous link -->
 				<span class="subnav-prev hidden-xs hidden-sm">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>">
-					<span><img src="<?php echo apply_filters( 'atv_get_image_url', 'left-arrow?t=Icons' ); ?>" id="archive-arrows"></span>
-						Back <!-- to Series-->
+						<span>Back <!-- to Series--></span>
 					</a>
 				</span>
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise->id ) ) ); ?>" id="subnav-title"><span itemprop="name"><?php echo $franchise->name; ?></span></a> Trailer   <!-- Next link -->
@@ -51,7 +50,6 @@ get_header();
 					<?php if ( isset( $franchise->seasons[0], $franchise->seasons[0]->episodes[0] ) ) : ?>
 					<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ) ); ?>">
 						<span>Watch Episode</span>
-						<img src="<?php echo apply_filters( 'atv_get_image_url', 'right-arrow?t=Icons' ); ?>" id="archive-arrows">
 					</a>
 					<?php endif; ?>
 				</span>

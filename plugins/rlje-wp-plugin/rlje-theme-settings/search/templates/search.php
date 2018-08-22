@@ -80,8 +80,8 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"></a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next"></a>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -175,8 +175,8 @@ if ( $have_franchises_available ) :
 					?>
 				</div>
 			</div>
-			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-			<a class="right carousel-control" href="#<?php echo $section_key; ?>" data-slide="next" id="carousel-arrow"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+			<a class="left carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="prev"></a>
+			<a class="right carousel-control" href="#<?php echo $section_key; ?>" id="carousel-arrow" data-slide="next"></a>
 		</div>
 		<?php endif; ?>
 	</div>

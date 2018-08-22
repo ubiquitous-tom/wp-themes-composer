@@ -19,7 +19,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 
 <?php if ( $is_showing_view_all ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo esc_url( trailingslashit( home_url( $browse_id ) ) ); ?>"> View all <span><img width="8" src="https://api.rlje.net/acorn/artwork/size/double-arrows-white?t=Icons"/></span></a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( $browse_id ) ) ); ?>"> View all </a>
 </div>
 <?php endif; ?>
 
@@ -81,8 +81,8 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 		</div>
 	</div>
 	<?php if ( $is_showing_arrows ) : ?>
-	<a class="left carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="prev"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-left?t=Icons"/></a>
-	<a class="right carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="next"><img class="carousel-img" src="https://api.rlje.net/acorn/artwork/size/carousel-right?t=Icons"/></a>
+	<a class="left carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="prev"></a>
+	<a class="right carousel-control" href="#<?php echo esc_attr( $browse_id ); ?>" id="carousel-arrow" data-slide="next"></a>
 	<?php endif; ?>
 </div>
 	<?php

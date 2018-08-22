@@ -115,8 +115,8 @@ if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 
 				?>
 			<?php if ( $showing_carosel ) : ?>
 			</div>
-			<a class="left carousel-control" href="#newreleases"  id="carousel-arrow"  data-slide="prev"><img class="carousel-img"  src="<?php echo get_template_directory_uri(); ?>/img/arrowleft.png"/></a>
-			<a class="right carousel-control" href="#newreleases" data-slide="next"   id="carousel-arrow" ><img class="carousel-img" src="<?php echo get_template_directory_uri(); ?>/img/arrowright.png"/></a>
+			<a class="left carousel-control" href="#newreleases" id="carousel-arrow" data-slide="prev"></a>
+			<a class="right carousel-control" href="#newreleases" id="carousel-arrow" data-slide="next"></a>
 			<?php endif; ?>
 		</div>
 	<?php if ( $showing_carosel ) : ?>

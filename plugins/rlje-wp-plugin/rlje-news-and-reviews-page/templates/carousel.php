@@ -5,8 +5,12 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 	<div class="home-hero-carousel">
 		<div id="<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" class="carousel slide carousel-fade " data-pause="true"  data-interval="false" data-ride="carousel">
 			<?php if ( count( $marketing_places ) > 1 ) : ?>
-			<a class="left carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="prev" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" width="35px"></a>
-			<a class="right carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="next" id="carousel-arrow"><img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" width="35px"></a>
+			<a class="left carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="prev" id="carousel-arrow">
+				<img src="<?php echo esc_url( plugins_url( '../img/carousel-left.png', __FILE__ ) ); ?>" width="35px">
+			</a>
+			<a class="right carousel-control" href="#<?php echo sanitize_html_class( 'carousel_fade_' . $news_group );?>" data-slide="next" id="carousel-arrow">
+				<img src="<?php echo esc_url( plugins_url( '../img/carousel-right.png', __FILE__ ) ); ?>" width="35px">
+			</a>
 			<?php endif; ?>
 
 			<div class="carousel-inner">
@@ -39,7 +43,6 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 							data-player="<?php echo esc_attr( $this->brightcove['bc_player_id'] ); ?>"
 							data-embed="default"
 							data-video-id="ref:<?php echo esc_attr( $item['src'] ); ?>"
-
 							class="video-js embed-responsive embed-responsive-16by9"
 							controls></video>
 					</div>

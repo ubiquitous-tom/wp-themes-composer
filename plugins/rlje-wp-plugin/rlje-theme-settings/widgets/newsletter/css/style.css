@@ -18,7 +18,7 @@
 }
 
 #signup-newsletter-widget #signup-newsletter-button {
-    background: #222 url('https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons') no-repeat center 4px scroll;
+    background: #222 url('../img/right-arrow.png') no-repeat center 4px scroll;
     background-size: 25px 25px;
     display: inline-block;
     height: 40px;

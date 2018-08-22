@@ -9,6 +9,7 @@ class RLJE_UMC_Theme {
 
 		add_filter( 'rlje_main_favicon_url', array( $this, 'umc_main_favicon_url' ) );
 		add_filter( 'rlje_theme_header_logo', array( $this, 'theme_header_logo' ), 11 );
+		add_filter( 'rlje_json_ld_header', array( $this, 'umc_json_ld_header' ) );
 		add_filter( 'atv_add_img_and_href', array( $this, 'umc_add_img_and_href' ) );
 		add_filter( 'rlje_franchise_artwork', array( $this, 'umc_franchise_artwork_image_h' ), 10, 2 );
 		add_filter( 'rlje_title', array( $this, 'umc_title_format' ) );
@@ -44,6 +45,17 @@ class RLJE_UMC_Theme {
 		$logo_url = plugin_dir_url( __FILE__ ) . 'img/logo.png';
 
 		return $logo_url;
+	}
+
+	public function umc_json_ld_header( $json_ld ) {
+		$json_ld['image']     = plugins_url( 'img/logo.png', __FILE__ );
+		$json_ld['publisher'] = [
+			'logo'  => [
+				'url'    => plugins_url( 'img/logo.png', __FILE__ ),
+			],
+		];
+
+		return $json_ld;
 	}
 
 	public function umc_add_img_and_href( $item ) {

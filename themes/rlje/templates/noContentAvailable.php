@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="<?php echo get_bloginfo('template_url') ?>/img/favicon.ico">
     <title>Acorn TV | <?php bloginfo('description'); ?></title>
     <meta name="description" content="<?php bloginfo('description'); ?>">
-    <link rel="stylesheet" id="bootstrap_css-css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" media="all">    
+    <link rel="stylesheet" id="bootstrap_css-css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" media="all">
     <?php
     get_template_part('/partials/google-analytics');
     ?>
@@ -40,7 +40,7 @@ body { /*background:#0e0e0e;*/ font-family:'oxygen',sans-serif; color:#ffffff; f
 .message-block {margin: 0 auto;max-width: 800px;text-align: center;}
 .message-block p {color: white;font-size: 25.5px;}
 .message {vertical-align: middle;position: relative;margin-top: 290px;display: inline-block;}
-.message-container {position: fixed;top: 20%;left: 0;right: 0;top: 0;bottom: 0;background-image: url(https://api.rlje.net/acorn/artwork/size/hero-desktop_bb2?t=Landing);height: 100%;background-position: center;background-repeat: no-repeat;background-size: cover;}
+.message-container {position: fixed;top: 20%;left: 0;right: 0;top: 0;bottom: 0;background-image: url(<?php echo esc_url( get_template_directory_uri() . 'hero-desktop_bb2.png' ); ?>);height: 100%;background-position: center;background-repeat: no-repeat;background-size: cover;}
 .message-container:after {content: '';position: relative;display: inline-block;width: 0.01px;height: 30%;}
 
 /* Button */
@@ -51,7 +51,7 @@ body { /*background:#0e0e0e;*/ font-family:'oxygen',sans-serif; color:#ffffff; f
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block; 
+    display: inline-block;
     font-size: 12px;
     cursor: pointer;
 }
@@ -101,7 +101,7 @@ body { /*background:#0e0e0e;*/ font-family:'oxygen',sans-serif; color:#ffffff; f
 
 /*/////////////////////////////////////////////////////////////////////
 ////////////////////////////// ACORN TV 3.01 ///////////////////////////
-/////////////////////////////////////////////////////////////////////*/        
+/////////////////////////////////////////////////////////////////////*/
     </style>
 </head>
 <body>
@@ -112,18 +112,18 @@ body { /*background:#0e0e0e;*/ font-family:'oxygen',sans-serif; color:#ffffff; f
           <a href="/"><img src="https://api.rlje.net/acorn/artwork/size/atvlogo?t=Icons&w=300" class="atv-logo"></a>
         </div>
         <div class="active-features">
-            <?php 
+            <?php
                 $countryFilter = rljeApiWP_getCountryFilter();
                 if($countryFilter):
             ?>
             <div class="navbar-country-filter"><span>Country: <?= $countryFilter; ?></span></div>
-            <?php 
+            <?php
                 endif;
             ?>
         </div>
       </div>
     </div>
-        
+
     <div id="contentPane" class="browse container message-block">
         <div class="message-container">
             <p class="message">
@@ -137,7 +137,7 @@ body { /*background:#0e0e0e;*/ font-family:'oxygen',sans-serif; color:#ffffff; f
             </div>
         </div>
     </div>
-    
+
     <div class="container footer">
         <div class="col-md-6 col-sm-12 column">
             <p>© <?php echo date('Y'); ?> RLJ Entertainment, Inc. All Rights Reserved</p>

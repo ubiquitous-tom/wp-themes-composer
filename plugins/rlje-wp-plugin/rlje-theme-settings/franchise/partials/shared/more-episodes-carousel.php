@@ -64,6 +64,6 @@
 		?>
 		</div>
 	</div>
-	<a class="left carousel-control" href="#popularseries"  id="carousel-arrow"  data-slide="prev"><img class="carousel-img"  src="<?php echo esc_url( get_template_directory_uri() . '/img/arrowleft.png' ); ?> "/></a>
-	<a class="right carousel-control" href="#popularseries" data-slide="next"   id="carousel-arrow" ><img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/arrowright.png' ); ?>"/></a>
+	<a class="left carousel-control" href="#popularseries" id="carousel-arrow" data-slide="prev"></a>
+	<a class="right carousel-control" href="#popularseries" id="carousel-arrow" data-slide="next"></a>
 </div>

@@ -17,7 +17,7 @@ $base_url_path   = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP
 		if ( isset( $a_schedule_items ) && count( $a_schedule_items ) > 0 ) :
 			$total_franchises_result = count( $a_schedule_items );
 			foreach ( $a_schedule_items as $key => $item ) :
-				$img = 'https://api.rlje.net/acorn/artwork/size/' . $item->image . '?w=750';
+				$img = rljeApiWP_getImageUrlFromServices( $item->image . '?w=750' );
 				if ( $key % 2 == 0 ) :
 					?>
 	<div class="row">
@@ -35,11 +35,11 @@ $base_url_path   = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP
 				webkitallowfullscreen
 				mozallowfullscreen></iframe>">
 				<img title="<?php echo $item->name; ?>" alt="thumb image" class="wp-post-image" src="<?php echo $img; ?>" style="width:100%; height:auto;z-index:1;opacity:.75">
-				<button class="transparent js-play"><img height="35" src="https://api.rlje.net/acorn/artwork/size/play-icon?t=Icons" style="opacity:1"><span>Watch Trailer</span></button>
+				<button class="transparent js-play"><img height="35" src="<?php echo esc_url( get_template_directory_uri() . '/img/play-icon.png' ); ?>" style="opacity:1"><span>Watch Trailer</span></button>
 			</div> -->
 			<div id="schedule-trailer-video" class="video">
 				<img title="<?php echo $item->name; ?>" alt="thumb image" class="wp-post-image" src="<?php echo $img; ?>" style="width:100%; height:auto;z-index:1;opacity:.75">
-				<button class="transparent js-play"><img height="35" src="https://api.rlje.net/acorn/artwork/size/play-icon?t=Icons" style="opacity:1"><span>Watch Trailer</span></button>
+				<button class="transparent js-play"><img height="35" src="<?php echo esc_url( get_template_directory_uri() . '/img/play-icon.png' ); ?>" style="opacity:1"><span>Watch Trailer</span></button>
 				<video
 					id="brightcove-schedule-trailer-player"
 					class="hidden"

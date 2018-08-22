@@ -16,15 +16,13 @@
 		<h4 class="subnav">
 			<span class="subnav-prev hidden-xs hidden-sm">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-					<img src="https://api.rlje.net/acorn/artwork/size/left-arrow?t=Icons" id="archive-arrows">
 					<span>Back to Home</span>
 				</a>
 			</span>
-			<span><?php echo $franchise->name; ?></span>
+			<span><?php echo esc_html( $franchise->name ); ?></span>
 			<span class="subnav-next hidden-xs hidden-sm">
 				<a href="<?php echo esc_url( trailingslashit( home_url( $franchise_id . '/' . rljeApiWP_convertSeasonNameToURL( $franchise->seasons[0]->name ) . '/' . rljeApiWP_convertEpisodeNameToURLFriendly( $franchise->seasons[0]->episodes[0]->name ) ) ) ); ?>">
 					<span>Watch Episode</span>
-					<img src="https://api.rlje.net/acorn/artwork/size/right-arrow?t=Icons" id="archive-arrows">
 				</a>
 			</span>
 		</h4>
@@ -32,14 +30,14 @@
 			<div class="col-xs-12 col-sm-6 col-lg-4">
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
 				<a href="<?php echo esc_url( home_url( $franchise->id . '/trailer/' ) ); ?>">
-					<img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
+					<img class="wp-post-image" id="franchise-avatar" title="Clicks to view trailer" src="<?php echo esc_url( rljeApiWP_getImageUrlFromServices( $season->image . '?w=460' ) ); ?>" />
 				</a>
 				<?php else : ?>
-				<img class="wp-post-image" id="franchise-avatar" src="https://api.rlje.net/acorn/artwork/size/<?php echo $season->image; ?>?w=460" />
+				<img class="wp-post-image" id="franchise-avatar" src="<?php echo esc_url( rljeApiWP_getImageUrlFromServices( $season->image . '?w=460' ) ); ?>" />
 				<?php endif; ?>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-lg-8">
-				<p id="franchise-description"><?php echo $franchise->longDescription; ?></p>
+				<p id="franchise-description"><?php echo esc_html( $franchise->longDescription ); ?></p>
 				<?php if ( isset( $franchise->episodes[0], $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) : ?>
 				<a id="inline" class="view-trailer" href="<?php echo esc_url( home_url( $franchise->id . '/trailer/' ) ); ?>">
 					<button>View Trailer</button>

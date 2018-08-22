@@ -327,7 +327,7 @@ class RLJE_Index_Page {
 				<div class="col-md-12 home-callout-body">
 					<div class="col-md-6" id="border-carousel">
 						<div class="home-callout-content">
-							<img src="https://api.rlje.net/acorn/artwork/size/devices-icon?t=Icons" id="home-devices-img">
+							<img src="<?php echo esc_url( get_template_directory_uri() . '/img/devices-icon.png' ); ?>" id="home-devices-img">
 							<p class="home-callout-description"><?php echo esc_html( $callout_one_text ); ?></p>
 							<a href="<?php echo esc_url( $callout_one_link ); ?>">
 								<button><?php echo esc_html( $callout_one_link_text ); ?></button>
@@ -337,7 +337,7 @@ class RLJE_Index_Page {
 
 					<div class="col-md-6">
 						<div class="home-callout-content">
-							<img src="https://api.rlje.net/acorn/artwork/size/signup-icon?t=Icons" id="home-trial-img">
+							<img src="<?php echo esc_url( get_template_directory_uri() . '/img/signup-icon.png' ); ?>" id="home-trial-img">
 							<p class="home-callout-description"><?php echo esc_html( $callout_two_text ); ?></p>
 							<a href="<?php echo esc_url( $callout_two_link ); ?>">
 								<button><?php echo esc_html( $callout_two_link_text ); ?></button>
