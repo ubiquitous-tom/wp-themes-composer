@@ -29,6 +29,7 @@ class RLJE_Header {
 		// add_filter( 'wp_title', array( $this, 'rlje_wp_title' ), 10, 3 );
 		add_filter( 'document_title_separator', array( $this, 'rlje_title_separator' ) );
 		add_filter( 'document_title_parts', array( $this, 'rlje_title_parts' ) );
+		add_action( 'rlje_tag_mananger_iframe', array( $this, 'add_google_tag_manager_frame' ) );
 		add_action( 'wp_head', array( $this, 'add_description_meta_tag' ), 1 );
 	}
 
@@ -99,15 +100,13 @@ class RLJE_Header {
 		$google_analytics_id = ( ! empty( $this->google['google_analytics_id'] ) ) ? $this->google['google_analytics_id'] : '';
 		if ( ! empty( $google_analytics_id ) ) :
 			?>
-		<!-- Google Tag Manager -->
-		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo esc_attr( $google_analytics_id ); ?>"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- Google Tag Manager Script -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','<?php echo esc_attr( $google_analytics_id ); ?>');</script>
-		<!-- End Google Tag Manager -->
+		<!-- End Google Tag Manager Script -->
 			<?php
 		endif;
 	}
@@ -194,6 +193,17 @@ class RLJE_Header {
 		// $title['tagline'] .= 'TOMTOM';
 
 		return apply_filters( 'rlje_title', $title );
+	}
+
+	public function add_google_tag_manager_frame() {
+		if ( ! empty( $this->google['google_analytics_id'] ) ) {
+			?>
+			<!-- Google Tag Manager iFrame -->
+			<noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo esc_attr( $this->google['google_analytics_id'] ); ?>"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<!-- End Google Tag Manager iFrame -->
+			<?php
+		}
 	}
 
 	public function add_description_meta_tag( $meta_descr = '' ) {
