@@ -124,7 +124,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .carousel-respond-slide .carousel-control.left, .carousel-pagination-slide .carousel-control.left {margin-left:-32px;}
 .carousel-respond-slide .carousel-control.right, .carousel-pagination-slide .carousel-control.right {margin-right:-32px;}
 .carousel-img{width:27px;opacity:.75}
-#carousel-arrow{top:calc(50% - 18px);display:inline-block;width:25px;height:25px;}
+#carousel-arrow{top:calc(50% - 12.5px);display:inline-block;width:25px;height:25px;}
 #border-carousel{padding:0px 15px 30px;border-right:none;}
 .carousel-inner {z-index: 0;}
 .carousel-controls {position: absolute;top: calc(50% - (90px/2));display: inline-block;left: 0;right: 0;margin:auto;}
