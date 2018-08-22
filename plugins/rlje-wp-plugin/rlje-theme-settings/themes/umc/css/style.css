@@ -27,7 +27,8 @@ button {
 }
 
 .carousel .item .container {
-    max-width: calc(510px / (9/16));
+    max-width: calc(485px / (9/16));
+    padding: 0;
 }
 
 .carousel .item .left {
@@ -296,13 +297,5 @@ span[itemprop="trailer"] a button:hover {
 @media all and (min-width: 1100px) {
     .carousel-controls {
         top: calc(50% - (130px/2));
-    }
-}
-
-
-@media (min-width:1400px) {
-    /* HERO-CAROUSEL */
-    .feature-slide .carousel-inner {
-        min-height: 0px;
     }
 }
