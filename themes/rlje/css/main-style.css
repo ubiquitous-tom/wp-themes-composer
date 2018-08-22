@@ -148,13 +148,11 @@ input:-ms-input-placeholder {color: #ccc;}
 .carousel .item .container .hero-img{opacity: 1;max-width: 100%; -webkit-box-shadow: 0 -20px 30px 0px #000;-moz-box-shadow: 0 -20px 30px 0px #000; box-shadow: 0 -20px 30px 0px #000;}
 .carousel .item .right{float:right;z-index: 1;padding: 0px}
 .carousel .item .left{z-index: 2; position: absolute;padding: 0px}
-.carousel .item .hero-img{width:100%;opacity: .7;width: 100%; height: auto; max-width: 1265px;}
-.carousel .item .left .hero-img{ transform: skewY(-1deg);transform-origin: top right;margin-top: -10px;}
+.carousel .item .hero-img{width:100%;opacity: .45;width: 100%; height: auto; max-width: 1265px;}
 .feature-slide .carousel-control.left {max-width: 160px;width: 100%}
 .feature-slide .carousel-control.right {max-width: 160px;width: 100%}
 .hero-left-arrow{margin-left: -136px;width: 24px;position: relative;}
 .hero-right-arrow{margin-left: 136px;width: 24px;position: relative;}
-.carousel .item .right .hero-img{float: right; -webkit-transform: skewY(1deg);transform: skewY(1deg); -webkit-transform-origin: top left; transform-origin: top left;margin-top: -10px;}
 .carousel-fade .carousel-inner .item {opacity: 0; transition: opacity .25s ease-out 0s; -webkit-transition: opacity .25s ease-out 0s;-moz-transition: opacity .25s ease-in-out 0s;-ms-transition: opacity .08s ease-in-out 0s;-o-transition: opacity .25s ease-in-out 0s;}
 .carousel-fade .carousel-inner .active {opacity: 1;}
 .carousel-fade .carousel-inner .active.left,
@@ -461,7 +459,6 @@ p {font-size: 14.5px;}
 .carousel-img{width:52px;opacity:1}
 .carousel-indicators li { height: 10px; width: 10px; }
 .carousel-indicators .active{height: 10px;width: 10px;}
-.carousel .item .hero-img{opacity: .45;}
 .hero-left-arrow{margin-left: -110px;width: 50px;}
 .hero-right-arrow{margin-left: 110px;width: 50px;}
 .control-position {position:relative;}

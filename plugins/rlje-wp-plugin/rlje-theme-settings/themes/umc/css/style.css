@@ -203,9 +203,7 @@ button {
 }
 
 .carousel .item .hero-img {
-    /* background: #011f36; */
     background: transparent;
-    opacity: .45;
 }
 
 .season .subnav-next,
