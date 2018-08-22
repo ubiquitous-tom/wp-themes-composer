@@ -3,39 +3,12 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
 
 /* BASE CSS */
-body {
-    background:#0e0e0e;
-    font-family:'oxygen',
-    sans-serif;
-    color:#ffffff;
-    font-size:14.5px;
-    letter-spacing:.03em;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-h1, h2, h3, h4, h5, h6{
-    color: #ffffff;
-    font-weight: 400;
-    letter-spacing:.13em;
-    text-transform: uppercase;
-    text-decoration:none;
-    font-family:'source sans pro',sans-serif;
-    margin-bottom:10px;
-    margin-top:10px;
-}
+body {background:#0e0e0e;font-family:'oxygen',sans-serif;color:#ffffff;font-size:14.5px;letter-spacing:.03em;display: flex;flex-direction: column;min-height: 100vh;}
+h1, h2, h3, h4, h5, h6{color: #ffffff;font-weight: 400;letter-spacing:.13em;text-transform: uppercase;text-decoration:none;font-family:'source sans pro',sans-serif;margin-bottom:10px;margin-top:10px;}
 h3{font-size: 30px;}
 h5{font-size:14px;}
 h6{font-size:14px;}
-a {
-    cursor:pointer;
-    color:inherit;
-    font-family: 'source sans pro',sans-serif;
-    text-transform:uppercase;
-    font-size:14px;
-    text-decoration: none;
-    outline: 0;
-}
+a {cursor:pointer;color:inherit;font-family: 'source sans pro',sans-serif;text-transform:uppercase;font-size:14px;text-decoration: none;outline: 0;}
 a:hover{text-decoration:none;color:#e0e0e0;}
 a:focus{color:#fff;text-decoration: none; -moz-outline-style: none; outline: none; outline-style: none;background: transparent;}
 p {font-family:'oxygen',sans-serif;font-weight:400;font-size: 14px;line-height:23px;letter-spacing:.02em;text-transform: none;}
@@ -53,102 +26,48 @@ section {flex: 1;}
 .secondary-bg{background:#060606;width:100%;margin-top: -16px}
 
 /* NAVBAR */
-#top-nav {
-    border:none;
-    box-shadow: 0 0 30px -5px #050505;
-}
-
-#top-nav ul.nav {
-    color: white;
-}
-
-#top-nav .navbar-toggle {
-    margin-right: 0;
-    margin-left: 15px;
-}
-
-#top-nav .navbar-brand {
-    height: 55px;
-    padding: 10px 15px;
-}
-
-#top-nav .navbar-brand img {
-    height: 35px;
-}
-
-#top-nav .nav>li>a {
-    padding: 18px 10px;
-}
-
+#top-nav {border:none;box-shadow: 0 0 30px -5px #050505;}
+#top-nav ul.nav {color: white;}
+#top-nav .navbar-toggle {margin-right: 0;margin-left: 15px;}
+#top-nav .navbar-brand {height: 55px;padding: 10px 15px;}
+#top-nav .navbar-brand img {height: 35px;}
+#top-nav .nav>li>a {padding: 18px 10px;}
 #top-nav .nav>li>a:focus,
-#top-nav .nav>li>a:hover {
-    background-color: inherit;
-}
+#top-nav .nav>li>a:hover {background-color: inherit;}
 
 @media screen and (min-width: 768px) {
-    #top-nav .navbar-brand {
-        height: 70px;
-    }
-    #top-nav .navbar-brand img {
-        height: 50px;
-    }
-    #top-nav .nav>li>a {
-        padding-top: 25px;
-        padding-bottom: 25px;
-    }
+#top-nav .navbar-brand {height: 70px;}
+#top-nav .navbar-brand img {height: 50px;}#top-nav .nav>li>a {padding-top: 25px;padding-bottom: 25px;}
 }
 
 
 @media screen and (min-width: 992px) {
-    #top-nav .nav>li>a.sign-up {
-        margin-top: 14px;
-        padding: 10px 15px;
-    }
+#top-nav .nav>li>a.sign-up {margin-top: 14px;padding: 10px 15px;}
 }
 
 .admin-bar .navbar-fixed-top {margin-top: 32px;}
 
 @media screen and (max-width: 782px ) {
-    .admin-bar .navbar-fixed-top {
-        margin-top: 46px;
-    }
+.admin-bar .navbar-fixed-top {margin-top: 46px;}
 }
 
-.navbar .navbar-collapse .search-form {
-    position: static;
-    float: left;
-}
+.navbar .navbar-collapse .search-form {position: static;float: left;}
 
 @media screen and (max-width: 600px) {
-    /*
-        At smaller view ports, WP admin bar becomes relative.
-        Fix it in place so it won't overlap our fix top navbar
-    */
-    #wpadminbar {
-        position: fixed;
-    }
+/* At smaller view ports, WP admin bar becomes relative. Fix it in place so it won't overlap our fix top navbar */
+#wpadminbar {position: fixed;}
 }
 
 /* NAVBAR-USER DROPDOWN */
-#top-nav .dropdown-menu {
-    background-color: rgba(1, 31, 54, 0.95);
-    border-radius: 0;
-}
-#top-nav .dropdown-menu>li>a {
-    color: white;
-    padding: 20px 25px;
-}
+#top-nav .dropdown-menu {background-color: rgba(1, 31, 54, 0.95);border-radius: 0;}
+#top-nav .dropdown-menu>li>a {color: white;padding: 20px 25px;}
 
 #top-nav .dropdown-menu>li>a:hover,
-#top-nav .dropdown-menu>li>a:active {
-    background-color: rgba(1, 31, 54, 1);
-}
+#top-nav .dropdown-menu>li>a:active {background-color: rgba(1, 31, 54, 1);}
 
 #top-nav .nav .open>a,
 #top-nav .nav .open>a:focus,
-#top-nav .nav .open>a:hover {
-    background-color: inherit;
-}
+#top-nav .nav .open>a:hover {background-color: inherit;}
 
 /* Active Features Block - Header Block */
 .active-features {position: relative;}
@@ -163,23 +82,10 @@ section {flex: 1;}
 .navbar-video-debugging {position: relative; bottom: 4px; right: 4.5%; display: inline-block; background-color: green; padding: 3px 8px; font-size: 10px;}
 
 /* SEARCH */
-#search-button{
-    background: #9e9e9e none repeat scroll 0 0;
-    border: medium none;
-    color: #555;
-    padding: 7.5px;
-    z-index: 1;
-}
-#search-input{
-    background: #9e9e9e none repeat scroll 0 0;
-    outline-style: none;
-    color: rgb(238, 238, 238);
-    font-weight: 100;
-    height: 38px;
-    width: 220px;
-    font-size: 14px; padding: 10px;
-    border:none;
-}
+.search .row div {margin: 2em auto;}
+#search-button{background: #9e9e9e none repeat scroll 0 0;border: medium none;color: #555;padding: 7.5px;z-index: 1;}
+#search-input{background: #9e9e9e none repeat scroll 0 0;outline-style: none;color: rgb(238, 238, 238);font-weight: 100;height: 38px;width: 220px;font-size: 14px; padding: 10px;border:none;}
+
 #signup{margin-bottom:0px;}
 input::-webkit-input-placeholder {color: #ccc;}
 input:focus::-webkit-input-placeholder {color: transparent;}
@@ -360,15 +266,10 @@ input:-ms-input-placeholder {color: #ccc;}
 
 /* CONTACT US */
 #contact-hero{background: #000000;padding:2.5em 0;margin-top: 58px;}
-#contact-form {
-    background: #ffffff;
-    padding: 1px 0px 90px;
-}
+#contact-form {background: #ffffff;padding: 1px 0px 90px;}
 #contact-form h3,
 #contact-form h4,
-#contact-form h5 {
-    text-transform: initial;
-}
+#contact-form h5 {text-transform: initial;}
 
 #contact-form .url-view {background: #f4f4f4 none repeat scroll 0 0;border: 1px solid #ddd;color: #333;margin: 0 auto;max-width: 800px;padding: 25px;}
 #contact-form .url-view p{line-height: 23px;font-size: 13.5px}
@@ -740,6 +641,9 @@ p {font-size: 14.5px;}
 
 /* Video Debugger - Header Block */
 .navbar-video-debugging {bottom: 5px;}
+
+/* SEARCH */
+.search .row div {margin: auto;}
 }
 
 @media (min-width: 1251px) {
