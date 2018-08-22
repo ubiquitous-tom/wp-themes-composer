@@ -11,6 +11,7 @@ class RLJE_Browse_Page {
 		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 		// add_action( 'add_meta_boxes', array( $this, 'add_browse_template_meta_box' ) );
+		add_action( 'rlje_display_watchlist_section_on_browse_page', array( $this, 'display_watchlist_section' ) );
 
 		// add_filter( 'query_vars', array( $this, 'add_browse_query_vars' ) );
 		add_filter( 'body_class', array( $this, 'browse_body_class' ) );
@@ -36,7 +37,7 @@ class RLJE_Browse_Page {
 		$orderby_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/orderby.js' ) );
 		$pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/orderby.js' ) );
 
-		wp_enqueue_script( 'browse-orderby-js', plugins_url( 'js/orderby.js', __FILE__ ), array( 'jquery' ), $js_ver, true );
+		wp_enqueue_script( 'browse-orderby-js', plugins_url( 'js/orderby.js', __FILE__ ), array( 'jquery' ), $orderby_js_ver, true );
 		// Special js hook to update carousel pagination image url to use the right one for umc.
 		wp_enqueue_script( 'rlje-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
 
@@ -104,6 +105,23 @@ class RLJE_Browse_Page {
 		</select>
 		<p>Use this Custom Template to set up <i>RLJE specific page</i>. Such as "Browse" page.</p>
 		<?php
+	}
+
+	public function display_watchlist_section() {
+		if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) :
+			$watch_spotlight_items = apply_filters( 'atv_get_watch_spotlight_items', 'recentlyWatched' );
+			if ( 0 < count( $watch_spotlight_items ) ) :
+				?>
+				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
+				<div class="col-md-12">
+				<?php
+					set_query_var( 'carousel-items', $watch_spotlight_items );
+					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
+				?>
+				</div>
+				<?php
+			endif;
+		endif;
 	}
 
 	public function browse_body_class( $classes ) {

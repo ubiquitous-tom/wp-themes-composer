@@ -113,7 +113,7 @@ class RLJE_Index_Page {
 
 	public function display_home_sections() {
 		if ( is_home() || is_front_page() ) {
-			if ( ! empty( $this->home_sections['section_position'] ) ) {
+			if ( empty( $this->home_sections['section_position'] ) ) {
 				foreach ( $this->home_sections['section_position'] as $section_position ) {
 					switch ( $section_position->section_type ) {
 						case 'news-and-reviews':
@@ -130,9 +130,13 @@ class RLJE_Index_Page {
 					}
 				}
 			} else { // FALLBACK
-				global $rlje_news_and_reviews;
 				$this->display_home_featured();
-				$rlje_news_and_reviews->display_news_and_reviews();
+
+				if ( class_exists( 'RLJE_News_And_Reviews' ) ) {
+					global $rlje_news_and_reviews;
+					$rlje_news_and_reviews->display_news_and_reviews();
+				}
+
 				$this->display_home_spotlights();
 			}
 		}

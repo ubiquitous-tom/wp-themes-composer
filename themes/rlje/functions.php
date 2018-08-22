@@ -239,22 +239,22 @@ function acorntv_deactivation_function() {
 	flush_rewrite_rules( false );
 }
 
-add_filter( 'template_include', 'acorntv_loading_template', 1, 1 );
-function acorntv_loading_template( $template ) {
-	$page_name              = get_query_var( 'pagecustom' );
-	$have_content_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'home' );
-	$template_name          = ( ! $have_content_available && $page_name != 'countryfilter' ) ? 'noContentAvailable' : $page_name;
-	$is_page                = get_post();
-	if ( ! empty( $template_name ) ) {
-		$path = '/templates/' . $template_name . '.php';
-		if ( 'ajax' === $page_name ) {
-			$path = '/ajax/ajax.php';
-		}
-		return dirname( __FILE__ ) . $path;
-	}
+// add_filter( 'template_include', 'acorntv_loading_template', 1, 1 );
+// function acorntv_loading_template( $template ) {
+// 	$page_name              = get_query_var( 'pagecustom' );
+// 	$have_content_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'home' );
+// 	$template_name          = ( ! $have_content_available && $page_name != 'countryfilter' ) ? 'noContentAvailable' : $page_name;
+// 	$is_page                = get_post();
+// 	if ( ! empty( $template_name ) ) {
+// 		$path = '/templates/' . $template_name . '.php';
+// 		if ( 'ajax' === $page_name ) {
+// 			$path = '/ajax/ajax.php';
+// 		}
+// 		return dirname( __FILE__ ) . $path;
+// 	}
 
-	return $template;
-}
+// 	return $template;
+// }
 
 /**
  * Remove admin menu options don't used.
@@ -347,7 +347,7 @@ function acorntv_haveFranchisesAvailableByCountry( $page ) {
 			);
 			$section       = get_query_var( 'section' );
 			if ( ! empty( $section ) && ! isset( $ignoreSection[ $section ] ) ) {
-				$section          = str_replace( '-', '+', $section );
+				// $section          = str_replace( '-', '+', $section );
 				$getBrowseSection = rljeApiWP_getItemsByCategoryOrCollection( $section );
 				if ( isset( $getBrowseSection['code'] ) && $getBrowseSection['code'] == 204 ) {
 					$haveFranchisesAvailableByContry = false;
@@ -554,7 +554,8 @@ add_filter( 'atv_get_completed_carousel_items', 'acorntv_get_completed_carousel_
 function acorntv_get_contentPage_section_id( $sectionId ) {
 	$return = '';
 	if ( ! empty( $sectionId ) ) {
-		$return = str_replace( ' ', '+', $sectionId );
+		// $return = str_replace( ' ', '+', $sectionId );
+		$return = sanitize_title_with_dashes( $sectionId );
 	}
 	return $return;
 }
@@ -563,14 +564,15 @@ add_filter( 'atv_get_contentPage_section_id', 'acorntv_get_contentPage_section_i
 /**
  * This Filter return the section id for the contentPage API.
  */
-function acorntv_convert_browseSlug_to_contentID( $sectionId ) {
-	$return = '';
-	if ( ! empty( $sectionId ) ) {
-		$return = str_replace( '-', '+', $sectionId );
-	}
-	return $return;
-}
-add_filter( 'atv_convert_browseSlug_to_contentID', 'acorntv_convert_browseSlug_to_contentID' );
+// function acorntv_convert_browseSlug_to_contentID( $sectionId ) {
+// 	$return = '';
+// 	if ( ! empty( $sectionId ) ) {
+// 		// $return = str_replace( '-', '+', $sectionId );
+// 		$return = sanitize_title_with_dashes( $sectionId );
+// 	}
+// 	return $return;
+// }
+// add_filter( 'atv_convert_browseSlug_to_contentID', 'acorntv_convert_browseSlug_to_contentID' );
 
 /**
  * This Filter return the section id for browse page.
