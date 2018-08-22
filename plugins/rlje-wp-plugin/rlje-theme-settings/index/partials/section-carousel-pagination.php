@@ -19,7 +19,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 
 <?php if ( $is_showing_view_all ) : ?>
 <div class="view-all hidden-xs">
-	<a href="<?php echo esc_url( trailingslashit( home_url( $browse_id ) ) ); ?>"> View all </a>
+	<a href="<?php echo esc_url( trailingslashit( home_url( '/browse/' . $browse_id ) ) ); ?>"> View all </a>
 </div>
 <?php endif; ?>
 
