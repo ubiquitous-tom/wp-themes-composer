@@ -9,7 +9,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<?php /*
+	<?php
+	/*
 	// Add dynamic title and meta description when it is a franchise.
 	$is_custom_meta_title_and_desc = false;
 	if ( ! empty( $wp_query->query_vars['franchise_id'] ) ) {
@@ -176,7 +177,6 @@
 		</script>
 		<?php endif; ?>
 	</div> */
+	do_action( 'rlje_tag_mananger_iframe' );
+	do_action( 'rlje_header_navigation' );
 	?>
-
-	<?php do_action( 'rlje_header_navigation' ); ?>
-
