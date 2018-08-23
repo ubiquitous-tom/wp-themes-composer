@@ -3,23 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
 
 /* BASE CSS */
-body {
-    padding-top: 55px;
-    background:#0e0e0e;
-    font-family: sans-serif;
-    color:#ffffff;
-    font-size:14.5px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-@media screen and (min-width: 768px) {
-    body {
-        padding-top: 70px;
-    }
-}
-
+body {padding-top: 55px;background:#0e0e0e;font-family: sans-serif;color:#ffffff;font-size:14.5px;display: flex;flex-direction: column;min-height: 100vh;}
 h1, h2, h3, h4, h5, h6{color: #ffffff;font-weight: 400;letter-spacing:.13em;text-transform: uppercase;text-decoration:none;font-family:'source sans pro',sans-serif;margin-bottom:10px;margin-top:10px;}
 h3{font-size: 30px;}
 h5{font-size:14px;}
@@ -148,12 +132,7 @@ input:-ms-input-placeholder {color: #ccc;}
 /* HERO CAROUSEL (BOOTSTRAP CAROUSEL ALSO USED FOR SPOTLIGHT ROWS) */
 .feature-slide.carousel {margin: 0 auto;max-width: 2100px;position: relative;}
 .feature-slide .carousel-control {opacity: .65}
-.feature-slide .carousel-inner {
-    /* min-height: 0px; */
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
+.feature-slide .carousel-inner {/* min-height: 0px; */overflow: hidden;position: relative;width: 100%;}
 .feature-slide .carousel-inner .active.left { left: -33%; }
 .feature-slide .carousel-inner > .active.right,.feature-slide .carousel-inner > .next    { left:  33%; }
 .feature-slide .carousel-inner > .active.left, .feature-slide .carousel-inner > .prev    { left: -33%; }
@@ -164,44 +143,17 @@ input:-ms-input-placeholder {color: #ccc;}
 .right{ visibility: visible;}
 .center{ visibility: hidden;}
 .carousel .item div:nth-child(2) img {width:100%;}
-.carousel .item .container {
-    width: 90%;
-    z-index: 3;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-}
+.carousel .item .container {width: 90%;z-index: 3;position: absolute;left: 0px;right: 0px;}
 .carousel .item .container .hero-img{opacity: 1;max-width: 100%; -webkit-box-shadow: 0 -20px 30px 0px #000;-moz-box-shadow: 0 -20px 30px 0px #000; box-shadow: 0 -20px 30px 0px #000;}
 .carousel .item .right,
-.carousel .item .left {
-    width: 90%;
-    padding: 0;
-}
-.carousel .item .right {
-    float:right;
-    z-index: 1;
-}
-.carousel .item .left {
-    z-index: 2;
-    position: absolute;
-}
-.carousel .item .hero-img {
-    opacity: .45;
-    width: 100%;
-    height: auto;
-}
+.carousel .item .left {width: 90%;padding: 0;}
+.carousel .item .right {float:right;z-index: 1;}
+.carousel .item .left {z-index: 2;position: absolute;}
+.carousel .item .hero-img {opacity: .45;width: 100%;height: auto;}
 .feature-slide .carousel-control.left {max-width: 160px;width: 100%}
 .feature-slide .carousel-control.right {max-width: 160px;width: 100%}
-.hero-left-arrow {
-    margin-left: -110px;
-    width: 24px;
-    position: relative;
-}
-.hero-right-arrow {
-    margin-left: 110px;
-    width: 24px;
-    position: relative;
-}
+.hero-left-arrow {margin-left: -110px;width: 24px;position: relative;}
+.hero-right-arrow {margin-left: 110px;width: 24px;position: relative;}
 .carousel-fade .carousel-inner .item {opacity: 0; transition: opacity .25s ease-out 0s; -webkit-transition: opacity .25s ease-out 0s;-moz-transition: opacity .25s ease-in-out 0s;-ms-transition: opacity .08s ease-in-out 0s;-o-transition: opacity .25s ease-in-out 0s;}
 .carousel-fade .carousel-inner .active {opacity: 1;}
 .carousel-fade .carousel-inner .active.left,
@@ -236,9 +188,7 @@ input:-ms-input-placeholder {color: #ccc;}
 #drop-select li a {text-transform: capitalize;}
 
 /* HOME TEMPLATE*/
-.home-hero-carousel{
-    background-color: black;
-}
+.home-hero-carousel{background-color: black;}
 .home-featured{background:#060606;width:100%;/*padding-bottom:50px;*/}
 .home-middle{margin-top:15px;margin-bottom:30px}
 .home-spotlights{background:#060606;width:100%;margin-top:0px;/*padding-bottom:35px;*/}
@@ -420,8 +370,7 @@ input:-ms-input-placeholder {color: #ccc;}
 }
 
 @media all and (min-width: 480px) {
-
-/* BASE */
+/* BASE CSS */
 p {font-size: 14.5px;}
 
 /* Future Date - Header Block */
@@ -440,16 +389,8 @@ p {font-size: 14.5px;}
 .carousel-respond-slide .carousel-inner .cloneditem-1,
 .carousel-pagination-slide .carousel-inner .cloneditem-1 {display: block;}
 .control-position {position:relative;}
-.hero-left-arrow{
-    margin-left: -70px;
-    width: 33px;
-    position: relative;
-}
-.hero-right-arrow{
-    margin-left: 70px;
-    width: 33px;
-    position: relative;
-}
+.hero-left-arrow{margin-left: -70px;width: 33px;position: relative;}
+.hero-right-arrow{margin-left: 70px;width: 33px;position: relative;}
 
  /* SPLASH-SLOGAN */
 .acorntv-slogan h3 {font-size: 18px;}
@@ -475,6 +416,8 @@ p {font-size: 14.5px;}
 }
 
 @media (min-width: 768px){
+/* BASE CSS */
+body {padding-top: 70px;}
 
 /* HOME TEMPLATE */
 .home-middle{margin-top:75px;margin-bottom:75px}
@@ -714,11 +657,11 @@ p {font-size: 14.5px;}
 
 @media (min-width:1400px){
 
-    /* LAYOUT */
-    .container{width:1350px;}
+/* LAYOUT */
+.container{width:1350px;}
 
-    /* HERO-CAROUSEL */
-    .sliderimage{width:1390px;}
+/* HERO-CAROUSEL */
+.sliderimage{width:1390px;}
 }
 
 
