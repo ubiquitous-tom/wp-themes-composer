@@ -189,6 +189,7 @@ input:-ms-input-placeholder {color: #ccc;}
 
 /* HOME TEMPLATE*/
 .home-hero-carousel{background-color: black;}
+.home-hero-carousel .carousel-control:after{content:none;}
 .home-featured{background:#060606;width:100%;/*padding-bottom:50px;*/}
 .home-middle{margin-top:15px;margin-bottom:30px}
 .home-spotlights{background:#060606;width:100%;margin-top:0px;/*padding-bottom:35px;*/}
