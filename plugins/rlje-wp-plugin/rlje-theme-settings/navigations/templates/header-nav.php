@@ -21,7 +21,7 @@
 
 			<?php do_action( 'rlje_after_header_navigation' ); ?>
 		</div>
-		<div class="visible-xs-block clearfix"></div>
+		<div class="visible-xs-block visible-sm-block clearfix"></div>
 		<div class="collapse navbar-collapse" id="navbar-collapse-1">
 			<?php wp_nav_menu( $menu_args ); ?>
 

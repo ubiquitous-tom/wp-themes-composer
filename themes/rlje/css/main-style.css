@@ -35,13 +35,13 @@ section {flex: 1;}
 #top-nav .nav>li>a:focus,
 #top-nav .nav>li>a:hover {background-color: inherit;}
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
 #top-nav .navbar-brand {height: 70px;}
 #top-nav .navbar-brand img {height: 50px;}#top-nav .nav>li>a {padding-top: 25px;padding-bottom: 25px;}
 }
 
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1200px) {
 #top-nav .nav>li>a.sign-up {margin-top: 14px;padding: 10px 15px;}
 }
 
@@ -68,6 +68,64 @@ section {flex: 1;}
 #top-nav .nav .open>a,
 #top-nav .nav .open>a:focus,
 #top-nav .nav .open>a:hover {background-color: inherit;}
+
+/* Collapse navbar at  */
+@media (max-width: 991px) {
+    #top-nav .container > .navbar-collapse,
+    #top-nav .container > .navbar-header {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    #top-nav .navbar-header {
+        float: none;
+    }
+    #top-nav .navbar-left,.navbar-right {
+        float: none !important;
+    }
+
+    #top-nav .navbar-left.pull-left {
+        float: left !important;
+    }
+
+    #top-nav .navbar-right.pull-right {
+        float: right !important;
+    }
+
+    #top-nav .navbar-toggle {
+        display: block;
+    }
+
+    #top-nav .navbar-brand {
+        margin-left: 0;
+    }
+    #top-nav .navbar-collapse {
+        padding-right: 15px;
+        padding-left: 15px;
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    #top-nav .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    #top-nav .navbar-collapse.collapse {
+        display: none!important;
+    }
+    #top-nav .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    #top-nav .navbar-nav>li {
+        float: none;
+    }
+    #top-nav .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    #top-nav .collapse.in{
+        display:block !important;
+    }
+}
 
 /* Active Features Block - Header Block */
 .active-features {position: relative;}
@@ -417,9 +475,6 @@ p {font-size: 14.5px;}
 }
 
 @media (min-width: 768px){
-/* BASE CSS */
-body {padding-top: 70px;}
-
 /* HOME TEMPLATE */
 .home-middle{margin-top:75px;margin-bottom:75px}
 .home-callout {margin-top:35px;margin-bottom:50px;}
@@ -551,6 +606,9 @@ body {padding-top: 70px;}
 .red-box-dismiss {position: absolute; top: 5px; right: 15px;}
 
 @media (min-width: 992px){
+body {
+    padding-top: 70px;
+}
 /* NAVBAR-USER DROPDOWN */
 .menuOptions {padding: 27px 20px;}
 .navbar-right .drop-select {right: -55px;}

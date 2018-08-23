@@ -6,7 +6,7 @@
 	background-size: 23px 23px;
 } */
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
     .search-form {
         padding: 18px 0;
     }
@@ -20,7 +20,7 @@
     display: inline-block;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
     .search-form label {
         margin: 0 25px 0 0;
     }
