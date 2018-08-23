@@ -7,7 +7,7 @@ body {
 }
 #franchise-container .secondary-bg {
     background-image: linear-gradient(to top, rgba(1, 31, 54, 1) 10%, rgba(0, 0, 0, 0) 70%), url('../../img/umc_bkg.jpg');
-    background-position: right 7px;
+    background-position: right 0;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
