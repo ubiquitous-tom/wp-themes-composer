@@ -3,7 +3,23 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
 
 /* BASE CSS */
-body {background:#0e0e0e;font-family:'oxygen',sans-serif;color:#ffffff;font-size:14.5px;letter-spacing:.03em;display: flex;flex-direction: column;min-height: 100vh;}
+body {
+    padding-top: 55px;
+    background:#0e0e0e;
+    font-family: sans-serif;
+    color:#ffffff;
+    font-size:14.5px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+}
+
 h1, h2, h3, h4, h5, h6{color: #ffffff;font-weight: 400;letter-spacing:.13em;text-transform: uppercase;text-decoration:none;font-family:'source sans pro',sans-serif;margin-bottom:10px;margin-top:10px;}
 h3{font-size: 30px;}
 h5{font-size:14px;}
@@ -220,8 +236,9 @@ input:-ms-input-placeholder {color: #ccc;}
 #drop-select li a {text-transform: capitalize;}
 
 /* HOME TEMPLATE*/
-.home-hero-carousel{background:#060606;margin-top: 55px;}
-.home-hero-carousel .carousel-control:after{content:none;}
+.home-hero-carousel{
+    background-color: black;
+}
 .home-featured{background:#060606;width:100%;/*padding-bottom:50px;*/}
 .home-middle{margin-top:15px;margin-bottom:30px}
 .home-spotlights{background:#060606;width:100%;margin-top:0px;/*padding-bottom:35px;*/}
@@ -488,7 +505,6 @@ p {font-size: 14.5px;}
 .subnav2 {margin-top:30px;font-size:14px;padding-bottom: 15px}
 
 /* CAROUSEL */
-.home-hero-carousel{margin-top: 75px;}
 .feature-slide .carousel-control {opacity: .95}
 .carousel-respond-slide .carousel-control.left,
 .carousel-pagination-slide .carousel-control.left {margin-left: -50px;}
