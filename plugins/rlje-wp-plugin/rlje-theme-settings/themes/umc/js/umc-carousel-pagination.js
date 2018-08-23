@@ -11,6 +11,7 @@ jQuery(document).on('carousel_pagination.second_page_image_url', function(event,
 	var new_image_url = image_url;
 	if (value.image_h) {
 		new_image_url = image_url.replace('{{ID}}_avatar', value.image_h);
+		new_image_url = new_image_url.replace('w=400&h=225', 't=titled-avatars&w=400&h=225');
 	}
 	// console.log('second_page_image_url', image_url, value, new_image_url);
 	return new_image_url;
