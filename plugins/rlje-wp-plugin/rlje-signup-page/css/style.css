@@ -1,14 +1,3 @@
-body {
-    letter-spacing: initial;
-    padding-top: 55px;
-}
-
-@media screen and (min-width: 768px) {
-    body {
-        padding-top: 70px;
-    }
-}
-
 #signup {
     background-color: white;
     color: #424242;
