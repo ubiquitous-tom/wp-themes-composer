@@ -49,8 +49,8 @@ class RLJE_Hero extends RLJE_Front_page {
 			echo $hero;
 		} else {
 			echo $this->build_hero_carousel();
-		// }
-	// }
+		}
+	}
 
 	public function build_hero_carousel( $echo = false ) {
 		$hero_expiration = ( ! empty( $this->homepage['hero_expiration'] ) ) ? $this->homepage['hero_expiration'] : 5 * MINUTE_IN_SECONDS;
