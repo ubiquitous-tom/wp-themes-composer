@@ -28,17 +28,17 @@
 			<div class="item <?php echo ( $item === reset( $data_carousel ) ) ? 'active' : ''; ?>">
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 left">
 					<a href="<?php echo esc_url( $prev_link ); ?>">
-						<?php apply_filters( 'rlje_carousel_slide_image', $prev_img ); ?>
+						<?php echo apply_filters( 'rlje_carousel_slide_image', $prev_img ); ?>
 					</a>
 				</div>
 				<div class="container">
 					<a href="<?php echo esc_url( $curr_link ); ?>">
-						<?php apply_filters( 'rlje_carousel_slide_image', $curr_img ); ?>
+						<?php echo apply_filters( 'rlje_carousel_slide_image', $curr_img ); ?>
 					</a>
 				</div>
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 right">
 					<a href="<?php echo esc_url( $next_link ); ?>">
-						<?php apply_filters( 'rlje_carousel_slide_image', $next_img ); ?>
+						<?php echo apply_filters( 'rlje_carousel_slide_image', $next_img ); ?>
 					</a>
 				</div>
 			</div>

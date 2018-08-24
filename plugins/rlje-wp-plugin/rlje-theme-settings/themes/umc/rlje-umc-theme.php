@@ -117,10 +117,14 @@ class RLJE_UMC_Theme {
 	}
 
 	public function umc_carousel_slide_image( $image_link ) {
+		ob_start();
 		?>
 		<img title="" alt="hero image" class="hero-img visible-xs" src="<?php echo rljeApiWP_getImageUrlFromServices( $image_link . '?t=Web3&h=288' ); ?>">
 		<img title="" alt="hero image" class="hero-img hidden-xs" src="<?php echo rljeApiWP_getImageUrlFromServices( $image_link . '?t=Web3' ); ?>">
 		<?php
+		$slide_image = ob_get_contents();
+		ob_end_clean();
+		return $slide_image;
 	}
 }
 
