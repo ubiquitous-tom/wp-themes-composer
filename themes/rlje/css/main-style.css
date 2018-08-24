@@ -51,8 +51,6 @@ section {flex: 1;}
 .admin-bar .navbar-fixed-top {margin-top: 46px;}
 }
 
-.navbar .navbar-collapse .search-form {position: static;float: left;}
-
 @media screen and (max-width: 600px) {
 /* At smaller view ports, WP admin bar becomes relative. Fix it in place so it won't overlap our fix top navbar */
 #wpadminbar {position: fixed;}
@@ -73,8 +71,7 @@ section {flex: 1;}
 @media (max-width: 991px) {
     #top-nav .container > .navbar-collapse,
     #top-nav .container > .navbar-header {
-        margin-right: -15px;
-        margin-left: -15px;
+
     }
     #top-nav .navbar-header {
         float: none;
@@ -99,8 +96,10 @@ section {flex: 1;}
         margin-left: 0;
     }
     #top-nav .navbar-collapse {
-        padding-right: 15px;
-        padding-left: 15px;
+        display: flex;
+        flex-flow: column-reverse;
+        margin: 0;
+        padding: 0;
         border-top: 1px solid transparent;
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
@@ -113,17 +112,24 @@ section {flex: 1;}
     }
     #top-nav .navbar-nav {
         float: none!important;
-        margin: 7.5px -15px;
+        margin: 0;
     }
     #top-nav .navbar-nav>li {
         float: none;
     }
     #top-nav .navbar-nav>li>a {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 10px 0;
     }
     #top-nav .collapse.in{
-        display:block !important;
+        display:flex !important;
+    }
+
+    #top-nav .search-form {
+        padding: 10px 0;
+    }
+
+    #top-nav .search-form label {
+        margin: 0;
     }
 }
 
