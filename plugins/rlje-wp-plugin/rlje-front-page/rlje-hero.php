@@ -43,14 +43,14 @@ class RLJE_Hero extends RLJE_Front_page {
 	public function display_hero_carousel() {
 		$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
 		$hero          = get_transient( $transient_key );
-		// if ( false !== $hero ) {
+		if ( false !== $hero ) {
 		// 	// $allowed_html = wp_kses_allowed_html( 'post' );
 		// 	// echo wp_kses( $hero, $allowed_html );
-		// 	echo $hero;
-		// } else {
+			echo $hero;
+		} else {
 			echo $this->build_hero_carousel();
 		// }
-	}
+	// }
 
 	public function build_hero_carousel( $echo = false ) {
 		$hero_expiration = ( ! empty( $this->homepage['hero_expiration'] ) ) ? $this->homepage['hero_expiration'] : 5 * MINUTE_IN_SECONDS;
