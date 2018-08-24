@@ -15,7 +15,7 @@ class RLJE_Front_page {
 		// add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'load_new_country' ) );
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_country_list_cache_table_list' ) );
 		require_once 'rlje-section-position.php';
-		require_once 'includes/rlje-hero.php';
+		require_once 'rlje-hero.php';
 	}
 
 	public function enqueue_scripts( $hook ) {

@@ -43,13 +43,13 @@ class RLJE_Hero extends RLJE_Front_page {
 	public function display_hero_carousel() {
 		$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
 		$hero          = get_transient( $transient_key );
-		if ( false !== $hero ) {
-			// $allowed_html = wp_kses_allowed_html( 'post' );
-			// echo wp_kses( $hero, $allowed_html );
-			echo $hero;
-		} else {
+		// if ( false !== $hero ) {
+		// 	// $allowed_html = wp_kses_allowed_html( 'post' );
+		// 	// echo wp_kses( $hero, $allowed_html );
+		// 	echo $hero;
+		// } else {
 			echo $this->build_hero_carousel();
-		}
+		// }
 	}
 
 	public function build_hero_carousel( $echo = false ) {
@@ -61,7 +61,7 @@ class RLJE_Hero extends RLJE_Front_page {
 
 		if ( 0 < count( $data_carousel ) ) {
 			ob_start();
-			require_once plugin_dir_path( __FILE__ ) . '../templates/hero.php';
+			require_once plugin_dir_path( __FILE__ ) . 'templates/hero.php';
 			$hero = ob_get_clean();
 		} else {
 			?>

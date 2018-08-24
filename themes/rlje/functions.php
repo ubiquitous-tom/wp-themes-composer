@@ -679,6 +679,19 @@ function add_theme_json_ld_to_header() {
 }
 add_action( 'wp_head', 'add_theme_json_ld_to_header' );
 
+
+function rlje_carousel_slide_image( $image_link, $type, $image ) {
+	ob_start();
+	?>
+	<img title="hero image" alt="hero image" class="hero-img visible-xs" src="<?php echo rljeApiWP_getImageUrlFromServices( $image_link . '?t=Mobile' ); ?>">
+	<img title="hero image" alt="hero image" class="hero-img hidden-xs" src="<?php echo rljeApiWP_getImageUrlFromServices( $image_link . '?t=Web3' ); ?>">
+	<?php
+	$slide_image = ob_get_clean();
+
+	return apply_filters( 'rlje_carousel_hero_responsive_images', $slide_image, $image_link, $type, $image );
+}
+add_filter( 'rlje_carousel_slide_image', 'rlje_carousel_slide_image', 10, 3 );
+
 function process_contact_us() {
 	$api_helper = new RLJE_api_helper();
 	$name       = strval( $_POST['name'] );
