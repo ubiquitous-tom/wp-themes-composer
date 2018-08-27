@@ -83,8 +83,6 @@
                     .find('img')
                     .attr('src')
                     .replace(carousel_pagination_object.image_url, '')
-                  // image_v: 'image_loc',
-                  // name: 'Franchise Name'
                 });
               }
               return newItems;

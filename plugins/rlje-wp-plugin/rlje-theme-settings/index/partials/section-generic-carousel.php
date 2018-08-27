@@ -72,7 +72,7 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 				<div class="item <?php echo ( $item === reset( $all_carousel->$section_key ) ) ? 'active' : ''; ?>">
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 						<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
-							<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+							<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> - <?php echo esc_attr( $section_title ); ?> category image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
 						</a>
 					</div>
 				</div>
@@ -88,7 +88,7 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 						?>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 						<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
-							<img title="<?php echo esc_attr( $section_title ); ?>" alt="<?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>" style="width:100%; height:auto; " />
+							<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> - <?php echo esc_attr( $section_title ); ?> category image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
 						</a>
 					</div>
 					<?php endforeach; ?>
@@ -97,12 +97,8 @@ if ( isset( $all_carousel->$section_key ) && count( $all_carousel->$section_key 
 			</div>
 		</div>
 		<?php if ( $is_showing_arrows ) : ?>
-		<a class="left carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="prev">
-			<!-- <img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-left.png' ); ?>"/> -->
-		</a>
-		<a class="right carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="next">
-			<!-- <img class="carousel-img" src="<?php echo esc_url( get_template_directory_uri() . '/img/carousel-right.png' ); ?>"/> -->
-		</a>
+		<a class="left carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="prev"></a>
+		<a class="right carousel-control" href="#<?php echo esc_attr( $section_key ); ?>" id="carousel-arrow" data-slide="next"></a>
 		<?php endif; ?>
 	</div>
 <?php
