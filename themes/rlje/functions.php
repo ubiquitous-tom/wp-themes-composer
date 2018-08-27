@@ -104,7 +104,7 @@ function acorntv_hook_css_js() {
 	wp_enqueue_script( 'bootstrap-js', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array( 'jquery' ), '3.3.7', true );
 	wp_enqueue_script( 'fancybox', get_template_directory_uri() . '/lib/fancybox/jquery.fancybox.pack.js', array( 'jquery' ), '2.1.5', true );
 	// wp_enqueue_script( 'brightcove', get_template_directory_uri() . '/lib/brightcove/BrightcoveExperiences.js', array(), null, true );
-	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery' ), '1.4.3', true );
+	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/js/main.js', array( 'jquery', 'brightcove-public-player' ), '1.4.3', true );
 	// Register brightcove public facing player js file
 	$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
 	$brightcove_account_id = $brightcove_settings['shared_account_id'];

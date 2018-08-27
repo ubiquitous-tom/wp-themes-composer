@@ -16,6 +16,7 @@ class RLJE_Index_Page {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
+		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_signup_promotion' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_loggedin_featured' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_sections' ) );
 		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
@@ -61,6 +62,14 @@ class RLJE_Index_Page {
 
 		$data = rljeApiWP_getContentPageItems( $content, $page );
 		wp_send_json_success( $data );
+	}
+
+	public function display_signup_promotion() {
+		if ( empty( $_COOKIE['ATVSessionCookie'] ) ) {
+			ob_start();
+			require plugin_dir_path( __FILE__ ) . 'partials/section-signup-promotion.php';
+			echo ob_get_clean();
+		}
 	}
 
 	public function display_home_loggedin_featured() {

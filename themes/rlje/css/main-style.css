@@ -227,6 +227,21 @@ input:-ms-input-placeholder {color: #ccc;}
 .carousel-fade .carousel-control {z-index: 2;}
 .control-position {position:relative;}
 
+/* SIGNUP PROMOTION */
+
+#home-signup-promotion {
+    background-color: #232725;
+    padding: 25px 0;
+}
+
+#home-signup-promotion h5 {
+    font-size: 21px;
+    line-height: 1.3;
+    text-transform: initial;
+    letter-spacing: initial;
+    font-weight: 300;
+}
+
 /* VIEW ALL  */
 .view-all{width: 100%; text-align: center;margin-top: -15px;margin-bottom: 10px;opacity:.6}
 .view-all:hover{opacity:1}
