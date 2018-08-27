@@ -20,7 +20,6 @@ class RLJE_Header {
 
 		add_action( 'wp_head', array( $this, 'add_sailthru_script' ) );
 		add_action( 'wp_head', array( $this, 'add_tealium_script' ) );
-		// add_action( 'wp_head', array( $this, 'check_first_time_visitor' ) );
 		add_action( 'wp_head', array( $this, 'add_google_analytics_script' ) );
 		add_action( 'wp_head', array( $this, 'add_google_play_app_meta_tag' ), 0 );
 		add_action( 'wp_head', array( $this, 'add_google_site_verification_meta_tag' ), 0 );
@@ -76,24 +75,6 @@ class RLJE_Header {
 		</noscript>
 			<?php
 		endif;
-	}
-
-	// Check first time visitor to the site to redirect to signup have but WHY?!
-	public function check_first_time_visitor() {
-		global $wp;
-		$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
-		$parse_url   = parse_url( $current_url );
-		if ( ( empty( $parse_url['hash'] ) ) && ( empty( $parse_url['path'] ) ) ) {
-			if ( ! isset( $_COOKIE['visited'] ) ) {
-				// Leave the else value empty to production, now is .dev because it is not implemented in prod yet (used in uat.acorn.tv).
-				$environment  = apply_filters( 'atv_get_extenal_subdomain', '' );
-				$redirect_url = esc_url( 'https://signup' . $environment . '.acorn.tv' );
-				setcookie( 'visited', true );
-				wp_safe_redirect( $redirect_url, 302 );
-				exit();
-			}
-		}
-		setcookie( 'visited', true );
 	}
 
 	public function add_google_analytics_script() {
