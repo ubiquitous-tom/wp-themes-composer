@@ -55,7 +55,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 						?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3<?php echo ( 0 < $i ) ? ' cloneditem-' . $i : ''; ?>" id="avatar">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
-						<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> <?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
+						<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> - <?php echo esc_attr( $section_title ); ?> category image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
 					</a>
 				</div>
 				<?php endfor; ?>
@@ -72,7 +72,7 @@ if ( isset( $carousel_items ) && count( $carousel_items ) > 0 ) :
 					?>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" id="avatar">
 					<a href="<?php echo esc_url( trailingslashit( home_url( $item->href ) ) ); ?>">
-						<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> <?php echo esc_attr( $section_title ); ?> image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
+						<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->name ); ?> - <?php echo esc_attr( $section_title ); ?> category image" class="wp-post-image" id="avatar-rollover" src="<?php echo esc_url( $item->img . '?t=titled-avatars&w=400&h=225' ); ?>"/>
 					</a>
 				</div>
 				<?php endforeach; ?>
