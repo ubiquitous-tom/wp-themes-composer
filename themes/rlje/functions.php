@@ -170,6 +170,15 @@ function acorntv_hook_css_js() {
 	// }
 }
 
+add_action( 'admin_enqueue_scripts', 'acorntv_admin_hook_css_js');
+function acorntv_admin_hook_css_js() {
+	$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
+	$brightcove_account_id = $brightcove_settings['shared_account_id'];
+	$brightcove_player_id  = $brightcove_settings['shared_player_id'];
+	$bc_url = '//players.brightcove.net/' . $brightcove_account_id . '/' . $brightcove_player_id . '_default/index.min.js';
+	wp_register_script( 'brightcove-public-player', $bc_url );
+}
+
 add_action( 'init', 'acorntv_rewrites_urls' );
 function acorntv_rewrites_urls() {
 	// Remember add or remove the rule in acorntv_check_rewrite_rules function too.

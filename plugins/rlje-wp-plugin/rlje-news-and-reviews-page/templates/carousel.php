@@ -29,21 +29,12 @@ $base_url_path = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_g
 					</a>
 					<?php else : ?>
 					<div class="news-carousel">
-						<!-- <iframe
-							class="embed-responsive"
-							style="width: 100%; height: 100%; position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px;border:none;"
-							src="//players.brightcove.net/3047407010001/r1ZjWi4Ab_default/index.html?videoId=<?php echo $item['src']; ?>"
-							allowfullscreen=""
-							webkitallowfullscreen=""
-							mozallowfullscreen="">
-						</iframe> -->
 						<video preload
-							id="brightcove-news-carousel-player"
-							data-account="<?php echo esc_attr( $this->brightcove['bc_account_id'] ); ?>"
-							data-player="<?php echo esc_attr( $this->brightcove['bc_player_id'] ); ?>"
+							data-account="<?php echo get_option( 'rlje_theme_brightcove_shared_settings' )['shared_account_id']; ?>"
+							data-player="<?php echo get_option( 'rlje_theme_brightcove_shared_settings' )['shared_player_id']; ?>"
 							data-embed="default"
-							data-video-id="ref:<?php echo esc_attr( $item['src'] ); ?>"
-							class="video-js embed-responsive embed-responsive-16by9"
+							data-video-id="<?php echo esc_attr( $item['src'] ); ?>"
+							class="brightcove-news-carousel-player video-js embed-responsive embed-responsive-16by9"
 							controls></video>
 					</div>
 					<?php endif; ?>

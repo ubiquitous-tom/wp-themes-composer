@@ -8,7 +8,6 @@ class RLJE_News_And_Reviews {
 	private $transient_key = 'rlje_news_and_review_';
 	protected $rlje_news;
 	protected $rlje_reviews;
-	public $brightcove = [];
 
 	public function __construct() {
 		// add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -32,12 +31,6 @@ class RLJE_News_And_Reviews {
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-draggable' );
 			wp_enqueue_media();
-
-			if ( is_ssl() ) {
-				$bc_admin_js = 'https://sadmin.brightcove.com/';
-			} else {
-				$bc_admin_js = 'http://admin.brightcove.com/';
-			}
 
 			// Versioning for cachebuster.
 			$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-news-and-reviews.js' ) );

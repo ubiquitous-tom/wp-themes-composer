@@ -54,7 +54,7 @@
     height: 100%;
 }
 
-.video-wrapper .video-preview #brightcove-trailer-player {
+.video-wrapper .video-preview .brightcove-public-player {
     width: 640px;
     height: calc(640px * 9/16);
 }

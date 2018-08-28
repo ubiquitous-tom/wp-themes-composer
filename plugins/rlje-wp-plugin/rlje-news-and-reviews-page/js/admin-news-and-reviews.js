@@ -116,6 +116,10 @@
 				$(el).find('.mkgFranchiseId').hide();
 				$(el).find('.mkgExternalLink').hide();
 			}
+			var brightcoveVideo = $(el).find('.brightcove-public-player');
+			if ( brightcoveVideo.length ) {
+				bc(brightcoveVideo[0]);
+			}
 		});
 	});
 })(jQuery);

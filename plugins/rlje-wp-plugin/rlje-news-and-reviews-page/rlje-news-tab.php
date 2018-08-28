@@ -44,23 +44,13 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 			wp_enqueue_script( 'jquery-ui-draggable' );
 			wp_enqueue_media();
 
-			// if ( is_ssl() ) {
-			// 	$bc_admin_js = 'https://sadmin.brightcove.com/';
-			// } else {
-			// 	$bc_admin_js = 'http://admin.brightcove.com/';
-			// }
-
 			$this->get_brightcove_info();
-			// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
-
-			$bc_url = '//players.brightcove.net/' . $this->brightcove['bc_account_id'] . '/' . $this->brightcove['bc_player_id'] . '_default/index.js';
-			wp_enqueue_script( 'rlje-brightcove', $bc_url, array(), false, true );
 
 			// Versioning for cachebuster.
 			$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-news-and-reviews.js' ) );
 			$news_css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-news-and-reviews.css' ) );
 			wp_enqueue_style( 'rlje-admin-news-and-reviews', plugins_url( 'css/admin-news-and-reviews.css', __FILE__ ), array(), $news_css_verion );
-			wp_enqueue_script( 'rlje-admin-news-and-reviews', plugins_url( 'js/admin-news-and-reviews.js', __FILE__ ), array( 'jquery-ui-core' ), $news_js_version, true );
+			wp_enqueue_script( 'rlje-admin-news-and-reviews', plugins_url( 'js/admin-news-and-reviews.js', __FILE__ ), array( 'jquery-ui-core', 'brightcove-public-player' ), $news_js_version, true );
 		}
 	}
 
@@ -196,12 +186,11 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 				<div class="video-wrapper">
 					<div class="video-preview">
 						<video preload
-							id="brightcove-trailer-player"
+							class="brightcove-public-player"
 							data-account="<?php echo esc_attr( $this->brightcove['bc_account_id'] ); ?>"
 							data-player="<?php echo esc_attr( $this->brightcove['bc_player_id'] ); ?>"
 							data-embed="default"
-							data-video-id="ref:<?php echo esc_attr( $value ); ?>"
-
+							data-video-id="<?php echo esc_attr( $value ); ?>"
 							class="video-js embed-responsive embed-responsive-16by9"
 							controls></video>
 					</div>
