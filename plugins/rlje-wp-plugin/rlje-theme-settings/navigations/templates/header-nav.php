@@ -1,6 +1,6 @@
 <?php $logo_url = apply_filters( 'rlje_theme_header_logo', '' ); ?>
 <!-- Fixed Bootstrap navbar -->
-<div id="top-nav" class="navbar navbar-fixed-top" role="navigation">
+<div id="top-nav" class="navbar affix" role="navigation">
 	<div class="container">
 
 		<div class="navbar-header navbar-left pull-left">
