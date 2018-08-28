@@ -235,11 +235,18 @@ input:-ms-input-placeholder {color: #ccc;}
 }
 
 #home-signup-promotion h5 {
-    font-size: 21px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
     line-height: 1.3;
     text-transform: initial;
     letter-spacing: initial;
-    font-weight: 300;
+}
+
+@media (min-width: 768px) {
+    #home-signup-promotion h5 {
+        font-size: 21px;
+    }
 }
 
 /* VIEW ALL  */
@@ -437,12 +444,6 @@ input:-ms-input-placeholder {color: #ccc;}
 .episodeImgOverlay {width:100%;}
 .episode-player img.episodeImgOverlay {opacity: 1;}
 .transparent {background-color: transparent;}
-
-/* BOOTSTRAP */
-.embed-responsive-16by9 {padding-bottom: 56.25%; -ms-padding-bottom:0px; }
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {.embed-responsive-16by9 {padding-bottom: 0px;}}
-.embed-responsive {position: relative; display: block; height: 100%;overflow: hidden;}
-.vjs-fullscreen{padding-bottom: 0%;}
 
 @media (min-width: 375px){
 /* SPLASH-SLOGAN */

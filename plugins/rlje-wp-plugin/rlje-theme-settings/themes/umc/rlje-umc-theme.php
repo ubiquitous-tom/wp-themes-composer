@@ -22,7 +22,7 @@ class RLJE_UMC_Theme {
 	}
 
 	public function enqueue_scripts( $hook ) {
-		wp_enqueue_style( 'google-webfont-nunito', '//fonts.googleapis.com/css?family=Nunito:400,400i,600,600i,700,700i' );
+		wp_enqueue_style( 'google-webfont-nunito', '//fonts.googleapis.com/css?family=Nunito:300,400,400i,600,600i,700,700i' );
 
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 		wp_enqueue_style( 'rlje-umc-theme', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
