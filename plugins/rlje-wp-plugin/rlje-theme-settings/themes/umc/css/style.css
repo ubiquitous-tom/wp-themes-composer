@@ -304,3 +304,8 @@ span[itemprop="trailer"] a button:hover {
         top: calc(50% - (130px/2));
     }
 }
+@media screen and (min-width: 1200px) {
+    #top-nav .nav>li>a.sign-up {
+        background-color: #3498DC;
+    }
+}
