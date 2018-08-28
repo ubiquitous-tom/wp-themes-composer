@@ -26,11 +26,11 @@ section {flex: 1;}
 .secondary-bg{background:#060606;width:100%;margin-top: -16px}
 
 /* NAVBAR */
-#top-nav {border:none;box-shadow: 0 0 30px -5px #050505;}
+#top-nav {border:none;box-shadow: 0 0 30px -5px #050505;background: #050505;}
 #top-nav ul.nav {color: white;}
 #top-nav .navbar-toggle {margin-right: 0;margin-left: 15px;}
-#top-nav .navbar-brand {height: 55px;padding: 10px 15px;}
-#top-nav .navbar-brand img {height: 35px;}
+#top-nav .navbar-brand {height: 55px;/*padding: 10px 15px;*/}
+#top-nav .navbar-brand img {height: 25px;}
 #top-nav .nav>li>a {padding: 18px 10px;}
 #top-nav .nav>li>a:focus,
 #top-nav .nav>li>a:hover {background-color: inherit;}
@@ -69,68 +69,22 @@ section {flex: 1;}
 
 /* Collapse navbar at  */
 @media (max-width: 991px) {
-    #top-nav .container > .navbar-collapse,
-    #top-nav .container > .navbar-header {
-
-    }
-    #top-nav .navbar-header {
-        float: none;
-    }
-    #top-nav .navbar-left,.navbar-right {
-        float: none !important;
-    }
-
-    #top-nav .navbar-left.pull-left {
-        float: left !important;
-    }
-
-    #top-nav .navbar-right.pull-right {
-        float: right !important;
-    }
-
-    #top-nav .navbar-toggle {
-        display: block;
-    }
-
-    #top-nav .navbar-brand {
-        margin-left: 0;
-    }
-    #top-nav .navbar-collapse {
-        display: flex;
-        flex-flow: column-reverse;
-        margin: 0;
-        padding: 0;
-        border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    #top-nav .navbar-fixed-top {
-        top: 0;
-        border-width: 0 0 1px;
-    }
-    #top-nav .navbar-collapse.collapse {
-        display: none!important;
-    }
-    #top-nav .navbar-nav {
-        float: none!important;
-        margin: 0;
-    }
-    #top-nav .navbar-nav>li {
-        float: none;
-    }
-    #top-nav .navbar-nav>li>a {
-        padding: 10px 0;
-    }
-    #top-nav .collapse.in{
-        display:flex !important;
-    }
-
-    #top-nav .search-form {
-        padding: 10px 0;
-    }
-
-    #top-nav .search-form label {
-        margin: 0;
-    }
+#top-nav .container > .navbar-collapse,#top-nav .container > .navbar-header {}
+#top-nav .navbar-header {float: none;}
+#top-nav .navbar-left,.navbar-right {float: none !important;}
+#top-nav .navbar-left.pull-left {float: left !important;}
+#top-nav .navbar-right.pull-right {float: right !important;}
+#top-nav .navbar-toggle {display: block;}
+#top-nav .navbar-brand {margin-left: 0;}
+#top-nav .navbar-collapse {display: flex;flex-flow: column-reverse;margin: 0;padding: 0;border-top: 1px solid transparent;box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);}
+#top-nav .navbar-fixed-top {top: 0;border-width: 0 0 1px;}
+#top-nav .navbar-collapse.collapse {display: none!important;}
+#top-nav .navbar-nav {float: none!important;margin: 0;}
+#top-nav .navbar-nav>li {float: none;}
+#top-nav .navbar-nav>li>a {padding: 10px 0;}
+#top-nav .collapse.in{display:flex !important;}
+#top-nav .search-form {padding: 10px 0;}
+#top-nav .search-form label {margin: 0;}
 }
 
 /* Active Features Block - Header Block */
@@ -279,7 +233,7 @@ input:-ms-input-placeholder {color: #ccc;}
 
 /* FRANCHISE TEMPLATE */
 .franchise a{font-size: 13px;}
- #franchise-description{margin-top:10px;}
+#franchise-description{margin-top:10px;}
 .franchise-eps-bg {background:#131313; padding:5px 6px 12px 15px;margin-bottom:15px;}
 .franchise-eps-bg.no-margin-bottom {margin-bottom:0;}
 
@@ -612,9 +566,10 @@ p {font-size: 14.5px;}
 .red-box-dismiss {position: absolute; top: 5px; right: 15px;}
 
 @media (min-width: 992px){
-body {
-    padding-top: 70px;
-}
+
+/* BASE CSS */
+body {padding-top: 70px;}
+
 /* NAVBAR-USER DROPDOWN */
 .menuOptions {padding: 27px 20px;}
 .navbar-right .drop-select {right: -55px;}
@@ -748,6 +703,10 @@ body {
 /* NAVBAR-SLIDEOUT */
 .side-collapse {top:51px;right:-15px;}
 }
+
+/* SMARTBANNER APP */
+.smartbanner {background: #050505 !important;}
+.smartbanner__button {color: #050505 !important;}
 
 /*/////////////////////////////////////////////////////////////////////
 ////////////////////////////// ACORN TV 3.01 ///////////////////////////

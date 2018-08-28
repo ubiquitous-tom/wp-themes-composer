@@ -47,7 +47,10 @@ button {
     letter-spacing: 1px;
 }
 
- #top-nav .nav>li>a.sign-up:hover {
+#top-nav {
+    background: #011f36;
+}
+#top-nav .nav>li>a.sign-up:hover {
     background-color: #2E86C1;
 }
 
@@ -280,6 +283,14 @@ span[itemprop="trailer"] a button:hover {
 
 .footer p {
     margin-top: 0;
+}
+
+/* SMARTBANNER APP */
+.smartbanner {
+    background: #011f36 !important;
+}
+.smartbanner__button {
+    color: #011f36 !important;
 }
 
 @media (min-width: 768px) {

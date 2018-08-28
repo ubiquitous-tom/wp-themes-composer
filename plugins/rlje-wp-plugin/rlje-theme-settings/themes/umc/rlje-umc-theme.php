@@ -17,6 +17,7 @@ class RLJE_UMC_Theme {
 		add_filter( 'rlje_front_page_homepage_hero_left_arrow', array( $this, 'umc_homepage_hero_left_arrow' ) );
 		add_filter( 'rlje_front_page_homepage_hero_right_arrow', array( $this, 'umc_homepage_hero_right_arrow' ) );
 		add_filter( 'rlje_carousel_hero_responsive_images', array( $this, 'umc_carousel_hero_responsive_images' ), 10, 4 );
+		add_filter( 'rlje_app_smartbanner', array( $this, 'umc_app_smartbanner' ) );
 
 		require_once plugin_dir_path( __FILE__ ) . 'franchise/umc-franchise-page.php';
 	}
@@ -125,6 +126,17 @@ class RLJE_UMC_Theme {
 		$slide_image = ob_get_clean();
 
 		return $slide_image;
+	}
+
+	public function umc_app_smartbanner( $smart_banner ) {
+		$smart_banner['title'] = 'UMC - Urban Movie Channel';
+		$smart_banner['author'] = 'RLJ Entertainment, Inc.';
+		$smart_banner['icon-apple'] = plugins_url( 'img/logo.png', __FILE__ );
+		$smart_banner['icon-google'] = plugins_url( 'img/logo.png', __FILE__ );
+		$smart_banner['button-url-apple'] = 'https://itunes.apple.com/us/app/umc-best-in-black-film-tv/id1032488115?mt=8';
+		$smart_banner['button-url-google'] = 'https://play.google.com/store/apps/details?id=com.rljentertainment.umc.android&hl=en_US';
+
+		return $smart_banner;
 	}
 }
 

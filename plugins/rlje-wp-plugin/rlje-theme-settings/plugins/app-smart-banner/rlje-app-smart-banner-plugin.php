@@ -2,27 +2,38 @@
 
 class RLJE_App_Smart_Banner {
 
+	public $smart_banner;
+
 	public function __construct() {
+		add_action( 'init', array( $this, 'init_smart_banner' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_head', array( $this, 'smart_app_banner_header_meta' ), 0 );
+	}
+
+	public function init_smart_banner() {
+		$this->smart_banner = apply_filters( 'rlje_app_smartbanner', [
+			'title' => 'Acorn TV - The Best British TV',
+			'author' => 'RLJ Entertainment, Inc.',
+			'price' => 'FREE',
+			'price-suffix-apple' => ' - On the App Store',
+			'price-suffix-google' => ' - In Google Play',
+			'icon-apple' => plugins_url( 'img/atv-app-mobile.png', __FILE__ ),
+			'icon-google' => plugins_url( 'img/atv-app-mobile.png', __FILE__ ),
+			'button' => 'VIEW',
+			'button-url-apple' => 'https://itunes.apple.com/us/app/acorn-tv-the-best-british-tv/id896014310?mt=8',
+			'button-url-google' => 'https://play.google.com/store/apps/details?id=com.acorn.tv&hl=en_US',
+			'enabled-platforms' => 'android,ios',
+		] );
 	}
 
 	public function enqueue_scripts() {
-		if ( jetpack_is_mobile() ) {
-			wp_enqueue_style( 'smartbanner_css', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.css', array( 'jquery_ui_css' ), '1.0.0' );
-			wp_enqueue_script( 'jquery-smartbanner-js', '//cdnjs.cloudflare.com/ajax/libs/jquery.smartbanner/1.0.0/jquery.smartbanner.min.js', array( 'jquery', 'jquery-ui-core' ), '1.0.0', true );
+		wp_enqueue_style( 'smartbanner', plugins_url( 'css/smartbanner.min.css', __FILE__ ), array(), '1.10.0' );
+		wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.min.js', __FILE__ ), array(), '1.10.0', true );
+	}
 
-			wp_enqueue_script( 'rlje-app-smart-banner', plugins_url( 'js/app-smart-banner.js', __FILE__ ), array( 'jquery-smartbanner-js' ), '1.0.0', true );
-
-			$banner_object = apply_filters( 'rlje_app_smart_banner', [
-				'title' => 'Acorn TV - The Best British TV',
-				'author' => 'RLJ Entertainment, Inc.',
-				'price' => '',
-				'in_app_store' => '',
-				'in_google_play' => '',
-				'icon' => plugins_url( 'img/atv-app-mobile.png', __FILE__ ),
-				'button' => 'OPEN',
-			] );
-			wp_localize_script( 'rlje-app-smart-banner', 'rlje_app_smart_banner', $banner_object );
+	public function smart_app_banner_header_meta() {
+		foreach ( $this->smart_banner as $name => $content ) {
+			echo '<meta name="smartbanner:' . $name . '" content="' . $content . '">' . "\n";
 		}
 	}
 }
