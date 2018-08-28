@@ -386,11 +386,9 @@ jQuery(document).ready(function($) {
         autoSize: false
     });
 
-    bc(document.getElementById('umc-about'));
-    videojs('umc-about').ready(function() {
-        myPlayer = this;
-        //myPlayer.pause();
-    })
+    if($('#umc-about').length) {
+      bc($('#umc-about')[0]);
+    }
 
     // Continue Watching
     // var endCookie = new Date();
