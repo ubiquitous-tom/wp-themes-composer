@@ -14,7 +14,7 @@ h4{font-size: 1.12em; color: rgb(85, 85, 85); font-weight: 600;}
 h5{font-size: .83em; color: rgb(85, 85, 85); font-weight: 600;}
 h6{font-size: .75em; color: rgb(85, 85, 85); font-weight: 600;}
 
-.page-main{position: relative; top: 45px; background-color: #fff; color: rgb(85, 85, 85);}
+.page-main{position: relative; /*top: 45px;*/ background-color: #fff; color: rgb(85, 85, 85);}
 article{padding: 70px 0;}
 header{color: rgb(85, 85, 85);}
 </style>
@@ -31,7 +31,7 @@ header{color: rgb(85, 85, 85);}
                         <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
                 </header><!-- .entry-header -->
 
-                <?php 
+                <?php
                 if ( (!post_password_required() || !is_attachment() || has_post_thumbnail()) ):
                     if ( is_singular() ) :
                 ?>

@@ -38,7 +38,7 @@ class RLJE_App_Smart_Banner {
 
 		if ( absint( $this->smart_banner['status'] ) ) {
 			wp_enqueue_style( 'smartbanner', plugins_url( 'css/smartbanner.min.css', __FILE__ ), array(), '1.10.0' );
-			wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.min.js', __FILE__ ), array(), '1.10.0', true );
+			wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.js', __FILE__ ), array(), '1.10.0', true );
 		}
 	}
 
