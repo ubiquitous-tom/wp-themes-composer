@@ -27,8 +27,8 @@ class RLJE_App_Smart_Banner {
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'smartbanner_css', plugins_url( 'css/smartbanner.css', __FILE__ ), array(), '1.10.0' );
-		wp_enqueue_script( 'smartbanner-js', plugins_url( 'js/smartbanner.js', __FILE__ ), array(), '1.10.0', true );
+		wp_enqueue_style( 'smartbanner', plugins_url( 'css/smartbanner.min.css', __FILE__ ), array(), '1.10.0' );
+		wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.min.js', __FILE__ ), array(), '1.10.0', true );
 	}
 
 	public function smart_app_banner_header_meta() {
