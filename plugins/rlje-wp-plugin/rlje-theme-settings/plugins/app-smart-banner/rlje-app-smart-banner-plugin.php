@@ -11,29 +11,46 @@ class RLJE_App_Smart_Banner {
 	}
 
 	public function init_smart_banner() {
-		$this->smart_banner = apply_filters( 'rlje_app_smartbanner', [
-			'title' => 'Acorn TV - The Best British TV',
-			'author' => 'RLJ Entertainment, Inc.',
-			'price' => 'FREE',
-			'price-suffix-apple' => ' - On the App Store',
-			'price-suffix-google' => ' - In Google Play',
-			'icon-apple' => plugins_url( 'img/atv-app-mobile.png', __FILE__ ),
-			'icon-google' => plugins_url( 'img/atv-app-mobile.png', __FILE__ ),
-			'button' => 'VIEW',
-			'button-url-apple' => 'https://itunes.apple.com/us/app/acorn-tv-the-best-british-tv/id896014310?mt=8',
-			'button-url-google' => 'https://play.google.com/store/apps/details?id=com.acorn.tv&hl=en_US',
-			'enabled-platforms' => 'android,ios',
-		] );
+		$smart_app_banner   = get_option( 'rlje_smart_app_banner_settings' );
+		$this->smart_banner = [
+			'status'               => $smart_app_banner['status'],
+			'title'               => $smart_app_banner['title'],
+			'author'              => $smart_app_banner['author'],
+			'price'               => $smart_app_banner['price'],
+			'price-suffix-apple'  => $smart_app_banner['price_apple'],
+			'price-suffix-google' => $smart_app_banner['price_google'],
+			'icon-apple'          => $smart_app_banner['icon_apple'],
+			'icon-google'         => $smart_app_banner['icon_google'],
+			'button'              => $smart_app_banner['button_text'],
+			'button-url-apple'    => $smart_app_banner['button_url_apple'],
+			'button-url-google'   => $smart_app_banner['button_url_google'],
+			'enabled-platforms'   => $smart_app_banner['enabled_platforms'],
+			// 'custom-design-modifier' => $smart_app_banner['custom_design_modifier'],
+			'hide-ttl'            => $smart_app_banner['hide_ttl'],
+			// 'disable-positioning' => $smart_app_banner['disable_positioning'],
+		];
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'smartbanner', plugins_url( 'css/smartbanner.min.css', __FILE__ ), array(), '1.10.0' );
-		wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.min.js', __FILE__ ), array(), '1.10.0', true );
+		if ( empty( $this->smart_banner ) ) {
+			return;
+		}
+
+		if ( absint( $this->smart_banner['status'] ) ) {
+			wp_enqueue_style( 'smartbanner', plugins_url( 'css/smartbanner.min.css', __FILE__ ), array(), '1.10.0' );
+			wp_enqueue_script( 'smartbanner', plugins_url( 'js/smartbanner.min.js', __FILE__ ), array(), '1.10.0', true );
+		}
 	}
 
 	public function smart_app_banner_header_meta() {
-		foreach ( $this->smart_banner as $name => $content ) {
-			echo '<meta name="smartbanner:' . $name . '" content="' . $content . '">' . "\n";
+		if ( empty( $this->smart_banner ) ) {
+			return;
+		}
+
+		if ( absint( $this->smart_banner['status'] ) ) {
+			foreach ( $this->smart_banner as $name => $content ) {
+				echo '<meta name="smartbanner:' . $name . '" content="' . $content . '">' . "\n";
+			}
 		}
 	}
 }
