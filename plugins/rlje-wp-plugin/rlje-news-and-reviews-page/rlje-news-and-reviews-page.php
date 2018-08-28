@@ -8,7 +8,6 @@ class RLJE_News_And_Reviews {
 	private $transient_key = 'rlje_news_and_review_';
 	protected $rlje_news;
 	protected $rlje_reviews;
-	public $brightcove = [];
 
 	public function __construct() {
 		// add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -33,23 +32,11 @@ class RLJE_News_And_Reviews {
 			wp_enqueue_script( 'jquery-ui-draggable' );
 			wp_enqueue_media();
 
-			if ( is_ssl() ) {
-				$bc_admin_js = 'https://sadmin.brightcove.com/';
-			} else {
-				$bc_admin_js = 'http://admin.brightcove.com/';
-			}
-
-			$this->get_brightcove_info();
-			// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
-
-			$bc_url = '//players.brightcove.net/' . $this->brightcove['bc_account_id'] . '/' . $this->brightcove['bc_player_id'] . '_default/index.js';
-			wp_enqueue_script( 'rlje-brightcove', $bc_url, array(), false, true );
-
 			// Versioning for cachebuster.
 			$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-news-and-reviews.js' ) );
 			$news_css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-news-and-reviews.css' ) );
 			wp_enqueue_style( 'rlje-admin-news-and-reviews', plugins_url( 'css/admin-news-and-reviews.css', __FILE__ ), array(), $news_css_verion );
-			wp_enqueue_script( 'rlje-admin-news-and-reviews', plugins_url( 'js/admin-news-and-reviews.js', __FILE__ ), array( 'jquery-ui-core' ), $news_js_version, true );
+			wp_enqueue_script( 'rlje-admin-news-and-reviews', plugins_url( 'js/admin-news-and-reviews.js', __FILE__ ), array( 'jquery-ui-core', 'brightcove-public-player' ), $news_js_version, true );
 		}
 	}
 
@@ -58,22 +45,11 @@ class RLJE_News_And_Reviews {
 			return;
 		}
 
-		// if ( is_ssl() ) {
-		// 	$bc_admin_js = 'https://sadmin.brightcove.com/';
-		// } else {
-		// 	$bc_admin_js = 'http://admin.brightcove.com/';
-		// }
-
-		$this->get_brightcove_info();
-		// wp_enqueue_script( 'brightcove', $bc_admin_js . 'js/BrightcoveExperiences.js', array(), false, true );
-
-		$bc_url          = '//players.brightcove.net/' . $this->brightcove['bc_account_id'] . '/' . $this->brightcove['bc_player_id'] . '_default/index.js';
 		$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/news-and-reviews.js' ) );
 		$news_css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/news-and-reviews.css' ) );
 
-		wp_enqueue_script( 'rlje-brightcove', $bc_url, array( 'jquery', 'main-js' ), false, true );
 		wp_enqueue_style( 'rlje-news-and-reviews', plugins_url( 'css/news-and-reviews.css', __FILE__ ), array(), $news_css_verion );
-		wp_enqueue_script( 'rlje-news-and-reviews', plugins_url( 'js/news-and-reviews.js', __FILE__ ), array( 'rlje-brightcove' ), $news_js_version, true );
+		wp_enqueue_script( 'rlje-news-and-reviews', plugins_url( 'js/news-and-reviews.js', __FILE__ ), array( 'brightcove-public-player' ), $news_js_version, true );
 	}
 
 	public function add_news_and_review_cache_table_list( $cache_list ) {
@@ -246,15 +222,6 @@ class RLJE_News_And_Reviews {
 		return $display_carousels;
 	}
 
-	protected function get_brightcove_info() {
-		// We need all these brightcove stuff because homepage uses share account only.
-		$brightcove_settings = get_option( 'rlje_theme_brightcove_shared_settings' );
-
-		if ( ! empty( $brightcove_settings ) ) {
-			$this->brightcove['bc_account_id'] = $brightcove_settings['shared_account_id'];
-			$this->brightcove['bc_player_id']  = $brightcove_settings['shared_player_id'];
-		}
-	}
 }
 
 $rlje_news_and_reviews = new RLJE_News_And_Reviews();

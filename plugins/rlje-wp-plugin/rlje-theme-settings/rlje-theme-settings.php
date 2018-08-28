@@ -65,6 +65,7 @@ class RLJE_Theme_Settings {
 			add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_home_callout', 'Home Callout', array( $this, 'display_theme_home_callout' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+			add_settings_field( 'theme_plugins_signup_promotion', 'Signup Promotion', array( $this, 'display_theme_signup_promotion' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 		}
 	}
 
@@ -303,6 +304,18 @@ class RLJE_Theme_Settings {
 		<label for="rlje-plugins-home-callout-off">Off</label>
 		<p class="description">For activating Homepage Callout section</p>
 		<p class="description">* Please insert all the needed text and links before activating this section.</p>
+		<?php
+	}
+
+	public function display_theme_signup_promotion() {
+		$signup_promotion = ( ! intval( $this->theme_plugins_settings['signup_promotion'] ) ) ? intval( $this->theme_plugins_settings['signup_promotion'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[signup_promotion]" id="rlje-plugins-signup-promotion-on" class="regular-text" value="1" <?php checked( $signup_promotion, 1 ); ?>>
+		<label for="rlje-plugins-signup-promotion-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[signup_promotion]" id="rlje-plugins-signup-promotion-off" class="regular-text" value="0" <?php checked( $signup_promotion, 0 ); ?>>
+		<label for="rlje-plugins-signup-promotion-off">Off</label>
+		<p class="description">For activating signup message promotion om homepage</p>
 		<?php
 	}
 

@@ -54,6 +54,25 @@ button {
     background-color: #2E86C1;
 }
 
+/* SIGNUP PROMOTION */
+
+#home-signup-promotion {
+    box-shadow: inset 0 0 30px -5px #050505;
+}
+
+#home-signup-promotion h5 {
+    font-weight: 300;
+}
+
+#home-signup-promotion .fa-play {
+    margin-right: 10px;
+}
+
+#home-signup-promotion .pitch {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
 /* BUTTONS, TABS, AND ICONS  */
 
 #page-subhead {

@@ -386,6 +386,10 @@ jQuery(document).ready(function($) {
         autoSize: false
     });
 
+    if($('#umc-about').length) {
+      bc($('#umc-about')[0]);
+    }
+
     // Continue Watching
     // var endCookie = new Date();
     // endCookie.setMinutes(endCookie.getMinutes() + 2);
