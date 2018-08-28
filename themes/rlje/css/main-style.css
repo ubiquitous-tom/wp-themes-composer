@@ -26,11 +26,11 @@ section {flex: 1;}
 .secondary-bg{background:#060606;width:100%;margin-top: -16px}
 
 /* NAVBAR */
-#top-nav {border:none;box-shadow: 0 0 30px -5px #050505;}
+#top-nav {border:none;box-shadow: 0 0 30px -5px #050505;background: #050505;}
 #top-nav ul.nav {color: white;}
 #top-nav .navbar-toggle {margin-right: 0;margin-left: 15px;}
-#top-nav .navbar-brand {height: 55px;padding: 10px 15px;}
-#top-nav .navbar-brand img {height: 35px;}
+#top-nav .navbar-brand {height: 55px;/*padding: 10px 15px;*/}
+#top-nav .navbar-brand img {height: 25px;}
 #top-nav .nav>li>a {padding: 18px 10px;}
 #top-nav .nav>li>a:focus,
 #top-nav .nav>li>a:hover {background-color: inherit;}
