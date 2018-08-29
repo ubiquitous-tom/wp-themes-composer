@@ -325,7 +325,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .home-featured{background:#060606;width:100%;/*padding-bottom:50px;*/}
 .home-middle{margin-top:15px;margin-bottom:30px}
 .home-spotlights{background:#060606;width:100%;margin-top:0px;/*padding-bottom:35px;*/}
-.home-callout {margin-bottom: 30px;}
+.home-callout {margin-bottom: 30px;color:white;}
 .home-callout .home-callout-body{margin:25px 0;}
 .home-callout .home-callout-content{margin:0 auto;text-align:center}
 .home-callout .home-callout-description {font-size:13px;text-align:center;max-width:370px;margin:15px auto;line-height:25px;}
