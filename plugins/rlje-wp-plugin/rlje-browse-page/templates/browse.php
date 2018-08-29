@@ -59,7 +59,7 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 		if ( $have_franchises_available ) :
 			if ( $is_order_by_enabled ) :
 			?>
-		<div id="page-subhead" class="browse-order">
+		<div class="page-subhead browse-order">
 			<span>SORT BY:</span>
 			<a class="browse-order-option active js-orderby-added" href="#date-added">Date Added</a>
 			<a class="browse-order-option js-orderby-az" href="#a-z">A to Z</a>
