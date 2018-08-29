@@ -254,6 +254,7 @@
         }
         var margin = parseFloat(getComputedStyle(wrapper).marginTop);
         wrapper.setAttribute(datas.originalMarginTop, isNaN(margin) ? 0 : margin);
+        value = 0; // added by tom
         wrapper.style.marginTop = value + 'px';
       }
     }

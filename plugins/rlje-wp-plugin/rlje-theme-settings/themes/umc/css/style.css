@@ -31,6 +31,12 @@ button {
     padding: 0;
 }
 
+.carousel .item .left,
+.carousel .item .right {
+    transform: none;
+    transform-origin: initial;
+    top: auto;
+}
 .carousel .item .left {
     max-width: calc(485px / (9/16));
 }
@@ -52,6 +58,9 @@ button {
 }
 #top-nav .nav>li>a.sign-up:hover {
     background-color: #2E86C1;
+}
+#top-nav .navbar-brand img {
+    height: 30px;
 }
 
 /* SIGNUP PROMOTION */
@@ -312,9 +321,18 @@ span[itemprop="trailer"] a button:hover {
     }
 }
 
+@media (min-width: 992px) {
+    #top-nav .navbar-brand img {
+        height: 45px;
+    }
+}
+
 @media all and (min-width: 1100px) {
     .carousel-controls {
         top: calc(50% - (130px/2));
+    }
+    #top-nav .navbar-brand img {
+        height: 45px;
     }
 }
 @media screen and (min-width: 1200px) {

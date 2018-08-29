@@ -13,12 +13,12 @@ while ( have_posts() ) :
 <section class="page-main">
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="page-hero">
-            <div class="container">
-                <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-            </div>
+			<div class="container">
+				<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+			</div>
 		</header><!-- .entry-header -->
 		<section class="page-body">
-            <div class="container">
+			<div class="container">
 			<?php
 			if ( ( ! post_password_required() || ! is_attachment() || has_post_thumbnail() ) ) {
 				if ( is_singular() ) {
@@ -51,9 +51,9 @@ while ( have_posts() ) :
 					)
 				);
 				?>
-            </div><!-- .entry-content -->
-            </div>
-        </section>
+			</div><!-- .entry-content -->
+			</div>
+		</section>
 	</article><!-- #post-page## -->
 </section>
 <?php endwhile; ?>

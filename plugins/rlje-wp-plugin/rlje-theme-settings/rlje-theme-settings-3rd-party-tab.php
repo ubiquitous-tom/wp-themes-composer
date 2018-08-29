@@ -25,6 +25,7 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 		register_setting( 'rlje_3rd_party_section', 'rlje_google_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_apple_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_tealium_settings' );
+		register_setting( 'rlje_3rd_party_section', 'rlje_smart_app_banner_settings' );
 
 		// Here we display the sections and options in the settings page based on the active tab.
 		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
@@ -47,6 +48,22 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 
 			add_settings_section( 'rlje_tealium_section', 'Tealium Options', array( $this, 'display_tealium_options_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'tealium_id', 'Tealium Tag', array( $this, 'display_tealium_settings' ), 'rlje-theme-settings', 'rlje_tealium_section' );
+
+			add_settings_section( 'rlje_smart_app_banner_section', 'Smart App Banner Options', array( $this, 'display_smart_app_banner_options_content' ), 'rlje-theme-settings' );
+			add_settings_field( 'smart_app_banner_status', 'Smart App Banner On/Off', array( $this, 'display_smart_app_banner_status' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_title', 'Smart App Banner title', array( $this, 'display_smart_app_banner_title' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_author', 'Smart App Banner Author', array( $this, 'display_smart_app_banner_author' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_price', 'Smart App Banner Price', array( $this, 'display_smart_app_banner_price' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_price_suffix_apple', 'Smart App Banner Price for iOS', array( $this, 'display_smart_app_banner_price_suffix_apple' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_price_suffix_google', 'Smart App Banner Price for Android', array( $this, 'display_smart_app_banner_price_suffix_google' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_icon_apple', 'Smart App Banner iOS Icon', array( $this, 'display_smart_app_banner_icon_apple' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_icon_google', 'Smart App Banner Android Icon', array( $this, 'display_smart_app_banner_icon_google' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_button', 'Smart App Banner Button Text', array( $this, 'display_smart_app_banner_button_text' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_button_url_apple', 'Smart App Banner App URL for iOS', array( $this, 'display_smart_app_banner_button_url_apple' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_button_url_google', 'Smart App Banner App URL for Android', array( $this, 'display_smart_app_banner_button_url_google' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_enabled_platforms', 'Smart App Banner Supported Platforms', array( $this, 'display_smart_app_banner_enabled_platforms' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			// add_settings_field( 'smart_app_banner_custom_design_modifier', 'Smart App Banner title', array( $this, 'display_smart_app_banner_custom_design_modifier' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
+			add_settings_field( 'smart_app_banner_hide_ttl', 'Smart App Banner Cookie Time', array( $this, 'display_smart_app_banner_hide_ttl' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
 		}
 	}
 
@@ -158,6 +175,122 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 		?>
 		<input type="text" name="rlje_tealium_settings[tealium_id]" id="tealium-id" class="regular-text" value="<?php echo esc_attr( $tealium_id ); ?>" placeholder="Tealium ID">
 		<p class="description">Please enter your Tealium ID. (e.g., 6377)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_options_content() {
+		echo 'Smart App Banner Settings';
+		$this->smart_app_banner = get_option( 'rlje_smart_app_banner_settings' );
+		var_dump( $this->smart_app_banner );
+	}
+
+	public function display_smart_app_banner_status() {
+		$status = ( ! empty( $this->smart_app_banner['status'] ) ) ? absint( $this->smart_app_banner['status'] ) : 0;
+		?>
+		<label for="smart-app-banner-status-on">
+			<input type="radio" name="rlje_smart_app_banner_settings[status]" id="smart-app-banner-status-on" value="1" <?php checked( $status, 1 ); ?>> ON
+		</label>
+		<br>
+		<label for="smart-app-banner-status-off">
+			<input type="radio" name="rlje_smart_app_banner_settings[status]" id="smart-app-banner-status-off" value="0" <?php checked( $status, 0 ); ?>> OFF
+		</label>
+		<p class="description">Turn On/Off Smart App Banner. Please turn this off if you want to use `Apple Itunes App ID or Google Play App ID`</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_title() {
+		$title = ( ! empty( $this->smart_app_banner['title'] ) ) ? $this->smart_app_banner['title'] : 'Acorn TV - The Best British TV';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[title]" id="smart-app-banner-title" class="regular-text" value="<?php echo esc_attr( $title ); ?>" placeholder="Acorn TV - The Best British TV">
+		<p class="description">App Title</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_author() {
+		$author = ( ! empty( $this->smart_app_banner['author'] ) ) ? $this->smart_app_banner['author'] : 'RLJ Entertainment, Inc.';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[author]" id="smart-app-banner-author" class="regular-text" value="<?php echo esc_attr( $author ); ?>" placeholder="RLJ Entertainment, Inc.">
+		<p class="description">App Author. (Default: RLJ Entertainment, Inc.)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_price() {
+		$price = ( ! empty( $this->smart_app_banner['price'] ) ) ? $this->smart_app_banner['price'] : 'FREE';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[price]" id="smart-app-banner-price" class="regular-text" value="<?php echo esc_attr( $price ); ?>" placeholder="FREE">
+		<p class="description">App Price. (Default: FREE)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_price_suffix_apple() {
+		$price_apple = ( ! empty( $this->smart_app_banner['price_apple'] ) ) ? $this->smart_app_banner['price_apple'] : ' - On the App Store';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[price_apple]" id="smart-app-banner-price-apple" class="regular-text" value="<?php echo esc_attr( $price_apple ); ?>" placeholder=" - On the App Store">
+		<p class="description">App Price. (Default: - On the App Store)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_price_suffix_google() {
+		$price_google = ( ! empty( $this->smart_app_banner['price_google'] ) ) ? $this->smart_app_banner['price_google'] : ' - In Google Play';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[price_google]" id="smart-app-banner-price-google" class="regular-text" value="<?php echo esc_attr( $price_google ); ?>" placeholder=" - In Google Play">
+		<p class="description">App Price. (Default: - In Google Play)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_icon_apple() {
+		$icon_apple = ( ! empty( $this->smart_app_banner['icon_apple'] ) ) ? $this->smart_app_banner['icon_apple'] : plugins_url( 'img/atv-app-mobile.png', __FILE__ );
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[icon_apple]" id="smart-app-banner-icon-apple" class="regular-text" value="<?php echo esc_url( $icon_apple ); ?>" placeholder="<?php echo esc_url( plugins_url( 'img/atv-app-mobile.png', __FILE__ ) ); ?>">
+		<p class="description">App Icon for iOS. (Default: - Website Logo)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_icon_google() {
+		$icon_google = ( ! empty( $this->smart_app_banner['icon_google'] ) ) ? $this->smart_app_banner['icon_google'] : plugins_url( 'img/atv-app-mobile.png', __FILE__ );
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[icon_google]" id="smart-app-banner-icon-google" class="regular-text" value="<?php echo esc_url( $icon_google ); ?>" placeholder="<?php echo esc_url( plugins_url( 'img/atv-app-mobile.png', __FILE__ ) ); ?>">
+		<p class="description">App Icon for Android. (Default: Website Logo)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_button_text() {
+		$button_text = ( ! empty( $this->smart_app_banner['button_text'] ) ) ? $this->smart_app_banner['button_text'] : 'VIEW';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[button_text]" id="smart-app-banner-button-text" class="regular-text" value="<?php echo esc_attr( $button_text ); ?>" placeholder="VIEW">
+		<p class="description">App Button Text. (Default: - VIEW)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_button_url_apple() {
+		$button_url_apple = ( ! empty( $this->smart_app_banner['button_url_apple'] ) ) ? $this->smart_app_banner['button_url_apple'] : '';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[button_url_apple]" id="smart-app-banner-button-url-apple" class="regular-text" value="<?php echo esc_url( $button_url_apple ); ?>" placeholder="https://ios/application-url">
+		<p class="description">App URL for iOS. (Default: https://ios/application-url)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_button_url_google() {
+		$button_url_google = ( ! empty( $this->smart_app_banner['button_url_google'] ) ) ? $this->smart_app_banner['button_url_google'] : '';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[button_url_google]" id="smart-app-banner-button-url-google" class="regular-text" value="<?php echo esc_url( $button_url_google ); ?>" placeholder="https://android/application-url">
+		<p class="description">App URL for Android. (Default: https://android/application-url)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_enabled_platforms() {
+		$enabled_platforms = ( ! empty( $this->smart_app_banner['enabled_platforms'] ) ) ? $this->smart_app_banner['enabled_platforms'] : 'android,ios';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[enabled_platforms]" id="smart-app-banner-enabled-platforms" class="regular-text" value="<?php echo esc_attr( $enabled_platforms ); ?>" placeholder="android,ios">
+		<p class="description">App platfroms we want the banner to show on. (Default: android,ios)</p>
+		<?php
+	}
+
+	public function display_smart_app_banner_hide_ttl() {
+		$hide_ttl = ( ! empty( $this->smart_app_banner['hide_ttl'] ) ) ? $this->smart_app_banner['hide_ttl'] : '2592000000';
+		?>
+		<input type="text" name="rlje_smart_app_banner_settings[hide_ttl]" id="smart-app-banner-button-hide-ttl" class="regular-text" value="<?php echo esc_attr( $hide_ttl ); ?>" placeholder="2592000000">
+		<p class="description">Cookie time for the smart banner to reappear again after close. (Default: 2592000000 - 1 month in milliseconds)</p>
 		<?php
 	}
 }
