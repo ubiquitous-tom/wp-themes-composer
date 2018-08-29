@@ -7,7 +7,7 @@ class RLJE_Header {
 	protected $google;
 	protected $apple;
 	protected $tealium;
-	protected $franchise;
+	// protected $franchise;
 
 
 	public function __construct() {
@@ -16,7 +16,7 @@ class RLJE_Header {
 		$this->apple    = get_option( 'rlje_apple_settings' );
 		$this->tealium  = get_option( 'rlje_tealium_settings' );
 
-		add_action( 'wp_head', array( $this, 'initialize_headers' ) );
+		// add_action( 'wp_head', array( $this, 'initialize_headers' ) );
 
 		add_action( 'wp_head', array( $this, 'add_sailthru_script' ) );
 		add_action( 'wp_head', array( $this, 'add_tealium_script' ) );
@@ -33,9 +33,9 @@ class RLJE_Header {
 		add_action( 'wp_head', array( $this, 'add_description_meta_tag' ), 1 );
 	}
 
-	public function initialize_headers() {
-		$this->franchise = rljeApiWP_getFranchiseById( get_query_var( 'franchise_id' ) );
-	}
+	// public function initialize_headers() {
+	// 	$this->franchise = rljeApiWP_getFranchiseById( get_query_var( 'franchise_id' ) );
+	// }
 
 	public function add_sailthru_script() {
 		$sailthru_customer_id = ( ! empty( $this->sailthru['customer_id'] ) ) ? $this->sailthru['customer_id'] : '';

@@ -273,7 +273,7 @@ input:-ms-input-placeholder {color: #ccc;}
 .inline {display: inline-block;vertical-align: top;margin: 10px 5px;}
 
 /* SCHEDULE TEMPLATE */
-.schedule{/*margin-top:55px*/;min-height: auto;margin-bottom:40px;}
+.schedule{/*margin-top:55px;*/min-height: auto;margin-bottom:40px;}
 .schedule li{cursor:pointer;position:relative; display: inline-block;text-transform:uppercase; font-family: 'source sans pro',sans-serif;font-size: 12px;letter-spacing:.16em;margin-left:0px;line-height: 25px;}
 .schedule h6{margin-top:-5px;font-family:'oxygen';text-transform:none;}
 .schedule #schedule-img{margin-bottom:15px;}
