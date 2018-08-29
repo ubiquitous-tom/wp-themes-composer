@@ -75,8 +75,7 @@ button {
 
 /* BUTTONS, TABS, AND ICONS  */
 
-#page-subhead {
-    font-family: 'Nunito', sans-serif;
+.page-subhead {
     letter-spacing: 1px;
 }
 
@@ -197,7 +196,6 @@ button {
 /* HOME TEMPLATE*/
 
 .view-all a {
-    font-family: 'Nunito', sans-serif;
     letter-spacing: 1px;
 }
 
@@ -207,9 +205,6 @@ button {
 
 /* OTHERS */
 
-.navbar {
-    background: #011f36;
-}
 .home-hero-carousel,
 .sub-footer {
     background: rgba(1, 31, 54, .5);
@@ -237,7 +232,6 @@ button {
 .footer {
     padding-left: 10px;
     padding-right: 10px;
-    background: #000;
     width: 100% !important;
 }
 

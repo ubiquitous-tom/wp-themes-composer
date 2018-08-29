@@ -1,6 +1,6 @@
 
 <ul class="subnav">
-	<span id="page-subhead">FILTER BY:</span>
+	<span class="page-subhead">FILTER BY:</span>
 	<?php foreach ( $this->list_sections as $section_key => $section_name ) : ?>
 	<?php $active_class = ( $section_key === $active_section ) ? 'active' : ''; ?>
 	<li class="<?php echo sanitize_html_class( $active_class ); ?>">
