@@ -19,7 +19,6 @@ p {
 a:hover {
     text-decoration: none;
 }
-ul, ol {font-size: 16px;margin-bottom: 10px;list-style: none;padding:0;}
 li{font-size:15px;text-transform: none;font-weight: 400;}
 img {vertical-align: middle;}
 img.wp-post-image {height: auto;width: 100%;}
@@ -430,8 +429,12 @@ input:-ms-input-placeholder {color: #ccc;}
     color:#e0e0e0;
     text-decoration: none;
 }
-.sub-footer ul{font-weight:500;}
-.sub-footer li{font-weight:200;font-size:12.5px;padding-bottom:7px;}
+.sub-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sub-footer li{font-size:12.5px;padding-bottom:7px;}
 .sub-footer h5{font-size:13px;}
 .sub-footer ul#menu-footer-widget-stay-connected{display:flex;flex-flow:row nowrap;}
 .sub-footer ul#menu-footer-widget-stay-connected li.fa{position:relative;font-size:18px;padding:0 6px;}
