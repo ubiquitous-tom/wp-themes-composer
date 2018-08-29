@@ -145,7 +145,6 @@ function acorntv_hook_css_js() {
 
 	if( is_page('about-us') ) {
 		$about_umc_video = '5180867444001';
-		wp_enqueue_style( 'about-us-style', get_template_directory_uri() . '/css/about-us.css' );
 		wp_enqueue_script( 'about-us-script', get_template_directory_uri() . '/js/about-us.js', [ 'jquery', 'brightcove-public-player' ] );
 	}
 	// if ( get_query_var( 'pagecustom' ) === 'browse' ) {
