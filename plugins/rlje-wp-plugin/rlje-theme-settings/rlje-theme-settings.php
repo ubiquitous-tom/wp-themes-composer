@@ -5,6 +5,7 @@ class RLJE_Theme_Settings {
 	protected $theme_settings         = array();
 	protected $theme_text_settings    = array();
 	protected $theme_plugins_settings = array();
+	protected $signup_promo_settings   = array();
 	protected $rlje_redis_table;
 
 	public function __construct() {
@@ -44,6 +45,7 @@ class RLJE_Theme_Settings {
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
 		register_setting( 'rlje_theme_section', 'rlje_theme_text_settings' );
+		register_setting( 'rlje_theme_section', 'rlje_signup_promo_settings' );
 		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
 
 		// Here we display the sections and options in the settings page based on the active tab.
@@ -60,12 +62,15 @@ class RLJE_Theme_Settings {
 			add_settings_field( 'home_callout_right_section_text', 'Home Callout Right Section Text', array( $this, 'display_home_callout_two_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 			add_settings_field( 'brightcove_video_placeholder_text', 'Episode/Trailer Text', array( $this, 'display_brightcove_video_placeholder_text' ), 'rlje-theme-settings', 'rlje_theme_text_section' );
 
+			add_settings_section( 'signup_promo_section', 'Signup Promo Section', [ $this, 'display_signup_promo_section' ], 'rlje-theme-settings' );
+			add_settings_field( 'signup_promo_section_enable', 'Enable', [ $this, 'signup_promo_section_activation' ], 'rlje-theme-settings', 'signup_promo_section' );
+			add_settings_field( 'signup_promo_section_pitch', 'Sales pitch being shown', [ $this, 'signup_promo_section_pitch' ], 'rlje-theme-settings', 'signup_promo_section' );
+
 			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 			add_settings_field( 'theme_plugins_home_callout', 'Home Callout', array( $this, 'display_theme_home_callout' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
-			add_settings_field( 'theme_plugins_signup_promotion', 'Signup Promotion', array( $this, 'display_theme_signup_promotion' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 		}
 	}
 
@@ -252,6 +257,30 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
+	public function display_signup_promo_section() {
+		$this->signup_promo_settings = get_option( 'rlje_signup_promo_settings' );
+		var_dump( $this->signup_promo_settings );
+		echo 'Options to control signup promotion section seen on the homepage';
+	}
+
+	public function signup_promo_section_activation() {
+		$promo_enabled = ( ! empty( $this->signup_promo_settings['enable'] ) ) ? boolval( $this->signup_promo_settings['enable'] ) : false;
+		?>
+		<input type="radio" name="rlje_signup_promo_settings[enable]" id="rlje-signup-promo-on" class="regular-text" value="1" <?php checked( $promo_enabled, true ); ?>>
+		<label for="rlje-signup-promo-on">On</label>
+		<br>
+		<input type="radio" name="rlje_signup_promo_settings[enable]" id="rlje-signup-promo-off" class="regular-text" value="0" <?php checked( $promo_enabled, false ); ?>>
+		<label for="rlje-signup-promo-off">Off</label>
+		<?php
+	}
+
+	public function signup_promo_section_pitch() {
+		$promo_pitch = ( ! empty( $this->signup_promo_settings['pitch'] ) ) ? $this->signup_promo_settings['pitch'] : 'Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!';
+		?>
+		<textarea name="rlje_signup_promo_settings[pitch]" class="widefat" placeholder="Some text to intrigue users to signup" rows="5"><?php echo esc_html( $promo_pitch ); ?></textarea>
+		<?php
+	}
+
 	public function display_rlje_theme_plugins_content() {
 		echo 'Toggle for other RLJE plugins for the theme';
 		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
@@ -304,18 +333,6 @@ class RLJE_Theme_Settings {
 		<label for="rlje-plugins-home-callout-off">Off</label>
 		<p class="description">For activating Homepage Callout section</p>
 		<p class="description">* Please insert all the needed text and links before activating this section.</p>
-		<?php
-	}
-
-	public function display_theme_signup_promotion() {
-		$signup_promotion = ( ! intval( $this->theme_plugins_settings['signup_promotion'] ) ) ? intval( $this->theme_plugins_settings['signup_promotion'] ) : 1;
-		?>
-		<input type="radio" name="rlje_theme_plugins_settings[signup_promotion]" id="rlje-plugins-signup-promotion-on" class="regular-text" value="1" <?php checked( $signup_promotion, 1 ); ?>>
-		<label for="rlje-plugins-signup-promotion-on">On</label>
-		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[signup_promotion]" id="rlje-plugins-signup-promotion-off" class="regular-text" value="0" <?php checked( $signup_promotion, 0 ); ?>>
-		<label for="rlje-plugins-signup-promotion-off">Off</label>
-		<p class="description">For activating signup message promotion om homepage</p>
 		<?php
 	}
 

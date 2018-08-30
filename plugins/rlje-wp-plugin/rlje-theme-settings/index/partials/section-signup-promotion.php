@@ -23,7 +23,7 @@ $about_vide_id         = '5180867444001';
 				</div>
 				<div class="col-sm-6">
 					<div class="pitch">
-						<h5>Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!</h5>
+						<h5><?php echo get_option( 'rlje_signup_promo_settings' )['pitch'] ?></h5>
 						<a class="btn btn-primary btn-lg" href="/signup/">
 							<i class="fa fa-play" aria-hidden="true"></i>Sign Up now!
 						</a>

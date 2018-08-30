@@ -25,7 +25,7 @@ class RLJE_signup_page {
 		];
 
 		add_action( 'init', array( $this, 'add_signup_rewrite_rule' ) );
-		add_action( 'init', [ $this, 'fetch_stripe_key' ] );
+		add_action( 'wp', [ $this, 'fetch_stripe_key' ] );
 		add_action( 'template_redirect', array( $this, 'signup_template_redirect' ) );
 
 		add_action( 'wp_ajax_initialize_account', [ $this, 'initialize_account' ] );
@@ -39,7 +39,9 @@ class RLJE_signup_page {
 
 
 	public function fetch_stripe_key() {
-		$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+		if ( in_array( get_query_var( 'pagename' ), [ 'signup' ] ) ) {
+			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+		}
 	}
 
 	public function enqueue_scripts() {

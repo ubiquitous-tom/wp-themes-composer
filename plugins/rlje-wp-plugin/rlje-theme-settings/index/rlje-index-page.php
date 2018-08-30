@@ -4,6 +4,7 @@ class RLJE_Index_Page {
 
 	protected $theme_text_settings;
 	protected $theme_plugins_settings;
+	protected $signup_promo_settings;
 	protected $categories_home;
 	protected $categories_items;
 	protected $spotlight_name;
@@ -27,6 +28,7 @@ class RLJE_Index_Page {
 	public function initialize_index() {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
+		$this->signup_promo_settings = get_option( 'rlje_signup_promo_settings' );
 		$this->home_sections             = get_option( 'rlje_front_page_section', array() );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
@@ -69,7 +71,7 @@ class RLJE_Index_Page {
 			return;
 		}
 
-		$is_activated = ( ! empty( $this->theme_plugins_settings['signup_promotion'] ) ) ? intval( $this->theme_plugins_settings['signup_promotion'] ) : 0;
+		$is_activated = ( ! empty( $this->signup_promo_settings['enable'] ) ) ? boolval( $this->signup_promo_settings['enable'] ) : false;
 		if ( $is_activated ) {
 			ob_start();
 			require plugin_dir_path( __FILE__ ) . 'partials/section-signup-promotion.php';
