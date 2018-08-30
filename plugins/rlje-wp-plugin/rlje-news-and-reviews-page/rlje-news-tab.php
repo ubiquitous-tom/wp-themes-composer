@@ -44,8 +44,6 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 			wp_enqueue_script( 'jquery-ui-draggable' );
 			wp_enqueue_media();
 
-			$this->get_brightcove_info();
-
 			// Versioning for cachebuster.
 			$news_js_version = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/admin-news-and-reviews.js' ) );
 			$news_css_verion = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/admin-news-and-reviews.css' ) );
