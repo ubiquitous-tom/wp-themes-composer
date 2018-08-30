@@ -125,6 +125,8 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 		$default_image_src_placeholder = 'http://[image-url]';
 		$default_video_src_placeholder = 'ID Number';
 		$src_placeholder               = $default_image_src_placeholder;
+		$type                          = 'image';
+		$type_text                     = 'Image URL';
 		if ( ! empty( $this->rlje_news[ $key ]['type'] ) ) {
 			$type = $this->rlje_news[ $key ]['type'];
 			switch ( $type ) {

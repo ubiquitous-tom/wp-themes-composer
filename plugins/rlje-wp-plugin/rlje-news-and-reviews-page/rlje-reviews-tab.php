@@ -3,6 +3,7 @@
 class RLJE_Reviews_Tab extends RLJE_News_And_Reviews {
 
 	protected $transient_key = 'rlje_news_and_review_';
+	protected $rlje_logos;
 	protected $rlje_reviews;
 	protected $rlje_reviews_defaults;
 
@@ -71,7 +72,9 @@ class RLJE_Reviews_Tab extends RLJE_News_And_Reviews {
 	}
 
 	public function display_latest_news_options() {
+		$this->rlje_logos   = get_option( 'acorntv_news_options' );
 		$this->rlje_reviews = get_option( 'rlje_news_and_reviews_reviews' );
+		var_dump( $this->rlje_logos );
 		var_dump( $this->rlje_reviews );
 		if ( false === $this->rlje_reviews ) {
 			$this->rlje_reviews = $this->rlje_reviews_defaults;
@@ -93,9 +96,9 @@ class RLJE_Reviews_Tab extends RLJE_News_And_Reviews {
 					<td>
 						<select class="lnwsImage" name="rlje_news_and_reviews_reviews[<?php echo esc_attr( $key ); ?>][image]" style="vertical-align:top">
 							<option value="">-- Select a Review Logo --</option>
-							<?php if ( is_array( $this->rlje_reviews ) && count( $this->rlje_reviews ) > 0 ) : ?>
-								<?php foreach ( $this->rlje_reviews as $rlje_reviews ) : ?>
-							<option value="<?php echo esc_attr( $rlje_reviews['image'] ); ?>" <?php selected( $value_image, $rlje_reviews['image'] ); ?>><?php echo esc_html( $rlje_reviews['title'] ); ?></option>
+							<?php if ( is_array( $this->rlje_logos ) && count( $this->rlje_logos ) > 0 ) : ?>
+								<?php foreach ( $this->rlje_logos as $rlje_logo ) : ?>
+							<option value="<?php echo esc_attr( $rlje_logo['image'] ); ?>" <?php selected( $value_image, $rlje_logo['image'] ); ?>><?php echo esc_html( $rlje_logo['title'] ); ?></option>
 							<?php endforeach; ?>
 							<?php endif; ?>
 						</select>
