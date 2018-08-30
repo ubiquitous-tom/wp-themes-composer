@@ -39,7 +39,7 @@ class RLJE_Front_page {
 	public function register_admin_menu() {
 		add_menu_page(
 			'Main Landing Page',
-			'Homepage Hero',
+			'Homepage',
 			'manage_options',
 			'rlje-front-page',
 			array( $this, 'add_menu_page' ),

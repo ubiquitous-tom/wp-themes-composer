@@ -5,6 +5,7 @@ class RLJE_Theme_Settings {
 	protected $theme_settings         = array();
 	protected $theme_text_settings    = array();
 	protected $theme_plugins_settings = array();
+	protected $signup_promo_settings   = array();
 	protected $rlje_redis_table;
 
 	public function __construct() {
@@ -257,11 +258,13 @@ class RLJE_Theme_Settings {
 	}
 
 	public function display_signup_promo_section() {
+		$this->signup_promo_settings = get_option( 'rlje_signup_promo_settings' );
+		var_dump( $this->signup_promo_settings );
 		echo 'Options to control signup promotion section seen on the homepage';
 	}
 
 	public function signup_promo_section_activation() {
-		$promo_enabled = boolval( get_option( 'rlje_signup_promo_settings' )['enable'] );
+		$promo_enabled = ( ! empty( $this->signup_promo_settings['enable'] ) ) ? boolval( $this->signup_promo_settings['enable'] ) : false;
 		?>
 		<input type="radio" name="rlje_signup_promo_settings[enable]" id="rlje-signup-promo-on" class="regular-text" value="1" <?php checked( $promo_enabled, true ); ?>>
 		<label for="rlje-signup-promo-on">On</label>
@@ -272,7 +275,7 @@ class RLJE_Theme_Settings {
 	}
 
 	public function signup_promo_section_pitch() {
-		$promo_pitch = get_option( 'rlje_signup_promo_settings' )['pitch'];
+		$promo_pitch = ( ! empty( $this->signup_promo_settings['pitch'] ) ) ? $this->signup_promo_settings['pitch'] : 'Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!';
 		?>
 		<textarea name="rlje_signup_promo_settings[pitch]" class="widefat" placeholder="Some text to intrigue users to signup" rows="5"><?php echo esc_html( $promo_pitch ); ?></textarea>
 		<?php

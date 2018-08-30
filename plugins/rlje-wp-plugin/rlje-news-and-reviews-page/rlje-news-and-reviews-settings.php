@@ -39,8 +39,8 @@ class RLJE_News_And_Reviews_Settings {
 	}
 
 	public function news_and_reviews_display_type() {
-		$left_section  = ( ! intval( $news_and_reviews_settings['left_section'] ) ) ? intval( $news_and_reviews_settings['left_section'] ) : 1;
-		$right_section = ( ! intval( $news_and_reviews_settings['right_section'] ) ) ? intval( $news_and_reviews_settings['right_section'] ) : 1;
+		$left_section  = ( ! empty( $this->news_and_reviews_settings['left_section'] ) ) ? intval( $this->news_and_reviews_settings['left_section'] ) : 1;
+		$right_section = ( ! empty( $this->news_and_reviews_settings['right_section'] ) ) ? intval( $this->news_and_reviews_settings['right_section'] ) : 0;
 		switch ( $left_section ) {
 			case 2:
 				$left_type = 'News (Group 2)';

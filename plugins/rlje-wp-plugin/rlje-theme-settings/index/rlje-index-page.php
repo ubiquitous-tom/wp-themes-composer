@@ -4,6 +4,7 @@ class RLJE_Index_Page {
 
 	protected $theme_text_settings;
 	protected $theme_plugins_settings;
+	protected $signup_promo_settings;
 	protected $categories_home;
 	protected $categories_items;
 	protected $spotlight_name;
@@ -27,6 +28,7 @@ class RLJE_Index_Page {
 	public function initialize_index() {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
+		$this->signup_promo_settings = get_option( 'rlje_signup_promo_settings' );
 		$this->home_sections             = get_option( 'rlje_front_page_section', array() );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
@@ -65,10 +67,16 @@ class RLJE_Index_Page {
 	}
 
 	public function display_signup_promotion() {
-		if ( empty( $_COOKIE['ATVSessionCookie'] ) && boolval( boolval( get_option( 'rlje_signup_promo_settings' )['enable'] ) ) ) {
+		if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			return;
+		}
+
+		$is_activated = ( ! empty( $this->signup_promo_settings['enable'] ) ) ? boolval( $this->signup_promo_settings['enable'] ) : false;
+		if ( $is_activated ) {
 			ob_start();
 			require plugin_dir_path( __FILE__ ) . 'partials/section-signup-promotion.php';
-			echo ob_get_clean();
+			$html = ob_get_clean();
+			echo $html;
 		}
 	}
 
@@ -122,23 +130,23 @@ class RLJE_Index_Page {
 
 	public function display_home_sections() {
 		if ( is_home() || is_front_page() ) {
-			if ( ! empty( $this->home_sections['section_position'] ) ) {
-				foreach ( $this->home_sections['section_position'] as $section_position ) {
-					switch ( $section_position->section_type ) {
-						case 'news-and-reviews':
-							$this->display_home_news_and_reviews_section();
-							break;
-						case 'home-featured':
-							$this->display_home_featured_section( $section_position );
-							break;
-						case 'home-spotlight':
-							$this->display_home_spotlight_section( $section_position );
-							break;
-						default:
-							// Do nothing.
-					}
-				}
-			} else { // FALLBACK
+			// if ( ! empty( $this->home_sections['section_position'] ) ) {
+			// 	foreach ( $this->home_sections['section_position'] as $section_position ) {
+			// 		switch ( $section_position->section_type ) {
+			// 			case 'news-and-reviews':
+			// 				$this->display_home_news_and_reviews_section();
+			// 				break;
+			// 			case 'home-featured':
+			// 				$this->display_home_featured_section( $section_position );
+			// 				break;
+			// 			case 'home-spotlight':
+			// 				$this->display_home_spotlight_section( $section_position );
+			// 				break;
+			// 			default:
+			// 				// Do nothing.
+			// 		}
+			// 	}
+			// } else { // FALLBACK
 				$this->display_home_featured();
 
 				if ( class_exists( 'RLJE_News_And_Reviews' ) ) {
@@ -147,7 +155,7 @@ class RLJE_Index_Page {
 				}
 
 				$this->display_home_spotlights();
-			}
+		// 	}
 		}
 	}
 
