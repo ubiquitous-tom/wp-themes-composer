@@ -128,23 +128,23 @@ class RLJE_Index_Page {
 
 	public function display_home_sections() {
 		if ( is_home() || is_front_page() ) {
-			if ( ! empty( $this->home_sections['section_position'] ) ) {
-				foreach ( $this->home_sections['section_position'] as $section_position ) {
-					switch ( $section_position->section_type ) {
-						case 'news-and-reviews':
-							$this->display_home_news_and_reviews_section();
-							break;
-						case 'home-featured':
-							$this->display_home_featured_section( $section_position );
-							break;
-						case 'home-spotlight':
-							$this->display_home_spotlight_section( $section_position );
-							break;
-						default:
-							// Do nothing.
-					}
-				}
-			} else { // FALLBACK
+			// if ( ! empty( $this->home_sections['section_position'] ) ) {
+			// 	foreach ( $this->home_sections['section_position'] as $section_position ) {
+			// 		switch ( $section_position->section_type ) {
+			// 			case 'news-and-reviews':
+			// 				$this->display_home_news_and_reviews_section();
+			// 				break;
+			// 			case 'home-featured':
+			// 				$this->display_home_featured_section( $section_position );
+			// 				break;
+			// 			case 'home-spotlight':
+			// 				$this->display_home_spotlight_section( $section_position );
+			// 				break;
+			// 			default:
+			// 				// Do nothing.
+			// 		}
+			// 	}
+			// } else { // FALLBACK
 				$this->display_home_featured();
 
 				if ( class_exists( 'RLJE_News_And_Reviews' ) ) {
@@ -153,7 +153,7 @@ class RLJE_Index_Page {
 				}
 
 				$this->display_home_spotlights();
-			}
+		// 	}
 		}
 	}
 

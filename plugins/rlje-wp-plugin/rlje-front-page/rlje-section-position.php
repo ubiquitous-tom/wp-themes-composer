@@ -15,7 +15,7 @@ class RLJE_Section_Position extends RLJE_Front_page {
 	}
 
 	public function enqueue_scripts( $hook ) {
-		if ( 'homepage-hero_page_rlje-section-position' === $hook ) {
+		if ( 'homepage_page_rlje-section-position' === $hook ) {
 			wp_enqueue_style( 'jquery-ui-core' , '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css', array(), '1.11.4' );
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-draggable' );
