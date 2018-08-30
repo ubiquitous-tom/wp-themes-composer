@@ -18,6 +18,7 @@ section.intro {
 }
 
 section.selection {
+    color: white;
     background-color: #1b1b1b;
 }
 
@@ -43,6 +44,7 @@ section.selection li.active {
 }
 
 section.selection li a {
+    color: inherit;
     display: block;
     padding: 0 15px;
 }
