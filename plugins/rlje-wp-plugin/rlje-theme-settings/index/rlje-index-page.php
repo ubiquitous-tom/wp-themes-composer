@@ -65,7 +65,7 @@ class RLJE_Index_Page {
 	}
 
 	public function display_signup_promotion() {
-		if ( empty( $_COOKIE['ATVSessionCookie'] ) && boolval($this->theme_plugins_settings['signup_promotion']) ) {
+		if ( empty( $_COOKIE['ATVSessionCookie'] ) && boolval( boolval( get_option( 'rlje_signup_promo_settings' )['enable'] ) ) ) {
 			ob_start();
 			require plugin_dir_path( __FILE__ ) . 'partials/section-signup-promotion.php';
 			echo ob_get_clean();
