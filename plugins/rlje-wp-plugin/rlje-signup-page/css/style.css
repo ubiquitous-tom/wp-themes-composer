@@ -95,7 +95,6 @@ form.signup .plan {
 form.signup .plan label {
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: all .25s ease-in-out;
@@ -115,7 +114,6 @@ form.signup .yearly label {
 }
 
 form.signup .plan label:hover {
-    border-color: #7a7a7a;
 }
 
 form.signup .plan input[type="radio"] {
@@ -125,12 +123,10 @@ form.signup .plan input[type="radio"] {
 }
 
 form.signup .plan input[type="radio"]:active ~ label {
-    border-color: #7a7a7a;
 }
 
 form.signup .plan input[type="radio"]:checked ~ label {
     opacity: 1;
-    border-color: #002037;
     transform: scale(1.05);
     /* box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6); */
 }
