@@ -64,6 +64,7 @@ class RLJE_Theme_Settings {
 
 			add_settings_section( 'signup_promo_section', 'Signup Promo Section', [ $this, 'display_signup_promo_section' ], 'rlje-theme-settings' );
 			add_settings_field( 'signup_promo_section_enable', 'Enable', [ $this, 'signup_promo_section_activation' ], 'rlje-theme-settings', 'signup_promo_section' );
+			add_settings_field( 'signup_promo_section_video_id', 'Sales video being shown', [ $this, 'signup_promo_section_video_id' ], 'rlje-theme-settings', 'signup_promo_section' );
 			add_settings_field( 'signup_promo_section_pitch', 'Sales pitch being shown', [ $this, 'signup_promo_section_pitch' ], 'rlje-theme-settings', 'signup_promo_section' );
 
 			add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
@@ -271,6 +272,13 @@ class RLJE_Theme_Settings {
 		<br>
 		<input type="radio" name="rlje_signup_promo_settings[enable]" id="rlje-signup-promo-off" class="regular-text" value="0" <?php checked( $promo_enabled, false ); ?>>
 		<label for="rlje-signup-promo-off">Off</label>
+		<?php
+	}
+
+	public function signup_promo_section_video_id() {
+		$promo_video_id = ( ! empty( $this->signup_promo_settings['video_id'] ) ) ? $this->signup_promo_settings['video_id'] : '5180867444001';
+		?>
+		<input name="rlje_signup_promo_settings[video_id]" class="regular-text" placeholder="5180867444001" value="<?php echo esc_attr( $promo_video_id ); ?>">
 		<?php
 	}
 
