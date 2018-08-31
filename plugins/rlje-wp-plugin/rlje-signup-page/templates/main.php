@@ -1,7 +1,7 @@
 <?php
 get_header();
 ?>
-<section id="signup">
+<section id="signup" class="page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<header class="row">

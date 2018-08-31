@@ -1,33 +1,18 @@
-#signup {
-    background-color: white;
-    color: #424242;
-    padding: 20px 0 40px 0;
-}
-
-#signup header {
-    margin-bottom:  10px;
-}
-
 #signup header p {
-    margin: 0;
-}
-
-#signup h1,
-#signup h2,
-#signup h3,
-#signup h4,
-#signup h5,
-#signup h6 {
-    letter-spacing: initial;
-    text-transform: initial;
-    color: #404040;
+    margin: 15px 0 0 0;
+    font-size: 15px;
 }
 
 #signup h3 {
+    margin: 0;
     font-size: 2.2rem;
 }
 
 @media (min-width: 768px) {
+    #signup header p {
+        font-size: 17px;
+    }
+
     #signup h3 {
         font-size: 2.7rem;
     }
@@ -47,6 +32,12 @@
     transform: skew(-15deg);
     flex-grow: 0.31;
     background-color: #ccc;
+}
+
+@media (min-width: 768px) {
+    #progress-steps .step {
+        padding: 8px 0;
+    }
 }
 
 #progress-steps .active {
@@ -89,7 +80,7 @@ form.signup #plans p {
 }
 
 form.signup #plans p.plan-header {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 20px;
 }
 
@@ -101,16 +92,26 @@ form.signup .plan {
     flex-basis: 49%;
 }
 
+form.signup .plan:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    form.signup .plan {
+        margin: 0 !important;
+    }
+}
+
 form.signup .plan label {
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: all .25s ease-in-out;
     padding: 15px;
     margin: 0;
     color: white;
+    font-weight: 400;
     opacity: 0.75;
 }
 
@@ -123,7 +124,6 @@ form.signup .yearly label {
 }
 
 form.signup .plan label:hover {
-    border-color: #7a7a7a;
 }
 
 form.signup .plan input[type="radio"] {
@@ -133,12 +133,10 @@ form.signup .plan input[type="radio"] {
 }
 
 form.signup .plan input[type="radio"]:active ~ label {
-    border-color: #7a7a7a;
 }
 
 form.signup .plan input[type="radio"]:checked ~ label {
     opacity: 1;
-    border-color: #002037;
     transform: scale(1.05);
     /* box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6); */
 }
