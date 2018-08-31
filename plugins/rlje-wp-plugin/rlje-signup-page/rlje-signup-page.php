@@ -4,15 +4,9 @@ class RLJE_signup_page {
 	private $api_helper;
 	private $stripe_key;
 	private $membership_plans;
-	private $brightcove_account_id;
-	private $brightcove_player_id;
-	private $brightcove_video_id = '5180867444001';
 
 	public function __construct() {
 		$this->api_helper            = new RLJE_api_helper();
-		$brightcove_settings         = get_option( 'rlje_theme_brightcove_shared_settings' );
-		$this->brightcove_account_id = $brightcove_settings['shared_account_id'];
-		$this->brightcove_player_id  = $brightcove_settings['shared_player_id'];
 		$this->membership_plans      = [
 			'yearly'  => [
 				'Term'     => 12,
@@ -46,18 +40,16 @@ class RLJE_signup_page {
 
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signup' ] ) ) {
-			$bc_url = '//players.brightcove.net/' . $this->brightcove_account_id . '/' . $this->brightcove_player_id . '_default/index.min.js';
-			wp_register_script( 'brighcove-public-player', $bc_url );
 			wp_register_script( 'stripe-js', 'https://js.stripe.com/v3/' );
 			wp_enqueue_style( 'signup-main-style', plugins_url( 'css/style.css', __FILE__ ) );
-			wp_enqueue_script( 'signup-script', plugins_url( 'js/signup-process.js', __FILE__ ), [ 'jquery', 'stripe-js', 'brighcove-public-player' ] );
+			wp_enqueue_script( 'signup-script', plugins_url( 'js/signup-process.js', __FILE__ ), [ 'jquery', 'stripe-js', 'brightcove-public-player' ] );
 			wp_localize_script(
 				'signup-script', 'signup_vars', [
 					'ajax_url'      => admin_url( 'admin-ajax.php' ),
 					'stripe_key'    => $this->stripe_key,
-					'bc_account_id' => $this->brightcove_account_id,
-					'bc_player_id'  => $this->brightcove_player_id,
-					'bc_video_id'   => $this->brightcove_video_id,
+					'bc_account_id' => get_option( 'rlje_theme_brightcove_shared_settings' )['shared_account_id'],
+					'bc_player_id'  => get_option( 'rlje_theme_brightcove_shared_settings' )['shared_player_id'],
+					'bc_video_id'   => '5180867444001',
 				]
 			);
 		}

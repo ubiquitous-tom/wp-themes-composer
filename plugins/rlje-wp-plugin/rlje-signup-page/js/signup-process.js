@@ -182,6 +182,9 @@ function submitStepTwo(event) {
     }).then(function (result) {
         if (result.error) {
             console.log(result.error.message);
+            submit_button.prop('disabled', false).html(submit_button_content);
+            var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(result.error.message);
+            alert.insertAfter(jQuery('#progress-steps'));
         } else {
             var stripe_token = result.token;
 
