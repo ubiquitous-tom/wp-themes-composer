@@ -1,8 +1,29 @@
 <?php
+$brightcove_settings   = get_option( 'rlje_theme_brightcove_shared_settings' );
+$brightcove_account_id = $brightcove_settings['shared_account_id'];
+$brightcove_player_id  = $brightcove_settings['shared_player_id'];
+$about_vide_id         = '5180867444001';
 get_header();
 ?>
 <div id="watch-options">
 	<section class="intro">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+					<p class="embed-responsive embed-responsive-16by9">
+						<video
+							id="umc-about"
+							data-video-id="<?php echo $about_vide_id; ?>"
+							data-account="<?php echo $brightcove_account_id; ?>"
+							data-player="<?php echo $brightcove_player_id; ?>"
+							data-embed="default"
+							class="vide-js embed-responsive-item"
+							controls
+						></video>
+					</p>
+				</div>
+			</div>
+		</div>
 	</section>
 	<section class="selection">
 		<ul>

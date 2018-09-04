@@ -1,25 +1,24 @@
-body {
-    padding-top: 75px;
-}
-
 #watch-options {
     background-color: white;
 }
 
 section.intro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-image: url('../img/umc_topshelf.jpg');
     background-position: center;
     background-size: cover;
     background-color: black;
 }
 
+section.intro .embed-responsive {
+    margin: 0;
+}
+
 section.selection {
     color: white;
     background-color: #1b1b1b;
+    overflow-x: auto;
 }
 
 section.selection ul {
@@ -99,14 +98,4 @@ section.choices > div:last-child {
 
 section.choices > div .device-logo {
     width: 135px;
-}
-
-/* .appletv, .roku, .fire-tv, .chromecast, .ios, .android,
-.online, .amazon-channels, .xfinity {
-    padding: 60px 0;
-} */
-
-#umc-about {
-    width: 480px;
-    height: 270px;
 }
