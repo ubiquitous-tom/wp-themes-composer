@@ -2,26 +2,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 15px 0;
-    background-color: white;
-    color: #424242;
-}
-
-@media (min-width: 768px) {
-    #signin,
-    #forgotpassword {
-        padding: 30px 0;
-    }
 }
 
 #signin a,
 #forgotpassword a {
     text-transform: initial;
-}
-
-#signin a:hover,
-#forgotpassword a:hover {
-    color: black;
 }
 
 #signin h1,
@@ -30,8 +15,6 @@
 #signin h4,
 #signin h5,
 #signin h6 {
-    letter-spacing: initial;
-    text-transform: initial;
     color: #0b98b8d9;
 }
 
@@ -41,31 +24,12 @@
 #forgotpassword h4,
 #forgotpassword h5,
 #forgotpassword h6 {
-    letter-spacing: initial;
-    text-transform: initial;
     color: #0b98b8d9;
-}
-
-#signin h4,
-#forgotpassword h4 {
-    font-size: 2.5rem;
-}
-
-@media (min-width: 768px) {
-    #signin h4,
-    #forgotpassword h4 {
-        font-size: 3rem;
-    }
 }
 
 #signin header,
 #forgotpassword header {
     margin-bottom: 20px;
-}
-
-#signin p,
-#forgotpassword p {
-    font-size: 1.5rem;
 }
 
 .login-form {

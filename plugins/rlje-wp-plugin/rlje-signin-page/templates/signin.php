@@ -1,11 +1,11 @@
 <?php
 get_header();
 ?>
-<section id="signin">
+<section id="signin" class="page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<header class="row">
-				<h4 class="text-center">Welcome to <?php bloginfo( 'name' ); ?></h4>
+				<h2 class="text-center">Welcome to <?php bloginfo( 'name' ); ?></h2>
 				<p class="text-center">Please use your current <?php bloginfo( 'name' ); ?> e-mail and password.</p>
 			</header>
 			<?php

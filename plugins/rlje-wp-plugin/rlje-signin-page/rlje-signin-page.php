@@ -2,14 +2,13 @@
 
 class RLJE_Signin_Page {
 
-	private $api_endpoint;
-	private $api_key                = 'LCmkd93u2kcLCkdmacmmc8dkDe';
+	private $api_helper;
 	private $api_app_version        = 'UMCTV.Version.2.0';
 	private $api_time_refresh_cache = 90000;
 
 	public function __construct() {
+		$this->api_helper            = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
-		add_action( 'init', array( $this, 'setup_signin' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -28,10 +27,6 @@ class RLJE_Signin_Page {
 		add_rewrite_rule( '^forgotpassword([^/]+)/?', 'index.php?pagename=forgot-password', 'top' );
 	}
 
-	public function setup_signin() {
-		$this->api_endpoint = constant( 'RLJE_BASE_URL' );
-	}
-
 	private function cacheUserProfile( $user_profile ) {
 		$session_id = $user_profile['Session']['SessionID'];
 		// Cache user status
@@ -39,31 +34,6 @@ class RLJE_Signin_Page {
 		wp_cache_set( 'userStatus_' . md5( $session_id ), 'active', 'userStatus', $this->api_time_refresh_cache );
 		// Ask Transient to cache user profile
 		set_transient( 'atv_userProfile_' . md5( $session_id ), $user_profile, $this->api_time_refresh_cache );
-	}
-
-	private function encodeHash( $data, $api_key ) {
-		$hash = json_encode( $data ) . $api_key;
-		return base64_encode( $hash );
-	}
-
-	// Hits the API and normalizes the response
-	private function hitApi( $request, $method ) {
-		$raw_response = wp_remote_post(
-			$this->api_endpoint . '/' . $method, [
-				'headers' => [
-					'x-atv-hash' => $this->encodeHash( $request, $this->api_key ),
-					'Accept'     => 'application/json',
-				],
-				'body'    => json_encode( $request ),
-			]
-		);
-
-		if ( is_wp_error( $raw_response ) ) {
-			error_log( 'Error hiting API ' . $raw_response->get_error_message() );
-			return false;
-		}
-		return json_decode( wp_remote_retrieve_body( $raw_response ), true );
-
 	}
 
 	// this function authenticates the user
@@ -81,7 +51,7 @@ class RLJE_Signin_Page {
 			],
 		];
 
-		$response = $this->hitApi( $request_body, 'initializeapp' );
+		$response = $this->api_helper->hit_api( $request_body, 'initializeapp', 'POST' );
 		$success  = false;
 		if ( isset( $response['Membership'] ) ) {
 			$success    = true;
@@ -103,7 +73,7 @@ class RLJE_Signin_Page {
 			],
 		];
 		if ( ! empty( $email_address ) ) {
-			$response = $this->hitApi( $request_body, 'forgotpassword' );
+			$response = $this->api_helper->hit_api( $request_body, 'forgotpassword', 'POST' );
 			if ( isset( $response['success'] ) && $response['success'] == true ) {
 				$success = true;
 			}
@@ -177,8 +147,6 @@ class RLJE_Signin_Page {
 		return $classes;
 	}
 
-	public function reset_user_password() {
-	}
 }
 
 $rlje_signin_page = new RLJE_Signin_Page();
