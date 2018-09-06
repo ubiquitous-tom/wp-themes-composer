@@ -1,41 +1,43 @@
-body {
-    padding-top: 75px;
-}
-
 #watch-options {
     background-color: white;
 }
 
 section.intro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-image: url('../img/umc_topshelf.jpg');
     background-position: center;
     background-size: cover;
     background-color: black;
 }
 
+section.intro .embed-responsive {
+    margin: 0;
+}
+
 section.selection {
     color: white;
     background-color: #1b1b1b;
+    overflow-x: auto;
 }
 
 section.selection ul {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
     margin: 0;
+    padding: 0;
 }
 
+@media (min-width: 768px) {
+    section.selection ul {
+        justify-content: center;
+    }
+}
 section.selection li {
     text-align: center;
     display: flex;
     flex-flow: column;
     justify-content: center;
-    min-width: 130px;
-    min-height: 130px;
 }
 
 section.selection li:hover,
@@ -46,7 +48,8 @@ section.selection li.active {
 section.selection li a {
     color: inherit;
     display: block;
-    padding: 0 15px;
+    min-width: 110px;
+    padding: 10px 25px;
 }
 
 section.selection i {
@@ -71,10 +74,8 @@ section.choices {
 section.choices h5 {
     margin-bottom: 15px;
     font-size: 17px;
-    font-weight: bold;
+    font-weight: 700;
     color: #222;
-    letter-spacing: initial;
-    text-transform: initial;
 }
 
 section.choices a:hover {
@@ -88,25 +89,15 @@ section.choices .device-link a {
     color: #333;
 }
 
-section.choices > div {
+section.choices > .tab-pane > div {
     padding: 60px 0;
     border-bottom: 1px solid #f0f0f0;
 }
 
-section.choices > div:last-child {
+section.choices > .tab-pane > div:last-child {
     border-bottom: none;
 }
 
-section.choices > div .device-logo {
+section.choices > .tab-pane > div .device-logo {
     width: 135px;
-}
-
-/* .appletv, .roku, .fire-tv, .chromecast, .ios, .android,
-.online, .amazon-channels, .xfinity {
-    padding: 60px 0;
-} */
-
-#umc-about {
-    width: 480px;
-    height: 270px;
 }

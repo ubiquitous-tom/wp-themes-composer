@@ -131,16 +131,8 @@ function acorntv_hook_css_js() {
 	}
 
 	if ( is_page( 'how-to-watch' ) ) {
-		$about_umc_video = '5180867444001';
 		wp_enqueue_style( 'how_watch_style', get_template_directory_uri() . '/css/how-to-watch.css', [ 'fontawesome_css' ] );
-		wp_enqueue_script( 'how-to-watch-script', get_template_directory_uri() . '/js/how-to-watch.js', [ 'jquery', 'brightcove-public-player' ] );
-		wp_localize_script(
-			'how-to-watch-script', 'about_video', [
-				'bc_account_id' => $brightcove_account_id,
-				'bc_player_id'  => $brightcove_player_id,
-				'bc_video_id'   => $about_umc_video,
-			]
-		);
+		wp_enqueue_script( 'brightcove-public-player' );
 	}
 
 	if( is_page('about-us') ) {
