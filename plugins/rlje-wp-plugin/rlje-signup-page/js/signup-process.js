@@ -36,6 +36,8 @@ function initializeStripeElements(stripeKey) {
 
 function showStepTwo() {
     var signup_form = jQuery('form.signup')
+    // Remove log in and Start signup buttons for some reason
+    jQuery('.navbar-header.navbar-right').hide();
     // Render second step.
     // Mark step 2 as active
     jQuery('#progress-steps .step').removeClass('active');
