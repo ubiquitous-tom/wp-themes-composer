@@ -70,9 +70,9 @@ body {
     #franchise-container .episode {
         margin-top: -15vh;
     }
-    .user-logged-in #franchise-container .episode {
+    /* .user-logged-in #franchise-container .episode {
         margin-top: auto;
-    }
+    } */
     #franchise-container .episode .subnav2 {
         text-align: left;
         margin-left: 15px;
