@@ -1,11 +1,12 @@
 <?php
 class RLJE_Account_Page {
 
+	private $api_helper;
 	private $account_action = 'status';
 	private $user_profile;
-	private $api_base;
 
 	public function __construct() {
+		$this->api_helper = new RLJE_api_helper();;
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'init', array( $this, 'setup_profile' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
@@ -32,10 +33,6 @@ class RLJE_Account_Page {
 				]
 			);
 		}
-	}
-
-	public function setup_profile() {
-		$this->api_base = constant( 'RLJE_BASE_URL' );
 	}
 
 	public function browse_body_class( $classes ) {
@@ -85,69 +82,16 @@ class RLJE_Account_Page {
 		return $this->user_profile['Customer']['OriginalMembershipJoinDate'];
 	}
 
-	function encodeHash( $data, $api_key = API_KEY ) {
-		$hash = json_encode( $data ) . $api_key;
-		return base64_encode( $hash );
-	}
-
 	public function add_browse_rewrite_rules() {
 		add_rewrite_rule( '^account/([^/]*)/?', 'index.php?pagename=account&action=$matches[1]', 'top' );
 		add_rewrite_tag( '%action%', '([^&]+)' );
 	}
 
-	function hitApi( $params, $method, $verb = 'GET' ) {
-		$url = $this->api_base . '/' . $method;
-		switch ( $verb ) {
-			case 'GET':
-				$raw_response = wp_remote_get( $url . '?' . http_build_query( $params ) );
-				break;
-
-			case 'POST':
-				$raw_response = wp_remote_post(
-					$url, [
-						'headers' => [
-							'x-atv-hash' => $this->encodeHash( $params ),
-							'Accept'     => 'application/json',
-						],
-						'body'    => json_encode( $params ),
-					]
-				);
-				if ( is_wp_error( $raw_response ) ) {
-					error_log( 'Error hiting API ' . $raw_response->get_error_message() );
-					$response = false;
-				}
-				break;
-
-			case 'DELETE':
-				$raw_response = wp_remote_request(
-					$url, [
-						'method'  => 'DELETE',
-						'headers' => [
-							'x-atv-hash' => $this->encodeHash( $params ),
-							'Accept'     => 'application/json',
-						],
-						'body'    => json_encode( $params ),
-					]
-				);
-				if ( is_wp_error( $raw_response ) ) {
-					error_log( 'Error hiting API ' . $raw_response->get_error_message() );
-					$response = false;
-				}
-				break;
-
-			default:
-				// code...
-				break;
-		}
-		$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
-		return $response;
-	}
-
 	function getUserProfile( $session_id, $email_address ) {
 		if ( ! empty( $session_id ) ) {
-			$response = $this->hitApi( [ 'SessionID' => $session_id ], 'profile' );
+			$response = $this->api_helper->hit_api( [ 'SessionID' => $session_id ], 'profile' );
 		} elseif ( ! empty( $email_address ) ) {
-			$response = $this->hitApi( [ 'Email' => $session_id ], 'profile' );
+			$response = $this->api_helper->hit_api( [ 'Email' => $session_id ], 'profile' );
 
 		}
 		return $response;
@@ -158,7 +102,7 @@ class RLJE_Account_Page {
 			'SessionID' => $session_id,
 			'NewEmail'  => $new_email,
 		];
-		$response = $this->hitApi( $params, 'changeemail', 'POST' );
+		$response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
 		return $response;
 	}
 
@@ -171,7 +115,7 @@ class RLJE_Account_Page {
 				'Password' => $new_password,
 			],
 		];
-		$response = $this->hitApi( $params, 'password', 'POST' );
+		$response = $this->api_helper->hit_api( $params, 'password', 'POST' );
 		return $response;
 	}
 
@@ -187,7 +131,7 @@ class RLJE_Account_Page {
 		$params       = [
 			'SessionID' => $session_id,
 		];
-		$api_response = $this->hitApi( $params, 'membership', 'DELETE' );
+		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
 		if ( isset( $api_response['Membership'] ) ) {
 			$ajax_response = [ 'success' => true ];
 		} else {
@@ -208,7 +152,7 @@ class RLJE_Account_Page {
 				'Code' => $promo_code,
 			],
 		];
-		$api_response = $this->hitApi( $params, 'promo', 'POST' );
+		$api_response = $this->api_helper->hit_api( $params, 'promo', 'POST' );
 		wp_send_json( $api_response );
 	}
 
