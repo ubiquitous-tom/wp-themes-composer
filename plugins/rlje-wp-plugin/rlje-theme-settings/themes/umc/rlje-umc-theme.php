@@ -68,7 +68,8 @@ class RLJE_UMC_Theme {
 
 		if ( ! isset( $item->img ) ) {
 			// $img = ( isset( $item->image ) ) ? $item->image : $item->href . '_avatar';
-			$img       = ( isset( $item->image_h ) ) ? $item->image_h : $item->image;
+			// $img       = ( isset( $item->image_h ) ) ? $item->image_h : $item->image;
+			$img       = ( isset( $item->image_s ) ) ? $item->image_s : $item->image_h;
 			$item->img = rljeApiWP_getImageUrlFromServices( $img );
 		}
 
@@ -78,6 +79,11 @@ class RLJE_UMC_Theme {
 	public function umc_franchise_artwork_image_h( $item_image, $item ) {
 		if ( ! empty( $item->image_h ) ) {
 			$item_image = $item->image_h;
+		}
+
+		// For Recently Watch page - /browse/recentlywatch/
+		if ( ! empty( $item->image_s ) ) {
+			$item_image = $item->image_s;
 		}
 
 		return $item_image;
