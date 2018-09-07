@@ -1066,6 +1066,7 @@ input:-ms-input-placeholder {
 }
 
 .franchise-title {
+    color: #fff;
     margin-top: 5px;
     margin-bottom: 15px;
 }

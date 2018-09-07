@@ -115,6 +115,7 @@ class RLJE_Browse_Page {
 				<!-- RECENTLY WATCHED || WATCHLIST SPOTLIGHT-->
 				<div class="col-md-12">
 				<?php
+					$browse_id = 'recentlywatched';
 					set_query_var( 'carousel-items', $watch_spotlight_items );
 					require plugin_dir_path( __FILE__ ) . 'partials/section-generic-carousel.php';
 				?>
