@@ -89,11 +89,11 @@ button {
 }
 
 .btn {
-    border: 1px solid transparent;
     border-radius: 0;
 }
 
 .btn-primary {
+    border-color: transparent;
     background-color: #3498DB;
 }
 
@@ -101,7 +101,7 @@ button {
 .btn-primary:active,
 .btn-primary:active:hover {
     background-color: #2E86C1;
-    border: 1px solid transparent;
+    border-color: transparent;
 }
 
 .btn-lg {

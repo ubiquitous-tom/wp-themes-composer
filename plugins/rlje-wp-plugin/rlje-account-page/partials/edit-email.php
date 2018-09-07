@@ -1,5 +1,5 @@
-<h3>Change Your E-Mail</h3>
-<h4>If you wish to change your password, please provide the details below.</h4>
+<h3 class="section-header">Change Your E-Mail</h3>
+<p>If you wish to change your password, please provide the details below.</p>
 <?php if ( ! empty( $message_error ) ) { ?>
 	<p class="bg-success"><?php echo $message_error; ?></p>
 <?php } elseif ( ! empty( $message_sucess ) ) { ?>

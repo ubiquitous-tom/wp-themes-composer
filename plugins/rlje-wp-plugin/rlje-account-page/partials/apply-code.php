@@ -1,5 +1,5 @@
-<h3>Apply Code</h3>
-<h4>If you wish to apply a code that you have received, please enter the code below.</h4>
+<h3 class="section-header">Apply Code</h3>
+<p>If you wish to apply a code that you have received, please enter the code below.</p>
 <form id="apply-code" method="POST">
 	<div class="form-group">
 		<label for="promo-code">Code</label>
