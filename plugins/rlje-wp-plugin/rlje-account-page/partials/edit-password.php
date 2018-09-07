@@ -1,5 +1,5 @@
-<h3>Change Your Password</h3>
-<h4>If you wish to change your password, Please provide the details below.</h4>
+<h3 class="section-header">Change Your Password</h3>
+<p>If you wish to change your password, Please provide the details below.</p>
 <p>
 	<small>Please enter a minimum of 6 characters.</small>
 </p>
