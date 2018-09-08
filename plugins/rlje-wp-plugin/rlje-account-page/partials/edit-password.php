@@ -17,5 +17,5 @@
 		<label for="new-password-confirm">Confirm New Password</label>
 		<input id="new-password-confirm" class="form-control" name="new-password-confirm" type="password" required>
 	</div>
-	<button type="submit" class="btn btn-primary">Change Password</button>
+	<button type="submit" class="btn btn-primary">Update Password</button>
 </form>
