@@ -13,6 +13,9 @@ class RLJE_Account_Page {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'wp_ajax_user_update_password', [ $this, 'update_password' ] );
+		add_action( 'wp_ajax_nopriv_user_update_password', [ $this, 'update_password' ] );
+
 		add_action( 'wp_ajax_cancel_sub', array( $this, 'cancelMembership' ) );
 		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancelMembership' ] );
 
@@ -106,17 +109,17 @@ class RLJE_Account_Page {
 		return $response;
 	}
 
-	function updateUserPassword( $session_id, $new_password ) {
+	function update_password() {
 		$params   = [
 			'Session'     => [
-				'SessionID' => $session_id,
+				'SessionID' => $_COOKIE['ATVSessionCookie'],
 			],
 			'Credentials' => [
-				'Password' => $new_password,
+				'Password' => $_POST['new_password'],
 			],
 		];
 		$response = $this->api_helper->hit_api( $params, 'password', 'POST' );
-		return $response;
+		wp_send_json( $response );
 	}
 
 	function logUserOut( $session_id ) {
@@ -219,22 +222,6 @@ class RLJE_Account_Page {
 
 							} elseif ( isset( $email_response['Email'] ) ) {
 								$message_sucess = 'E-Mail address was successfully updated';
-							} else {
-								$message_error = 'There was an error updating E-mail address.';
-							}
-						}
-					}
-				} elseif ( 'editPassword' === $action ) {
-					if ( ! empty( $_POST ) ) {
-						if ( empty( $_POST['new-password'] ) || empty( $_POST['new-password-confirm'] ) || $_POST['new-password'] !== $_POST['new-password-confirm'] ) {
-							$message_error = 'The password and confirmation password do not match or are less than 6 characters';
-						} else {
-							$password_response = $this->updateUserPassword( $_COOKIE['ATVSessionCookie'], $_POST['new-password'] );
-							if ( isset( $password_response['error'] ) ) {
-								$message_error = $password_response['error'];
-
-							} elseif ( isset( $password_response['success'] ) && $password_response['success'] ) {
-								$message_sucess = 'Password was successfully updated';
 							} else {
 								$message_error = 'There was an error updating E-mail address.';
 							}
