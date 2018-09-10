@@ -1,5 +1,43 @@
 jQuery(document).ready(function($) {
 
+    $('form#user-update-email').on('submit', function(event) {
+        event.preventDefault();
+        $('.alert').remove();
+
+        var btn = $(this).find('button');
+        // Disable the button and show an indicator that we are cancelling
+        btn.prop('disabled', true);
+        btn.text('Updating ...');
+
+        var email = $( this ).find('[name=new-email]').val();
+        var email_repeat = $( this ).find('[name=new-email-confirm]').val();
+        if(email !== email_repeat) {
+            var alert = $(document.createElement('div')).addClass( "alert alert-danger fade in" );
+            alert.append('Two email addresses won\'t match').insertAfter($('.section-header'));
+        } else {
+            $.post(
+                account_management_vars.ajax_url,
+                {
+                    'action': 'user_update_email',
+                    'new_email': email
+                },
+                function(response) {
+                    var alert = $(document.createElement('div')).addClass( "alert fade in" );
+                    if(response.success) {
+                        alert.addClass("alert-success");
+                        alert.append("E-mail successfully updated.");
+                    } else {
+                        alert.addClass("alert-danger");
+                        alert.append("There was an error updating your E-mail address. We've been notified and working to fix it.");
+                    }
+                    alert.insertAfter($('.section-header'));
+                    btn.text('Update E-mail')
+                    btn.prop('disabled', false);
+                }
+            );
+        }
+    });
+    
     $('form#user-change-password').on('submit', function(event) {
         event.preventDefault();
         $('.alert').remove();

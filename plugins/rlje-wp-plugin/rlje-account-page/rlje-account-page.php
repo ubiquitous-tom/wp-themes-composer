@@ -13,6 +13,9 @@ class RLJE_Account_Page {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_action( 'wp_ajax_user_update_email', [ $this, 'update_email' ] );
+		add_action( 'wp_ajax_nopriv_user_update_email', [ $this, 'update_email' ] );
+
 		add_action( 'wp_ajax_user_update_password', [ $this, 'update_password' ] );
 		add_action( 'wp_ajax_nopriv_user_update_password', [ $this, 'update_password' ] );
 
@@ -100,13 +103,21 @@ class RLJE_Account_Page {
 		return $response;
 	}
 
-	function updateUserEmail( $session_id, $new_email ) {
+	function update_email() {
 		$params   = [
-			'SessionID' => $session_id,
-			'NewEmail'  => $new_email,
+			'SessionID' => $_COOKIE['ATVSessionCookie'],
+			'NewEmail'  => $_POST['new_email'],
 		];
 		$response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
-		return $response;
+		if( isset( $response['Email'] ) ) {
+			wp_send_json( [
+				'success' => true,
+			] );
+		} else {
+			wp_send_json( [
+				'success' => false,
+			] );
+		}
 	}
 
 	function update_password() {
@@ -210,23 +221,6 @@ class RLJE_Account_Page {
 					setcookie( 'ATVSessionCookie', '', time() - 3600, '/' );
 					wp_redirect( home_url(), 303 );
 					exit();
-				} elseif ( 'editEmail' === $action ) {
-					if ( ! empty( $_POST ) ) {
-						if ( empty( $_POST['new-email'] ) || empty( $_POST['new-email-confirm'] ) || $_POST['new-email'] !== $_POST['new-email-confirm'] ) {
-							$message_error = 'The two email address do not match';
-
-						} else {
-							$email_response = $this->updateUserEmail( $_COOKIE['ATVSessionCookie'], $_POST['new-email'] );
-							if ( isset( $email_response['error'] ) ) {
-								$message_error = $email_response['error'];
-
-							} elseif ( isset( $email_response['Email'] ) ) {
-								$message_sucess = 'E-Mail address was successfully updated';
-							} else {
-								$message_error = 'There was an error updating E-mail address.';
-							}
-						}
-					}
 				} elseif ( 'editBilling' === $action ) {
 					$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
 					// Prevent internal 404 on custome search page because of template_redirect hook.
