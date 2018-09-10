@@ -45,7 +45,7 @@ jQuery(document).ready(function($) {
         var btn = $(this).find('button');
         // Disable the button and show an indicator that we are cancelling
         btn.prop('disabled', true);
-        btn.text('cancelling ...');
+        btn.text('Updating ...');
 
         var pass = $( this ).find('[name=new-password]').val();
         var pass_repeat = $( this ).find('[name=new-password-confirm]').val();
