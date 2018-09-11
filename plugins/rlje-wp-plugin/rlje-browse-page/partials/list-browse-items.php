@@ -27,36 +27,36 @@ if ( $total_list_items > 0 ) :
 			?>
 <div class="row">
 <?php endif; ?>
-	<div class="col-sm-6 col-md-6 col-lg-3" itemscope itemtype="http://schema.org/TVSeries" data-az="<?php echo $data_a_z; ?>" data-added="<?php echo $key + 1; ?>">
+	<div class="col-sm-6 col-md-6 col-lg-3" itemscope itemtype="http://schema.org/TVSeries" data-az="<?php echo esc_attr( $data_a_z ); ?>" data-added="<?php echo esc_attr( $key + 1 ); ?>">
 		<a itemprop="url" href="<?php echo esc_url( trailingslashit( home_url( $item->id ) ) ); ?>">
 			<?php $item_image = apply_filters( 'rlje_franchise_artwork', $item->image, $item ); ?>
-			<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo $item->id; ?>" class="wp-post-image" itemprop="image" src="<?php echo rljeApiWP_getImageUrlFromServices( $item_image . '?t=titled-avatars&w=550' ); ?>" style="width:100%; height:auto;" />
+			<img title="<?php echo esc_attr( $item->name ); ?>" alt="<?php echo esc_attr( $item->id ); ?>" class="wp-post-image" itemprop="image" src="<?php echo esc_url( rljeApiWP_getImageUrlFromServices( $item_image . '?t=titled-avatars&w=550' ) ); ?>" style="width:100%; height:auto;" />
 		</a>
-		<p itemprop="name" class="franchise-title"><?php echo $item->name; ?></p>
+		<p itemprop="name" class="franchise-title"><?php echo esc_html( $item->name ); ?></p>
 	</div>
-		<?php if ( $item_count === 3 || ( $key === $total_list_items - 1 ) ) : ?>
+<?php if ( $item_count === 3 || ( $key === $total_list_items - 1 ) ) : ?>
 </div>
-			<?php
+<?php
 endif;
 	endforeach;
- else :
-		?>
+else :
+?>
 <div class="row">
-		<?php
-		// if ( $wp_query->query_vars['section'] === 'yourwatchlist' ) {
-		if ( get_query_var( 'section' ) === 'yourwatchlist' ) {
-			// $wp_query->query_vars['no_result_message'] = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
-			set_query_var( 'no_result_message', 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>' );
-		}
-		// $wp_query->query_vars['no_result_inline'] = true;
-		set_query_var( 'no_result_inline', true );
-		get_template_part( 'partials/no-result-message' );
-		?>
+	<?php
+	// if ( $wp_query->query_vars['section'] === 'yourwatchlist' ) {
+	if ( get_query_var( 'section' ) === 'yourwatchlist' ) {
+		// $wp_query->query_vars['no_result_message'] = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
+		set_query_var( 'no_result_message', 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>' );
+	}
+	// $wp_query->query_vars['no_result_inline'] = true;
+	set_query_var( 'no_result_inline', true );
+	get_template_part( 'partials/no-result-message' );
+	?>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			jQuery('li.item').css('cursor','default');
 		});
 	</script>
 </div>
-		<?php
-endif;
+	<?php
+	endif;
