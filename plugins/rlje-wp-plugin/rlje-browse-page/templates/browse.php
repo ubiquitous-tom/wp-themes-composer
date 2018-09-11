@@ -80,17 +80,18 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 			$array_list_items = array();
 			switch ( $active_section ) {
 				case 'all':
-					unset( $list_sections['all'] );
-					if ( $rlje_api_wp_is_user_active ) {
-						unset( $list_sections['recentlywatched'] );
-						unset( $list_sections['yourwatchlist'] );
-					}
-					foreach ( $list_sections as $key => $value ) {
-						// $list_section_keys[] = apply_filters( 'atv_convert_browseSlug_to_contentID', $key );
-						$list_section_keys[] =  $key;
-					}
-					$list_items       = rljeApiWP_getBrowseAllBySection( $list_section_keys, $atv_session_cookie );
-					$array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
+					// unset( $list_sections['all'] );
+					// if ( $rlje_api_wp_is_user_active ) {
+					// 	unset( $list_sections['recentlywatched'] );
+					// 	unset( $list_sections['yourwatchlist'] );
+					// }
+					// foreach ( $list_sections as $key => $value ) {
+					// 	// $list_section_keys[] = apply_filters( 'atv_convert_browseSlug_to_contentID', $key );
+					// 	$list_section_keys[] =  $key;
+					// }
+					// $list_items       = rljeApiWP_getBrowseAllBySection( $list_section_keys, $atv_session_cookie );
+					// $array_list_items = rljeApiWP_orderFranchisesByCreatedDate( $list_items );
+					$array_list_items = rljeApiWP_getBrowseAll();
 					break;
 				case 'recentlywatched':
 					$array_list_items = rljeApiWP_getUserRecentlyWatched( $atv_session_cookie );
