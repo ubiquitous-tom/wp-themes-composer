@@ -69,7 +69,7 @@ class RLJE_Account_Page {
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_amount() {
 		if ( isset( $this->user_profile['Membership']['NextBillingAmount'] ) ) {
-			return $this->user_profile['Membership']['NextBillingAmount'];
+			return '$' . $this->user_profile['Membership']['NextBillingAmount'];
 		} else {
 			return 'N/A';
 		}
