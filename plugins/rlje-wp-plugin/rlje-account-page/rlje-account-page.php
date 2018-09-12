@@ -8,7 +8,6 @@ class RLJE_Account_Page {
 	public function __construct() {
 		$this->api_helper = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
-		add_action( 'init', array( $this, 'setup_profile' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
