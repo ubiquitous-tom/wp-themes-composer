@@ -17,7 +17,6 @@ class RLJE_Header {
 		$this->tealium  = get_option( 'rlje_tealium_settings' );
 
 		// add_action( 'wp_head', array( $this, 'initialize_headers' ) );
-
 		add_action( 'wp_head', array( $this, 'add_sailthru_script' ) );
 		add_action( 'wp_head', array( $this, 'add_tealium_script' ) );
 		add_action( 'wp_head', array( $this, 'add_google_analytics_script' ) );
@@ -126,54 +125,15 @@ class RLJE_Header {
 	}
 
 	public function rlje_title_parts( $title ) {
-		// global $wp_query;
-		// Add dynamic title and meta description when it is a franchise.
-		/*
-		$is_custom_meta_title_and_desc = false;
-		if ( ! empty( $wp_query->query_vars['franchise_id'] ) ) {
-			$franchise = rljeApiWP_getFranchiseById( $wp_query->query_vars['franchise_id'] );
-			if ( is_object( $franchise ) ) {
-				$is_custom_meta_title_and_desc = true;
-				$meta_title                    = htmlentities( $franchise->name );
-				$meta_descr                    = htmlentities( $franchise->longDescription );
-			}
-		} elseif ( get_query_var( 'post_type' ) === 'atv_landing_page' ) {
-			$is_custom_meta_title_and_desc = true;
-			$meta_title                    = htmlentities( get_the_title() );
-			$meta_descr                    = htmlentities( get_the_excerpt() );
+		global $wp;
+		list( $franchise_id, $season_id, $episode_id ) = array_pad( explode( '/', $wp->request ), 3, '' );
+		$real_franchise = ( ! empty( $franchise_id ) ) ? rljeApiWP_getFranchiseById( $franchise_id ) : false;
+		if ( is_object( $real_franchise ) ) {
+			$meta_title = htmlentities( $real_franchise->name );
+			$meta_descr = htmlentities( $real_franchise->longDescription );
+			$title['title'] = $meta_title;
 		}
-		if ( $is_custom_meta_title_and_desc ) :
-			remove_theme_support( 'title-tag' );
-			?>
-		<title>Acorn TV | <?php echo $meta_title; ?></title>
-		<meta name="description" content="<?php echo $meta_descr; ?>">
-			<?php
-		endif;*/
-
-		if ( ! empty( get_query_var( 'franchise_id' ) ) ) {
-			$franchise = rljeApiWP_getFranchiseById( get_query_var( 'franchise_id' ) );
-			if ( is_object( $franchise ) ) {
-				$meta_title = htmlentities( $franchise->name );
-				$meta_descr = htmlentities( $franchise->longDescription );
-			}
-
-			// UMC specific
-			// $title['title'] = $meta_title;
-			// $title['tagline'] = $title['site'] . ' - ' . get_bloginfo( 'description' );
-			// unset( $title['site'] );
-			$title['tagline'] = $meta_title;
-		}
-
-		// if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
-		// 	$meta_title = htmlentities( get_the_title() );
-		// 	$meta_descr = htmlentities( get_the_excerpt() );
-
-		// 	$title['tagline'] = $meta_title;
-		// }
-
-		// $title['tagline'] .= 'TOMTOM';
-
-		return apply_filters( 'rlje_title', $title );
+		return $title;
 	}
 
 	public function add_google_tag_manager_frame() {
@@ -187,21 +147,14 @@ class RLJE_Header {
 		}
 	}
 
-	public function add_description_meta_tag( $meta_descr = '' ) {
-		if ( ! empty( get_query_var( 'franchise_id' ) ) ) {
-			$franchise = rljeApiWP_getFranchiseById( get_query_var( 'franchise_id' ) );
-			if ( is_object( $franchise ) ) {
-				$meta_title = htmlentities( $franchise->name );
-				$meta_descr = htmlentities( $franchise->longDescription );
-			}
-
+	public function add_description_meta_tag() {
+		$meta_descr = '';
+		global $wp;
+		list( $franchise_id, $season_id, $episode_id ) = array_pad( explode( '/', $wp->request ), 3, '' );
+		$real_franchise = ( ! empty( $franchise_id ) ) ? rljeApiWP_getFranchiseById( $franchise_id ) : false;
+		if ( is_object( $real_franchise ) ) {
+			$meta_descr = htmlentities( $real_franchise->longDescription );
 		}
-
-		// if ( 'atv_landing_page' === get_query_var( 'post_type' ) ) {
-		// 	$meta_title = htmlentities( get_the_title() );
-		// 	$meta_descr = htmlentities( get_the_excerpt() );
-		// }
-
 		$meta_descr = apply_filters( 'rlje_description_meta_tag_content', $meta_descr );
 
 		if ( ! empty( $meta_descr ) ) :
