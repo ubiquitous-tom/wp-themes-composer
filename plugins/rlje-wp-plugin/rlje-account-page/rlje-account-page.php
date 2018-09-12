@@ -87,6 +87,14 @@ class RLJE_Account_Page {
 		return $this->user_profile['Customer']['OriginalMembershipJoinDate'];
 	}
 
+	public function account_canceblable() {
+		if ( isset( $this->user_profile['Membership']['Cancelable'] ) ) {
+			return $this->user_profile['Membership']['Cancelable'];
+		} else {
+			return false;
+		}
+	}
+
 	public function add_browse_rewrite_rules() {
 		add_rewrite_rule( '^account/([^/]*)/?', 'index.php?pagename=account&action=$matches[1]', 'top' );
 		add_rewrite_tag( '%action%', '([^&]+)' );

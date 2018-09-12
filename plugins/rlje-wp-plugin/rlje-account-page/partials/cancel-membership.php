@@ -1,4 +1,5 @@
 <h3 class="section-header">Cancel Membership</h3>
+<?php if ( $this->account_canceblable ) { ?>
 <h4>Hello <?php echo $this->get_user_name(); ?>!</h4>
 <div class="alert alert-info">
 	<p>You've been <?php bloginfo( 'name' ); ?> member since <strong><?php echo $this->get_user_join_date(); ?></strong>.</p>
@@ -8,6 +9,11 @@
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelMembershipModal">
 Cancel <?php bloginfo( 'name' ); ?> Membership
 </button>
+<?php } else { ?>
+<div class="alert alert-danger">
+	Your account can't be canceled
+</div>
+<?php }  ?>
 <!-- Modal -->
 <div class="modal fade" id="cancelMembershipModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
