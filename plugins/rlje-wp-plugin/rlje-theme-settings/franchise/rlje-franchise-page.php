@@ -303,6 +303,7 @@ class RLJE_Franchise_Page {
 		return true;
 	}
 
+	// Returns true if we are dealing with a franchise page and not an episode or season
 	protected function is_current_franchise() {
 		if ( empty( $this->franchise_id ) ) {
 			return false;
