@@ -18,8 +18,8 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_user_update_password', [ $this, 'update_password' ] );
 		add_action( 'wp_ajax_nopriv_user_update_password', [ $this, 'update_password' ] );
 
-		add_action( 'wp_ajax_cancel_sub', array( $this, 'cancelMembership' ) );
-		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancelMembership' ] );
+		add_action( 'wp_ajax_cancel_sub', [ $this, 'cancel_membership' ] );
+		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancel_membership' ] );
 
 		add_action( 'wp_ajax_apply_promo_code', array( $this, 'applyCode' ) );
 		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'applyCode' ] );
@@ -139,10 +139,12 @@ class RLJE_Account_Page {
 		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
 	}
 
-	function cancelMembership() {
+	function cancel_membership() {
 		$session_id   = strval( $_POST['session_id'] );
 		$params       = [
-			'SessionID' => $session_id,
+			'Session' => [
+				'SessionID' => $session_id,
+			],
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
 		if ( isset( $api_response['Membership'] ) ) {
