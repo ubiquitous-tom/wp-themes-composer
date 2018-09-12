@@ -6,9 +6,8 @@ class RLJE_Account_Page {
 	private $user_profile;
 
 	public function __construct() {
-		$this->api_helper = new RLJE_api_helper();;
+		$this->api_helper = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
-		add_action( 'init', array( $this, 'setup_profile' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -19,8 +18,8 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_user_update_password', [ $this, 'update_password' ] );
 		add_action( 'wp_ajax_nopriv_user_update_password', [ $this, 'update_password' ] );
 
-		add_action( 'wp_ajax_cancel_sub', array( $this, 'cancelMembership' ) );
-		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancelMembership' ] );
+		add_action( 'wp_ajax_cancel_sub', [ $this, 'cancel_membership' ] );
+		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancel_membership' ] );
 
 		add_action( 'wp_ajax_apply_promo_code', array( $this, 'applyCode' ) );
 		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'applyCode' ] );
@@ -70,7 +69,7 @@ class RLJE_Account_Page {
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_amount() {
 		if ( isset( $this->user_profile['Membership']['NextBillingAmount'] ) ) {
-			return $this->user_profile['Membership']['NextBillingAmount'];
+			return '$' . $this->user_profile['Membership']['NextBillingAmount'];
 		} else {
 			return 'N/A';
 		}
@@ -86,6 +85,14 @@ class RLJE_Account_Page {
 
 	public function get_user_join_date() {
 		return $this->user_profile['Customer']['OriginalMembershipJoinDate'];
+	}
+
+	public function account_canceblable() {
+		if ( isset( $this->user_profile['Membership']['Cancelable'] ) ) {
+			return $this->user_profile['Membership']['Cancelable'];
+		} else {
+			return false;
+		}
 	}
 
 	public function add_browse_rewrite_rules() {
@@ -140,10 +147,12 @@ class RLJE_Account_Page {
 		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
 	}
 
-	function cancelMembership() {
+	function cancel_membership() {
 		$session_id   = strval( $_POST['session_id'] );
 		$params       = [
-			'SessionID' => $session_id,
+			'Session' => [
+				'SessionID' => $session_id,
+			],
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
 		if ( isset( $api_response['Membership'] ) ) {
