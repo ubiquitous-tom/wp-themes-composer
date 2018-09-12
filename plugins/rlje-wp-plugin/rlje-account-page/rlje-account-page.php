@@ -6,7 +6,7 @@ class RLJE_Account_Page {
 	private $user_profile;
 
 	public function __construct() {
-		$this->api_helper = new RLJE_api_helper();;
+		$this->api_helper = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'init', array( $this, 'setup_profile' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
