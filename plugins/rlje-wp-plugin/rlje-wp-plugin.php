@@ -31,3 +31,4 @@ require_once 'rlje-browse-page/rlje-browse-page.php';
 require_once 'rlje-signup-page/rlje-signup-page.php';
 require_once 'rlje-signin-page/rlje-signin-page.php';
 require_once 'rlje-account-page/rlje-account-page.php';
+require_once 'rlje-store-page/rlje-store-page.php';
