@@ -1,5 +1,5 @@
 <h3 class="section-header">Change Your E-Mail</h3>
-<p>If you wish to change your password, please provide the details below.</p>
+<p>If you wish to change your e-mail address, please provide the details below.</p>
 
 <form id="user-update-email" method="POST">
 	<div class="form-group">
