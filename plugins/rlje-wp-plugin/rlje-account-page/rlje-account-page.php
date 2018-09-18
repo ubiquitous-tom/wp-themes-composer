@@ -21,8 +21,8 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_cancel_sub', [ $this, 'cancel_membership' ] );
 		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancel_membership' ] );
 
-		add_action( 'wp_ajax_apply_promo_code', array( $this, 'applyCode' ) );
-		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'applyCode' ] );
+		add_action( 'wp_ajax_apply_promo_code', array( $this, 'apply_code' ) );
+		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'apply_code' ] );
 
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
@@ -163,9 +163,9 @@ class RLJE_Account_Page {
 		wp_send_json( $ajax_response );
 	}
 
-	function applyCode() {
+	function apply_code() {
 		// Go hit api and apply code
-		$session_id   = strval( $_POST['session_id'] );
+		$session_id   = $_COOKIE['ATVSessionCookie'];
 		$promo_code   = strval( $_POST['promo_code'] );
 		$params       = [
 			'Session'   => [

@@ -104,6 +104,7 @@ jQuery(document).ready(function($) {
 
     $('form#apply-code').on('submit', function(event) {
         event.preventDefault();
+        $('.alert').remove();
         var promoCode = $( this ).find('[name=promo-code]').val();
         var btn = $(this).find('button#apply-promo-code');
         // Disable the button and show an indicator that we are cancelling
@@ -113,20 +114,19 @@ jQuery(document).ready(function($) {
             account_management_vars.ajax_url,
             {
                 'action': 'apply_promo_code',
-                'session_id': account_management_vars.session_id,
                 'promo_code': promoCode,
             },
             function(response) {
                 var alert = $(document.createElement('div')).addClass( "alert fade in" );
                 if(response.success) {
                     alert.addClass("alert-success");
-                    alert.append("<p>Promo code has been applied.</p>");
+                    alert.append("Promo code has been applied.");
                 } else if (response.error) {
                     alert.addClass("alert-danger");
-                    alert.append($(document.createElement('p')).html( response.error ));
+                    alert.append( response.error );
                 } else {
                     alert.addClass("alert-danger");
-                    alert.append("<p>Invalid promo code.</p>");
+                    alert.append("Invalid promo code.");
                 }
                 $("#account-settings section").prepend(alert);
                 btn.prop('disabled', false);
