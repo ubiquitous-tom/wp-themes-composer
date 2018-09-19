@@ -60,7 +60,7 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 			echo wp_kses_post( $args['before_title'] . $title . $args['after_title'] );
 		}
 		?>
-		<input id="signup-newsletter-email" type="email" placeholder="Enter Your Email Address" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
+		<input id="signup-newsletter-email" type="email" placeholder="Enter Your Email Address" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-+]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
 		<input id="signup-newsletter-button" type="submit" value="submit">
 		<div id="signup-newsletter-message"></div>
 		</form>
