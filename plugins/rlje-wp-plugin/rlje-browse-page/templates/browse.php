@@ -41,7 +41,7 @@ if ( $rlje_api_wp_is_user_active ) {
 	wp_safe_redirect( trailingslashit( home_url( 'browse' ) ) );
 	exit;
 }
-$list_sections = array_merge( array( 'all' => 'All Shows' ), $list_sections ); // Add All Shows always as first item.
+$list_sections = array_merge( array( 'all' => 'All' ), $list_sections ); // Add All Shows always as first item.
 
 if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 	get_header();
