@@ -33,7 +33,7 @@ if ( $rlje_api_wp_is_user_active ) {
 	$list_sections = array_merge(
 		array(
 			'recentlywatched' => 'Recently Watched',
-			'yourwatchlist'   => 'My Watchlist',
+			'yourwatchlist'   => 'My Watchlist'
 		),
 		$list_sections
 	);
@@ -130,6 +130,6 @@ if ( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) :
 </section>
 	<?php
 	get_footer();
-// else :
-// 	require_once get_404_template();
+else :
+	require_once get_404_template();
 endif;
