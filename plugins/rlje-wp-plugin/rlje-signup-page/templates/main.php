@@ -24,11 +24,11 @@ get_header();
 				<div class="signup-form-group">
 					<div class="form-group">
 						<label for="signup-email">E-Mail Address *</label>
-						<input id="signup-email" class="form-control" required name="signup_email" type="email" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
+						<input id="signup-email" class="form-control" required name="signup_email" type="email" pattern="[a-zA-Z0-9.-_+]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
 					</div>
 					<div class="form-group">
 						<label for="signup-email-confirm">Confirm E-Mail Address *</label>
-						<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
+						<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email" pattern="[a-zA-Z0-9.-_+]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
 					</div>
 					<div class="form-group">
 						<label for="signup-password">Password *</label>
