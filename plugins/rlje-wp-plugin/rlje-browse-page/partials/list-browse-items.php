@@ -43,12 +43,19 @@ if ( $total_list_items > 0 ) {
 	?>
 <div class="row">
 	<?php
-	// if ( $wp_query->query_vars['section'] === 'yourwatchlist' ) {
-	if ( get_query_var( 'section' ) === 'yourwatchlist' ) {
-		// $wp_query->query_vars['no_result_message'] = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
-		set_query_var( 'no_result_message', 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>' );
+	switch ( get_query_var( 'section' ) ) {
+		case 'yourwatchlist' :
+			$message = 'Click the "Add to Watchlist" button to add your favorite shows to your watchlist. <br/>You\'ll be able to access your watchlist from any device.<br/>';
+			break;
+
+		case 'comingsoon' :
+			$message = "We don't have any upcoming shows at this time.";
+			break;
+
+		default:
+			$message = "section is empty";
 	}
-	// $wp_query->query_vars['no_result_inline'] = true;
+	set_query_var( 'no_result_message', $message );
 	set_query_var( 'no_result_inline', true );
 	get_template_part( 'partials/no-result-message' );
 	?>

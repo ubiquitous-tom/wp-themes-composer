@@ -73,7 +73,10 @@ class RLJE_Browse_Page {
 				$atv_session_cookie         = $_COOKIE['ATVSessionCookie'];
 			}
 
-			$list_sections = [ 'all' => 'All Shows' ];
+			$list_sections = [
+				'all' => 'All Shows',
+				'comingsoon' => 'Coming Soon',
+			];
 			if ( $is_user_active ) {
 				$list_sections = array_merge(
 					array(
