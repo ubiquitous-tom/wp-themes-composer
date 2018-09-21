@@ -35,7 +35,9 @@ function initializeStripeElements(stripeKey) {
 }
 
 function showStepTwo() {
-    var signup_form = jQuery('form.signup')
+    // Update the url hash to indicate step2
+    history.replaceState(undefined, undefined, "#createaccount");
+    var signup_form = jQuery('form.signup');
     // Remove log in and Start signup buttons for some reason
     jQuery('.navbar-header.navbar-right').hide();
     // Render second step.
@@ -218,6 +220,8 @@ function submitStepTwo(event) {
 }
 
 function showStepThree() {
+    // Update the url hash to indicate step3
+    history.replaceState(undefined, undefined, "#finish");
     // Render last step.
     // Mark last step as active
     jQuery('#progress-steps .step').removeClass('active');
