@@ -16,7 +16,7 @@ get_header();
 
 				<form method="post" id="contact-us">
 					<p>
-						If you’re having trouble with watching films, signing up, or any difficulty with using the site, please see our <a href="https://support.umc.tv">support page</a> for assistance. Many common solutions are provided on our <a href="http://support.acorn.tv/support/solutions/folders/1000220893"> Frequently Asked Questions</a> page. For all other inquiries, please use the form below and we’ll get in touch.
+						If you’re having trouble with watching films, signing up, or any difficulty with using the site, please see our <a href="/help">support page</a> for assistance. Many common solutions are provided on our <a href="/faqs"> Frequently Asked Questions</a> page. For all other inquiries, please use the form below and we’ll get in touch.
 					</p>
 
 					<div class="form-group">
