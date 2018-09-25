@@ -1,5 +1,5 @@
 <h3 class="section-header">Cancel Membership</h3>
-<?php if ( $this->account_canceblable ) { ?>
+<?php if ( $this->account_cancelable() ) { ?>
 <h4>Hello <?php echo $this->get_user_name(); ?>!</h4>
 <div class="alert alert-info">
 	<p>You've been <?php bloginfo( 'name' ); ?> member since <strong><?php echo $this->get_user_join_date(); ?></strong>.</p>
