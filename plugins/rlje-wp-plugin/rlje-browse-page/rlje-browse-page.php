@@ -74,7 +74,7 @@ class RLJE_Browse_Page {
 			}
 
 			$list_sections = [
-				'all' => 'All Shows',
+				'all' => 'All',
 				'comingsoon' => 'Coming Soon',
 			];
 			if ( $is_user_active ) {
