@@ -1379,6 +1379,10 @@ input:-ms-input-placeholder {
 }
 
 .sub-footer h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
     font-size: 13px;
 }
 
