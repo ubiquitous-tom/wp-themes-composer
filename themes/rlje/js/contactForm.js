@@ -2,7 +2,6 @@ jQuery(function($) {
 
     $('form#contact-us').on('submit', function(event) {
         event.preventDefault();
-        console.log('Submitted!');
         var name = $(this).find('input#full-name').val();
         var email_address = $(this).find('input#email').val();
         var subject = $(this).find('input#subject').val();
