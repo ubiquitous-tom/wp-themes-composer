@@ -227,17 +227,17 @@ class RLJE_Redis_Table extends WP_List_Table {
 			'detail_',
 			'season',
 			'episode',
-			'userStatus',
-			'userEmail',
-			'userWebPayment',
-			'userStripeCustomerID',
+			// 'userStatus',
+			// 'userEmail',
+			// 'userWebPayment',
+			// 'userStripeCustomerID',
 			'browse',
 			'browse_orderby',
 			'franchises',
 			'home_franchises',
 			'browse_franchises',
 			'contentPage_items',
-			'atv_userProfile_',
+			// 'atv_userProfile_',
 		) );
 
 		$data = array();
