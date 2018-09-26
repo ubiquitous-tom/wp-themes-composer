@@ -22,6 +22,7 @@ jQuery(function($) {
                 } else {
                     $('#msg').html("<div class=\"alert alert-success\"><strong>Thank you for contacting UMC.</strong><br>We’ve received your email. A UMC support representative will review your request and send you a personal response.</div>");
                 }
+                $(window).scrollTop(0);
             }
         )
     })
