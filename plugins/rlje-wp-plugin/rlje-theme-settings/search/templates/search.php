@@ -2,8 +2,6 @@
 $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'search' );
 if ( $have_franchises_available ) :
 	get_header();
-	// $base_url_path               = ( function_exists( 'rljeApiWP_getBaseUrlPath' ) ) ? rljeApiWP_getBaseUrlPath() : '';
-	$search_text                 = rawurldecode( $search_query );
 	$search_by_franchises_result = null;
 	$search_by_episodes_result   = null;
 	$total_franchises_result     = 0;
@@ -13,10 +11,10 @@ if ( $have_franchises_available ) :
 	);
 
 	if ( function_exists( 'rljeApiWP_searchByFranchises' ) ) {
-		$have_min_character = ( strlen( $search_text ) < $limit_character['number'] );
-		if ( ! $have_min_character || strtolower( $search_text ) === 'qi' ) { // Qi is a franchise's name.
-			$search_by_franchises_result = rljeApiWP_searchByFranchises( $search_text );
-			$search_by_episodes_result   = rljeApiWP_searchByEpisodes( $search_text );
+		$have_min_character = ( strlen( $search_query ) < $limit_character['number'] );
+		if ( ! $have_min_character || strtolower( $search_query ) === 'qi' ) { // Qi is a franchise's name.
+			$search_by_franchises_result = rljeApiWP_searchByFranchises( $search_query );
+			$search_by_episodes_result   = rljeApiWP_searchByEpisodes( $search_query );
 			$total_franchises_result     = ( isset( $search_by_franchises_result->franchises ) ) ? count( $search_by_franchises_result->franchises ) : 0;
 			$total_episodes_result       = ( isset( $search_by_episodes_result->episodes ) ) ? count( $search_by_episodes_result->episodes ) : 0;
 			$show_franchises_carousel    = ( 4 < $total_franchises_result );
@@ -25,7 +23,7 @@ if ( $have_franchises_available ) :
 				?>
 <section class="search">
 	<div class="container">
-		<h4 class="subnav">Franchise Results for <?php echo $search_text; ?></h4>
+		<h4 class="subnav">Franchise Results for <?php echo $search_query; ?></h4>
 		<div class="<?php echo ( $show_franchises_carousel ) ? ' hidden-lg' : ''; ?>">
 				<?php
 				foreach ( $search_by_franchises_result->franchises as $key => $franchise ) :
@@ -92,7 +90,7 @@ if ( $have_franchises_available ) :
 				?>
 <section class="search-episode">
 	<div class="container">
-		<h4 class="subnav">Episode Results for <?php echo $search_text; ?></h4>
+		<h4 class="subnav">Episode Results for <?php echo $search_query; ?></h4>
 		<div class="<?php echo ( $show_episodes_carousel ) ? ' hidden-lg' : ''; ?>">
 				<?php
 				foreach ( $search_by_episodes_result->episodes as $key => $episode ) :
