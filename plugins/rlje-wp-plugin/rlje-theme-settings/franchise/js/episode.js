@@ -143,8 +143,10 @@ var episodePlayer = function(episodeId, setTimePosition) {
     //   console.log('event', seeking);
     // })
     .on('seeked', function(event) {
-      // console.log('seeked', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      setStreamPosition('PLAYING');
+      // console.log('seeked', event, event.target.player.currentTime(), event.target.player, parseInt(event.target.player.currentTime(), 10));
+      if (event.target.player.hasStarted()) {
+        setStreamPosition('PLAYING');
+      }
     });
 
   var setStreamPosition = function(lastKnownAction) {
