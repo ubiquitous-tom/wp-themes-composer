@@ -1,9 +1,9 @@
 <h3 class="section-header">Cancel Membership</h3>
-<?php if ( $this->account_canceblable ) { ?>
+<?php if ( $this->account_cancelable() ) { ?>
 <h4>Hello <?php echo $this->get_user_name(); ?>!</h4>
 <div class="alert alert-info">
 	<p>You've been <?php bloginfo( 'name' ); ?> member since <strong><?php echo $this->get_user_join_date(); ?></strong>.</p>
-	<p>On <strong><?php echo $this->get_next_billing_date(); ?></strong>, your card will be charged <strong>$<?php echo $this->get_next_billing_amount(); ?></strong> to continue with another month of <?php bloginfo( 'name' ); ?> benefits.</p>
+	<p>On <strong><?php echo $this->get_next_billing_date(); ?></strong>, your card will be charged <strong><?php echo $this->get_next_billing_amount(); ?></strong> to continue with another month of <?php bloginfo( 'name' ); ?> benefits.</p>
 	<p>If you wish to cancel, please select the button below. You may be asked to sign in again.</p>
 </div>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelMembershipModal">
