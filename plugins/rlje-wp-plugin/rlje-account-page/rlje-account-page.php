@@ -232,6 +232,15 @@ class RLJE_Account_Page {
 					exit();
 				} elseif ( 'editBilling' === $action ) {
 					$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+
+					// Build the stunning iFrame URL so it can be used on the template
+					$stripe_id = $this->user_profile['Customer']['StripeCustomerID'];
+					if( isset (get_option( 'rlje_stunning_settings' )['stunning_id'] ) ) {
+						$stunning_token = get_option( 'rlje_stunning_settings' )['stunning_id'];
+					} else {
+						$stunning_token = '2047dxrbmvipxdnrcfbetfxoe';
+					}
+					$stunning_url = 'https://payments.stunning.co/payment_update/' . $stunning_token . '/' . $stripe_id;
 					// Prevent internal 404 on custome search page because of template_redirect hook.
 					status_header( 200 );
 					$wp_query->is_404  = false;

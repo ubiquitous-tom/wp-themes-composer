@@ -7,6 +7,7 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 	protected $sailthru   = [];
 	protected $rightsline = [];
 	protected $tealium    = [];
+	protected $stunning   = [];
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -25,6 +26,7 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 		register_setting( 'rlje_3rd_party_section', 'rlje_google_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_apple_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_tealium_settings' );
+		register_setting( 'rlje_3rd_party_section', 'rlje_stunning_settings' );
 		register_setting( 'rlje_3rd_party_section', 'rlje_smart_app_banner_settings' );
 
 		// Here we display the sections and options in the settings page based on the active tab.
@@ -48,6 +50,9 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 
 			add_settings_section( 'rlje_tealium_section', 'Tealium Options', array( $this, 'display_tealium_options_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'tealium_id', 'Tealium Tag', array( $this, 'display_tealium_settings' ), 'rlje-theme-settings', 'rlje_tealium_section' );
+
+			add_settings_section( 'rlje_stunning_section', 'Stunning Options', array( $this, 'display_stunning_options_content' ), 'rlje-theme-settings' );
+			add_settings_field( 'stunning_id', 'Stunning ID', array( $this, 'display_stunning_settings' ), 'rlje-theme-settings', 'rlje_stunning_section' );
 
 			add_settings_section( 'rlje_smart_app_banner_section', 'Smart App Banner Options', array( $this, 'display_smart_app_banner_options_content' ), 'rlje-theme-settings' );
 			add_settings_field( 'smart_app_banner_status', 'Smart App Banner On/Off', array( $this, 'display_smart_app_banner_status' ), 'rlje-theme-settings', 'rlje_smart_app_banner_section' );
@@ -175,6 +180,19 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 		?>
 		<input type="text" name="rlje_tealium_settings[tealium_id]" id="tealium-id" class="regular-text" value="<?php echo esc_attr( $tealium_id ); ?>" placeholder="Tealium ID">
 		<p class="description">Please enter your Tealium ID. (e.g., 6377)</p>
+		<?php
+	}
+
+	public function display_stunning_options_content() {
+		echo 'Stunning Settings';
+		$this->stunning = get_option( 'rlje_stunning_settings' );
+		var_dump($this->stunning);
+	}
+
+	public function display_stunning_settings() {
+		$stunning_id = ( ! empty( $this->stunning['stunning_id'] ) ) ? $this->stunning['stunning_id'] : '';
+		?>
+		<input type="text" name="rlje_stunning_settings[stunning_id]" id="stunning-id" class="regular-text" value="<?php echo esc_attr( $stunning_id ); ?>" placeholder="2047dxrbmvipxdnrcfbetfxoe">
 		<?php
 	}
 
