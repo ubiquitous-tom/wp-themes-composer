@@ -82,28 +82,19 @@ if ( ! empty( $continue_watching_items ) && count( $continue_watching_items ) > 
 							$playType = ( ! empty( $episode_id ) ) ? 'player' : 'play';
 							?>
 							<div class="continueWatching">
-								<?php if ( $isResume ) : ?>
-								<button class="continueEpisodeBtn js-<?php echo $playType; ?>-start">
-									<span>PLAY FROM START</span>
-									<i class="fa fa-refresh" aria-hidden="true"></i>
-								</button>
-								<button class="continueEpisodeBtn js-<?php echo $playType; ?>-resume">
-									<span>RESUME</span>
-									<i class="fa fa-play-circle-o" aria-hidden="true"></i>
-								</button>
-								<?php else : ?>
-								<button class="js-<?php echo $playType; ?>-resume">
-									<?php
-									if ( 'movie' === strtolower( $episode->type ) ) {
-										$continue_watching_episode_type_display = ' Movie ';
-									} else {
-										$continue_watching_episode_type_display = $season->name . ': Episode ' . $episodeNumber;
-									}
-									?>
-									<span>Play <?php echo esc_html( $continue_watching_episode_type_display ); ?></span>
-									<i class="fa fa-play-circle-o" aria-hidden="true"></i>
-								</button>
-								<?php endif; ?>
+								<?php if ( !$isResume ) { ?>
+									<button class="js-<?php echo $playType; ?>-resume">
+										<?php
+										if ( 'movie' === strtolower( $episode->type ) ) {
+											$continue_watching_episode_type_display = ' Movie ';
+										} else {
+											$continue_watching_episode_type_display = $season->name . ': Episode ' . $episodeNumber;
+										}
+										?>
+										<span>Play <?php echo esc_html( $continue_watching_episode_type_display ); ?></span>
+										<i class="fa fa-play-circle-o" aria-hidden="true"></i>
+									</button>
+								<?php } ?>
 							</div>
 							<?php endif; ?>
 						</a>
