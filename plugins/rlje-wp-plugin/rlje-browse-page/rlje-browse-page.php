@@ -75,7 +75,7 @@ class RLJE_Browse_Page {
 
 			$list_sections = [
 				'all' => 'All',
-				'comingsoon' => 'Coming Soon',
+				// 'comingsoon' => 'Coming Soon',
 			];
 			if ( $is_user_active ) {
 				$list_sections = array_merge(
