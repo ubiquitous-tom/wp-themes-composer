@@ -38,8 +38,8 @@
 	if ( $this->user_profile['Membership']['WebPaymentEdit'] === false ) {
 		?>
 		<li class="row status-field">
-			<div class="col-sm-4 text-right">Payment Method</div>
-			<div class="col-sm-8"><strong>You purchased your membership through <?php echo $this->user_profile['Membership']['Device']; ?>. Please log in to <?php $this->user_profile['Membership']['Device']; ?> to manage your billing details or cancel your account.</strong></div>
+			<div class="col-xs-6 col-sm-5 text-right">Payment Method</div>
+			<div class="col-xs-6 col-sm-5"><strong>You purchased your membership through <?php echo $this->user_profile['Membership']['Device']; ?>. Please log in to <?php $this->user_profile['Membership']['Device']; ?> to manage your billing details or cancel your account.</strong></div>
 		</li>
 	<?php } ?>
 
