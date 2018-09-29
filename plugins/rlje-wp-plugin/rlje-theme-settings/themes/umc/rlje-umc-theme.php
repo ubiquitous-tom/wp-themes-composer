@@ -28,12 +28,10 @@ class RLJE_UMC_Theme {
 		$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 		wp_enqueue_style( 'rlje-umc-theme', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 
-		$pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/carousel-pagination.js' ) );
 		$umc_carousel_pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/umc-carousel-pagination.js' ) );
 
 		// TODO: IN NEED OF REFACTORING since they are loaded in multiple places.
 		// Special js hook to update carousel pagination image url to use the right one for umc.
-		wp_enqueue_script( 'rlje-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
 		wp_enqueue_script( 'rlje-umc-carousel-pagination-js', plugins_url( 'js/umc-carousel-pagination.js', __FILE__ ), array( 'rlje-carousel-pagination-js' ), $umc_carousel_pagination_js_ver, true );
 	}
 
