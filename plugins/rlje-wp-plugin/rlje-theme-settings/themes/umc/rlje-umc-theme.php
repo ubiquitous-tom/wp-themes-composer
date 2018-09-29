@@ -30,7 +30,6 @@ class RLJE_UMC_Theme {
 
 		$umc_carousel_pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/umc-carousel-pagination.js' ) );
 
-		// TODO: IN NEED OF REFACTORING since they are loaded in multiple places.
 		// Special js hook to update carousel pagination image url to use the right one for umc.
 		wp_enqueue_script( 'rlje-umc-carousel-pagination-js', plugins_url( 'js/umc-carousel-pagination.js', __FILE__ ), array( 'rlje-carousel-pagination-js' ), $umc_carousel_pagination_js_ver, true );
 	}
