@@ -2,7 +2,6 @@ jQuery(function($) {
 
     $('form#customer-support').on('submit', function(event) {
         event.preventDefault();
-        console.log('Submitted!');
         var name = $(this).find('input#full-name').val();
         var email_address = $(this).find('input#email').val();
         var support_topic = $(this).find('select#topic').val();
