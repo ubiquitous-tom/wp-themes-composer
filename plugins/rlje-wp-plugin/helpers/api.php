@@ -18,25 +18,49 @@ class RLJE_api_helper {
 		return base64_encode( $hash );
 	}
 
+	private function get_user_agent() {
+		$userAgent = '';
+		if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			$userAgent = $_SERVER['HTTP_USER_AGENT'];
+		}
+		return $userAgent;
+	}
+
+	private function get_client_ip() {
+		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+			$ip_array = array_values( array_filter( explode( ',', $_SERVER[ 'HTTP_X_FORWARDED_FOR' ] ) ) );
+			return array_pop( $IParray );
+		} elseif ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			return $_SERVER['REMOTE_ADDR'];
+		} elseif ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
+			return $_SERVER['HTTP_CLIENT_IP'];
+		}
+
+		return '';
+	}
+
 	public function hit_api( $params, $method, $verb = 'GET' ) {
-		$url = $this->api_base . '/' . $method;
+		$url     = $this->api_base . '/' . $method;
+		$headers = [
+			'x-atv-hash'          => $this->encode_hash( $params, $this->api_key ),
+			'Accept'              => 'application/json',
+			'X-RLJ-Forwarded-For' => $this->get_client_ip(),
+		];
 		switch ( $verb ) {
 			case 'GET':
-				if ( empty( $params ) ) {
-					$raw_response = wp_remote_get( $url );
-				} else {
-					$raw_response = wp_remote_get( $url . '?' . http_build_query( $params ) );
+				if ( ! empty( $params ) ) {
+					$url = $url . '?' . http_build_query( $params );
 				}
-
+				$raw_response = wp_remote_get( $url );
 				break;
 
 			case 'POST':
+				if ( 'initializeapp' === $method ) {
+					$headers['RLJ-User-Agent'] = $this->get_user_agent();
+				}
 				$raw_response = wp_remote_post(
 					$url, [
-						'headers' => [
-							'x-atv-hash' => $this->encode_hash( $params, $this->api_key ),
-							'Accept'     => 'application/json',
-						],
+						'headers' => $headers,
 						'body'    => json_encode( $params ),
 					]
 				);
@@ -50,10 +74,7 @@ class RLJE_api_helper {
 				$raw_response = wp_remote_request(
 					$url, [
 						'method'  => 'DELETE',
-						'headers' => [
-							'x-atv-hash' => $this->encode_hash( $params, $this->api_key ),
-							'Accept'     => 'application/json',
-						],
+						'headers' => $headers,
 						'body'    => json_encode( $params ),
 					]
 				);
