@@ -28,6 +28,7 @@ jQuery(function($) {
                 } else {
                     $('#msg').html("<div class=\"alert alert-success\"><h4>Thank you for submitting your help request! Your information has been passed to our Help system, and you will receive a confirmation email with a link to your ticket.</h4></div>");
                 }
+                $(window).scrollTop(0);
             }
         )
     })
