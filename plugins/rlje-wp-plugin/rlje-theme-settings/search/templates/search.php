@@ -1,6 +1,9 @@
 <?php
 $have_franchises_available = apply_filters( 'atv_haveFranchisesAvailableByCountry', 'search' );
 if ( $have_franchises_available ) :
+	$search_title = $search_query;
+	// HACK: Search API breaks with single characters in search terms so take it out.
+	$search_query = trim( preg_replace( [ '/^\w{1} /', '/ \w{1} /', '/ \w{1}$/' ], " ", $search_query ) );
 	get_header();
 	$search_by_franchises_result = null;
 	$search_by_episodes_result   = null;
@@ -23,7 +26,7 @@ if ( $have_franchises_available ) :
 				?>
 <section class="search">
 	<div class="container">
-		<h4 class="subnav">Franchise Results for <?php echo $search_query; ?></h4>
+		<h4 class="subnav">Franchise Results for <?php echo $search_title; ?></h4>
 		<div class="<?php echo ( $show_franchises_carousel ) ? ' hidden-lg' : ''; ?>">
 				<?php
 				foreach ( $search_by_franchises_result->franchises as $key => $franchise ) :
@@ -90,7 +93,7 @@ if ( $have_franchises_available ) :
 				?>
 <section class="search-episode">
 	<div class="container">
-		<h4 class="subnav">Episode Results for <?php echo $search_query; ?></h4>
+		<h4 class="subnav">Episode Results for <?php echo $search_title; ?></h4>
 		<div class="<?php echo ( $show_episodes_carousel ) ? ' hidden-lg' : ''; ?>">
 				<?php
 				foreach ( $search_by_episodes_result->episodes as $key => $episode ) :
