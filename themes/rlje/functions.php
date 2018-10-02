@@ -112,7 +112,7 @@ function acorntv_hook_css_js() {
 	$bc_url = '//players.brightcove.net/' . $brightcove_account_id . '/' . $brightcove_player_id . '_default/index.min.js';
 	wp_register_script( 'brightcove-public-player', $bc_url );
 
-	if ( is_page( 'contact-us' ) ) {
+	if ( is_page_template( 'page-templates/contact-us.php' ) ) {
 		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
 		wp_localize_script(
 			'contact-us-script', 'contact_vars', [

@@ -1,5 +1,11 @@
 <?php
-get_header();
+/* Template Name: Contact Us Template */
+if( is_page( [ 'ios-contactus' ] ) ) {
+    get_header('ios');
+} else {
+    get_header();
+}
+
 ?>
 
 <section class="page-main">
@@ -49,4 +55,8 @@ get_header();
 </section>
 
 <?php
-get_footer();
+if( is_page( [ 'ios-contactus' ] ) ) {
+    get_footer('ios');
+} else {
+    get_footer();
+}
