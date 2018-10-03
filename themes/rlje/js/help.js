@@ -30,7 +30,7 @@ jQuery(function($) {
                 if (response.success == false) {
                     $("#msg").html("<div class=\"alert alert-danger\">There was a problem with your submission, please try again.</div>");
                 } else {
-                    $('#msg').html("<div class=\"alert alert-success\"><h4>Thank you for submitting your help request! Your information has been passed to our Help system, and you will receive a confirmation email with a link to your ticket.</h4></div>");
+                    $('#msg').html("<div class=\"alert alert-success\">Thank you for submitting your help request! Your information has been passed to our Help system, and you will receive a confirmation email with a link to your ticket.</div>");
                 }
                 $(window).scrollTop(0);
                 submit_button.prop('disabled', false).html(submit_button_content);
