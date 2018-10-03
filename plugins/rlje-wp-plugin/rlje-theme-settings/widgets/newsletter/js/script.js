@@ -4,10 +4,10 @@
 	$('#signup-newsletter-widget form').on('submit', function(e) {
 		e.preventDefault();
 		var $emailInput = $('#signup-newsletter-email'),
-		$emailButtonInput = $('#signup-newsletter-button'),
-		email = $.trim($emailInput.val()),
-		messageDiv = $('<div>').addClass('alert'),
-		$message = $('#signup-newsletter-message');
+			$emailButtonInput = $('#signup-newsletter-button'),
+			email = $.trim($emailInput.val()),
+			messageDiv = $('<div>').addClass('alert'),
+			$message = $('#signup-newsletter-message');
 
 		$.ajax({
 			type: 'POST',
