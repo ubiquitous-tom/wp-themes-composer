@@ -5,7 +5,7 @@ $brightcove_player_id  = $brightcove_settings['shared_player_id'];
 $about_vide_id         = '5180867444001';
 get_header();
 ?>
-<section class="page-main">
+<section class="content">
 	<header class="page-hero">
 		<div class="container">
 			<h1>About us</h1>

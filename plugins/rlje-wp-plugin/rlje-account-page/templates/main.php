@@ -1,7 +1,7 @@
 <?php
 get_header();
 ?>
-<section id="account-settings" class="page-body">
+<section id="account-settings" class="content page-body">
 	<div class="container">
 		<nav class="col-sm-4">
 			<ul class="nav nav-pills nav-stacked">

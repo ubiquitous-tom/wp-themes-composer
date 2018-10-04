@@ -2,7 +2,7 @@
 // TODO: replace the hardcoded support email address with one coming from wp_settings
 get_header();
 ?>
-<section id="forgotpassword" class="page-body">
+<section id="forgotpassword" class="content page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2">
 			<header class="row">

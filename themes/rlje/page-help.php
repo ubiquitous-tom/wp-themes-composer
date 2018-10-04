@@ -2,7 +2,7 @@
 get_header();
 ?>
 
-<section class="page-main">
+<section class="content">
 	<header class="page-hero">
 		<div class="container">
 			<h3>Customer Support</h3>

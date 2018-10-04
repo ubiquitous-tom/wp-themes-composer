@@ -8,7 +8,7 @@ if( is_page( [ 'ios-contactus' ] ) ) {
 
 ?>
 
-<section class="page-main">
+<section class="content">
 	<header class="page-hero">
 		<div class="container">
 			<h3>Contact Us</h3>

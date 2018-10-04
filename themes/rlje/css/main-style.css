@@ -4,13 +4,16 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
 /* BASE CSS */
 
+html, body {
+    height: 100%;
+}
+
 body {
     padding-top: 55px;
     background: #0e0e0e;
     font-family: sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
 p {
@@ -59,14 +62,16 @@ embed {
     outline: 0;
 }
 
-section {
-    flex: 1;
+footer {
+    flex-shrink: 0;
 }
+
 
 /* LAYOUT */
 
-/* html[data-smartbanner-original-margin-top] body.admin-bar{padding-top:calc(55px + 84px);}
-html[data-smartbanner-original-margin-top] body{padding-top:calc(55px + 84px);} */
+.content {
+    flex: 1 0 auto;
+}
 
 .container {
     width: 96%;
@@ -952,6 +957,7 @@ input:-ms-input-placeholder {
 /* HOME TEMPLATE*/
 
 .home-hero-carousel {
+    flex-shrink: 0;
     background-color: black;
 }
 
