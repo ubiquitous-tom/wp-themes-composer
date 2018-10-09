@@ -39,6 +39,10 @@ class RLJE_api_helper {
 		return '';
 	}
 
+	public function get_promo( $promo_code ) {
+		return  $this->hit_api( [ 'Code' => $promo_code ], 'promo' );
+	}
+
 	public function hit_api( $params, $method, $verb = 'GET' ) {
 		$url     = $this->api_base . '/' . $method;
 		$headers = [

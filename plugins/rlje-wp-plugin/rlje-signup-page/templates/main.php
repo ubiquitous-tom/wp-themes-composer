@@ -38,6 +38,10 @@ get_header();
 						<label for="signup-password-confirm">Confirm Password *</label>
 						<input id="signup-password-confirm" class="form-control" required name="signup_password_confirm" type="password" minlength="6" placeholder="6 characters minimum">
 					</div>
+					<div class="form-group">
+						<label for="promo-code">Promo Code</label>
+						<input id="promo-code" class="form-control" name="promo_code" type="text" >
+					</div>
 					<div class="checkbox">
 						<label>
 							<input checked type="checkbox">Sign me up for the <?php bloginfo( 'name' ); ?> newsletter

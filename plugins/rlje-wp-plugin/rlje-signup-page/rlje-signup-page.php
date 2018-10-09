@@ -66,7 +66,7 @@ class RLJE_signup_page {
 		$billing_last_name  = strval( $_POST['billing_last_name'] );
 		$name_on_card       = strval( $_POST['name_on_card'] );
 		$stripe_token       = strval( $_POST['stripe_token'] );
-		$sub_plan           = strval( $_POST['subscriton_plan'] );
+		$sub_plan           = strval( $_POST['subscription_plan'] );
 
 		$params = [
 			'Session'        => [
@@ -111,11 +111,20 @@ class RLJE_signup_page {
 	public function initialize_account() {
 		$user_email    = strval( $_POST['email_address'] );
 		$user_password = strval( $_POST['password'] );
+		$promo_code    = strval( $_POST['promo_code'] );
 		$response      = [
 			'success'    => false,
 			'error'      => '',
 			'session_id' => '',
+			'promo'      => [],
 		];
+
+		if( !empty( $promo_code ) ) {
+			$promo_response = $this->api_helper->get_promo( $promo_code );
+			if( isset( $promo_response[ "PromotionID" ] ) ) {
+				$response[ 'promo' ] = $promo_response;
+			}
+		}
 
 		$profile_responose = $this->api_helper->hit_api( [ 'Email' => $user_email ], 'profile', 'GET' );
 
@@ -151,11 +160,8 @@ class RLJE_signup_page {
 		if ( isset( $api_response['error'] ) ) {
 			$response['error'] = $api_response['error'];
 		} elseif ( isset( $api_response['Session'] ) ) {
-			$response = [
-				'success'    => true,
-				'session_id' => $api_response['Session']['SessionID'],
-				'stripe_id'  => $api_response['Customer']['StripeCustomerID'],
-			];
+			$response['success'] = true;
+			$response['session_id'] = $api_response['Session']['SessionID'];
 		}
 
 		wp_send_json( $response );
