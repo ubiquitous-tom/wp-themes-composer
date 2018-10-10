@@ -11,6 +11,9 @@ class RLJE_Signin_Page {
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
+		add_action( 'wp_ajax_signin_user', [ $this, 'signin_user' ] );
+		add_action( 'wp_ajax_nopriv_signin_user', [ $this, 'signin_user' ] );
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 
@@ -19,6 +22,12 @@ class RLJE_Signin_Page {
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signin', 'forgotpassword' ] ) ) {
 			wp_enqueue_style( 'signin-index', plugins_url( 'css/style.css', __FILE__ ) );
+			wp_enqueue_script( 'signin-script', plugins_url( 'js/signin.js', __FILE__ ), [ 'jquery' ] );
+			wp_localize_script(
+				'signin-script', 'signin_vars', [
+					'ajax_url'      => admin_url( 'admin-ajax.php' ),
+				]
+			);
 		}
 	}
 
@@ -37,32 +46,40 @@ class RLJE_Signin_Page {
 	}
 
 	// this function authenticates the user
-	private function loginUser( $email_address, $password ) {
+	public function signin_user() {
+		$response = [
+			'success'    => false,
+			'error'      => '',
+		];
+		$user_email    = strval( $_POST['email_address'] );
+		$user_password = strval( $_POST['password'] );
 		$request_body = [
 			'App'         => [
 				'AppVersion' => $this->api_app_version,
 			],
 			'Credentials' => [
-				'Username' => $email_address,
-				'Password' => $password,
+				'Username' => $user_email,
+				'Password' => $user_password,
 			],
 			'Request'     => [
 				'OperationalScenario' => 'SIGNIN',
 			],
 		];
 
-		$response = $this->api_helper->hit_api( $request_body, 'initializeapp', 'POST' );
-		$success  = false;
-		if ( isset( $response['Membership'] ) ) {
-			$success    = true;
-			$session_id = $response['Session']['SessionID'];
-			// Set ATVSessionCookie for the authenticated user
-			setcookie( 'ATVSessionCookie', $session_id, time() + ( 2 * 7 * 24 * 60 * 60 ), '/' );
-			// Ask Transients to cache user data
-			$this->cacheUserProfile( $response );
+		$api_response = $this->api_helper->hit_api( $request_body, 'initializeapp', 'POST' );
+		if ( isset( $api_response['Membership'] ) ) {
+			if( strtolower($api_response['Membership']['Status']) == 'active' ) {
+				$response['success']    = true;
+				// Set ATVSessionCookie for the authenticated user
+				setcookie( 'ATVSessionCookie', $api_response['Session']['SessionID'], time() + ( 2 * 7 * 24 * 60 * 60 ), '/' );
+				// Ask Transients to cache user data
+				$this->cacheUserProfile( $api_response );
+			}
+		} else {
+			$response['error'] = 'No account with that email address exists.';
 		}
 
-		return $success;
+		wp_send_json( $response );
 	}
 
 	private function resetPassword( $email_address ) {
@@ -89,19 +106,6 @@ class RLJE_Signin_Page {
 			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
 				wp_redirect( home_url(), 303 );
 				exit();
-			}
-			if ( ! empty( $_POST ) ) {
-				// User login form was submitted. Athorize them against the API.
-				$email_address = $_POST['user_email'];
-				$password      = $_POST['user_password'];
-				if ( $this->loginUser( $email_address, $password ) ) {
-					// User was authenticated by API.
-					// Redirect to homepage
-					wp_redirect( home_url(), 303 );
-					exit();
-				} else {
-					$message_error = 'No account with that email address exists.';
-				}
 			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;
