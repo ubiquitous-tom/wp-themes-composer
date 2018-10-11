@@ -44,7 +44,11 @@ jQuery(document).ready(function($) {
                         if (response.success == false) {
                             alert.html(response.error);
                         } else {
-                            alert.html('Thanks for your purchase. You\'d get redirected soon.');
+                            alert.html('Thanks for your purchase. You\'d get redirected to homepage soon.');
+                            var timer = setTimeout(function() {
+                                window.location.replace("/");
+                            }, 5000);
+                            window.location.replace("/account/renew");
                         }
                         alert.insertAfter(jQuery('#account-renewal header'));
                     }
