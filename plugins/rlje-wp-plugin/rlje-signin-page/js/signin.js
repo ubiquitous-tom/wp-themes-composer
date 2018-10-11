@@ -22,7 +22,12 @@ jQuery(document).ready(function($) {
                     alert.insertAfter($('#signin header'));
                     submit_button.prop('disabled', false).html(submit_button_content);
                 } else {
-                    window.location.replace("/");
+                    if(response.status === 'expired' ) {
+                        window.location.replace("/account/renew");
+                    } else {
+                        window.location.replace("/");
+                    }
+                    
                 }
             }
         )

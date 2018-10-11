@@ -40,7 +40,6 @@ class RLJE_signup_page {
 
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signup' ] ) ) {
-			wp_register_script( 'stripe-js', 'https://js.stripe.com/v3/' );
 			wp_enqueue_style( 'signup-main-style', plugins_url( 'css/style.css', __FILE__ ) );
 			wp_enqueue_script( 'signup-script', plugins_url( 'js/signup-process.js', __FILE__ ), [ 'jquery', 'stripe-js', 'brightcove-public-player' ] );
 			wp_localize_script(

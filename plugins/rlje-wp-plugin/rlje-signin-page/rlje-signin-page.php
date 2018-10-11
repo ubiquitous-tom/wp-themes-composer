@@ -7,7 +7,7 @@ class RLJE_Signin_Page {
 	private $api_time_refresh_cache = 90000;
 
 	public function __construct() {
-		$this->api_helper            = new RLJE_api_helper();
+		$this->api_helper = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
@@ -25,7 +25,7 @@ class RLJE_Signin_Page {
 			wp_enqueue_script( 'signin-script', plugins_url( 'js/signin.js', __FILE__ ), [ 'jquery' ] );
 			wp_localize_script(
 				'signin-script', 'signin_vars', [
-					'ajax_url'      => admin_url( 'admin-ajax.php' ),
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
 				]
 			);
 		}
@@ -38,22 +38,21 @@ class RLJE_Signin_Page {
 
 	private function cacheUserProfile( $user_profile ) {
 		$session_id = $user_profile['Session']['SessionID'];
-		// Cache user status
-		// TODO: Maybe remove since we cache the whole user profile?
-		wp_cache_set( 'userStatus_' . md5( $session_id ), 'active', 'userStatus', $this->api_time_refresh_cache );
 		// Ask Transient to cache user profile
 		set_transient( 'atv_userProfile_' . md5( $session_id ), $user_profile, $this->api_time_refresh_cache );
 	}
 
 	// this function authenticates the user
 	public function signin_user() {
-		$response = [
-			'success'    => false,
-			'error'      => '',
+		$response      = [
+			'success' => false,
+			'error'   => '',
+			'status'  => 'inactive',
 		];
+		$user_status   = 'inactive';
 		$user_email    = strval( $_POST['email_address'] );
 		$user_password = strval( $_POST['password'] );
-		$request_body = [
+		$request_body  = [
 			'App'         => [
 				'AppVersion' => $this->api_app_version,
 			],
@@ -67,17 +66,30 @@ class RLJE_Signin_Page {
 		];
 
 		$api_response = $this->api_helper->hit_api( $request_body, 'initializeapp', 'POST' );
-		if ( isset( $api_response['Membership'] ) ) {
-			if( strtolower($api_response['Membership']['Status']) == 'active' ) {
-				$response['success']    = true;
+		if ( isset( $api_response['Session'] ) ) {
+			$session_id = $api_response['Session']['SessionID'];
+			if ( isset( $api_response['Membership'] ) ) {
+				$response['success'] = true;
 				// Set ATVSessionCookie for the authenticated user
-				setcookie( 'ATVSessionCookie', $api_response['Session']['SessionID'], time() + ( 2 * 7 * 24 * 60 * 60 ), '/' );
-				// Ask Transients to cache user data
-				$this->cacheUserProfile( $api_response );
+				setcookie( 'ATVSessionCookie', $session_id, time() + ( 2 * 7 * 24 * 60 * 60 ), '/' );
+
+				if ( strtolower( $api_response['Membership']['Status'] ) == 'active' ) {
+					$user_status = 'active';
+				} else {
+					$user_status = 'expired';
+				}
+			} else {
+				$response['error'] = "You don't have a subscription on your account. Please signup.";
 			}
+
+			wp_cache_set( 'userStatus_' . md5( $session_id ), $user_status, 'userStatus', $this->api_time_refresh_cache );
+			// Ask Transient to cache user data
+			$this->cacheUserProfile( $api_response );
 		} else {
 			$response['error'] = 'No account with that email address exists.';
 		}
+
+		$response['status'] = $user_status;
 
 		wp_send_json( $response );
 	}

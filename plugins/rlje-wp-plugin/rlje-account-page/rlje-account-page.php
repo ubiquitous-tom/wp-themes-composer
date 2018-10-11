@@ -4,10 +4,22 @@ class RLJE_Account_Page {
 	private $api_helper;
 	private $account_action = 'status';
 	private $user_profile;
+	private $membership_plans;
 
 	public function __construct() {
-		$this->api_helper = new RLJE_api_helper();
+		$this->api_helper       = new RLJE_api_helper();
+		$this->membership_plans = [
+			'yearly'  => [
+				'Term'     => 12,
+				'TermType' => 'MONTH',
+			],
+			'monthly' => [
+				'Term'     => 30,
+				'TermType' => 'DAY',
+			],
+		];
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
+		add_action( 'wp', [ $this, 'fetch_stripe_key' ] );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -24,11 +36,30 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_apply_promo_code', array( $this, 'apply_code' ) );
 		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'apply_code' ] );
 
+		add_action( 'wp_ajax_update_subscription', [ $this, 'update_subscription' ] );
+		add_action( 'wp_ajax_nopriv_update_subscription', [ $this, 'update_subscription' ] );
+
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
+	}
+
+	public function fetch_stripe_key() {
+		if ( 'account' === get_query_var( 'pagename' ) && 'renew' === get_query_var( 'action' ) ) {
+			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+		}
 	}
 
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'account' ] ) ) {
+			if ( 'renew' == get_query_var( 'action' ) ) {
+				wp_enqueue_style( 'account-renewal-style', plugins_url( 'css/renewal.css', __FILE__ ), [ 'account-main-style' ] );
+				wp_enqueue_script( 'account-renewal-script', plugins_url( 'js/account-renewal.js', __FILE__ ), [ 'jquery-core', 'stripe-js' ] );
+				wp_localize_script(
+					'account-renewal-script', 'local_vars', [
+						'ajax_url'   => admin_url( 'admin-ajax.php' ),
+						'stripe_key' => $this->stripe_key,
+					]
+				);
+			}
 			wp_enqueue_style( 'account-main-style', plugins_url( 'css/style.css', __FILE__ ) );
 			wp_enqueue_script( 'account-main-script', plugins_url( 'js/account-management.js', __FILE__ ) );
 			wp_localize_script(
@@ -179,6 +210,54 @@ class RLJE_Account_Page {
 		wp_send_json( $api_response );
 	}
 
+	function update_subscription() {
+		$session_id         = $_COOKIE['ATVSessionCookie'];
+		$promo_code         = strval( $_POST['promo_code'] );
+		$billing_first_name = strval( $_POST['billing_first_name'] );
+		$billing_last_name  = strval( $_POST['billing_last_name'] );
+		$name_on_card       = strval( $_POST['name_on_card'] );
+		$stripe_token       = strval( $_POST['stripe_token'] );
+		$sub_plan           = strval( $_POST['subscription_plan'] );
+
+		$params = [
+			'Session'        => [
+				'SessionID' => $session_id,
+			],
+			'Membership'     => $this->membership_plans[ $sub_plan ],
+			'BillingAddress' => [
+				'FirstName' => $billing_first_name,
+				'LastName'  => $billing_last_name,
+			],
+			'PaymentMethod'  => [
+				'NameOnAccount' => $name_on_card,
+				'StripeToken'   => $stripe_token,
+			],
+		];
+
+		if ( $promo_code ) {
+			$params['PromoCode'] = [
+				'Code' => $promo_code,
+			];
+		}
+
+		$response = [
+			'success' => false,
+			'error'   => '',
+		];
+
+		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
+
+		if ( isset( $api_response['error'] ) ) {
+			$response['error'] = $api_response['error'];
+		} elseif ( isset( $api_response['Membership'] ) ) {
+			$response = [
+				'success' => true,
+			];
+		}
+
+		wp_send_json( $response );
+	}
+
 	public function show_subsection() {
 		switch ( $this->account_action ) {
 			case 'status':
@@ -221,7 +300,7 @@ class RLJE_Account_Page {
 				$this->account_action = $action;
 			}
 			if ( in_array( $this->account_action, ( [ 'status', 'editEmail', 'editPassword', 'editBilling', 'cancelMembership', 'applyCode', 'logout' ] ) ) ) {
-				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 					wp_redirect( home_url( 'signin' ), 303 );
 					exit();
 				}
@@ -260,6 +339,21 @@ class RLJE_Account_Page {
 				// $wp_query->is_archive = true;
 				ob_start();
 				require_once plugin_dir_path( __FILE__ ) . 'templates/main.php';
+				$html = ob_get_clean();
+				echo $html;
+				exit();
+			} elseif ( $this->account_action == 'renew' ) {
+				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || wp_cache_get( 'userStatus_' . md5( $_COOKIE['ATVSessionCookie'] ), 'userStatus' ) !== 'expired' ) {
+					wp_redirect( home_url( 'signin' ), 303 );
+					exit();
+				}
+				// Prevent internal 404 on custome search page because of template_redirect hook.
+				status_header( 200 );
+				$wp_query->is_404  = false;
+				$wp_query->is_page = true;
+				// $wp_query->is_archive = true;
+				ob_start();
+				require_once plugin_dir_path( __FILE__ ) . 'templates/membership-renewal.php';
 				$html = ob_get_clean();
 				echo $html;
 				exit();
