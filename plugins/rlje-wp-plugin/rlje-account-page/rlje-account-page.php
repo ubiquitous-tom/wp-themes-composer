@@ -131,14 +131,8 @@ class RLJE_Account_Page {
 		add_rewrite_tag( '%action%', '([^&]+)' );
 	}
 
-	function getUserProfile( $session_id, $email_address ) {
-		if ( ! empty( $session_id ) ) {
-			$response = $this->api_helper->hit_api( [ 'SessionID' => $session_id ], 'profile' );
-		} elseif ( ! empty( $email_address ) ) {
-			$response = $this->api_helper->hit_api( [ 'Email' => $session_id ], 'profile' );
-
-		}
-		return $response;
+	function get_user_profile( $session_id ) {
+		return rljeApiWP_getUserProfile( $session_id );
 	}
 
 	function update_email() {
@@ -310,7 +304,7 @@ class RLJE_Account_Page {
 					wp_redirect( home_url(), 303 );
 					exit();
 				} elseif ( 'editBilling' === $action ) {
-					$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+					$this->user_profile = $this->get_user_profile( $_COOKIE['ATVSessionCookie'] );
 
 					// Build the stunning iFrame URL so it can be used on the template
 					$stripe_id = $this->user_profile['Customer']['StripeCustomerID'];
@@ -331,7 +325,7 @@ class RLJE_Account_Page {
 					echo $html;
 					exit();
 				}
-				$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+				$this->user_profile = $this->get_user_profile( $_COOKIE['ATVSessionCookie'] );
 				// Prevent internal 404 on custome search page because of template_redirect hook.
 				status_header( 200 );
 				$wp_query->is_404  = false;
