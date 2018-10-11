@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
         var name_on_card = jQuery('input#card-name').val();
         var billing_first_name = jQuery('input#billing-first-name').val();
         var billing_last_name = jQuery('input#billing-last-name').val();
-        var plan = jQuery('input#sub-plan').val();
+        var plan = jQuery('select#sub-plan').val();
         var promo_code = jQuery('input#promo-code').val();
 
         stripe.createToken(cardNumber, {
