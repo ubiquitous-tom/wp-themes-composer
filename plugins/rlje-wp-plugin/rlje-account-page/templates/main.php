@@ -8,7 +8,7 @@ get_header();
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'status' ? 'active' : '' ) ); ?> ">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/status' ) ) ); ?>">Account Status</a>
 				</li>
-				<?php if ( $this->user_profile['Membership']['WebPaymentEdit'] ) { ?>
+				<?php if ( $this->user_profile->Membership->WebPaymentEdit ) { ?>
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'editEmail' ? 'active' : '' ) ); ?>">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/editEmail' ) ) ); ?>">Change e-mail</a>
 				</li>
@@ -16,7 +16,7 @@ get_header();
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'editPassword' ? 'active' : '' ) ); ?>">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/editPassword' ) ) ); ?>">Change Password</a>
 				</li>
-				<?php if ( $this->user_profile['Membership']['WebPaymentEdit'] ) { ?>
+				<?php if ( $this->user_profile->Membership->WebPaymentEdit ) { ?>
 				<li class="<?php echo sanitize_html_class( ( $this->account_action == 'editBilling' ? 'active' : '' ) ); ?>">
 					<a href="<?php echo esc_url( trailingslashit( home_url( 'account/editBilling' ) ) ); ?>">Update Billing Info</a>
 				</li>

@@ -39,7 +39,8 @@ class RLJE_Signin_Page {
 	private function cacheUserProfile( $user_profile ) {
 		$session_id = $user_profile['Session']['SessionID'];
 		// Ask Transient to cache user profile
-		set_transient( 'atv_userProfile_' . md5( $session_id ), $user_profile, $this->api_time_refresh_cache );
+		//set_transient( 'atv_userProfile_' . md5( $session_id ), $user_profile, $this->api_time_refresh_cache );
+		rljeApiWP_getUserProfile( $session_id );
 	}
 
 	// this function authenticates the user

@@ -77,9 +77,9 @@ class RLJE_Account_Page {
 
 	// Figures out the memebership term
 	public function get_user_term() {
-		if ( $this->user_profile['Membership']['Term'] == 30 && strtolower( $this->user_profile['Membership']['TermType'] ) == 'day' ) {
+		if ( $this->user_profile->Membership->Term == 30 && strtolower( $this->user_profile->Membership->TermType ) == 'day' ) {
 			return 'monthly';
-		} elseif ( $this->user_profile['Membership']['Term'] == 12 && strtolower( $this->user_profile['Membership']['TermType'] ) == 'month' ) {
+		} elseif ( $this->user_profile->Membership->Term == 12 && strtolower( $this->user_profile->Membership->TermType ) == 'month' ) {
 			return 'yearly';
 		} else {
 			return 'unknown';
@@ -89,8 +89,8 @@ class RLJE_Account_Page {
 	// If account is active. we'll get NextBillingDateAsLong
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_date() {
-		if ( isset( $this->user_profile['Membership']['NextBillingDateAsLong'] ) ) {
-			return $this->user_profile['Membership']['NextBillingDate'];
+		if ( isset( $this->user_profile->Membership->NextBillingDateAsLong ) ) {
+			return $this->user_profile->Membership->NextBillingDate;
 		} else {
 			return 'N/A';
 		}
@@ -99,28 +99,28 @@ class RLJE_Account_Page {
 	// If account is active. we'll get NextBillingAmount
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_amount() {
-		if ( isset( $this->user_profile['Membership']['NextBillingAmount'] ) ) {
-			return '$' . $this->user_profile['Membership']['NextBillingAmount'];
+		if ( isset( $this->user_profile->MembershipNextBillingAmount ) ) {
+			return '$' . $this->user_profile->MembershipNextBillingAmount;
 		} else {
 			return 'N/A';
 		}
 	}
 
 	public function get_user_name() {
-		return $this->user_profile['Customer']['FirstName'] . ' ' . $this->user_profile['Customer']['LastName'];
+		return $this->user_profile->Customer->FirstName . ' ' . $this->user_profile->Customer->LastName;
 	}
 
 	public function get_user_email() {
-		return $this->user_profile['Customer']['Email'];
+		return $this->user_profile->Customer->Email;
 	}
 
 	public function get_user_join_date() {
-		return $this->user_profile['Customer']['OriginalMembershipJoinDate'];
+		return $this->user_profile->Customer->OriginalMembershipJoinDate;
 	}
 
 	public function account_cancelable() {
-		if ( isset( $this->user_profile['Membership']['Cancelable'] ) ) {
-			return $this->user_profile['Membership']['Cancelable'];
+		if ( isset( $this->user_profile->Membership->Cancelable ) ) {
+			return $this->user_profile->Membership->Cancelable;
 		} else {
 			return false;
 		}
@@ -142,6 +142,7 @@ class RLJE_Account_Page {
 		];
 		$response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
 		if( isset( $response['Email'] ) ) {
+			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			wp_send_json( [
 				'success' => true,
 			] );
@@ -169,7 +170,7 @@ class RLJE_Account_Page {
 		// Mark the session as inactive in WP object cache
 		wp_cache_set( 'userStatus_' . md5( $session_id ), 'inactive', 'userStatus' );
 		// Ask transient to delete userprofile for that session
-		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
+		$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 	}
 
 	function cancel_membership() {
@@ -181,6 +182,7 @@ class RLJE_Account_Page {
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
 		if ( isset( $api_response['Membership'] ) ) {
+			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			$ajax_response = [ 'success' => true ];
 		} else {
 			$ajax_response = [ 'success' => false ];
@@ -244,12 +246,17 @@ class RLJE_Account_Page {
 		if ( isset( $api_response['error'] ) ) {
 			$response['error'] = $api_response['error'];
 		} elseif ( isset( $api_response['Membership'] ) ) {
+			$this->remove_cached_profile( $session_id );
 			$response = [
 				'success' => true,
 			];
 		}
 
 		wp_send_json( $response );
+	}
+
+	private function remove_cached_profile ( $session_id ) {
+		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
 	}
 
 	public function show_subsection() {
@@ -307,7 +314,7 @@ class RLJE_Account_Page {
 					$this->user_profile = $this->get_user_profile( $_COOKIE['ATVSessionCookie'] );
 
 					// Build the stunning iFrame URL so it can be used on the template
-					$stripe_id = $this->user_profile['Customer']['StripeCustomerID'];
+					$stripe_id = $this->user_profile->Customer->StripeCustomerID;
 					if( isset (get_option( 'rlje_stunning_settings' )['stunning_id'] ) ) {
 						$stunning_token = get_option( 'rlje_stunning_settings' )['stunning_id'];
 					} else {
