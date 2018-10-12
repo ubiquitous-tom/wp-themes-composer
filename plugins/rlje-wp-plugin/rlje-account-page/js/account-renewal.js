@@ -40,15 +40,15 @@ jQuery(document).ready(function($) {
                     },
                     function (response) {
                         submit_button.prop('disabled', false).html(submit_button_content);
-                        var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in");
+                        var alert = jQuery(document.createElement('div')).addClass("row alert fade in");
                         if (response.success == false) {
-                            alert.html(response.error);
+                            alert.addClass('alert-danger').html(response.error);
                         } else {
-                            alert.html('Thanks for your purchase. You\'d get redirected to homepage soon.');
+                            document.cookie = "ATVSessionCookie=; expires=-1; path=/";
+                            alert.addClass('alert-success').html('Thanks for your purchase. You\'d get redirected and asked to signin again.');
                             var timer = setTimeout(function() {
-                                window.location.replace("/");
-                            }, 5000);
-                            window.location.replace("/account/renew");
+                                window.location.replace("/signin");
+                            }, 10000);
                         }
                         alert.insertAfter(jQuery('#account-renewal header'));
                     }
