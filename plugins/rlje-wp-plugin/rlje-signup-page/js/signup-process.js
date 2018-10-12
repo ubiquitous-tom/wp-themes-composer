@@ -1,4 +1,5 @@
 var sessionId;
+var promo;
 var stripe;
 var card;
 
@@ -35,7 +36,9 @@ function initializeStripeElements(stripeKey) {
 }
 
 function showStepTwo() {
-    var signup_form = jQuery('form.signup')
+    // Update the url hash to indicate step2
+    history.replaceState(undefined, undefined, "#createaccount");
+    var signup_form = jQuery('form.signup');
     // Remove log in and Start signup buttons for some reason
     jQuery('.navbar-header.navbar-right').hide();
     // Render second step.
@@ -50,6 +53,13 @@ function showStepTwo() {
     // Update the form fields
     signup_form.empty();
 
+    if( typeof promo !== 'undefined' && Object.keys(promo).length) {
+        var profile_header = jQuery(document.createElement('div'))
+            .addClass('alert alert-success')
+            .html('<i class="fa fa-check-circle-o fa-lg"></i>Promo ' + promo.PromotionCode + ' applied.' );
+        signup_form.append(profile_header);
+    }
+    
     var profile_header = jQuery(document.createElement('h4')).addClass('form-head').html('Your profile');
 
     var first_name_label = jQuery(document.createElement('label')).attr('for', 'user-first-name').html('First Name *');
@@ -89,21 +99,18 @@ function showStepTwo() {
         );
 
     var plan_header = jQuery(document.createElement('h4')).addClass('form-head').html('Plan &amp; Payment');
-    var plan_desc = jQuery(document.createElement('p')).html('Please select a plan for when your 7 day FREE TRIAL comes to an end. You can cancel anytime before your trial ends and you will not be charged.');
-
-    var plans = renderPlans();
-
     var plan_payment_section = jQuery(document.createElement('div')).addClass('signup-form-group')
-            .append(plan_header, plan_desc, plans);
+    .append(plan_header);
 
-    // Promo code field
-    var promo_code_label = jQuery(document.createElement('label')).attr('for', 'promo-code').html('Promo Code');
-    var promo_code_input = jQuery(document.createElement('input')).addClass('form-control').attr({
-        id: 'promo-code',
-        name: 'promo_code',
-        type: 'text'
-    }).prop('required', false);
-    var promo_group = jQuery(document.createElement('div')).addClass('form-group').append(promo_code_label, promo_code_input);
+    if( typeof promo !== 'undefined' && Object.keys(promo).length && promo.MembershipTerm == 12 && promo.MembershipTermType == 'MONTH') {
+        var profile_header = jQuery(document.createElement('div')).addClass('alert alert-info').html('Yearly plan selected based on promo code.' );
+        plan_payment_section.append(profile_header);
+    } else {
+        var plan_desc = jQuery(document.createElement('p')).html('Please select a plan for when your 7 day FREE TRIAL comes to an end. You can cancel anytime before your trial ends and you will not be charged.');
+
+        var plans = renderPlans();
+        plan_payment_section.append(plan_desc, plans);
+    }
 
     // Name on card field
     var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
@@ -149,7 +156,7 @@ function showStepTwo() {
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('submit-step btn btn-primary btn-lg center-block').html('Signup');
 
-    plan_payment_section.append(promo_group, card_name_group, card_number_element, some_row);
+    plan_payment_section.append(card_name_group, card_number_element, some_row);
     signup_form.append(plan_payment_section, step_two_submit);
 
     // Initialize Stripe so it can mount it's iframes
@@ -170,12 +177,11 @@ function submitStepTwo(event) {
     // Remove any errors we have
     jQuery('.alert').remove();
 
-    var promo_code = jQuery('input#promo-code').val();
     var name_on_card = jQuery('input#card-name').val();
     var billing_first_name = jQuery('input#user-first-name').val();
     var billing_last_name = jQuery('input#user-last-name').val();
     var plan = 'monthly';
-    if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked')) {
+    if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked') || (typeof promo !== 'undefined' && Object.keys(promo).length && promo.MembershipTerm == 12 && promo.MembershipTermType == 'MONTH')) {
         plan = 'yearly';
     }
 
@@ -183,12 +189,16 @@ function submitStepTwo(event) {
         name: name_on_card
     }).then(function (result) {
         if (result.error) {
-            console.log(result.error.message);
             submit_button.prop('disabled', false).html(submit_button_content);
             var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(result.error.message);
             alert.insertAfter(jQuery('#progress-steps'));
         } else {
             var stripe_token = result.token;
+            if(typeof promo !== 'undefined' && Object.keys(promo).length) {
+                promo_code = promo.PromotionCode;
+            } else {
+                promo_code = null;
+            }
 
             jQuery.post(
                 signup_vars.ajax_url,
@@ -200,7 +210,7 @@ function submitStepTwo(event) {
                     'billing_last_name': billing_last_name,
                     'name_on_card': name_on_card,
                     'stripe_token': stripe_token.id,
-                    'subscriton_plan': plan
+                    'subscription_plan': plan
                 },
                 function (response) {
                     if (response.success == false) {
@@ -218,6 +228,8 @@ function submitStepTwo(event) {
 }
 
 function showStepThree() {
+    // Update the url hash to indicate step3
+    history.replaceState(undefined, undefined, "#finish");
     // Render last step.
     // Mark last step as active
     jQuery('#progress-steps .step').removeClass('active');
@@ -349,11 +361,11 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         $('.alert').remove();
         var valid = true;
-        var signup_form = $(this);
         var email = $(this).find('input#signup-email').val();
         var email_confirm = $(this).find('input#signup-email-confirm').val();
         var password = $(this).find('input#signup-password').val();
-        var password_confirm = $(this).find('input#signup-password-confirm').val()
+        var password_confirm = $(this).find('input#signup-password-confirm').val();
+        var promo_code = $(this).find('input#promo-code').val();
         if (email !== email_confirm) {
             valid = false;
             var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in").append('<p>Email addresses don\'t match</p>');
@@ -376,18 +388,17 @@ jQuery(document).ready(function ($) {
                     'action': 'initialize_account',
                     'email_address': email,
                     'password': password,
+                    "promo_code" : promo_code
                 },
                 function (response) {
                     if (response.success == false) {
-                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in")
-                        .append(
-                            $(document.createElement('p')).html(response.error)
-                        );
+                        var alert = $(document.createElement('div')).addClass("row alert alert-danger fade in").html(response.error);
                         alert.insertAfter($('#progress-steps'));
                         submit_button.prop('disabled', false).html(submit_button_content);
                     } else {
                         // Update the form to show step two fields
                         sessionId = response.session_id;
+                        promo = response.promo;
                         showStepTwo();
                     }
                 }

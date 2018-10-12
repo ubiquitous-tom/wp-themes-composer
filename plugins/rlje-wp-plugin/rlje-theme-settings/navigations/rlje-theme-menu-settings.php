@@ -16,7 +16,7 @@ class RLJE_Theme_Menu_Settings {
 	];
 
 	public function __construct() {
-		$this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) );
+		$this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'init', array( $this, 'get_user_information' ) );

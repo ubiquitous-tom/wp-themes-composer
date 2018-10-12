@@ -36,7 +36,7 @@ class RLJE_Index_Page {
 	}
 
 	public function enqueue_scripts() {
-		if ( is_home() || is_front_page() ) {
+		if ( is_home() || is_front_page() || 'browse' == get_query_var( 'pagename' ) ) {
 			// $orderby_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/orderby.js' ) );
 			$pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/carousel-pagination.js' ) );
 

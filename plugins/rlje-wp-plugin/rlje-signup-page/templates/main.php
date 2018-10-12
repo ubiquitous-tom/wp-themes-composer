@@ -1,7 +1,7 @@
 <?php
 get_header();
 ?>
-<section id="signup" class="page-body">
+<section id="signup" class="content page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<header class="row">
@@ -24,11 +24,11 @@ get_header();
 				<div class="signup-form-group">
 					<div class="form-group">
 						<label for="signup-email">E-Mail Address *</label>
-						<input id="signup-email" class="form-control" required name="signup_email" type="email">
+						<input id="signup-email" class="form-control" required name="signup_email" type="email" pattern="[a-zA-Z0-9.-_+]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
 					</div>
 					<div class="form-group">
 						<label for="signup-email-confirm">Confirm E-Mail Address *</label>
-						<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email">
+						<input id="signup-email-confirm" class="form-control" required name="signup_email_confirm" type="email" pattern="[a-zA-Z0-9.-_+]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" title="Please provide a valid email address">
 					</div>
 					<div class="form-group">
 						<label for="signup-password">Password *</label>
@@ -37,6 +37,10 @@ get_header();
 					<div class="form-group">
 						<label for="signup-password-confirm">Confirm Password *</label>
 						<input id="signup-password-confirm" class="form-control" required name="signup_password_confirm" type="password" minlength="6" placeholder="6 characters minimum">
+					</div>
+					<div class="form-group">
+						<label for="promo-code">Promo Code</label>
+						<input id="promo-code" class="form-control" name="promo_code" type="text" >
 					</div>
 					<div class="checkbox">
 						<label>

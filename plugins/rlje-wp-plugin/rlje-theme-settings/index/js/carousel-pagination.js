@@ -6,6 +6,7 @@
       itemNum = $relatedTarget.data('item'),
       content = $currentTarget.data('content'),
       totalPages = $currentTarget.data('total-pages'),
+      sectionDesc = $currentTarget.data('section-desc'), 
       loadPage = 0 === itemNum % 4 || 2 == itemNum,
       isLatestItem = itemNum + 1 === $currentTarget.find('.item').length,
       nextPage = $currentTarget.data('page-loaded') + 1,
@@ -38,8 +39,9 @@
                     value.franchiseID +
                     '_avatar?w=400&h=225',
                   href = carousel_pagination_object.home_url + '/' + value.franchiseID;
+                  title = value.name;
+                  alt = title + ' - ' + sectionDesc + ' Category Image';
 
-                // console.log('index carousel-pagination imageURL');
                 imageURL = $(document).triggerHandler(
                   'carousel_pagination.add_new_item_image_url',
                   [imageURL, value]
@@ -48,8 +50,9 @@
                   var $carouselItem = $carouselLastItem.find('img').eq(i + 1);
                   imageURL = $carouselItem.attr('src');
                   href = $carouselItem.parent().attr('href');
+                  title = $carouselItem.attr('title');
+                  alt = $carouselItem.attr('alt');
 
-                  // console.log('index carousel-pagination 3 > i');
                   imageURL = $(document).triggerHandler(
                     'carousel_pagination.add_new_item_image_url',
                     [imageURL, value]
@@ -59,7 +62,9 @@
                   .children()
                   .eq(i)
                   .find('img')
-                  .attr('src', imageURL);
+                  .attr('src', imageURL)
+                  .attr('title', title)
+                  .attr('alt', alt);
                 $clonedBlock
                   .children()
                   .eq(i)
@@ -78,13 +83,15 @@
                     .find('a')
                     .attr('href')
                     .replace(carousel_pagination_object.home_url + '/', ''),
+                  name: $carouselListItems
+                    .eq(i)
+                    .find('img')
+                    .attr('title'),
                   image_h: $carouselListItems
                     .eq(i)
                     .find('img')
                     .attr('src')
                     .replace(carousel_pagination_object.image_url, '')
-                  // image_v: 'image_loc',
-                  // name: 'Franchise Name'
                 });
               }
               return newItems;
@@ -103,6 +110,8 @@
                   imageURL =
                     carousel_pagination_object.image_url + '{{ID}}_avatar?w=400&h=225',
                   href = carousel_pagination_object.home_url + '/{{ID}}',
+                  title = items[j - x].name;
+                  newAlt = title + ' - ' + sectionDesc + ' Category Image';
                   ID = items[j - x].franchiseID;
 
                 imageURL = $(document).triggerHandler(
@@ -113,7 +122,9 @@
                   .find('a')
                   .attr('href', href.replace('{{ID}}', ID))
                   .find('img')
-                  .attr('src', imageURL.replace('{{ID}}', ID));
+                  .attr('src', imageURL.replace('{{ID}}', ID))
+                  .attr('title', title)
+                  .attr('alt', newAlt);
               }
             }
             items.splice(0, itemsLength);

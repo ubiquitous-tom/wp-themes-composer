@@ -10,7 +10,7 @@ while ( have_posts() ) :
 	the_post();
 	?>
 
-<section class="page-main">
+<section class="content">
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="page-hero">
 			<div class="container">

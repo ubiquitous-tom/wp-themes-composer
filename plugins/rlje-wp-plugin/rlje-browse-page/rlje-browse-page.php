@@ -35,19 +35,7 @@ class RLJE_Browse_Page {
 		}
 
 		$orderby_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/orderby.js' ) );
-		$pagination_js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/orderby.js' ) );
-
 		wp_enqueue_script( 'browse-orderby-js', plugins_url( 'js/orderby.js', __FILE__ ), array( 'jquery' ), $orderby_js_ver, true );
-		// Special js hook to update carousel pagination image url to use the right one for umc.
-		wp_enqueue_script( 'rlje-carousel-pagination-js', plugins_url( '/js/carousel-pagination.js', __FILE__ ), array( 'jquery' ), $pagination_js_ver, true );
-
-		$browse_object = array(
-			'ajax_url'   => admin_url( 'admin-ajax.php' ),
-			'home_url'  => home_url(),
-			'image_url' => rljeApiWP_getImageUrlFromServices(''),
-			'token'     => wp_create_nonce( $this->nonce ),
-		);
-		wp_localize_script( 'rlje-carousel-pagination-js', 'carousel_pagination_object', $browse_object );
 	}
 
 	public function ajax_carousel_pagination() {
@@ -63,22 +51,64 @@ class RLJE_Browse_Page {
 	}
 
 	public function browse_template_redirect() {
-		$pagename = get_query_var( 'pagename' );
-		if ( 'browse' === $pagename ) {
-			global $wp_query;
+		if ( 'browse' === get_query_var( 'pagename' ) ) {
+			$active_section = get_query_var( 'section' );
+			$is_user_active = false;
+			$atv_session_cookie = null;
+			$is_order_by_enabled = true;
+			if ( ! empty( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+				$is_user_active = true;
+				$atv_session_cookie         = $_COOKIE['ATVSessionCookie'];
+			}
 
-			// Prevent internal 404 on custome search page because of template_redirect hook.
-			$wp_query->is_404     = false;
-			$wp_query->is_page    = true;
-			// $wp_query->is_archive = true;
-			status_header( 200 );
+			$list_sections = [
+				'all' => 'All',
+				// 'comingsoon' => 'Coming Soon',
+			];
+			if ( $is_user_active ) {
+				$list_sections = array_merge(
+					array(
+						'recentlywatched' => 'Recently Watched',
+						'yourwatchlist'   => 'My Watchlist',
+					),
+					$list_sections
+				);
+			}
+			$guide_items = array();
 
-			ob_start();
-			require_once plugin_dir_path( __FILE__ ) . 'templates/browse.php';
-			$html = ob_get_clean();
-			echo $html;
-			// $browse_type = get_query_var( 'browse_type' );
-			exit();
+			$guide_obj = rljeApiWP_getBrowseItems( 'guide' );
+			if ( ! empty( $guide_obj->options ) && is_array( $guide_obj->options ) ) {
+				$guide_items = $guide_obj->options;
+				foreach ( $guide_obj->options as $guide ) {
+					$browse_id                   = apply_filters( 'atv_get_browse_section_id', $guide->id );
+					$list_sections[ $browse_id ] = $guide->name;
+				}
+			}
+			if ( empty( $active_section ) ) {
+				$is_order_by_enabled = false;
+			}
+
+			if( isset( $list_sections[ $active_section ] ) || empty( $active_section ) ) {
+				if( in_array( $active_section, [ 'recentlywatched', 'yourwatchlist' ] ) ) {
+					if ( !$is_user_active ) {
+						wp_redirect( home_url( 'browse' ), 303 );
+						exit();
+					}
+					$is_order_by_enabled = false;
+				}
+
+				global $wp_query;
+				// Prevent internal 404 on custome search page because of template_redirect hook.
+				$wp_query->is_404     = false;
+				$wp_query->is_page    = true;
+				status_header( 200 );
+
+				ob_start();
+				require_once plugin_dir_path( __FILE__ ) . 'templates/browse.php';
+				$html = ob_get_clean();
+				echo $html;
+				exit();
+			}
 		}
 	}
 

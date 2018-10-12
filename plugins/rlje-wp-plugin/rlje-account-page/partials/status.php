@@ -6,7 +6,7 @@
 	</li>
 	<li class="row status-field">
 		<div class="col-xs-6 col-sm-5 text-right">Membership Status</div>
-		<div class="col-xs-6 col-sm-5"><strong><?php echo ucfirst( strtolower( $this->user_profile['Membership']['Status'] ) ); ?></strong></div>
+		<div class="col-xs-6 col-sm-5"><strong><?php echo ucfirst( strtolower( $this->user_profile->Membership->Status ) ); ?></strong></div>
 	</li>
 	<li class="row status-field">
 		<div class="col-xs-6 col-sm-5 text-right">Membership Term</div>
@@ -35,11 +35,11 @@
 	<?php
 	// When WebPaymentEdit come in false, We should show a field reminding user their peyment is being
 	// managed by a other company.
-	if ( $this->user_profile['Membership']['WebPaymentEdit'] === false ) {
+	if ( $this->user_profile->Membership->WebPaymentEdit === false ) {
 		?>
 		<li class="row status-field">
-			<div class="col-sm-4 text-right">Payment Method</div>
-			<div class="col-sm-8"><strong>You purchased your membership through <?php echo $this->user_profile['Membership']['Device']; ?>. Please log in to <?php $this->user_profile['Membership']['Device']; ?> to manage your billing details or cancel your account.</strong></div>
+			<div class="col-xs-6 col-sm-5 text-right">Payment Method</div>
+			<div class="col-xs-6 col-sm-5"><strong>You purchased your membership through <?php echo $this->user_profile->Membership->Device; ?>. Please log in to <?php echo $this->user_profile->Membership->Device; ?> to manage your billing details or cancel your account.</strong></div>
 		</li>
 	<?php } ?>
 

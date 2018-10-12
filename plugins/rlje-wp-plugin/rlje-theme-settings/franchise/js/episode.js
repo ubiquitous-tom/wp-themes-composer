@@ -14,12 +14,13 @@ var episodePlayer = function(episodeId, setTimePosition) {
     fromStart = isPlayingSet('playFromStart'),
     resume = isPlayingSet('playResume'),
     initTime = setTimePosition,
-    // strempositionInterval,
+    strempositionInterval,
+    streamPositionTimer = 30000, // Send stream position every 30 seconds.
     $continueWatchingBlock = jQuery('.continueWatching'),
     $playNextEpisodeBlock = jQuery('.playNextEpisode'),
     showingExtBtn = true,
     showingNextEpisodePrompt = false,
-    // isCapturingStreamPosition = false,
+    isCapturingStreamPosition = false,
     $overlay = jQuery('#nextEpisodeOverlay'),
     $overlayCloned = $overlay.clone();
 
@@ -32,20 +33,19 @@ var episodePlayer = function(episodeId, setTimePosition) {
     showingExtBtn = false;
   }
 
-  player.on('loadedmetadata', function() {
-    //Set the current time once the initial duration is loaded.
-    if (setTimePosition) {
-      player.currentTime(setTimePosition);
-    }
-    if (fromStart) {
-      player.currentTime(initTime);
-      setStreamPosition('STOP');
-    }
-  });
-
   player
+    .on('loadedmetadata', function() {
+      //Set the current time once the initial duration is loaded.
+      if (setTimePosition) {
+        player.currentTime(setTimePosition);
+      }
+      if (fromStart) {
+        player.currentTime(initTime);
+        setStreamPosition('STOP');
+      }
+    })
     .on('play', function(event) {
-      console.log('play', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      // console.log('play', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       if (isPlayingSet('playFromStart')) {
         return;
       }
@@ -85,24 +85,25 @@ var episodePlayer = function(episodeId, setTimePosition) {
       });
     })
     .on('playing', function(event) {
-      console.log('playing', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      // console.log('playing', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       isPlayingSet('playFromStart');
-      // if (!isCapturingStreamPosition) {
-        // isCapturingStreamPosition = true;
-        // strempositionInterval = setInterval(function() {
+      if (!isCapturingStreamPosition) {
+        isCapturingStreamPosition = true;
+        strempositionInterval = setInterval(function() {
           if (parseInt(event.target.player.currentTime(), 10) === 0) {
             setStreamPosition('START');
           } else {
+            // console.log('streamPositionTimer',event.target.player.currentTime());
             setStreamPosition('PLAYING');
           }
-        // }, 60000);
-      // }
+        }, streamPositionTimer);
+      }
       $continueWatchingBlock.hide();
     })
     .on('pause', function(event) {
-      console.log('pause', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      // clearInterval(strempositionInterval);
-      // isCapturingStreamPosition = false;
+      // console.log('pause', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      clearInterval(strempositionInterval);
+      isCapturingStreamPosition = false;
       setStreamPosition('PAUSE');
       if (showingExtBtn) {
         $continueWatchingBlock.show();
@@ -112,7 +113,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
       }
     })
     .on('ended', function(event) {
-      console.log('ended', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+      // console.log('ended', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       setStreamPosition('STOP');
       $continueWatchingBlock.hide();
       $playNextEpisodeBlock.show();
@@ -142,8 +143,10 @@ var episodePlayer = function(episodeId, setTimePosition) {
     //   console.log('event', seeking);
     // })
     .on('seeked', function(event) {
-      console.log('seeked', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      setStreamPosition('PLAYING');
+      // console.log('seeked', event, event.target.player.currentTime(), event.target.player, parseInt(event.target.player.currentTime(), 10));
+      if (event.target.player.hasStarted()) {
+        setStreamPosition('PLAYING');
+      }
     });
 
   var setStreamPosition = function(lastKnownAction) {

@@ -2,7 +2,7 @@
 // TODO: replace the hardcoded support email address with one coming from wp_settings
 get_header();
 ?>
-<section id="forgotpassword" class="page-body">
+<section id="forgotpassword" class="content page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2">
 			<header class="row">
@@ -13,7 +13,7 @@ get_header();
 				?>
 				<div class="alert alert-success">
 					<p>We have sent you an email with a link you can use to create a new password. If you do not see the email please check your promotions and spam folders.</p>
-					<p>If the email is not in any of these locations, please <a href="<?php echo home_url( 'contactus' ); ?>">Contact Us</a>.</p>
+					<p>If the email is not in any of these locations, please <a href="<?php echo home_url( 'contact-us' ); ?>">Contact Us</a>.</p>
 				</div>
 				<?php
 			} else {

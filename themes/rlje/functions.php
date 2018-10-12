@@ -115,7 +115,7 @@ function acorntv_hook_css_js() {
 	// Register stipe js
 	wp_register_script( 'stripe-js', 'https://js.stripe.com/v3/' );
 
-	if ( is_page( 'contact-us' ) ) {
+	if ( is_page_template( 'page-templates/contact-us.php' ) ) {
 		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
 		wp_localize_script(
 			'contact-us-script', 'contact_vars', [
@@ -696,13 +696,16 @@ function rlje_carousel_slide_image( $image_link, $type, $image ) {
 add_filter( 'rlje_carousel_slide_image', 'rlje_carousel_slide_image', 10, 3 );
 
 function process_contact_us() {
-	$api_helper = new RLJE_api_helper();
 	$name       = strval( $_POST['name'] );
 	$email      = strval( $_POST['email'] );
 	$subject    = strval( $_POST['subject'] );
 	$desc       = strval( $_POST['desc'] );
+	$headers = [
+		"From: $name <$email>",
+		'Content-Type: text/html; charset=UTF-8',
+	];
 
-	$sent = wp_mail( 'support@umc.tv', $subject, $desc );
+	$sent = wp_mail( 'support@umc.tv', $subject, $desc, $headers );
 
 	if ( $sent ) {
 		$response = [

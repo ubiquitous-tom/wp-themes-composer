@@ -4,10 +4,22 @@ class RLJE_Account_Page {
 	private $api_helper;
 	private $account_action = 'status';
 	private $user_profile;
+	private $membership_plans;
 
 	public function __construct() {
-		$this->api_helper = new RLJE_api_helper();
+		$this->api_helper       = new RLJE_api_helper();
+		$this->membership_plans = [
+			'yearly'  => [
+				'Term'     => 12,
+				'TermType' => 'MONTH',
+			],
+			'monthly' => [
+				'Term'     => 30,
+				'TermType' => 'DAY',
+			],
+		];
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
+		add_action( 'wp', [ $this, 'fetch_stripe_key' ] );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -21,14 +33,33 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_cancel_sub', [ $this, 'cancel_membership' ] );
 		add_action( 'wp_ajax_nopriv_cancel_sub', [ $this, 'cancel_membership' ] );
 
-		add_action( 'wp_ajax_apply_promo_code', array( $this, 'applyCode' ) );
-		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'applyCode' ] );
+		add_action( 'wp_ajax_apply_promo_code', array( $this, 'apply_code' ) );
+		add_action( 'wp_ajax_nopriv_apply_promo_code', [ $this, 'apply_code' ] );
+
+		add_action( 'wp_ajax_update_subscription', [ $this, 'update_subscription' ] );
+		add_action( 'wp_ajax_nopriv_update_subscription', [ $this, 'update_subscription' ] );
 
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
 
+	public function fetch_stripe_key() {
+		if ( 'account' === get_query_var( 'pagename' ) && 'renew' === get_query_var( 'action' ) ) {
+			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+		}
+	}
+
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'account' ] ) ) {
+			if ( 'renew' == get_query_var( 'action' ) ) {
+				wp_enqueue_style( 'account-renewal-style', plugins_url( 'css/renewal.css', __FILE__ ), [ 'account-main-style' ] );
+				wp_enqueue_script( 'account-renewal-script', plugins_url( 'js/account-renewal.js', __FILE__ ), [ 'jquery-core', 'stripe-js' ] );
+				wp_localize_script(
+					'account-renewal-script', 'local_vars', [
+						'ajax_url'   => admin_url( 'admin-ajax.php' ),
+						'stripe_key' => $this->stripe_key,
+					]
+				);
+			}
 			wp_enqueue_style( 'account-main-style', plugins_url( 'css/style.css', __FILE__ ) );
 			wp_enqueue_script( 'account-main-script', plugins_url( 'js/account-management.js', __FILE__ ) );
 			wp_localize_script(
@@ -46,9 +77,9 @@ class RLJE_Account_Page {
 
 	// Figures out the memebership term
 	public function get_user_term() {
-		if ( $this->user_profile['Membership']['Term'] == 30 && strtolower( $this->user_profile['Membership']['TermType'] ) == 'day' ) {
+		if ( $this->user_profile->Membership->Term == 30 && strtolower( $this->user_profile->Membership->TermType ) == 'day' ) {
 			return 'monthly';
-		} elseif ( $this->user_profile['Membership']['Term'] == 12 && strtolower( $this->user_profile['Membership']['TermType'] ) == 'month' ) {
+		} elseif ( $this->user_profile->Membership->Term == 12 && strtolower( $this->user_profile->Membership->TermType ) == 'month' ) {
 			return 'yearly';
 		} else {
 			return 'unknown';
@@ -58,8 +89,8 @@ class RLJE_Account_Page {
 	// If account is active. we'll get NextBillingDateAsLong
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_date() {
-		if ( isset( $this->user_profile['Membership']['NextBillingDateAsLong'] ) ) {
-			return $this->user_profile['Membership']['NextBillingDate'];
+		if ( isset( $this->user_profile->Membership->NextBillingDateAsLong ) ) {
+			return $this->user_profile->Membership->NextBillingDate;
 		} else {
 			return 'N/A';
 		}
@@ -68,28 +99,28 @@ class RLJE_Account_Page {
 	// If account is active. we'll get NextBillingAmount
 	// If account was cancelled, we don't get that.
 	public function get_next_billing_amount() {
-		if ( isset( $this->user_profile['Membership']['NextBillingAmount'] ) ) {
-			return '$' . $this->user_profile['Membership']['NextBillingAmount'];
+		if ( isset( $this->user_profile->MembershipNextBillingAmount ) ) {
+			return '$' . $this->user_profile->MembershipNextBillingAmount;
 		} else {
 			return 'N/A';
 		}
 	}
 
 	public function get_user_name() {
-		return $this->user_profile['Customer']['FirstName'] . ' ' . $this->user_profile['Customer']['LastName'];
+		return $this->user_profile->Customer->FirstName . ' ' . $this->user_profile->Customer->LastName;
 	}
 
 	public function get_user_email() {
-		return $this->user_profile['Customer']['Email'];
+		return $this->user_profile->Customer->Email;
 	}
 
 	public function get_user_join_date() {
-		return $this->user_profile['Customer']['OriginalMembershipJoinDate'];
+		return $this->user_profile->Customer->OriginalMembershipJoinDate;
 	}
 
-	public function account_canceblable() {
-		if ( isset( $this->user_profile['Membership']['Cancelable'] ) ) {
-			return $this->user_profile['Membership']['Cancelable'];
+	public function account_cancelable() {
+		if ( isset( $this->user_profile->Membership->Cancelable ) ) {
+			return $this->user_profile->Membership->Cancelable;
 		} else {
 			return false;
 		}
@@ -100,14 +131,8 @@ class RLJE_Account_Page {
 		add_rewrite_tag( '%action%', '([^&]+)' );
 	}
 
-	function getUserProfile( $session_id, $email_address ) {
-		if ( ! empty( $session_id ) ) {
-			$response = $this->api_helper->hit_api( [ 'SessionID' => $session_id ], 'profile' );
-		} elseif ( ! empty( $email_address ) ) {
-			$response = $this->api_helper->hit_api( [ 'Email' => $session_id ], 'profile' );
-
-		}
-		return $response;
+	function get_user_profile( $session_id ) {
+		return rljeApiWP_getUserProfile( $session_id );
 	}
 
 	function update_email() {
@@ -117,6 +142,7 @@ class RLJE_Account_Page {
 		];
 		$response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
 		if( isset( $response['Email'] ) ) {
+			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			wp_send_json( [
 				'success' => true,
 			] );
@@ -144,7 +170,7 @@ class RLJE_Account_Page {
 		// Mark the session as inactive in WP object cache
 		wp_cache_set( 'userStatus_' . md5( $session_id ), 'inactive', 'userStatus' );
 		// Ask transient to delete userprofile for that session
-		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
+		$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 	}
 
 	function cancel_membership() {
@@ -156,6 +182,7 @@ class RLJE_Account_Page {
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
 		if ( isset( $api_response['Membership'] ) ) {
+			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			$ajax_response = [ 'success' => true ];
 		} else {
 			$ajax_response = [ 'success' => false ];
@@ -163,9 +190,9 @@ class RLJE_Account_Page {
 		wp_send_json( $ajax_response );
 	}
 
-	function applyCode() {
+	function apply_code() {
 		// Go hit api and apply code
-		$session_id   = strval( $_POST['session_id'] );
+		$session_id   = $_COOKIE['ATVSessionCookie'];
 		$promo_code   = strval( $_POST['promo_code'] );
 		$params       = [
 			'Session'   => [
@@ -177,6 +204,59 @@ class RLJE_Account_Page {
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'promo', 'POST' );
 		wp_send_json( $api_response );
+	}
+
+	function update_subscription() {
+		$session_id         = $_COOKIE['ATVSessionCookie'];
+		$promo_code         = strval( $_POST['promo_code'] );
+		$billing_first_name = strval( $_POST['billing_first_name'] );
+		$billing_last_name  = strval( $_POST['billing_last_name'] );
+		$name_on_card       = strval( $_POST['name_on_card'] );
+		$stripe_token       = strval( $_POST['stripe_token'] );
+		$sub_plan           = strval( $_POST['subscription_plan'] );
+
+		$params = [
+			'Session'        => [
+				'SessionID' => $session_id,
+			],
+			'Membership'     => $this->membership_plans[ $sub_plan ],
+			'BillingAddress' => [
+				'FirstName' => $billing_first_name,
+				'LastName'  => $billing_last_name,
+			],
+			'PaymentMethod'  => [
+				'NameOnAccount' => $name_on_card,
+				'StripeToken'   => $stripe_token,
+			],
+		];
+
+		if ( $promo_code ) {
+			$params['PromoCode'] = [
+				'Code' => $promo_code,
+			];
+		}
+
+		$response = [
+			'success' => false,
+			'error'   => '',
+		];
+
+		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
+
+		if ( isset( $api_response['error'] ) ) {
+			$response['error'] = $api_response['error'];
+		} elseif ( isset( $api_response['Membership'] ) ) {
+			$this->remove_cached_profile( $session_id );
+			$response = [
+				'success' => true,
+			];
+		}
+
+		wp_send_json( $response );
+	}
+
+	private function remove_cached_profile ( $session_id ) {
+		delete_transient( 'atv_userProfile_' . md5( $session_id ) );
 	}
 
 	public function show_subsection() {
@@ -221,7 +301,7 @@ class RLJE_Account_Page {
 				$this->account_action = $action;
 			}
 			if ( in_array( $this->account_action, ( [ 'status', 'editEmail', 'editPassword', 'editBilling', 'cancelMembership', 'applyCode', 'logout' ] ) ) ) {
-				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || ! rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 					wp_redirect( home_url( 'signin' ), 303 );
 					exit();
 				}
@@ -231,7 +311,16 @@ class RLJE_Account_Page {
 					wp_redirect( home_url(), 303 );
 					exit();
 				} elseif ( 'editBilling' === $action ) {
-					$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+					$this->user_profile = $this->get_user_profile( $_COOKIE['ATVSessionCookie'] );
+
+					// Build the stunning iFrame URL so it can be used on the template
+					$stripe_id = $this->user_profile->Customer->StripeCustomerID;
+					if( isset (get_option( 'rlje_stunning_settings' )['stunning_id'] ) ) {
+						$stunning_token = get_option( 'rlje_stunning_settings' )['stunning_id'];
+					} else {
+						$stunning_token = '2047dxrbmvipxdnrcfbetfxoe';
+					}
+					$stunning_url = 'https://payments.stunning.co/payment_update/' . $stunning_token . '/' . $stripe_id;
 					// Prevent internal 404 on custome search page because of template_redirect hook.
 					status_header( 200 );
 					$wp_query->is_404  = false;
@@ -243,7 +332,7 @@ class RLJE_Account_Page {
 					echo $html;
 					exit();
 				}
-				$this->user_profile = $this->getUserProfile( $_COOKIE['ATVSessionCookie'], null );
+				$this->user_profile = $this->get_user_profile( $_COOKIE['ATVSessionCookie'] );
 				// Prevent internal 404 on custome search page because of template_redirect hook.
 				status_header( 200 );
 				$wp_query->is_404  = false;
@@ -251,6 +340,21 @@ class RLJE_Account_Page {
 				// $wp_query->is_archive = true;
 				ob_start();
 				require_once plugin_dir_path( __FILE__ ) . 'templates/main.php';
+				$html = ob_get_clean();
+				echo $html;
+				exit();
+			} elseif ( $this->account_action == 'renew' ) {
+				if ( ! isset( $_COOKIE['ATVSessionCookie'] ) || wp_cache_get( 'userStatus_' . md5( $_COOKIE['ATVSessionCookie'] ), 'userStatus' ) !== 'expired' ) {
+					wp_redirect( home_url( 'signin' ), 303 );
+					exit();
+				}
+				// Prevent internal 404 on custome search page because of template_redirect hook.
+				status_header( 200 );
+				$wp_query->is_404  = false;
+				$wp_query->is_page = true;
+				// $wp_query->is_archive = true;
+				ob_start();
+				require_once plugin_dir_path( __FILE__ ) . 'templates/membership-renewal.php';
 				$html = ob_get_clean();
 				echo $html;
 				exit();

@@ -1,7 +1,7 @@
 <?php
 get_header();
 ?>
-<section id="signin" class="page-body">
+<section id="signin" class="content page-body">
 	<div class="container">
 		<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 			<header class="row">
@@ -24,7 +24,7 @@ get_header();
 					</div>
 					<div class="form-group">
 						<label for="login-password">Password<small>case-sensitive</small></label>
-						<input id="login-password" class="form-control" name="user_password" type="password">
+						<input id="login-password" class="form-control" required name="user_password" type="password">
 					</div>
 					<button class="btn btn-primary btn-lg center-block">Sign In</button>
 					<p class="text-center forgot-password">
