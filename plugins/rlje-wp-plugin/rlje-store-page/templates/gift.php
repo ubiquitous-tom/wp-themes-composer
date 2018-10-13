@@ -2,7 +2,7 @@
 get_header();
 ?>
 
-<section class="page-body">
+<section class="content page-body">
 	<div class="container">
 		<header>
 			<h2>Give <?php bloginfo( 'name' ); ?></h2>
@@ -12,7 +12,7 @@ get_header();
 		</header>
 		<div class="gift-section row">
 			<div class="col-md-4">
-				<i class="fa fa-gift" aria-hidden="true"></i>
+				<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
 			</div>
 			<div class="col-md-4">
 				<h3><?php bloginfo( 'name' ); ?> Gift Membership</h3>
@@ -26,27 +26,19 @@ get_header();
 			<div class="col-md-4">
 				<strong>Total: $<span id="total"></span></strong>
 			</div>
-			<div class="col-md-4">
-				<button class="btn btn-primary btn-lg">Checkout</button>
+			<div class="col-md-8">
+				<button class="btn btn-primary btn-lg pull-right">Checkout</button>
 			</div>
 		</div>
 	</div>
 	<script type="text/x-tmpl" id="tmpl-demo">
 		<div class="container">
 			<div class="row">
-				<header class="col-md-8">
-					<h2>UMC Checkout</h2>
-					<h3>Billing information</h3>
-					<p>To make your purchase, please fill in the form below.</p>
-				</header>
-				<div class="order-summary col-md-4">
-					<h4>Order Summary</h4>
-					<p>UMC Gift Membership: {%=o.quantity%} X ${%=o.cost%}</p>
-					<p>Total: {%= o.quantity * o.cost %}</p>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-md-8">
+					<header>
+						<h2>UMC Checkout</h2>
+						<h4>To make your purchase, please fill in the form below.</h4>
+					</header>
 					<form id="purchase-gift" action="">
 						<h4>Billing information</h4>
 						<div class="row">
@@ -101,26 +93,52 @@ get_header();
 						<button class="submit btn btn-primary btn-lg">Review &amp; Place Order</button>
 					</form>
 				</div>
-				<div class="faqs col-md-4 well">
-					<h4>Frequently Asked Questions</h4>
-					<p>
-						<strong>How do I watch UMC</strong><br>
-						All you need is an Interned connection and a device to watch on.
-					</p>
-					<p>
-						<strong>When do you add new shows?</strong><br>
-						UMC adds new shows every week.
-					</p>
-					<p>
-						<strong>Are there closed captions or subtitles available on Acorn TV programs?</strong><br>
-						Yes! All of our programs include closed captions and/or SDH subtitles.
-					</p>
-					<p>For more FAQs, <a href="/faqs">CLICK HERE</a></p>
+				<div class="col-md-4">
+					<div class="order-summary">
+						<h4>Order Summary</h4>
+						<p>UMC Gift Membership: {%=o.quantity%} X ${%=o.cost%}</p>
+						<p>Total: {%= o.quantity * o.cost %}</p>
+					</div>
+					<div class="faqs well">
+						<h4>Frequently Asked Questions</h4>
+						<p>
+							<strong>How do I watch UMC</strong><br>
+							All you need is an Interned connection and a device to watch on.
+						</p>
+						<p>
+							<strong>When do you add new shows?</strong><br>
+							UMC adds new shows every week.
+						</p>
+						<p>
+							<strong>Are there closed captions or subtitles available on Acorn TV programs?</strong><br>
+							Yes! All of our programs include closed captions and/or SDH subtitles.
+						</p>
+						<p>For more FAQs, <a href="/faqs">CLICK HERE</a></p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</script>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmPurchaseModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Confirm Purchase</h4>
+		</div>
+		<div class="modal-body">
+			<h4>Are you sure with your purchase?</h4>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Nervermind!</button>
+			<button type="button" class="btn btn-primary" id="confirmPurchase">Confirm</button>
+		</div>
+		</div>
+	</div>
+</div>
 
 <?php
 get_footer();
