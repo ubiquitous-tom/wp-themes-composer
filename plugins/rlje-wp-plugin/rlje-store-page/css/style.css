@@ -16,13 +16,29 @@
 .gift-section {
     margin-top: 40px;
     margin-bottom: 40px;
-    padding: 15px;
+}
+
+.gift-item {
+    padding: 30px;
     border: 2px solid #eee;
+}
+
+.gift-section .title {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.gift-icon {
+    width: 100px;
 }
 
 #gift-quantity {
     width: 60px;
     height: 35px;
+}
+
+.checkout-total {
+    padding: 20px 0;
 }
 
 #card-number,

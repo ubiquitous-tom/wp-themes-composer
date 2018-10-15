@@ -10,26 +10,31 @@ get_header();
 			<p>Your gift purchase entitles the recipient to a one year <?php bloginfo( 'name' ); ?> membership. They'll enjoy hundreds of the best dramas, and comedies—all in one place, always available, and always commercial-free.</p>
 			<p>Your purchase also includes a printer-friendly gift certificate with redemption instructions - perfect for adding to a card or a stocking!</p>
 		</header>
-		<div class="gift-section row">
-			<div class="col-md-4">
-				<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
-			</div>
-			<div class="col-md-4">
-				<h3><?php bloginfo( 'name' ); ?> Gift Membership</h3>
-				<p>Give 12 months of unlimited access to the best in black films &amp; TV</p>
-			</div>
-			<div class="col-md-4">
-				<input id="gift-quantity" value="1" type="number" min="1" max="3" /> X $<span id="membership-cost"></span>
+		<div class="gift-section">
+			<form id="gift-items" action="">
+				<div class="gift-item row">
+					<div class="col-md-2">
+						<img class="gift-icon center-block" src="<?php echo get_template_directory_uri() . '/img/gift_icon.svg'; ?>" alt="Gift Icon">
+					</div>
+					<div class="col-md-6">
+						<h3 class="title"><?php bloginfo( 'name' ); ?> Gift Membership</h3>
+						<p class="description">Give 12 months of unlimited access to the best in black films &amp; TV</p>
+					</div>
+					<div class="col-md-2">
+						<input id="gift-quantity" value="1" type="number" min="1" max="3">
+					</div>
+					<div class="col-md-2">
+						$<span id="membership-cost"></span>
+					</div>
+				</div>
+			</form>
+			<div class="row">
+				<div class="checkout-total pull-right">
+					<strong>Total: $<span id="total"></span></strong>
+				</div>
 			</div>
 		</div>
-		<div class="checkout-total row">
-			<div class="col-md-4">
-				<strong>Total: $<span id="total"></span></strong>
-			</div>
-			<div class="col-md-8">
-				<button class="btn btn-primary btn-lg pull-right">Checkout</button>
-			</div>
-		</div>
+		<button form="gift-items" class="btn btn-primary btn-lg pull-right">Checkout</button>
 	</div>
 	<script type="text/x-tmpl" id="tmpl-demo">
 		<div class="container">

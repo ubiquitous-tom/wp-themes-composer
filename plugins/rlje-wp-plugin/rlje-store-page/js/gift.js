@@ -10,7 +10,8 @@ jQuery(document).ready(function ($) {
         $('.checkout-total span').html(membership_quantity * membership_cost);
     });
 
-    $('.checkout-total button').on('click', function() {
+    $('#gift-items').on('submit', function(event) {
+        event.preventDefault();
         var page_body = $('.page-body .container');
         page_body.remove();
         //console.log(tmpl("tmpl-demo"));
