@@ -36,16 +36,18 @@ get_header();
 		</div>
 		<button form="gift-items" class="btn btn-primary btn-lg pull-right">Checkout</button>
 	</div>
-	<script type="text/x-tmpl" id="tmpl-demo">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8">
-					<header>
-						<h2>UMC Checkout</h2>
-						<h4>To make your purchase, please fill in the form below.</h4>
-					</header>
-					<form id="purchase-gift" action="">
-						<h4>Billing information</h4>
+</section>
+<script type="text/x-tmpl" id="tmpl-demo">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<header>
+					<h2>UMC Checkout</h2>
+					<h4>To make your purchase, please fill in the form below.</h4>
+				</header>
+				<form id="purchase-gift" action="">
+					<div class="form-section">
+						<h4 class="form-head">Billing information</h4>
 						<div class="row">
 							<div class="form-group col-md-6">
 								<label for="billing-first-name">First Name *</label>
@@ -76,7 +78,9 @@ get_header();
 							<label for="billing-email-confirm">Confirm Email Address *</label>
 							<input id="billing-email-confirm" class="form-control" type="email" min="6" required>
 						</div>
-						<h4>Credit Card Information</h4>
+					</div>
+					<div class="form-section">
+						<h4 class="form-head">Credit Card Information</h4>
 						<div class="form-group">
 							<label for="card-name">Name on Card *</label>
 							<input id="card-name" class="form-control" type="text" required>
@@ -95,36 +99,70 @@ get_header();
 								<div id="card-cvc"></div>
 							</div>
 						</div>
-						<button class="submit btn btn-primary btn-lg">Review &amp; Place Order</button>
-					</form>
+					</div>
+					<button class="submit btn btn-primary btn-lg">Review &amp; Place Order</button>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<div class="order-summary">
+					<h4>Order Summary</h4>
+					<p>UMC Gift Membership: {%=o.quantity%} X ${%=o.cost%}</p>
+					<p>Total: {%= o.quantity * o.cost %}</p>
 				</div>
-				<div class="col-md-4">
-					<div class="order-summary">
-						<h4>Order Summary</h4>
-						<p>UMC Gift Membership: {%=o.quantity%} X ${%=o.cost%}</p>
-						<p>Total: {%= o.quantity * o.cost %}</p>
-					</div>
-					<div class="faqs well">
-						<h4>Frequently Asked Questions</h4>
-						<p>
-							<strong>How do I watch UMC</strong><br>
-							All you need is an Interned connection and a device to watch on.
-						</p>
-						<p>
-							<strong>When do you add new shows?</strong><br>
-							UMC adds new shows every week.
-						</p>
-						<p>
-							<strong>Are there closed captions or subtitles available on Acorn TV programs?</strong><br>
-							Yes! All of our programs include closed captions and/or SDH subtitles.
-						</p>
-						<p>For more FAQs, <a href="/faqs">CLICK HERE</a></p>
-					</div>
+				<div class="faqs well">
+					<h4>Frequently Asked Questions</h4>
+					<p>
+						<strong>How do I watch UMC</strong><br>
+						All you need is an Interned connection and a device to watch on.
+					</p>
+					<p>
+						<strong>When do you add new shows?</strong><br>
+						UMC adds new shows every week.
+					</p>
+					<p>
+						<strong>Are there closed captions or subtitles available on Acorn TV programs?</strong><br>
+						Yes! All of our programs include closed captions and/or SDH subtitles.
+					</p>
+					<p>For more FAQs, <a href="/faqs">CLICK HERE</a></p>
 				</div>
 			</div>
 		</div>
-	</script>
-</section>
+	</div>
+</script>
+<script type="text/x-tmpl" id="tmpl-confirmation-page">
+	<div class="container">
+		<header>
+			<h2>Thank You for your order!</h2>
+			<h4>You will soon recieve a confirmation email that includes instructions for the recipient.</h4>
+		</header>
+		<h3>Giving Your Gift is Easy</h3>
+		<ul>
+			<li>Open your confirmation email</li>
+			<li>Copy the links and paste them into separate emails to your recipients (make sure you don't send the same link to different people)</li>
+		</ul>
+		<div class="order-detail">
+			<h4>Order {%=o.orderNumber%}</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Promo Code</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for (var i=0; i<o.promos.length; i++) { %}
+					<tr>
+						<td>{%= i+1 %}</td>
+						<td>{%=o.promos[i].GiftCode.Code%}</td>
+						<td>{%=o.siteName%} - 1 year gift</td>
+					</tr>
+				{% } %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</script>
 
 <!-- Modal -->
 <div class="modal fade" id="confirmPurchaseModal" tabindex="-1" role="dialog">

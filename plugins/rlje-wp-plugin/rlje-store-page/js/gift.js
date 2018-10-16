@@ -14,7 +14,6 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         var page_body = $('.page-body .container');
         page_body.remove();
-        //console.log(tmpl("tmpl-demo"));
         $('.page-body').html(tmpl("tmpl-demo", {
             "cost": membership_cost,
             "quantity": membership_quantity
@@ -41,7 +40,6 @@ jQuery(document).ready(function ($) {
                     stripe_token = result.token.id;
                 }
                 if(errors.length) {
-                    console.log(errors);
                     errors.forEach( function(error) {
                         var alert = $(document.createElement('div')).addClass("alert alert-danger fade in").html(error);
                         alert.insertAfter($('header'));
@@ -89,8 +87,20 @@ function initializeStripeElements(stripeKey) {
 
 }
 
+function showConfirmation(response) {
+    jQuery('.page-body').html(tmpl("tmpl-confirmation-page", {
+        "promos": response.codes,
+        "orderNumber": response.order_id,
+        "siteName": gift_vars.site_name
+    }));
+}
+
 function purchaseGift() {
     jQuery('#confirmPurchaseModal').modal('hide');
+    jQuery(document.createElement('div')).addClass("alert alert-info")
+        .append(jQuery(document.createElement('i')).addClass("fa fa-spinner fa-spin fa-fw"))
+        .append('Completing purchase')
+        .insertAfter(jQuery('header'));
     var first_name = jQuery('#billing-first-name').val();
     var last_name = jQuery('#billing-last-name').val();
     var biling_country = jQuery('#billing-country').val();
@@ -113,23 +123,11 @@ function purchaseGift() {
         },
         function (response) {
             if (response.success == false) {
+                jQuery('.alert').remove();
                 var alert = jQuery(document.createElement('div')).addClass("alert alert-danger fade in").html(response.error);
                 alert.insertAfter(jQuery('header'));
             } else {
-                var someul = jQuery(document.createElement('ul'));
-                response.codes.forEach( function(promo_code) {
-                    good_code = promo_code.GiftCode.Code;
-                    someul.append(jQuery(document.createElement('li')).append(good_code));
-                } )
-                jQuery(document.createElement('div'))
-                    .addClass("alert alert-success")
-                    .append('Thank you for your purchase! Order id:' + response.order_id)
-                    .append('<br>')
-                    .append( 'These are your codes. We will send an email containing more information.' )
-                    //.append('<br>')
-                    .append(someul).insertAfter(jQuery('header'));
-                jQuery('#purchase-gift').remove();
-                jQuery('header').remove();
+                showConfirmation(response);
             }
         }
     )

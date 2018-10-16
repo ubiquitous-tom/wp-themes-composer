@@ -1,3 +1,11 @@
+header {
+    margin-bottom: 35px;
+}
+
+.alert i {
+    margin-right: 5px;
+}
+
 .page-body h2 {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -18,7 +26,7 @@
     margin-bottom: 40px;
 }
 
-.gift-item {
+.gift-item, .order-detail {
     padding: 30px;
     border: 2px solid #eee;
 }
@@ -41,6 +49,16 @@
     padding: 20px 0;
 }
 
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-head {
+    margin: 0 0 15px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
 #card-number,
 #card-expiration,
 #card-cvc {
@@ -48,8 +66,4 @@
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.btn.submit {
-    margin-top: 20px;
 }
