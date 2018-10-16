@@ -6,7 +6,7 @@ get_header();
 	<div class="container">
 		<header>
 			<h2>Give <?php bloginfo( 'name' ); ?></h2>
-			<h3>Share the he best in Black films &amp; television with someone special</h3>
+			<h3>Share the best in Black films &amp; television with someone special</h3>
 			<p>Your gift purchase entitles the recipient to a one year <?php bloginfo( 'name' ); ?> membership. They'll enjoy hundreds of the best dramas, and comedies—all in one place, always available, and always commercial-free.</p>
 			<p>Your purchase also includes a printer-friendly gift certificate with redemption instructions - perfect for adding to a card or a stocking!</p>
 		</header>
