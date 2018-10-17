@@ -113,7 +113,7 @@ get_header();
 					<h4>Frequently Asked Questions</h4>
 					<p>
 						<strong>How do I watch UMC</strong><br>
-						All you need is an Interned connection and a device to watch on.
+						All you need is an Internet connection and a device to watch on.
 					</p>
 					<p>
 						<strong>When do you add new shows?</strong><br>
