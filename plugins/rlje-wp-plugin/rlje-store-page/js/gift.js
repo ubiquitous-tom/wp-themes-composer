@@ -1,5 +1,6 @@
 var membership_cost = 49.99;
 var membership_quantity = 1;
+var order_total = membership_quantity * membership_cost;
 var stripe_token;
 jQuery(document).ready(function ($) {
     $('#membership-cost').html(membership_cost);
@@ -7,7 +8,8 @@ jQuery(document).ready(function ($) {
 
     $('#gift-quantity').change(function (event) {
         membership_quantity = Number($(this).val());
-        $('.checkout-total span').html(membership_quantity * membership_cost);
+        order_total = membership_quantity * membership_cost;
+        $('.checkout-total span').html((order_total).toFixed(2));
     });
 
     $('#gift-items').on('submit', function(event) {
@@ -45,6 +47,11 @@ jQuery(document).ready(function ($) {
                         alert.insertAfter($('header'));
                     } );
                 } else {
+                    $('#confirmPurchaseModal .modal-body').html(tmpl('tmpl-confirmation-dialog', {
+                        "orderItemCount" : membership_quantity,
+                        "orderItemCost": membership_cost,
+                        "orderSubtotal": order_total
+                    }));
                     $('#confirmPurchaseModal').modal();
                 }
             });

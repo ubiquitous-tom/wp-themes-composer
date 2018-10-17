@@ -164,6 +164,26 @@ get_header();
 	</div>
 </script>
 
+<script type="text/x-tmpl" id="tmpl-confirmation-dialog">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Count</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>UMC Yearly</td>
+				<td>{%=o.orderItemCount%}</td>
+				<td>${%=o.orderItemCost%}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="text-right">Subtotal: <strong>${%=o.orderSubtotal%}</strong></div>
+</script>
+
 <!-- Modal -->
 <div class="modal fade" id="confirmPurchaseModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -173,10 +193,9 @@ get_header();
 			<h4 class="modal-title" id="myModalLabel">Confirm Purchase</h4>
 		</div>
 		<div class="modal-body">
-			<h4>Are you sure with your purchase?</h4>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Nervermind!</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			<button type="button" class="btn btn-primary" id="confirmPurchase">Confirm</button>
 		</div>
 		</div>
