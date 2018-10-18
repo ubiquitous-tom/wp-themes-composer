@@ -49,6 +49,18 @@ header {
     padding: 20px 0;
 }
 
+/* Checkout page */
+
+.order-summary {
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    padding: 19px;
+    margin-bottom: 15px;
+}
+
+.gift-order-summary {
+}
+
 .form-section {
     margin-bottom: 25px;
 }
@@ -67,3 +79,5 @@ header {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+/* Confirmation page */

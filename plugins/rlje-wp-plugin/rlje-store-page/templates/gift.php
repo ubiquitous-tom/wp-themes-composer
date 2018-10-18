@@ -104,10 +104,8 @@ get_header();
 				</form>
 			</div>
 			<div class="col-md-4">
-				<div class="order-summary">
-					<h4>Order Summary</h4>
-					<p>UMC Gift Membership: {%=o.quantity%} X ${%=o.cost%}</p>
-					<p>Total: {%= o.quantity * o.cost %}</p>
+				<div class="order-summary bg-info">
+				{% include( 'tmpl-confirmation-dialog', {orderItemCount: o.quantity, orderItemCost: o.cost} ); %}
 				</div>
 				<div class="faqs well">
 					<h4>Frequently Asked Questions</h4>
@@ -165,23 +163,22 @@ get_header();
 </script>
 
 <script type="text/x-tmpl" id="tmpl-confirmation-dialog">
-	<table class="table">
+	<table class="gift-order-summary table">
 		<thead>
 			<tr>
-				<th>Item</th>
-				<th>Count</th>
-				<th>Price</th>
+				<th class="text-right" colspan="2">Quantity</th>
+				<th class="text-right">Price</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>UMC Yearly</td>
-				<td>{%=o.orderItemCount%}</td>
-				<td>${%=o.orderItemCost%}</td>
+				<td><strong>Yearly UMC Subscritption</strong></td>
+				<td class="text-right">{%=o.orderItemCount%}</td>
+				<td class="text-right">${%=o.orderItemCost%}</td>
 			</tr>
 		</tbody>
 	</table>
-	<div class="text-right">Subtotal: <strong>${%=o.orderSubtotal%}</strong></div>
+	<div class="text-right">Subtotal: <strong>${%=o.orderItemCount * o.orderItemCost%}</strong></div>
 </script>
 
 <!-- Modal -->

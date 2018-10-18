@@ -49,8 +49,7 @@ jQuery(document).ready(function ($) {
                 } else {
                     $('#confirmPurchaseModal .modal-body').html(tmpl('tmpl-confirmation-dialog', {
                         "orderItemCount" : membership_quantity,
-                        "orderItemCost": membership_cost,
-                        "orderSubtotal": order_total
+                        "orderItemCost": membership_cost
                     }));
                     $('#confirmPurchaseModal').modal();
                 }
