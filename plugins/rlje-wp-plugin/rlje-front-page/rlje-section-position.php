@@ -36,11 +36,13 @@ class RLJE_Section_Position extends RLJE_Front_page {
 		$this->categories_items = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
 
 		// Delete `rlje_front_page_section` data if the CMS data is updated
-		foreach ( $this->section['original_section_position'] as $key => $original_section_position ) {
-			if ( $original_section_position->id !== $this->categories_items[ $key ]->id ) {
-				unset( $this->section['section_position'] );
-				delete_option( 'rlje_front_page_section' );
-				break;
+		if ( ! empty( $this->section['original_section_position'] ) ) {
+			foreach ( $this->section['original_section_position'] as $key => $original_section_position ) {
+				if ( $original_section_position->id !== $this->categories_items[ $key ]->id ) {
+					unset( $this->section['section_position'] );
+					delete_option( 'rlje_front_page_section' );
+					break;
+				}
 			}
 		}
 
