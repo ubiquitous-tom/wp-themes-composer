@@ -39,7 +39,7 @@
 					];
 				}
 			}
-			$is_user_above_concurrent_limit = true;
+			$is_user_above_concurrent_limit = rljeApiWP_isUserAboveConcurrentStreams( $atv_session_cookie );
 		}
 		get_header();
 		?>
