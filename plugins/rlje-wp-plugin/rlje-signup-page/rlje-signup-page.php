@@ -119,9 +119,18 @@ class RLJE_signup_page {
 		];
 
 		if( !empty( $promo_code ) ) {
-			$promo_response = $this->api_helper->get_promo( $promo_code );
-			if( isset( $promo_response[ "PromotionID" ] ) ) {
-				$response[ 'promo' ] = $promo_response;
+			// Corner case: RENEWUMC should only be used by expired users.
+			if( in_array( strtolower( $promo_code ), [ 'renewumc' ] ) ) {
+				$response['error'] = "Promo code not found";
+				wp_send_json( $response );
+			} else {
+				$promo_response = $this->api_helper->get_promo( $promo_code );
+				if( isset( $promo_response[ "PromotionID" ] ) ) {
+					$response[ 'promo' ] = $promo_response;
+				} elseif( isset( $promo_response[ "error" ] ) ) {
+					$response['error'] = $promo_response[ "error" ];
+					wp_send_json( $response );
+				}
 			}
 		}
 
