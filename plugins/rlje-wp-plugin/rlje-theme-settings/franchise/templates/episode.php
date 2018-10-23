@@ -17,6 +17,7 @@
 	$stream_positions     = null;
 	$is_cast              = ( isset( $episode->actors ) && count( $episode->actors ) > 0 ) ? true : false;
 	$is_video_debugger_on = rljeApiWP_isVideoDebuggerOn();
+	$is_user_above_concurrent_limit = false;
 
 	$total_episodes = 0;
 	foreach ( $franchise->seasons as $season_item ) {
@@ -38,6 +39,7 @@
 					];
 				}
 			}
+			$is_user_above_concurrent_limit = rljeApiWP_isUserAboveConcurrentStreams( $atv_session_cookie );
 		}
 		get_header();
 		?>
@@ -91,9 +93,19 @@
 		<!-- Brightcove Episode Player -->
 		<div class="outer-container episode-player">
 		<?php
-		if ( $is_user_active ) :
-			?>
-			<span itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+		if ( $is_user_active ) {
+			if ($is_user_above_concurrent_limit) { ?>
+				<div id="episode-trailer" class="video">
+					<img title="image title" alt="thumb image" class="wp-post-image" src="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"/>
+					<div class="acorntv-slogan">
+						<h3>Concurrent stream limit exceeded</h3>
+						<h4>You are currently above concurrent stream limit.</h4>
+					</div>
+				</div>
+			<?php
+			} else {
+				?>
+				<span itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
 				<meta itemprop="thumbnailUrl" content="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>" />
 				<meta itemprop="description" content="<?php echo $episode->longDescription; ?>" />
 				<meta itemprop="name" content="<?php echo $episode->name; ?>" />
@@ -108,12 +120,6 @@
 					poster="<?php echo apply_filters( 'atv_get_image_url', $episode->image . '?w=750' ); ?>"
 					class="video-js embed-responsive embed-responsive-16by9"
 					controls></video>
-				<!-- <script src="//players.brightcove.net/3047407010001/NJxe2G4ox_default/index.js"></script> -->
-				<!-- <script src="http://players.brightcove.net/3392051363001/0066661d-8f08-4e7b-a5b4-8d48755a3057_default/index.js"></script> -->
-				<?php if ( $is_video_debugger_on ) : ?>
-				<!-- <link href="https://solutions.brightcove.com/marguin/debugger/css/brightcove-player-debugger.css" rel="stylesheet">
-				<script src="https://solutions.brightcove.com/marguin/debugger/js/brightcove-player-debugger.min.js"></script> -->
-				<?php endif; ?>
 				<script>
 					document.addEventListener("DOMContentLoaded", function() {
 						episodePlayer(<?php echo '"' . $episode->id . '"'; echo ( isset( $stream_positions[ $episode->id ], $stream_positions[ $episode->id ]['Position'] ) ) ? ', ' . $stream_positions[ $episode->id ]['Position'] : ''; ?>);
@@ -167,10 +173,6 @@
 									player.tech_.hls.mediaSource.videoBuffer_.remove(0, Infinity);
 								}
 							});
-							<?php if ( $is_video_debugger_on ) : ?>
-							// var options = {"debugAds":false, "logClasses":true, "showProgress":true, "useLineNums":true, "verbose":true};
-							// player.playerDebugger(options);
-							<?php endif; ?>
 						});
 					});
 				</script>
@@ -204,7 +206,7 @@
 					</button>
 					<?php endif; ?>
 				</div>
-				<?php if ( isset( $next_episode_data ) ) : ?>
+				<?php if ( isset( $next_episode_data ) ) { ?>
 				<div id="nextEpisodeOverlay" class="episode">
 					<a class="js-play-start js-episode-loading" href="<?php echo esc_url( trailingslashit( home_url( $next_episode_url ) ) ); ?>">
 						<p class="headerText">Play Next Episode</p>
@@ -224,9 +226,9 @@
 						</div>
 					</a>
 				</div>
-				<?php endif; ?>
-			<?php
-		else :
+				<?php }
+			}
+		} else {
 			if ( isset( $franchise->episodes[0]->id ) && ( ! empty( $franchise->episodes[0]->id ) ) ) :
 				$trailer_id = $franchise->episodes[0]->id;
 				$rlje_theme_text_settings = get_option( 'rlje_theme_text_settings' );
@@ -314,7 +316,7 @@
 			</div>
 				<?php
 			endif;
-		endif;
+		}
 		?>
 		</div>
 		</div>
