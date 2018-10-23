@@ -6,9 +6,9 @@ get_header();
 	<div class="container">
 		<header>
 			<h2>Give <?php bloginfo( 'name' ); ?></h2>
-			<h3>Share the best in Black films &amp; television with someone special</h3>
-			<p>Your gift purchase entitles the recipient to a one year <?php bloginfo( 'name' ); ?> membership. They'll enjoy hundreds of the best dramas, and comedies—all in one place, always available, and always commercial-free.</p>
-			<p>Your purchase also includes a printer-friendly gift certificate with redemption instructions - perfect for adding to a card or a stocking!</p>
+			<h3>Share the best in Black film &amp; television with someone special</h3>
+			<p>Your gift purchase entitles the recipient to a one year <?php bloginfo( 'name' ); ?> membership. They'll enjoy hundreds of hours of the best drama, romance, comedy and much more — all in one place, always available, and always commercial-free.</p>
+			<p>You’ll receive an email confirming your gift purchase with instructions on how to redeem the gift subscription. This can be forwarded directly to the recipient.</p>
 		</header>
 		<div class="gift-section">
 			<form id="gift-items" action="">
@@ -118,7 +118,7 @@ get_header();
 						UMC adds new shows every week.
 					</p>
 					<p>
-						<strong>Are there closed captions or subtitles available on Acorn TV programs?</strong><br>
+						<strong>Are there closed captions or subtitles available on UMC programs?</strong><br>
 						Yes! All of our programs include closed captions and/or SDH subtitles.
 					</p>
 					<p>For more FAQs, <a href="/faqs">CLICK HERE</a></p>
