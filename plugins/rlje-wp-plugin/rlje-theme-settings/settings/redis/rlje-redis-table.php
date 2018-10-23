@@ -1,5 +1,10 @@
 <?php
 
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+}
+
 // https://plugins.svn.wordpress.org/custom-list-table-example/trunk/list-table-example.php
 class RLJE_Redis_Table extends WP_List_Table {
 

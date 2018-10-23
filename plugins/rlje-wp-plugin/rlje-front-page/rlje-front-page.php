@@ -5,7 +5,6 @@ class RLJE_Front_page {
 	protected $prefix          = 'rlje_front_page';
 	protected $homepage        = array();
 	protected $current_country = '';
-	protected $rlje_redis_table;
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
