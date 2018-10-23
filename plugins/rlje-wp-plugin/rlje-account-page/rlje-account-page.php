@@ -76,14 +76,32 @@ class RLJE_Account_Page {
 	}
 
 	// Figures out the memebership term
+	// Can be monthly, yearly, trial or expired.
 	public function get_user_term() {
-		if ( $this->user_profile->Membership->Term == 30 && strtolower( $this->user_profile->Membership->TermType ) == 'day' ) {
-			return 'monthly';
-		} elseif ( $this->user_profile->Membership->Term == 12 && strtolower( $this->user_profile->Membership->TermType ) == 'month' ) {
-			return 'yearly';
-		} else {
-			return 'unknown';
+		$canceled = false;
+		$start_date = date_create($this->user_profile->Customer->OriginalMembershipJoinDate);
+		if( isset($this->user_profile->Membership->NextBillingDate) ) {
+			$end_date = date_create($this->user_profile->Membership->NextBillingDate);
+		} elseif( isset($this->user_profile->Membership->CancelDate) ) {
+			$canceled = true;
+			$end_date = date_create($this->user_profile->Membership->ExpireDate);
 		}
+
+		$interval = $start_date->diff($end_date);
+		if($interval->days <= 7) {
+			$membership_term = 'trial';
+		} else {
+			if( $canceled && date_create( "now" ) > $end_date ) {
+				$membership_term = "expired";
+			} else {
+				if ( $this->user_profile->Membership->Term == 30 && strtolower( $this->user_profile->Membership->TermType ) == 'day' ) {
+					$membership_term = 'monthly';
+				} elseif ( $this->user_profile->Membership->Term == 12 && strtolower( $this->user_profile->Membership->TermType ) == 'month' ) {
+					$membership_term = 'yearly';
+				}
+			}
+		}
+		return $membership_term;
 	}
 
 	// If account is active. we'll get NextBillingDateAsLong
