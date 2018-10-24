@@ -1,3 +1,7 @@
+.alert i {
+    margin-right: 5px;
+}
+
 #card-number,
 #card-expiration,
 #card-cvc {

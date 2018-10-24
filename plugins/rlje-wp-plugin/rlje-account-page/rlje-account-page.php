@@ -39,6 +39,9 @@ class RLJE_Account_Page {
 		add_action( 'wp_ajax_update_subscription', [ $this, 'update_subscription' ] );
 		add_action( 'wp_ajax_nopriv_update_subscription', [ $this, 'update_subscription' ] );
 
+		add_action( 'wp_ajax_apply_renewal_promo', [ $this, 'apply_renewal_promo' ] );
+		add_action( 'wp_ajax_nopriv_apply_renewal_promo', [ $this, 'apply_renewal_promo' ] );
+
 		// add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 	}
 
@@ -222,6 +225,27 @@ class RLJE_Account_Page {
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'promo', 'POST' );
 		wp_send_json( $api_response );
+	}
+
+	function apply_renewal_promo() {
+		$promo_code = strval( $_GET['promo_code'] );
+		$response = [
+			'success' => false,
+			'error' => "",
+			'plans' => [],
+		];
+		if ( 'renewumc' === strtolower( $promo_code ) ) {
+			$response['success'] = true;
+			$response['plans'] = [
+				[
+					"name" => "yearly",
+					"cost" => 19.99
+				],
+			];
+		} else {
+			$response['error'] = "Invalid promo code.";
+		}
+		wp_send_json( $response );
 	}
 
 	function update_subscription() {

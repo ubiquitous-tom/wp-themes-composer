@@ -9,15 +9,15 @@ get_header();
 			<form class="" action="">
 				<h3 class="form-head">Available plans</h3>
 				<div class="form-group">
-					<label for="sub-plan">Select a plan</label>
-					<select id="sub-plan" class="form-control" >
-						<option value="yearly">Yearly $49.99</option>
-						<option value="monthly">Monthly $4.99</option>
-					</select>
-				</div>
-				<div class="form-group">
 					<label for="promo-code">Promotion code</label>
 					<input id="promo-code" class="form-control" type="text">
+				</div>
+				<div class="form-group">
+					<label for="sub-plan">Select a plan</label>
+					<select id="sub-plan" class="form-control" >
+						<option value="yearly">Yearly - $49.99</option>
+						<option value="monthly">Monthly - $4.99</option>
+					</select>
 				</div>
 				<h3 class="form-head">Billing information</h3>
 				<div class="row">
