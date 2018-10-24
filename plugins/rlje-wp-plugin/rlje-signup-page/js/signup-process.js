@@ -2,6 +2,7 @@ var sessionId;
 var promo;
 var stripe;
 var card;
+cardNeeded = true;
 
 function initializeStripeElements(stripeKey) {
     stripe = Stripe(stripeKey);
@@ -36,6 +37,9 @@ function initializeStripeElements(stripeKey) {
 }
 
 function showStepTwo() {
+    if( typeof promo !== 'undefined' && Object.keys(promo).length && promo.MembershipTerm == 12 && promo.MembershipTermType == 'MONTH') {
+        cardNeeded = false;
+    }
     // Update the url hash to indicate step2
     history.replaceState(undefined, undefined, "#createaccount");
     var signup_form = jQuery('form.signup');
@@ -54,10 +58,10 @@ function showStepTwo() {
     signup_form.empty();
 
     if( typeof promo !== 'undefined' && Object.keys(promo).length) {
-        var profile_header = jQuery(document.createElement('div'))
+        jQuery(document.createElement('div'))
             .addClass('alert alert-success')
-            .html('<i class="fa fa-check-circle-o fa-lg"></i>Promo ' + promo.PromotionCode + ' applied.' );
-        signup_form.append(profile_header);
+            .html('<i class="fa fa-check-circle-o fa-lg"></i>Promo ' + promo.PromotionCode + ' applied.' )
+            .appendTo(signup_form);
     }
     
     var profile_header = jQuery(document.createElement('h4')).addClass('form-head').html('Your profile');
@@ -102,65 +106,26 @@ function showStepTwo() {
     var plan_payment_section = jQuery(document.createElement('div')).addClass('signup-form-group')
     .append(plan_header);
 
-    if( typeof promo !== 'undefined' && Object.keys(promo).length && promo.MembershipTerm == 12 && promo.MembershipTermType == 'MONTH') {
-        var profile_header = jQuery(document.createElement('div')).addClass('alert alert-info').html('Yearly plan selected based on promo code.' );
-        plan_payment_section.append(profile_header);
-    } else {
+    if( cardNeeded ) {
         var plan_desc = jQuery(document.createElement('p')).html('Please select a plan for when your 7 day FREE TRIAL comes to an end. You can cancel anytime before your trial ends and you will not be charged.');
 
         var plans = renderPlans();
-        plan_payment_section.append(plan_desc, plans);
+        plan_payment_section
+            .append(plan_desc, plans)
+            .append(renderPaymentFields());
+    } else {
+        var profile_header = jQuery(document.createElement('div')).addClass('alert alert-info').html('Yearly plan selected based on promo code.' );
+        plan_payment_section.append(profile_header);
     }
-
-    // Name on card field
-    var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
-    var card_name_input = jQuery(document.createElement('input')).addClass('form-control').attr({
-        id: 'card-name',
-        name: 'card_name',
-        type: 'text'
-    }).prop('required', true);
-    var card_name_group = jQuery(document.createElement('div')).addClass('form-group').append(card_name_label, card_name_input);
-
-    // Card number input elements for strip js to mount to
-    var card_label = jQuery(document.createElement('label')).attr('for', 'card-number').html('Card number *');
-    var card_container = jQuery(document.createElement('div')).attr('id', 'card-number');
-    var card_number_element = jQuery(document.createElement('div')).addClass('form-group').append(card_label, card_container);
-
-    // Expiration date and CVC fields
-    var card_expiration_element = jQuery(document.createElement('div')).addClass('col-sm-6')
-    .append(
-        jQuery(document.createElement('div')).addClass('form-group')
-        .append(
-            jQuery(document.createElement('label')).attr('for', 'card-expiration').html('Expiration *')
-        )
-        .append(
-            jQuery(document.createElement('div')).attr('id', 'card-expiration')
-        )
-    )
-    
-
-    var card_cvc_element = jQuery(document.createElement('div')).addClass('col-sm-6')
-    .append(
-        jQuery(document.createElement('div')).addClass('form-group')
-        .append(
-            jQuery(document.createElement('label')).attr('for', 'card-cvc').html('CVC *')
-        )
-        .append(
-            jQuery(document.createElement('div')).attr('id', 'card-cvc')
-        )
-    )
-    
-
-    var some_row = jQuery(document.createElement('div')).addClass('row').append(card_expiration_element, card_cvc_element);
 
     // Submit button
     var step_two_submit = jQuery(document.createElement('button')).addClass('submit-step btn btn-primary btn-lg center-block').html('Signup');
-
-    plan_payment_section.append(card_name_group, card_number_element, some_row);
     signup_form.append(plan_payment_section, step_two_submit);
-
-    // Initialize Stripe so it can mount it's iframes
-    initializeStripeElements(signup_vars.stripe_key);
+    
+    if(cardNeeded) {
+        // Initialize Stripe so it can mount it's iframes
+        initializeStripeElements(signup_vars.stripe_key);
+    }
 
     // Attach form submit handler
     signup_form.on('submit', submitStepTwo);
@@ -181,29 +146,27 @@ function submitStepTwo(event) {
     var billing_first_name = jQuery('input#user-first-name').val();
     var billing_last_name = jQuery('input#user-last-name').val();
     var plan = 'monthly';
-    if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked') || (typeof promo !== 'undefined' && Object.keys(promo).length && promo.MembershipTerm == 12 && promo.MembershipTermType == 'MONTH')) {
+    if(true == jQuery('input[type="radio"]#yearly-plan').prop('checked') || cardNeeded === false ) {
         plan = 'yearly';
     }
+    if(typeof promo !== 'undefined' && Object.keys(promo).length) {
+        promo_code = promo.PromotionCode;
+    } else {
+        promo_code = null;
+    }
 
-    stripe.createToken(cardNumber, {
-        name: name_on_card
-    }).then(function (result) {
-        if (result.error) {
-            submit_button.prop('disabled', false).html(submit_button_content);
-            var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(result.error.message);
-            alert.insertAfter(jQuery('#progress-steps'));
-        } else {
-            var stripe_token = result.token;
-            if(typeof promo !== 'undefined' && Object.keys(promo).length) {
-                promo_code = promo.PromotionCode;
+
+    if(cardNeeded) {
+        stripe.createToken(cardNumber, {
+            name: name_on_card
+        }).then(function (result) {
+            if (result.error) {
+                submit_button.prop('disabled', false).html(submit_button_content);
+                var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(result.error.message);
+                alert.insertAfter(jQuery('#progress-steps'));
             } else {
-                promo_code = null;
-            }
-
-            jQuery.post(
-                signup_vars.ajax_url,
-                {
-                    'action': 'create_membership',
+                var stripe_token = result.token;
+                createMembership({
                     'session_id': sessionId,
                     'promo_code': promo_code,
                     'billing_first_name': billing_first_name,
@@ -211,20 +174,18 @@ function submitStepTwo(event) {
                     'name_on_card': name_on_card,
                     'stripe_token': stripe_token.id,
                     'subscription_plan': plan
-                },
-                function (response) {
-                    if (response.success == false) {
-                        submit_button.prop('disabled', false).html(submit_button_content);
-                        var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(response.error);
-                        alert.insertAfter(jQuery('#progress-steps'));
-                    } else {
-                        showStepThree();
-                    }
-                }
-            )
-        }
-    });
-
+                });
+            }
+        });
+    } else {
+        createMembership({
+            'session_id': sessionId,
+            'promo_code': promo_code,
+            'billing_first_name': billing_first_name,
+            'billing_last_name': billing_last_name,
+            'subscription_plan': plan
+        });
+    }
 }
 
 function showStepThree() {
@@ -346,6 +307,68 @@ function renderPlans() {
         )
     )
     
+}
+
+function renderPaymentFields() {
+    // Name on card field
+    var card_name_label = jQuery(document.createElement('label')).attr('for', 'card-name').html('Name on Card *');
+    var card_name_input = jQuery(document.createElement('input')).addClass('form-control').attr({
+        id: 'card-name',
+        name: 'card_name',
+        type: 'text'
+    }).prop('required', true);
+    var card_name_group = jQuery(document.createElement('div')).addClass('form-group').append(card_name_label, card_name_input);
+
+    // Card number input elements for strip js to mount to
+    var card_label = jQuery(document.createElement('label')).attr('for', 'card-number').html('Card number *');
+    var card_container = jQuery(document.createElement('div')).attr('id', 'card-number');
+    var card_number_element = jQuery(document.createElement('div')).addClass('form-group').append(card_label, card_container);
+
+    // Expiration date and CVC fields
+    var card_expiration_element = jQuery(document.createElement('div')).addClass('col-sm-6')
+    .append(
+        jQuery(document.createElement('div')).addClass('form-group')
+        .append(
+            jQuery(document.createElement('label')).attr('for', 'card-expiration').html('Expiration *')
+        )
+        .append(
+            jQuery(document.createElement('div')).attr('id', 'card-expiration')
+        )
+    )
+    
+
+    var card_cvc_element = jQuery(document.createElement('div')).addClass('col-sm-6')
+    .append(
+        jQuery(document.createElement('div')).addClass('form-group')
+        .append(
+            jQuery(document.createElement('label')).attr('for', 'card-cvc').html('CVC *')
+        )
+        .append(
+            jQuery(document.createElement('div')).attr('id', 'card-cvc')
+        )
+    )
+    
+
+    var some_row = jQuery(document.createElement('div')).addClass('row').append(card_expiration_element, card_cvc_element);
+    return [card_name_group, card_number_element, some_row];
+}
+
+function createMembership(params) {
+    params.action = 'create_membership';
+    console.log(params);
+    jQuery.post(
+        signup_vars.ajax_url,
+        params,
+        function (response) {
+            if (response.success == false) {
+                submit_button.prop('disabled', false).html(submit_button_content);
+                var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").append(jQuery(document.createElement('p'))).html(response.error);
+                alert.insertAfter(jQuery('#progress-steps'));
+            } else {
+                showStepThree();
+            }
+        }
+    )
 }
 
 function initBrightCove() {
