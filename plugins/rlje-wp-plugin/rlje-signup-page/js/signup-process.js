@@ -2,7 +2,7 @@ var sessionId;
 var promo;
 var stripe;
 var card;
-cardNeeded = true;
+var cardNeeded = true;
 
 function initializeStripeElements(stripeKey) {
     stripe = Stripe(stripeKey);
