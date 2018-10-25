@@ -1,0 +1,8 @@
+{
+    "name": "tsoisoonthorn/rlje-wp-theme",
+    "autoload": {
+        "psr-0" : {
+            "TSoisoonthorn\\RLJEWPTheme" : "src"
+        }
+    }
+}
