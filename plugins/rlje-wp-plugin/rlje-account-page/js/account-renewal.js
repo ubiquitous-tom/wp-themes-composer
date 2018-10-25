@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
         }).then(function (result) {
             if (result.error) {
                 submit_button.prop('disabled', false).html(submit_button_content);
-                var alert = jQuery(document.createElement('div')).addClass("row alert alert-danger fade in").html(result.error.message);
+                var alert = jQuery(document.createElement('div')).addClass("alert alert-danger fade in").html(result.error.message);
                 alert.insertAfter(jQuery('#account-renewal header'));
             } else {
                 var stripe_token = result.token;
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
                     },
                     function (response) {
                         submit_button.prop('disabled', false).html(submit_button_content);
-                        var alert = jQuery(document.createElement('div')).addClass("row alert fade in");
+                        var alert = jQuery(document.createElement('div')).addClass("alert fade in");
                         if (response.success == false) {
                             alert.addClass('alert-danger').html(response.error);
                         } else {
@@ -56,7 +56,43 @@ jQuery(document).ready(function($) {
             }
         });
     });
-    
+    $('#promo-code').on('blur', function(event) {
+        promo_code = $(this).val();
+        if(promo_code) {
+            jQuery('.alert').remove();
+            jQuery(document.createElement('div')).addClass("alert alert-info")
+                .append(jQuery(document.createElement('i')).addClass("fa fa-spinner fa-spin fa-fw"))
+                .append('Applying promo code')
+                .insertAfter(jQuery('#account-renewal header'));
+            jQuery.get(
+                local_vars.ajax_url,
+                {
+                    'action': 'apply_renewal_promo',
+                    'promo_code': promo_code
+                },
+                function (response) {
+                    jQuery('.alert').remove();
+                    var alert = jQuery(document.createElement('div')).addClass("alert fade in");
+                    if (response.success == false) {
+                        alert.addClass('alert-danger').html(response.error);
+                    } else {
+                        planOptions = [];
+                        alert.addClass('alert-success')
+                            .html('<i class="fa fa-check-circle-o fa-lg"></i>Promo ' + promo_code.toUpperCase() + ' applied.');
+                        response.plans.forEach(function(plan) {
+                            planOptions.push(
+                                jQuery('<option>')
+                                    .attr('value', plan.name.toLowerCase())
+                                    .html(`${capitalizeFirstLetter(plan.name)} - $${plan.cost}`)
+                            );
+                        });
+                        jQuery('#sub-plan').empty().append(planOptions);
+                    }
+                    alert.insertAfter(jQuery('#account-renewal header'));
+                }
+            )
+        }
+    })
 });
 
 function initializeStripeElements(stripeKey) {
@@ -87,4 +123,8 @@ function initializeStripeElements(stripeKey) {
     cardNumber.addEventListener('change', function (event) {
         console.log(event);
     })
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
