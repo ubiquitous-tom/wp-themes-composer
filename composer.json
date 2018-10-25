@@ -1,5 +1,9 @@
 {
     "name": "tsoisoonthorn/rlje-wp-theme",
+    "type": "wordpress-theme",
+    "require": {
+        "composer/installers": "~1.0"
+    },
     "autoload": {
         "psr-0" : {
             "TSoisoonthorn\\RLJEWPTheme" : "src"
