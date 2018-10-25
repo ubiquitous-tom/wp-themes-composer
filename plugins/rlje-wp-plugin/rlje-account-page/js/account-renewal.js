@@ -42,14 +42,14 @@ jQuery(document).ready(function($) {
                     function (response) {
                         submit_button.prop('disabled', false).html(submit_button_content);
                         var alert = jQuery(document.createElement('div')).addClass("alert fade in");
-                        if (response.success == false) {
-                            alert.addClass('alert-danger').html(response.error);
-                        } else {
+                        if (response.success == true) {
                             document.cookie = "ATVSessionCookie=; expires=-1; path=/";
                             alert.addClass('alert-success').html('Thanks for your purchase. You\'d get redirected and asked to signin again.');
                             var timer = setTimeout(function() {
                                 window.location.replace("/signin");
                             }, 10000);
+                        } else {
+                            alert.addClass('alert-danger').html(response.error);
                         }
                         alert.insertAfter(jQuery('#account-renewal header'));
                     }

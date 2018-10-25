@@ -17,7 +17,7 @@ get_header();
 					<select id="sub-plan" class="form-control" >
 					<?php foreach ( $this->membership_plans as $plan ) : ?>
 						<option value="<?php echo strtolower( $plan['title'] ); ?>">
-							<?php echo $plan['title'] . ' - $' . $plan['cost'] ; ?>
+							<?php echo ucfirst( $plan[ 'title' ] ) . ' - $' . $plan['cost'] ; ?>
 						</option>
 					<?php endforeach; ?>
 					</select>

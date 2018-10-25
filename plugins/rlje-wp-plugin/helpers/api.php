@@ -46,7 +46,7 @@ class RLJE_api_helper {
 	public function get_plans() {
 		return [
 			[
-				"title" => "Monthly",
+				"title" => "monthly",
 				"duration" => [
 					"term" => 30,
 					"type" => "day"
@@ -54,7 +54,7 @@ class RLJE_api_helper {
 				"cost" => 4.99
 			],
 			[
-				"title" => "Yearly",
+				"title" => "yearly",
 				"duration" => [
 					"term" => 12,
 					"type" => "month"
