@@ -8,16 +8,6 @@ class RLJE_Account_Page {
 
 	public function __construct() {
 		$this->api_helper       = new RLJE_api_helper();
-		$this->membership_plans = [
-			'yearly'  => [
-				'Term'     => 12,
-				'TermType' => 'MONTH',
-			],
-			'monthly' => [
-				'Term'     => 30,
-				'TermType' => 'DAY',
-			],
-		];
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
 		add_action( 'wp', [ $this, 'fetch_stripe_key' ] );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
@@ -60,6 +50,7 @@ class RLJE_Account_Page {
 					'account-renewal-script', 'local_vars', [
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
 						'stripe_key' => $this->stripe_key,
+						'plans' => $this->api_helper->get_plans(),
 					]
 				);
 			}
@@ -228,27 +219,50 @@ class RLJE_Account_Page {
 	}
 
 	function apply_renewal_promo() {
+		$plans = $this->api_helper->get_plans();
 		$promo_code = strval( $_GET['promo_code'] );
 		$response = [
 			'success' => false,
 			'error' => "",
-			'plans' => [],
+			'plans' => $plans,
 		];
 		if ( 'renewumc' === strtolower( $promo_code ) ) {
 			$response['success'] = true;
 			$response['plans'] = [
 				[
-					"name" => "yearly",
-					"cost" => 19.99
+					'title' => 'Yearly',
+					'duration' => [
+						'term' => 12,
+						'type' => 'month',
+					],
+					'cost' => 19.99,
 				],
 			];
 		} else {
-			$response['error'] = "Invalid promo code.";
+			$promo_response = $this->api_helper->get_promo( $promo_code );
+			if( isset( $promo_response[ "PromotionID" ] ) ) {
+				if( $promo_response['MembershipTerm'] == 12 && $promo_response['MembershipTermType'] == 'MONTH' ) {
+					$response['plans'] = [
+						[
+							'title' => 'Yearly',
+							'duration' => [
+								'term' => 12,
+								'type' => 'month',
+							],
+							'cost' => 0.00,
+						],
+					];
+				}
+				$response[ 'success' ] = true;
+			} elseif( isset( $promo_response[ "error" ] ) ) {
+				$response['error'] = $promo_response[ "error" ];
+			}
 		}
 		wp_send_json( $response );
 	}
 
 	function update_subscription() {
+		$this->membership_plans = $this->api_helper->get_plans();
 		$session_id         = $_COOKIE['ATVSessionCookie'];
 		$promo_code         = strval( $_POST['promo_code'] );
 		$billing_first_name = strval( $_POST['billing_first_name'] );
@@ -257,11 +271,12 @@ class RLJE_Account_Page {
 		$stripe_token       = strval( $_POST['stripe_token'] );
 		$sub_plan           = strval( $_POST['subscription_plan'] );
 
+		$plan_key = array_search( $sub_plan, array_column( $this->membership_plans, 'title' ) );
 		$params = [
 			'Session'        => [
 				'SessionID' => $session_id,
 			],
-			'Membership'     => $this->membership_plans[ $sub_plan ],
+			'Membership'     => $this->build_api_appropriate_plan( $this->membership_plans[$plan_key] ),
 			'BillingAddress' => [
 				'FirstName' => $billing_first_name,
 				'LastName'  => $billing_last_name,
@@ -280,7 +295,7 @@ class RLJE_Account_Page {
 
 		$response = [
 			'success' => false,
-			'error'   => '',
+			'error'   => 'We could not proccess your request.',
 		];
 
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
@@ -295,6 +310,13 @@ class RLJE_Account_Page {
 		}
 
 		wp_send_json( $response );
+	}
+
+	private function build_api_appropriate_plan($plan) {
+		return [
+			"Term" => $plan['duration']['term'],
+			"TermType" => strtoupper( $plan['duration']['type'] ),
+		];
 	}
 
 	private function remove_cached_profile ( $session_id ) {
@@ -367,7 +389,6 @@ class RLJE_Account_Page {
 					status_header( 200 );
 					$wp_query->is_404  = false;
 					$wp_query->is_page = true;
-					// $wp_query->is_archive = true;
 					ob_start();
 					require_once plugin_dir_path( __FILE__ ) . 'templates/updatecard.php';
 					$html = ob_get_clean();
@@ -379,7 +400,6 @@ class RLJE_Account_Page {
 				status_header( 200 );
 				$wp_query->is_404  = false;
 				$wp_query->is_page = true;
-				// $wp_query->is_archive = true;
 				ob_start();
 				require_once plugin_dir_path( __FILE__ ) . 'templates/main.php';
 				$html = ob_get_clean();
@@ -394,7 +414,7 @@ class RLJE_Account_Page {
 				status_header( 200 );
 				$wp_query->is_404  = false;
 				$wp_query->is_page = true;
-				// $wp_query->is_archive = true;
+				$this->membership_plans = $this->api_helper->get_plans();
 				ob_start();
 				require_once plugin_dir_path( __FILE__ ) . 'templates/membership-renewal.php';
 				$html = ob_get_clean();

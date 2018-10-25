@@ -116,7 +116,7 @@ class RLJE_Signin_Page {
 		global $wp_query;
 
 		if ( 'signin' === $pagename ) {
-			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 				wp_redirect( home_url(), 303 );
 				exit();
 			}
@@ -131,7 +131,7 @@ class RLJE_Signin_Page {
 			exit();
 		}
 		if ( 'forgotpassword' === $pagename ) {
-			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) ) {
+			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 				wp_redirect( home_url(), 303 );
 			}
 			if ( ! empty( $_POST ) ) {

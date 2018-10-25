@@ -180,6 +180,10 @@ class RLJE_signup_page {
 		$pagename = get_query_var( 'pagename' );
 
 		if ( 'signup' === $pagename ) {
+			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
+				wp_redirect( home_url(), 303 );
+				exit();
+			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			status_header( 200 );
 			$wp_query->is_404  = false;
