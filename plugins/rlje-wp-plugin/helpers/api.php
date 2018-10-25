@@ -43,6 +43,27 @@ class RLJE_api_helper {
 		return  $this->hit_api( [ 'Code' => $promo_code ], 'promo' );
 	}
 
+	public function get_plans() {
+		return [
+			[
+				"title" => "Monthly",
+				"duration" => [
+					"term" => 30,
+					"type" => "day"
+				],
+				"cost" => 4.99
+			],
+			[
+				"title" => "Yearly",
+				"duration" => [
+					"term" => 12,
+					"type" => "month"
+				],
+				"cost" => 49.99
+			],
+		];
+	}
+
 	public function hit_api( $params, $method, $verb = 'GET' ) {
 		$url     = $this->api_base . '/' . $method;
 		$headers = [
