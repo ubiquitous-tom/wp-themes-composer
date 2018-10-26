@@ -85,6 +85,7 @@ class RLJE_api_helper {
 				}
 				$raw_response = wp_remote_post(
 					$url, [
+						'timeout' => 15,
 						'headers' => $headers,
 						'body'    => json_encode( $params ),
 					]
