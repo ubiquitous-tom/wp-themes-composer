@@ -50,7 +50,7 @@ class RLJE_Store_Page {
 
 	public function fetch_stripe_key() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'gift' ] ) ) {
-			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+			$this->stripe_key = $this->api_helper->fetch_stripe_key();
 		}
 	}
 
@@ -79,6 +79,7 @@ class RLJE_Store_Page {
 			],
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'giftpayment', 'POST' );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 		if ( isset( $api_response['GiftCodes'] ) ) {
 			$response['success']  = true;
 			$response['order_id'] = $api_response['OrderID'];

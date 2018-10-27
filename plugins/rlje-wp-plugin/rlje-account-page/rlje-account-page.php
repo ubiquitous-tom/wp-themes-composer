@@ -37,7 +37,7 @@ class RLJE_Account_Page {
 
 	public function fetch_stripe_key() {
 		if ( 'account' === get_query_var( 'pagename' ) && 'renew' === get_query_var( 'action' ) ) {
-			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+			$this->stripe_key = $this->api_helper->fetch_stripe_key();
 		}
 	}
 
@@ -152,7 +152,8 @@ class RLJE_Account_Page {
 			'SessionID' => $_COOKIE['ATVSessionCookie'],
 			'NewEmail'  => $_POST['new_email'],
 		];
-		$response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
+		$api_response = $this->api_helper->hit_api( $params, 'changeemail', 'POST' );
+		$response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 		if( isset( $response['Email'] ) ) {
 			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			wp_send_json( [
@@ -174,7 +175,8 @@ class RLJE_Account_Page {
 				'Password' => $_POST['new_password'],
 			],
 		];
-		$response = $this->api_helper->hit_api( $params, 'password', 'POST' );
+		$api_response = $this->api_helper->hit_api( $params, 'password', 'POST' );
+		$response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 		wp_send_json( $response );
 	}
 
@@ -193,6 +195,7 @@ class RLJE_Account_Page {
 			],
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'DELETE' );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 		if ( isset( $api_response['Membership'] ) ) {
 			$this->remove_cached_profile( $_COOKIE['ATVSessionCookie'] );
 			$ajax_response = [ 'success' => true ];
@@ -215,6 +218,7 @@ class RLJE_Account_Page {
 			],
 		];
 		$api_response = $this->api_helper->hit_api( $params, 'promo', 'POST' );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 		wp_send_json( $api_response );
 	}
 
@@ -299,6 +303,7 @@ class RLJE_Account_Page {
 		];
 
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 
 		if ( isset( $api_response['error'] ) ) {
 			$response['error'] = $api_response['error'];
