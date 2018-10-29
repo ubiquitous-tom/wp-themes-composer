@@ -53,20 +53,8 @@ class RLJE_Signin_Page {
 		$user_status   = 'inactive';
 		$user_email    = strval( $_POST['email_address'] );
 		$user_password = strval( $_POST['password'] );
-		$request_body  = [
-			'App'         => [
-				'AppVersion' => $this->api_app_version,
-			],
-			'Credentials' => [
-				'Username' => $user_email,
-				'Password' => $user_password,
-			],
-			'Request'     => [
-				'OperationalScenario' => 'SIGNIN',
-			],
-		];
 
-		$api_response = $this->api_helper->hit_api( $request_body, 'initializeapp', 'POST' );
+		$api_response = $this->api_helper->signup_user( $user_email, $user_password );
 		if ( isset( $api_response['Session'] ) ) {
 			$session_id = $api_response['Session']['SessionID'];
 			if ( isset( $api_response['Membership'] ) ) {
@@ -87,7 +75,7 @@ class RLJE_Signin_Page {
 			// Ask Transient to cache user data
 			$this->cacheUserProfile( $api_response );
 		} else {
-			$response['error'] = 'No account with that email address exists.';
+			$response['error'] = $api_response['error'];
 		}
 
 		$response['status'] = $user_status;
@@ -102,11 +90,11 @@ class RLJE_Signin_Page {
 				'Email' => $email_address,
 			],
 		];
-		if ( ! empty( $email_address ) ) {
-			$response = $this->api_helper->hit_api( $request_body, 'forgotpassword', 'POST' );
-			if ( isset( $response['success'] ) && $response['success'] == true ) {
-				$success = true;
-			}
+		$api_response = $this->api_helper->hit_api( $request_body, 'forgotpassword', 'POST' );
+		$response = json_decode( wp_remote_retrieve_body( $api_response ), true );
+
+		if ( isset( $response['success'] ) && $response['success'] == true ) {
+			$success = true;
 		}
 		return $success;
 	}
@@ -134,14 +122,9 @@ class RLJE_Signin_Page {
 			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 				wp_redirect( home_url(), 303 );
 			}
-			if ( ! empty( $_POST ) ) {
+			if ( ! empty( $_POST ) && isset( $_POST['user_email'] ) ) {
 				// Hook into API to reset user password
-				$email_address = $_POST['user_email'];
-				if ( $this->resetPassword( $email_address ) ) {
-					$password_reset_failed = false;
-				} else {
-					$password_reset_failed = true;
-				}
+				$password_reset_failed = $this->resetPassword( $_POST['user_email'] );
 			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;

@@ -34,7 +34,7 @@ class RLJE_signup_page {
 
 	public function fetch_stripe_key() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signup' ] ) ) {
-			$this->stripe_key = $this->api_helper->hit_api( '', 'stripekey' )['StripeKey'];
+			$this->stripe_key = $this->api_helper->fetch_stripe_key();
 		}
 	}
 
@@ -94,6 +94,7 @@ class RLJE_signup_page {
 		];
 
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 
 		if ( isset( $api_response['error'] ) ) {
 			$response['error'] = $api_response['error'];
@@ -135,6 +136,7 @@ class RLJE_signup_page {
 		}
 
 		$profile_responose = $this->api_helper->hit_api( [ 'Email' => $user_email ], 'profile', 'GET' );
+		$profile_responose = json_decode( wp_remote_retrieve_body( $profile_responose ), true );
 
 		if ( isset( $profile_responose['Customer'] ) ) {
 			if( isset( $profile_responose['Membership'] ) ) {
@@ -150,20 +152,7 @@ class RLJE_signup_page {
 			}
 		}
 
-		$params = [
-			'App'         => [
-				'AppVersion' => 'UMCTV.Version.2.0',
-			],
-			'Credentials' => [
-				'Password' => $user_password,
-				'Username' => $user_email,
-			],
-			'Request'     => [
-				'OperationalScenario' => 'CREATE_ACCOUNT',
-			],
-		];
-
-		$api_response = $this->api_helper->hit_api( $params, 'initializeapp', 'POST' );
+		$api_response = $this->api_helper->signup_user( $user_email, $user_password );
 
 		if ( isset( $api_response['error'] ) ) {
 			$response['error'] = $api_response['error'];
