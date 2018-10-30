@@ -28,7 +28,7 @@ class RLJE_api_helper {
 		}
 	}
 
-	public function signup_user( $email, $password ) {
+	public function signin_user( $email, $password ) {
 		$response = [
 			'error' => '',
 		];
@@ -64,6 +64,26 @@ class RLJE_api_helper {
 			$response['error'] = 'Could not process the request. Please try again later.';
 		}
 		return $response;
+	}
+
+	public function signup_user( $email, $password ) {
+		$response = [
+			'error' => '',
+		];
+		$request_body  = [
+			'App'         => [
+				'AppVersion' => $this->api_app_version,
+			],
+			'Credentials' => [
+				'Username' => $email,
+				'Password' => $password,
+			],
+			'Request'     => [
+				'OperationalScenario' => 'CREATE_ACCOUNT',
+			],
+		];
+		$api_response = $this->hit_api( $request_body, 'initializeapp', 'POST' );
+		return json_decode( wp_remote_retrieve_body( $api_response ), true );
 	}
 
 	private function get_user_agent() {

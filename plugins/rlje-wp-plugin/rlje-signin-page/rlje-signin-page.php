@@ -54,7 +54,7 @@ class RLJE_Signin_Page {
 		$user_email    = strval( $_POST['email_address'] );
 		$user_password = strval( $_POST['password'] );
 
-		$api_response = $this->api_helper->signup_user( $user_email, $user_password );
+		$api_response = $this->api_helper->signin_user( $user_email, $user_password );
 		if ( isset( $api_response['Session'] ) ) {
 			$session_id = $api_response['Session']['SessionID'];
 			if ( isset( $api_response['Membership'] ) ) {
