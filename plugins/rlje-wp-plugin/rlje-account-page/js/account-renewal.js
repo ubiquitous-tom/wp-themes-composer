@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
                         var alert = jQuery(document.createElement('div')).addClass("alert fade in");
                         if (response.success == true) {
                             document.cookie = "ATVSessionCookie=; expires=-1; path=/";
-                            alert.addClass('alert-success').html('Thanks for your purchase. You\'d get redirected and asked to signin again.');
+                            alert.addClass('alert-success').html('Thanks for your purchase. You will now be redirected and asked to sign in again.');
                             var timer = setTimeout(function() {
                                 window.location.replace("/signin");
                             }, 10000);
