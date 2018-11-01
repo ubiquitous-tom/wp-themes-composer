@@ -119,6 +119,38 @@ class RLJE_signup_page {
 			'promo'      => [],
 		];
 
+		$profile_responose = $this->api_helper->hit_api( [ 'Email' => $user_email ], 'profile', 'GET' );
+		$profile_responose = json_decode( wp_remote_retrieve_body( $profile_responose ), true );
+
+		if ( isset( $profile_responose['Customer'] ) ) {
+			if( isset( $profile_responose['Membership'] ) ) {
+				// redirect to sign in
+				$response['error'] = 'Email already registered with the site. Sign in to start watching.';
+				wp_send_json( $response );
+			} else {
+				// User has an account but no membership.
+				// Pass to step two so they can select a plan.
+				if( !empty( $promo_code ) ) {
+					// Corner case: RENEWUMC should only be used by expired users.
+					if( in_array( strtolower( $promo_code ), [ 'renewumc' ] ) ) {
+						$response['error'] = "Promo code not found";
+						wp_send_json( $response );
+					} else {
+						$promo_response = $this->api_helper->get_promo( $promo_code );
+						if( isset( $promo_response[ "PromotionID" ] ) ) {
+							$response[ 'promo' ] = $promo_response;
+						} elseif( isset( $promo_response[ "error" ] ) ) {
+							$response['error'] = $promo_response[ "error" ];
+							wp_send_json( $response );
+						}
+					}
+				}
+				$response['success']    = true;
+				$response['session_id'] = $profile_responose['Session']['SessionID'];
+				wp_send_json( $response );
+			}
+		}
+
 		if( !empty( $promo_code ) ) {
 			// Corner case: RENEWUMC should only be used by expired users.
 			if( in_array( strtolower( $promo_code ), [ 'renewumc' ] ) ) {
@@ -132,23 +164,6 @@ class RLJE_signup_page {
 					$response['error'] = $promo_response[ "error" ];
 					wp_send_json( $response );
 				}
-			}
-		}
-
-		$profile_responose = $this->api_helper->hit_api( [ 'Email' => $user_email ], 'profile', 'GET' );
-		$profile_responose = json_decode( wp_remote_retrieve_body( $profile_responose ), true );
-
-		if ( isset( $profile_responose['Customer'] ) ) {
-			if( isset( $profile_responose['Membership'] ) ) {
-				// redirect to sign in
-				$response['error'] = 'Email already registered with the site. Sign in to start watching.';
-				wp_send_json( $response );
-			} else {
-				// User has an account but no membership.
-				// Pass to step two so they can select a plan.
-				$response['success']    = true;
-				$response['session_id'] = $profile_responose['Session']['SessionID'];
-				wp_send_json( $response );
 			}
 		}
 
