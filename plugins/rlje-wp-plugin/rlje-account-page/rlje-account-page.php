@@ -266,6 +266,10 @@ class RLJE_Account_Page {
 	}
 
 	function update_subscription() {
+		$response = [
+			'success' => false,
+			'error'   => 'We could not proccess your request.',
+		];
 		$this->membership_plans = $this->api_helper->get_plans();
 		$session_id         = $_COOKIE['ATVSessionCookie'];
 		$promo_code         = strval( $_POST['promo_code'] );
@@ -291,16 +295,17 @@ class RLJE_Account_Page {
 			],
 		];
 
-		if ( $promo_code ) {
+		if ( !empty( $promo_code ) ) {
+			// Hack: API can't associate promos with specific plans
+			// Treat renewumc as a yearly only plan.
+			if( 'renewumc' === strtolower( $promo_code ) && 'monthly' === $sub_plan ) {
+				$response['error'] = 'Promo ' . strtoupper( $promo_code ) . ' can only be used with a yearly plan.';
+				wp_send_json( $response );
+			}
 			$params['PromoCode'] = [
 				'Code' => $promo_code,
 			];
 		}
-
-		$response = [
-			'success' => false,
-			'error'   => 'We could not proccess your request.',
-		];
 
 		$api_response = $this->api_helper->hit_api( $params, 'membership', 'POST' );
 		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
