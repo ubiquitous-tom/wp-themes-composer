@@ -69,6 +69,7 @@ jQuery(document).ready(function($) {
         promo_code = $(this).val();
         if(update_promo) {
             jQuery('.alert').remove();
+            jQuery('#sub-plan').prop( "disabled", true );
             if(promo_code === "") {
                 if(Array.isArray(local_vars.plans) && local_vars.plans.length ) {
                     planOptions = [];
@@ -79,7 +80,9 @@ jQuery(document).ready(function($) {
                                 .html(`${capitalizeFirstLetter(plan.title)} - $${plan.cost}`)
                         );
                     });
-                    jQuery('#sub-plan').empty().append(planOptions);
+                    jQuery('#sub-plan')
+                        .empty().append(planOptions)
+                        .prop( "disabled", false );
                 }
             } else {
                 jQuery(document.createElement('div')).addClass("alert alert-info")
@@ -103,7 +106,9 @@ jQuery(document).ready(function($) {
                                         .html(`${capitalizeFirstLetter(plan.title)} - $${plan.cost}`)
                                 );
                             });
-                            jQuery('#sub-plan').empty().append(planOptions);
+                            jQuery('#sub-plan')
+                                .empty().append(planOptions)
+                                .prop( "disabled", false );
                         }
                         var alert = jQuery(document.createElement('div')).addClass("alert fade in");
                         if ( response.success === true ) {
