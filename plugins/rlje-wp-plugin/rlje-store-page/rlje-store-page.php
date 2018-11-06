@@ -36,7 +36,6 @@ class RLJE_Store_Page {
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'gift' ] ) ) {
 			wp_enqueue_style( 'store-main-style', plugins_url( 'css/style.css', __FILE__ ) );
-			wp_register_script( 'blueimp-javascript-templates', 'https://cdnjs.cloudflare.com/ajax/libs/blueimp-JavaScript-Templates/3.11.0/js/tmpl.min.js', [ 'jquery-core' ] );
 			wp_enqueue_script( 'store-gift-script', plugins_url( 'js/gift.js', __FILE__ ), [ 'jquery-core', 'blueimp-javascript-templates', 'stripe-js' ] );
 			wp_localize_script(
 				'store-gift-script', 'gift_vars', [

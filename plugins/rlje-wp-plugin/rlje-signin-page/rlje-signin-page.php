@@ -15,6 +15,9 @@ class RLJE_Signin_Page {
 		add_action( 'wp_ajax_signin_user', [ $this, 'signin_user' ] );
 		add_action( 'wp_ajax_nopriv_signin_user', [ $this, 'signin_user' ] );
 
+		add_action( 'wp_ajax_reset_password', [ $this, 'reset_password' ] );
+		add_action( 'wp_ajax_nopriv_reset_password', [ $this, 'reset_password' ] );
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'body_class', array( $this, 'browse_body_class' ) );
 
@@ -23,7 +26,7 @@ class RLJE_Signin_Page {
 	public function enqueue_scripts() {
 		if ( in_array( get_query_var( 'pagename' ), [ 'signin', 'forgotpassword' ] ) ) {
 			wp_enqueue_style( 'signin-index', plugins_url( 'css/style.css', __FILE__ ) );
-			wp_enqueue_script( 'signin-script', plugins_url( 'js/signin.js', __FILE__ ), [ 'jquery' ] );
+			wp_enqueue_script( 'signin-script', plugins_url( 'js/signin.js', __FILE__ ), [ 'jquery-core', 'blueimp-javascript-templates' ] );
 			wp_localize_script(
 				'signin-script', 'signin_vars', [
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -95,20 +98,26 @@ class RLJE_Signin_Page {
 		wp_send_json( $response );
 	}
 
-	private function resetPassword( $email_address ) {
-		$success      = false;
+	public function reset_password() {
+		$response      = [
+			'success' => false,
+			'error'   => '',
+		];
+		$email_address    = strval( $_POST['email_address'] );
 		$request_body = [
 			'Customer' => [
 				'Email' => $email_address,
 			],
 		];
 		$api_response = $this->api_helper->hit_api( $request_body, 'forgotpassword', 'POST' );
-		$response = json_decode( wp_remote_retrieve_body( $api_response ), true );
+		$api_response = json_decode( wp_remote_retrieve_body( $api_response ), true );
 
-		if ( isset( $response['success'] ) && $response['success'] == true ) {
-			$success = true;
+		if ( isset( $api_response['success'] ) && $api_response['success'] == true ) {
+			$response['success'] = true;
+		} else {
+			$response['error'] = 'Your e-mail address was not found, please check it and try again.';
 		}
-		return $success;
+		wp_send_json( $response );
 	}
 
 	public function browse_template_redirect() {
@@ -133,10 +142,6 @@ class RLJE_Signin_Page {
 		if ( 'forgotpassword' === $pagename ) {
 			if ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) ) {
 				wp_redirect( home_url(), 303 );
-			}
-			if ( ! empty( $_POST ) && isset( $_POST['user_email'] ) ) {
-				// Hook into API to reset user password
-				$password_reset_failed = $this->resetPassword( $_POST['user_email'] );
 			}
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;
