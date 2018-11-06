@@ -9,6 +9,7 @@ class RLJE_Signin_Page {
 	public function __construct() {
 		$this->api_helper = new RLJE_api_helper();
 		add_action( 'init', array( $this, 'add_browse_rewrite_rules' ) );
+		add_filter( 'document_title_parts', [ $this, 'signin_title_parts' ] );
 		add_action( 'template_redirect', array( $this, 'browse_template_redirect' ) );
 
 		add_action( 'wp_ajax_signin_user', [ $this, 'signin_user' ] );
@@ -34,6 +35,17 @@ class RLJE_Signin_Page {
 	public function add_browse_rewrite_rules() {
 		add_rewrite_rule( '^signin([^/]+)/?', 'index.php?pagename=signin', 'top' );
 		add_rewrite_rule( '^forgotpassword([^/]+)/?', 'index.php?pagename=forgot-password', 'top' );
+	}
+
+	public function signin_title_parts( $title ) {
+		if ( in_array( get_query_var( 'pagename' ), [ 'signin', 'forgotpassword' ] ) ) {
+			if( 'signin' === get_query_var( 'pagename' ) ) {
+				$title['title'] = 'Log in';
+			} else {
+				$title['title'] = 'Reset Password';
+			}
+		}
+		return $title;
 	}
 
 	private function cacheUserProfile( $user_profile ) {
@@ -111,7 +123,7 @@ class RLJE_Signin_Page {
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;
 			$wp_query->is_page = true;
-			// $wp_query->is_archive = true;
+			status_header( 200 );
 			ob_start();
 			require_once plugin_dir_path( __FILE__ ) . 'templates/signin.php';
 			$html = ob_get_clean();
@@ -129,6 +141,7 @@ class RLJE_Signin_Page {
 			// Prevent internal 404 on custome search page because of template_redirect hook.
 			$wp_query->is_404  = false;
 			$wp_query->is_page = true;
+			status_header( 200 );
 			ob_start();
 			require_once plugin_dir_path( __FILE__ ) . 'templates/forgot_password.php';
 			$html = ob_get_clean();
