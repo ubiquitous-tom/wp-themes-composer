@@ -69,14 +69,21 @@ footer {
 
 /* LAYOUT */
 
-.content {
+.content,
+#signup-content {
     flex: 1 0 auto;
 }
 
-.container {
+.container,
+.wp-activate-container {
     width: 96%;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.wp-activate-container {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .secondary-bg {
@@ -88,7 +95,8 @@ footer {
 
 /* Page layout */
 
-.page-body {
+.page-body,
+#signup-content {
     background-color: white;
     padding: 45px 0;
 }
@@ -2200,7 +2208,8 @@ all and (min-width: 768px) and (-webkit-transform-3d) {
 
 @media all and (min-width: 1200px) {
     /* LAYOUT */
-    .container {
+    .container,
+    .wp-activate-container {
         width: 92%;
     }
     .feature-slide .col-xs-10,
@@ -2328,7 +2337,8 @@ all and (min-width: 1200px) and (-webkit-transform-3d) {
 
 @media (min-width:1400px) {
     /* LAYOUT */
-    .container {
+    .container,
+    .wp-activate-container {
         width: 1350px;
     }
     /* HERO-CAROUSEL */
