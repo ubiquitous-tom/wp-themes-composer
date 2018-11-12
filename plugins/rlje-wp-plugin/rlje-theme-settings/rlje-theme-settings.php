@@ -3,18 +3,16 @@
 class RLJE_Theme_Settings {
 
 	protected $theme_settings         = array();
-	protected $theme_text_settings    = array();
-	protected $theme_plugins_settings = array();
-	protected $signup_promo_settings   = array();
 	protected $rlje_redis_table;
 
 	public function __construct() {
 		$this->theme_settings_include_files();
 
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
+		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 0 );
 
-		add_action( 'admin_init', array( $this, 'display_options' ) );
-		add_action( 'admin_menu', array( $this, 'add_theme_settings_menu' ) );
+		add_action( 'admin_init', [ $this, 'display_options' ] );
+		add_action( 'admin_menu', [ $this, 'add_rlje_settings_menu' ] );
+		add_action( 'admin_menu', [ $this, 'add_rlje_theme_submenu' ] );
 
 		// CORE THEME PAGES.
 		require_once 'header/rlje-header.php';
@@ -33,10 +31,10 @@ class RLJE_Theme_Settings {
 		require_once 'plugins/app-smart-banner/rlje-app-smart-banner-plugin.php';
 
 		// CORE THEME SETTINGS PAGES.
-		require_once 'rlje-theme-settings-3rd-party-tab.php';
 		require_once 'rlje-theme-environment-settings.php';
 		require_once 'rlje-theme-brightcove-settings.php';
 		require_once 'rlje-theme-redis-settings.php';
+		require_once 'rlje-theme-settings-3rd-party-tab.php';
 
 	}
 
@@ -45,23 +43,30 @@ class RLJE_Theme_Settings {
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
 
-		// Here we display the sections and options in the settings page based on the active tab.
-		$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
-		if ( empty( $tab ) || ( 'main-options' === $tab ) ) {
-			add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
-			add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
-		}
+		add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
+		add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
 	}
 
-	public function add_theme_settings_menu() {
+	public function add_rlje_settings_menu() {
 		add_menu_page(
-			'RLJE Theme Settings', // Required. Text in browser title bar when the page associated with this menu item is displayed.
-			'RLJE Settings', // Required. Text to be displayed in the menu.
-			'manage_network', // Required. The required capability of users to access this menu item.
-			'rlje-theme-settings', // Required. A unique identifier to identify this menu item.
-			array( $this, 'rlje_theme_settings_page' ), // Optional. This callback outputs the content of the page associated with this menu item.
-			'', // Optional. The URL to the menu item icon.
-			100 // Optional. Position of the menu item in the menu.
+			'RLJE Theme Settings',
+			'RLJE Settings',
+			'manage_network',
+			'rlje-theme-settings',
+			'',
+			'',
+			100
+		);
+	}
+
+	public function add_rlje_theme_submenu() {
+		add_submenu_page(
+			'rlje-theme-settings',
+			'RLJE Theme Options',
+			'Theme',
+			'manage_network',
+			'rlje-theme-settings',
+			[ $this, 'rlje_theme_settings_page' ]
 		);
 	}
 
@@ -70,42 +75,11 @@ class RLJE_Theme_Settings {
 		<div class="wrap">
 			<div id="icon-options-general" class="icon32"></div>
 			<h1>RLJE Theme Options</h1>
-			<?php
-			// We check if the page is visited by click on the tabs or on the menu button.
-			// Then we get the active tab.
-			$tab = ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : '';
-			switch ( $tab ) {
-				case '3rd-party-options':
-					$active_tab    = '3rd-party-options';
-					$active_fields = 'rlje_3rd_party_section';
-					break;
-				default:
-					$active_tab    = 'main-options';
-					$active_fields = 'rlje_theme_section';
-			}
-			?>
-
-			<!-- WordPress provides the styling for tabs. -->
-			<h2 class="nav-tab-wrapper">
-				<!-- when tab buttons are clicked we jump back to the same page but with a new parameter that represents the clicked tab. accordingly we make it active -->
-				<a href="?page=rlje-theme-settings&tab=main-options" class="nav-tab
-				<?php
-				if ( 'main-options' === $active_tab ) {
-					echo 'nav-tab-active'; }
-				?>
-				">Theme Options</a>
-				<a href="?page=rlje-theme-settings&tab=3rd-party-options" class="nav-tab
-				<?php
-				if ( '3rd-party-options' === $active_tab ) {
-					echo 'nav-tab-active'; }
-				?>
-				">3rd Party Options</a>
-			</h2>
 			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
-					settings_fields( $active_fields );
+					settings_fields( 'rlje-theme-settings' );
 
 					// all the add_settings_field callbacks is displayed here.
 					do_settings_sections( 'rlje-theme-settings' );
