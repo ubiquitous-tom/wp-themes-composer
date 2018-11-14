@@ -28,11 +28,16 @@ class RLJE_Index_Page {
 	public function initialize_index() {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
-		$this->signup_promo_settings = get_option( 'rlje_signup_promo_settings' );
-		$this->home_sections             = get_option( 'rlje_front_page_section', array() );
+		$this->signup_promo_settings     = get_option( 'rlje_signup_promo_settings' );
+		$this->rlje_front_page_section   = get_transient( 'rlje_front_page_section' );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
 		$this->browse_id_list_availables = apply_filters( 'atv_get_browse_genres_availables', '' );
+
+		// No homepage section positioning in cache $this->home_sections
+		// if ( false === $this->rlje_front_page_section ) {
+		// 	$this->rlje_front_page_section
+		// }  : '';
 	}
 
 	public function enqueue_scripts() {

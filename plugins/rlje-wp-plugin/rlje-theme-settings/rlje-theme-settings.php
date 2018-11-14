@@ -32,9 +32,9 @@ class RLJE_Theme_Settings {
 
 		// CORE THEME SETTINGS PAGES.
 		require_once 'rlje-theme-environment-settings.php';
+		require_once 'rlje-theme-settings-3rd-party-tab.php';
 		require_once 'rlje-theme-brightcove-settings.php';
 		require_once 'rlje-theme-redis-settings.php';
-		require_once 'rlje-theme-settings-3rd-party-tab.php';
 
 	}
 
@@ -63,7 +63,7 @@ class RLJE_Theme_Settings {
 		add_submenu_page(
 			'rlje-theme-settings',
 			'RLJE Theme Options',
-			'Theme',
+			'Theme Options',
 			'manage_network',
 			'rlje-theme-settings',
 			[ $this, 'rlje_theme_settings_page' ]
