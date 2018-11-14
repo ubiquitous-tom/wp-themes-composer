@@ -19,7 +19,8 @@ class RLJE_Index_Page {
 		add_action( 'wp_ajax_nopriv_paginate', array( $this, 'ajax_carousel_pagination' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_signup_promotion' ) );
 		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_loggedin_featured' ) );
-		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_sections' ) );
+		add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_sections_by_index' ) );
+		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_sections' ) );
 		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_featured' ) );
 		// add_action( 'rlje_homepage_middle_section_content', array( $this, 'display_home_spotlights' ) );
 		add_action( 'rlje_homepage_bottom_section_content', array( $this, 'display_callout' ) );
@@ -29,15 +30,28 @@ class RLJE_Index_Page {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
 		$this->signup_promo_settings     = get_option( 'rlje_signup_promo_settings' );
-		$this->rlje_front_page_section   = get_transient( 'rlje_front_page_section' );
+		$this->rlje_front_page_section   = get_option( 'rlje_front_page_section' );
 		$this->categories_home           = rljeApiWP_getHomeItems( 'categories' );
 		$this->categories_items          = ( isset( $this->categories_home->options ) ) ? $this->categories_home->options : array();
 		$this->browse_id_list_availables = apply_filters( 'atv_get_browse_genres_availables', '' );
 
-		// No homepage section positioning in cache $this->home_sections
-		// if ( false === $this->rlje_front_page_section ) {
-		// 	$this->rlje_front_page_section
-		// }  : '';
+		// Default News And Reviews position to after 2 content stipes.
+		$section_position_index = ( ! empty( $this->rlje_front_page_section['section_position_index'] ) ) ? $this->rlje_front_page_section['section_position_index'] : 2;
+
+		// Add News And Reviews to the list.
+		$section_position       = $this->categories_items;
+		$news_and_reviews       = new stdClass();
+		$news_and_reviews->id   = 'news-and-reviews';
+		$news_and_reviews->name = 'News And Reviews';
+		$news_and_reviews->type = 'news-and-reviews';
+
+		// Create a placeholder array.
+		$placeholder = array( 'placeholder' => 'Placeholder' );
+		// Splice placeholder to the array then add News And Reviews.
+		array_splice( $section_position, $section_position_index, 0, $placeholder );
+		$section_position[ $section_position_index ] = $news_and_reviews;
+		$this->home_sections['section_position']     = $section_position;
+
 	}
 
 	public function enqueue_scripts() {
@@ -79,7 +93,7 @@ class RLJE_Index_Page {
 		$is_activated = ( ! empty( $this->signup_promo_settings['enable'] ) ) ? boolval( $this->signup_promo_settings['enable'] ) : false;
 		if ( $is_activated ) {
 			$pitch          = ( ! empty( $this->signup_promo_settings['pitch'] ) ) ? $this->signup_promo_settings['pitch'] : 'Start your FREE 7-day trial to watch the best in Black film & television with new and exclusive content added weekly! Download UMC on your favorite Apple and Android mobile devices or stream on Roku or Amazon Prime Video Channels. Drama, romance, comedy and much more - it’s all on UMC!';
-			$about_video_id = ( ! empty( $this->signup_promo_settings['video_id'] ) ) ? $this->signup_promo_settings['video_id'] :  '5180867444001';
+			$about_video_id = ( ! empty( $this->signup_promo_settings['video_id'] ) ) ? $this->signup_promo_settings['video_id'] : '5180867444001';
 			ob_start();
 			require plugin_dir_path( __FILE__ ) . 'partials/section-signup-promotion.php';
 			$html = ob_get_clean();
@@ -133,6 +147,33 @@ class RLJE_Index_Page {
 			endif;
 
 		endif;
+	}
+
+	public function display_home_sections_by_index() {
+		if ( is_home() || is_front_page() ) {
+			if ( ! empty( $this->home_sections['section_position'] ) ) {
+				$news_and_reviews_displayed = false;
+				foreach ( $this->home_sections['section_position'] as $section_position ) {
+					if ( 'news-and-reviews' === $section_position->id ) {
+						$this->display_home_news_and_reviews_section();
+						$news_and_reviews_displayed = true;
+					} elseif ( ! $news_and_reviews_displayed ) {
+						$this->display_home_featured_section( $section_position );
+					} else {
+						$this->display_home_spotlight_section( $section_position );
+					}
+				}
+			} else { // FALLBACK
+				$this->display_home_featured();
+
+				if ( class_exists( 'RLJE_News_And_Reviews' ) ) {
+					global $rlje_news_and_reviews;
+					$rlje_news_and_reviews->display_news_and_reviews();
+				}
+
+				$this->display_home_spotlights();
+			}
+		}
 	}
 
 	public function display_home_sections() {
@@ -245,16 +286,15 @@ class RLJE_Index_Page {
 	public function display_home_featured() {
 		if ( is_home() || is_front_page() ) :
 			// if ( empty( $this->home_sections['section_position'] ) ) {
-			// 	return;
+			// return;
 			// }
-
 			$home_featured = [];
 			// foreach ( $this->home_sections['section_position'] as $section_position ) {
-			// 	if ( 'news-and-reviews' !== $section_position->id ) {
-			// 		$home_featured[] = $section_position;
-			// 	} else {
-			// 		break;
-			// 	}
+			// if ( 'news-and-reviews' !== $section_position->id ) {
+			// $home_featured[] = $section_position;
+			// } else {
+			// break;
+			// }
 			// }
 			$categories_items = $this->categories_items;
 			$home_featureds   = array_splice( $categories_items, 0, 2 );
@@ -284,7 +324,7 @@ class RLJE_Index_Page {
 					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 				?>
 				</div>
-			<?php endforeach; //endfor; ?>
+			<?php endforeach; // endfor; ?>
 			</div>
 		</section>
 			<?php
@@ -297,16 +337,15 @@ class RLJE_Index_Page {
 	public function display_home_spotlights() {
 		if ( is_home() || is_front_page() ) :
 			// if ( empty( $this->home_sections['section_position'] ) ) {
-			// 	return;
+			// return;
 			// }
-
 			$home_spotlights = [];
 			// $is_found        = false;
 			// foreach ( $this->home_sections['section_position'] as $section_position ) {
-			// 	if ( 'news-and-reviews' === $section_position->id || $is_found ) {
-			// 		$is_found          = true;
-			// 		$home_spotlights[] = $section_position;
-			// 	}
+			// if ( 'news-and-reviews' === $section_position->id || $is_found ) {
+			// $is_found          = true;
+			// $home_spotlights[] = $section_position;
+			// }
 			// }
 			$categories_items = $this->categories_items;
 			$home_spotlights  = array_splice( $categories_items, 2 );
@@ -336,7 +375,7 @@ class RLJE_Index_Page {
 					require plugin_dir_path( __FILE__ ) . 'partials/section-carousel-pagination.php';
 				?>
 				</div>
-				<?php endforeach; //endfor; ?>
+				<?php endforeach; // endfor; ?>
 			</div>
 		</section>
 			<?php
