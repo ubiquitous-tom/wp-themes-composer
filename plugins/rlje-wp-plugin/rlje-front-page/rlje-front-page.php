@@ -1,10 +1,6 @@
 <?php
 
 class RLJE_Front_page {
-
-	protected $homepage        = array();
-	protected $current_country = '';
-
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', [ $this, 'register_homepage_settings' ] );
@@ -13,7 +9,6 @@ class RLJE_Front_page {
 		add_action( 'admin_menu', [ $this, 'hero_carousel_menu' ] );
 		add_action( 'admin_menu', [ $this, 'homepage_text_menu' ] );
 
-		// add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'load_new_country' ) );
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_country_list_cache_table_list' ) );
 		require_once 'rlje-section-position.php';
 		require_once 'rlje-hero.php';
@@ -38,9 +33,6 @@ class RLJE_Front_page {
 	}
 
 	public function register_admin_page() {
-		add_settings_section( 'homepage_section', 'Hero Settings', array( $this, 'homepage_settings' ), 'rlje-front-page' );
-		add_settings_field( 'country_listing', 'Available Countries', array( $this, 'homepage_country_listing' ), 'rlje-front-page', 'homepage_section' );
-
 		add_settings_section( 'rlje_theme_text_section', 'Theme Text Options', array( $this, 'display_rlje_theme_text_options_content' ), 'rlje-homepage-text' );
 		add_settings_field( 'navigation_signup_text', 'Navigation Sign Up Text', array( $this, 'display_navigation_signup_text' ), 'rlje-homepage-text', 'rlje_theme_text_section' );
 		add_settings_field( 'navigation_login_text', 'Navigation Log In Text', array( $this, 'display_navigation_login_text' ), 'rlje-homepage-text', 'rlje_theme_text_section' );
@@ -319,82 +311,10 @@ class RLJE_Front_page {
 		<?php
 	}
 
-	public function homepage_settings( $section ) {
-		$rlje_front_page_homepage = get_option( 'rlje_front_page_homepage' );
-		$this->current_country    = $this->get_current_country();
-		$country_code             = strtoupper( $this->current_country['code'] );
-		$this->homepage           = ( array_key_exists( $country_code, $rlje_front_page_homepage ) ) ? $rlje_front_page_homepage[ $country_code ] : array();
-		// var_dump( $rlje_front_page_homepage, $country_code, $this->homepage );
-		?>
-		<p>Currently displaying <strong><?php echo esc_html( $this->current_country['name'] ); ?></strong> Hero Settings</p>
-		<?php
-	}
-
-	public function homepage_country_listing() {
-		// echo home_url( add_query_arg( null, null ) );
-		// $this->current_country = ( ! empty( $this->homepage['display_country'] ) ) ? $this->homepage['display_country'] : 'US';
-		$countries = $this->get_countries();
-		?>
-		<select name="rlje_front_page_homepage[display_country]" id="display_country">
-			<?php foreach ( $countries as $country ) : ?>
-			<option value="<?php echo esc_attr( $country['code'] ); ?>" <?php selected( $country['code'], strtoupper( $this->current_country['code'] ) ); ?>>
-				<?php echo esc_html( $country['name'] ); ?>
-			</option>
-			<?php endforeach; ?>
-		</select>
-		<!-- <input type="hidden" name="rlje_front_page_homepage[go_to_country]" value="<?php echo esc_attr( $this->current_country['code'] ); ?>"> -->
-		<input type="submit" name="submit" id="submit" class="button button-primary" value="Go to this country">
-		<p class="description">Currently display hero carousel from <?php echo esc_html( $countries[ $this->current_country['code'] ]['name'] ); ?></p>
-		<?php
-	}
-
-	// public function load_new_country( $data ) {
-	// if ( ! empty( $data['go_to_country'] ) ) {
-	// $go_to_country =  $data['display_country'];
-	// unset( $data['go_to_country'] );
-	// wp_safe_redirect( add_query_arg( array( 'page' => 'rlje-front-page', 'country' => $go_to_country ), admin_url( 'admin.php' ) ) );
-	// }
-	// return $data;
-	// }
-
-	protected function get_countries() {
-		// https://acorn.dev/wp-admin/admin.php?page=rlje-front-page&country=mx
-		// wp_safe_redirect( add_query_arg( array( 'page' => 'rlje-front-page', 'country' => 'mx' ), admin_url( 'admin.php' ) ) );
-		$transient_key = 'rlje_country_code_list';
-		// delete_transient( $transient_key );
-		$countries = get_transient( $transient_key );
-		if ( false !== $countries ) {
-			return $countries;
-		} else {
-			$countries     = array();
-			$response      = wp_remote_get( 'https://api.rlje.net/cms/admin/countrycode' );
-			$body          = wp_remote_retrieve_body( $response );
-			$response_body = json_decode( $body );
-			foreach ( $response_body as $country ) {
-				$countries[ $country->CountryCode ]['timezone'] = $country->TimeZone;
-				$countries[ $country->CountryCode ]['name']     = $country->CountryName;
-				$countries[ $country->CountryCode ]['code']     = $country->CountryCode;
-			}
-			$updated = set_transient( $transient_key, $countries, 30 * MINUTE_IN_SECONDS );
-			if ( $updated ) {
-				return $countries;
-			}
-		}
-	}
-
 	public function add_country_list_cache_table_list( $cache_list ) {
 		$cache_list[] = 'rlje_country_code_list';
 
 		return $cache_list;
-	}
-
-	protected function get_current_country() {
-		$country = ( ! empty( $_GET['country'] ) ) ? esc_attr( $_GET['country'] ) : 'us';
-		// $country = ( ! empty( rljeApiWP_getCountryFilter() ) ) ? rljeApiWP_getCountryFilter() : 'US';
-		$countries = $this->get_countries();
-		$country   = $countries[ strtoupper( $country ) ];
-
-		return $country;
 	}
 
 	public function sanitize_callback( $data ) {

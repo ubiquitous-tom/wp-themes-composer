@@ -1,7 +1,9 @@
 <?php
 
-class RLJE_Hero extends RLJE_Front_page {
+class RLJE_Hero {
 
+	protected $current_country = [];
+	protected $homepage = [];
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'register_admin_page' ) );
 		add_action( 'rlje_homepage_top_section_content', array( $this, 'display_hero_carousel' ) );
@@ -13,9 +15,40 @@ class RLJE_Hero extends RLJE_Front_page {
 	}
 
 	public function register_admin_page() {
+		add_settings_section( 'homepage_section', 'Hero Settings', array( $this, 'homepage_settings' ), 'rlje-front-page' );
+		add_settings_field( 'country_listing', 'Available Countries', array( $this, 'homepage_country_listing' ), 'rlje-front-page', 'homepage_section' );
+
 		add_settings_field( 'hero_preview', 'Hero Preview', array( $this, 'homepage_hero_preview' ), 'rlje-front-page', 'homepage_section' );
 		add_settings_field( 'hero_expiration', 'Hero Cache Expiration', array( $this, 'homepage_hero_expiration' ), 'rlje-front-page', 'homepage_section' );
 		add_settings_field( 'hero_clear_cache', 'Hero Clear Cache', array( $this, 'homepage_hero_clear_cache' ), 'rlje-front-page', 'homepage_section' );
+	}
+
+	public function homepage_settings( $section ) {
+		$rlje_front_page_homepage = get_option( 'rlje_front_page_homepage' );
+		$this->current_country    = $this->get_current_country();
+		$country_code             = strtoupper( $this->current_country['code'] );
+		$this->homepage           = ( array_key_exists( $country_code, $rlje_front_page_homepage ) ) ? $rlje_front_page_homepage[ $country_code ] : array();
+		?>
+		<p>Currently displaying <strong><?php echo esc_html( $this->current_country['name'] ); ?></strong> Hero Settings</p>
+		<?php
+	}
+
+	public function homepage_country_listing() {
+		// echo home_url( add_query_arg( null, null ) );
+		// $this->current_country = ( ! empty( $this->homepage['display_country'] ) ) ? $this->homepage['display_country'] : 'US';
+		$countries = $this->get_countries();
+		?>
+		<select name="rlje_front_page_homepage[display_country]" id="display_country">
+			<?php foreach ( $countries as $country ) : ?>
+			<option value="<?php echo esc_attr( $country['code'] ); ?>" <?php selected( $country['code'], strtoupper( $this->current_country['code'] ) ); ?>>
+				<?php echo esc_html( $country['name'] ); ?>
+			</option>
+			<?php endforeach; ?>
+		</select>
+		<!-- <input type="hidden" name="rlje_front_page_homepage[go_to_country]" value="<?php echo esc_attr( $this->current_country['code'] ); ?>"> -->
+		<input type="submit" name="submit" id="submit" class="button button-primary" value="Go to this country">
+		<p class="description">Currently display hero carousel from <?php echo esc_html( $countries[ $this->current_country['code'] ]['name'] ); ?></p>
+		<?php
 	}
 
 	public function homepage_hero_preview() {
@@ -122,6 +155,40 @@ class RLJE_Hero extends RLJE_Front_page {
 		$transient_key   = implode( '_', array( $key_prefix, $country ) );
 
 		return $transient_key;
+	}
+
+	protected function get_current_country() {
+		$country = ( ! empty( $_GET['country'] ) ) ? esc_attr( $_GET['country'] ) : 'us';
+		// $country = ( ! empty( rljeApiWP_getCountryFilter() ) ) ? rljeApiWP_getCountryFilter() : 'US';
+		$countries = $this->get_countries();
+		$country   = $countries[ strtoupper( $country ) ];
+
+		return $country;
+	}
+
+	protected function get_countries() {
+		// https://acorn.dev/wp-admin/admin.php?page=rlje-front-page&country=mx
+		// wp_safe_redirect( add_query_arg( array( 'page' => 'rlje-front-page', 'country' => 'mx' ), admin_url( 'admin.php' ) ) );
+		$transient_key = 'rlje_country_code_list';
+		// delete_transient( $transient_key );
+		$countries = get_transient( $transient_key );
+		if ( false !== $countries ) {
+			return $countries;
+		} else {
+			$countries     = array();
+			$response      = wp_remote_get( 'https://api.rlje.net/cms/admin/countrycode' );
+			$body          = wp_remote_retrieve_body( $response );
+			$response_body = json_decode( $body );
+			foreach ( $response_body as $country ) {
+				$countries[ $country->CountryCode ]['timezone'] = $country->TimeZone;
+				$countries[ $country->CountryCode ]['name']     = $country->CountryName;
+				$countries[ $country->CountryCode ]['code']     = $country->CountryCode;
+			}
+			$updated = set_transient( $transient_key, $countries, 30 * MINUTE_IN_SECONDS );
+			if ( $updated ) {
+				return $countries;
+			}
+		}
 	}
 }
 
