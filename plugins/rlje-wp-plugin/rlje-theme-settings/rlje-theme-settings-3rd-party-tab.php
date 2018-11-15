@@ -42,7 +42,7 @@ class RLJE_Theme_Settings_3rd_Party_Tab {
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
-					settings_fields( '3rd-party-options' );
+					settings_fields( 'rlje_3rd_party_section' );
 
 					// all the add_settings_field callbacks is displayed here.
 					do_settings_sections( '3rd-party-options' );

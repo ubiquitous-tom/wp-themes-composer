@@ -76,7 +76,7 @@ class RLJE_Section_Position extends RLJE_Front_page {
 			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 			<?php
-				settings_fields( $this->prefix );
+				settings_fields( 'rlje-front-page' );
 				do_settings_sections( 'rlje-section-position' );
 				submit_button();
 			?>
