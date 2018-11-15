@@ -6,12 +6,38 @@ class RLJE_Hero {
 	protected $homepage = [];
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'register_admin_page' ) );
+		add_action( 'admin_menu', [ $this, 'hero_carousel_menu' ] );
 		add_action( 'rlje_homepage_top_section_content', array( $this, 'display_hero_carousel' ) );
 
 		add_filter( 'rlje_front_page_homepage_sanitizer', array( $this, 'delete_hero_cache' ) );
 		add_filter( 'rlje_api_get_country_code', array( $this, 'get_admin_country_code' ) );
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_carousel_cache_table_list' ) );
-		// add_filter( 'wp_kses_allowed_html', array( $this, 'allow_carousel_data_attributes' ), 10, 2 );
+	}
+
+	public function hero_carousel_menu() {
+		add_submenu_page(
+			'rlje-front-page',
+			'Hero Carousel Settings',
+			'Hero Carousel',
+			'manage_options',
+			'rlje-front-page',
+			[ $this, 'render_hero_carousel_settings' ]
+		);
+	}
+
+	public function render_hero_carousel_settings() {
+		?>
+		<div class="wrap" id="rlje-front-page">
+			<?php settings_errors(); ?>
+			<form method="post" action="options.php">
+			<?php
+				settings_fields( 'rlje-front-page' );
+				do_settings_sections( 'rlje-front-page' );
+				submit_button();
+			?>
+			</form>
+		</div>
+		<?php
 	}
 
 	public function register_admin_page() {

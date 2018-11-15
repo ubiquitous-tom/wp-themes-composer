@@ -6,12 +6,10 @@ class RLJE_Front_page {
 		add_action( 'admin_init', [ $this, 'register_homepage_settings' ] );
 		add_action( 'admin_init', array( $this, 'register_admin_page' ) );
 		add_action( 'admin_menu', array( $this, 'register_homepage_menu' ) );
-		add_action( 'admin_menu', [ $this, 'hero_carousel_menu' ] );
-		add_action( 'admin_menu', [ $this, 'homepage_text_menu' ] );
 
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_country_list_cache_table_list' ) );
-		require_once 'rlje-section-position.php';
 		require_once 'rlje-hero.php';
+		require_once 'rlje-section-position.php';
 		require_once 'rlje-text-part.php';
 	}
 
@@ -40,32 +38,6 @@ class RLJE_Front_page {
 			'dashicons-admin-home',
 			5
 		);
-	}
-
-	public function hero_carousel_menu() {
-		add_submenu_page(
-			'rlje-front-page',
-			'Hero Carousel Settings',
-			'Hero Carousel',
-			'manage_options',
-			'rlje-front-page',
-			[ $this, 'render_hero_carousel_settings' ]
-		);
-	}
-
-	public function render_hero_carousel_settings() {
-		?>
-		<div class="wrap" id="rlje-front-page">
-			<?php settings_errors(); ?>
-			<form method="post" action="options.php">
-			<?php
-				settings_fields( 'rlje-front-page' );
-				do_settings_sections( 'rlje-front-page' );
-				submit_button();
-			?>
-			</form>
-		</div>
-		<?php
 	}
 
 	public function add_country_list_cache_table_list( $cache_list ) {
