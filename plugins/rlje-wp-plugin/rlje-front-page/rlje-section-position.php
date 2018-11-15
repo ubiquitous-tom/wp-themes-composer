@@ -38,7 +38,7 @@ class RLJE_Section_Position extends RLJE_Front_page {
 	}
 
 	public function display_options() {
-		register_setting( 'rlje_section_position', 'rlje_front_page_section', array( $this, 'sanitize_callback' ) );
+		register_setting( 'rlje-section-position', 'rlje_front_page_section', array( $this, 'sanitize_callback' ) );
 
 		add_settings_section( 'position_section', 'Section Position Settings', array( $this, 'section_position_settings' ), 'rlje-section-position' );
 		add_settings_field( 'country_listing', 'Available Countries', array( $this, 'homepage_country_listing' ), 'rlje-section-position', 'position_section' );
@@ -64,7 +64,7 @@ class RLJE_Section_Position extends RLJE_Front_page {
 			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 			<?php
-				settings_fields( 'rlje_section_position' );
+				settings_fields( 'rlje-section-position' );
 				do_settings_sections( 'rlje-section-position' );
 				submit_button();
 			?>
