@@ -55,7 +55,7 @@ class RLJE_text_part {
 		add_settings_field( 'signup_promo_section_pitch', 'Sales pitch being shown', [ $this, 'signup_promo_section_pitch' ], 'rlje-homepage-text', 'signup_promo_section' );
 
 		add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-homepage-text' );
-		add_settings_field( 'theme_plugins_front_page', 'Home Page', array( $this, 'display_theme_plugins_front_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
+		add_settings_field( 'theme_plugins_front_page', 'Hero carousel', array( $this, 'display_theme_plugins_front_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
 		add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
 		add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
 		add_settings_field( 'theme_plugins_home_callout', 'Home Callout', array( $this, 'display_theme_home_callout' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
