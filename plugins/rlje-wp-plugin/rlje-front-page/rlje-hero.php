@@ -1,6 +1,6 @@
 <?php
 
-class RLJE_Hero {
+class RLJE_Hero extends RLJE_Front_page {
 
 	protected $current_country = [];
 	protected $homepage = [];
@@ -181,40 +181,6 @@ class RLJE_Hero {
 		$transient_key   = implode( '_', array( $key_prefix, $country ) );
 
 		return $transient_key;
-	}
-
-	protected function get_current_country() {
-		$country = ( ! empty( $_GET['country'] ) ) ? esc_attr( $_GET['country'] ) : 'us';
-		// $country = ( ! empty( rljeApiWP_getCountryFilter() ) ) ? rljeApiWP_getCountryFilter() : 'US';
-		$countries = $this->get_countries();
-		$country   = $countries[ strtoupper( $country ) ];
-
-		return $country;
-	}
-
-	protected function get_countries() {
-		// https://acorn.dev/wp-admin/admin.php?page=rlje-front-page&country=mx
-		// wp_safe_redirect( add_query_arg( array( 'page' => 'rlje-front-page', 'country' => 'mx' ), admin_url( 'admin.php' ) ) );
-		$transient_key = 'rlje_country_code_list';
-		// delete_transient( $transient_key );
-		$countries = get_transient( $transient_key );
-		if ( false !== $countries ) {
-			return $countries;
-		} else {
-			$countries     = array();
-			$response      = wp_remote_get( 'https://api.rlje.net/cms/admin/countrycode' );
-			$body          = wp_remote_retrieve_body( $response );
-			$response_body = json_decode( $body );
-			foreach ( $response_body as $country ) {
-				$countries[ $country->CountryCode ]['timezone'] = $country->TimeZone;
-				$countries[ $country->CountryCode ]['name']     = $country->CountryName;
-				$countries[ $country->CountryCode ]['code']     = $country->CountryCode;
-			}
-			$updated = set_transient( $transient_key, $countries, 30 * MINUTE_IN_SECONDS );
-			if ( $updated ) {
-				return $countries;
-			}
-		}
 	}
 }
 
