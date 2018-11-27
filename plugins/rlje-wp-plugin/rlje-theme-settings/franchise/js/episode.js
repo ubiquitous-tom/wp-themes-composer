@@ -1,6 +1,3 @@
-var endCookie = new Date();
-endCookie.setMinutes(endCookie.getMinutes() + 2);
-
 var episodePlayer = function(episodeId, setTimePosition) {
   var player = videojs('brightcove-episode-player'),
     isPlayingSet = function(item) {
@@ -124,9 +121,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
     .on('timeupdate', function(event) {
       // console.log('timeupdate', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       if (!player.paused()) {
-        var showNextEpisode = player.currentTime() >= player.duration() - 60,
-            goToNextEpisode = player.currentTime() >= player.duration() - 45,
-            isGoingToNextEpisode = false;
+        var showNextEpisode = player.currentTime() >= player.duration() - 45;
         if (showNextEpisode && !showingNextEpisodePrompt) {
           if (typeof $overlayCloned === 'undefined') {
             $overlayCloned = $overlay.clone();
@@ -141,10 +136,6 @@ var episodePlayer = function(episodeId, setTimePosition) {
           player.el().removeChild($overlayCloned[0]);
           showingNextEpisodePrompt = false;
           console.log('removing nextEpisode prompt!');
-        }
-        if (showingNextEpisodePrompt && goToNextEpisode && !isGoingToNextEpisode) {
-          $overlayCloned.click();
-          docCookies.setItem('playerOption', 'playFromStart', endCookie);
         }
       }
     })
@@ -181,6 +172,9 @@ var episodePlayer = function(episodeId, setTimePosition) {
     }
   };
 };
+
+var endCookie = new Date();
+endCookie.setMinutes(endCookie.getMinutes() + 2);
 
 jQuery('#continueWatching, #brightcove-episode-player')
   .on('click', '.js-play-start', function() {
