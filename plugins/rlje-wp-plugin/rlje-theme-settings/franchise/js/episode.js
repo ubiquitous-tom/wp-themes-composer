@@ -143,8 +143,13 @@ var episodePlayer = function(episodeId, setTimePosition) {
           console.log('removing nextEpisode prompt!');
         }
         if (showingNextEpisodePrompt && goToNextEpisode && !isGoingToNextEpisode) {
-          $overlayCloned.click();
-          docCookies.setItem('playerOption', 'playFromStart', endCookie);
+          var linkToNextEpisode = $overlayCloned.find('a'),
+              nexEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
+          if (nexEpisodeURL) {
+            window.location = nexEpisodeURL;
+            docCookies.setItem('playerOption', 'playFromStart', endCookie);
+            isGoingToNextEpisode = true;
+          }
         }
       }
     })
