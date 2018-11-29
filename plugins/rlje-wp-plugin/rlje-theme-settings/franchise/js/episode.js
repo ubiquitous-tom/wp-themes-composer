@@ -144,9 +144,9 @@ var episodePlayer = function(episodeId, setTimePosition) {
         }
         if (showingNextEpisodePrompt && goToNextEpisode && !isGoingToNextEpisode) {
           var linkToNextEpisode = $overlayCloned.find('a'),
-              nexEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
-          if (nexEpisodeURL) {
-            window.location = nexEpisodeURL;
+              nextEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
+          if (nextEpisodeURL) {
+            window.location = nextEpisodeURL;
             docCookies.setItem('playerOption', 'playFromStart', endCookie);
             isGoingToNextEpisode = true;
           }
