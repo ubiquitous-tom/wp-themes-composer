@@ -5,12 +5,15 @@ var episodePlayer = function(episodeId, setTimePosition) {
   var player = videojs('brightcove-episode-player'),
     isPlayingSet = function(item) {
       var isSet = false;
+      console.log('Checking option set.');
       if (
         docCookies.hasItem('playerOption') &&
         docCookies.getItem('playerOption') === item
       ) {
         isSet = true;
+        docCookies.removeItem('playerOption');
         docCookies.removeItem('playerOption', '/');
+        console.log('Removing player option set.');
       }
       return isSet;
     },
@@ -44,6 +47,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
       }
       if (fromStart) {
         player.currentTime(initTime);
+        console.log('autoplaying from start...');
         setStreamPosition('STOP');
       }
     })
@@ -124,9 +128,9 @@ var episodePlayer = function(episodeId, setTimePosition) {
     .on('timeupdate', function(event) {
       // console.log('timeupdate', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
       if (!player.paused()) {
-        var showNextEpisode = player.currentTime() >= player.duration() - 60,
-            goToNextEpisode = player.currentTime() >= player.duration() - 45,
-            isGoingToNextEpisode = false;
+        var showNextEpisode = player.currentTime() >= player.duration() - 45,
+            goToNextEpisode = player.currentTime() >= player.duration() - 40;
+            
         if (showNextEpisode && !showingNextEpisodePrompt) {
           if (typeof $overlayCloned === 'undefined') {
             $overlayCloned = $overlay.clone();
@@ -142,13 +146,14 @@ var episodePlayer = function(episodeId, setTimePosition) {
           showingNextEpisodePrompt = false;
           console.log('removing nextEpisode prompt!');
         }
-        if (showingNextEpisodePrompt && goToNextEpisode && !isGoingToNextEpisode) {
+        if (showingNextEpisodePrompt && goToNextEpisode) {
           var linkToNextEpisode = $overlayCloned.find('a'),
               nextEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
           if (nextEpisodeURL) {
-            window.location = nextEpisodeURL;
-            docCookies.setItem('playerOption', 'playFromStart', endCookie);
-            isGoingToNextEpisode = true;
+            docCookies.setItem('playerOption', 'playFromStart', endCookie, '/');
+            player.pause();
+            console.log('going to next episode...');
+            setTimeout(function() { window.location.href = nextEpisodeURL; }, 500);
           }
         }
       }
