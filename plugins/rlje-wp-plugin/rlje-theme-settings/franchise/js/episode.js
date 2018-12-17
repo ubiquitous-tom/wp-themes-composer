@@ -203,9 +203,9 @@ jQuery('.js-player-start').on('click', function(e) {
   e.preventDefault();
   scrollToPlayer(this);
   docCookies.setItem('playerOption', 'playFromStart', endCookie);
-  videojs('brightcove-episode-player')
-    .currentTime(0)
-    .play();
+  var player = videojs('brightcove-episode-player')
+  player.currentTime(0)
+  player.play();
 });
 
 jQuery('.js-player-resume').on('click', function(e) {
