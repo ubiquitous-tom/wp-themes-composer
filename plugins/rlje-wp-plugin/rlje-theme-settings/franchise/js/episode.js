@@ -47,7 +47,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
       }
       if (fromStart) {
         player.currentTime(initTime);
-        console.log('autoplaying from start...');
+        console.log('set current time from start');
         setStreamPosition('STOP');
       }
     })
