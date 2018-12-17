@@ -39,8 +39,7 @@ var episodePlayer = function(episodeId, setTimePosition) {
     showingExtBtn = false;
   }
 
-  player
-    .on('loadedmetadata', function() {
+  player.on('loadedmetadata', function() {
       //Set the current time once the initial duration is loaded.
       if (setTimePosition) {
         player.currentTime(setTimePosition);
@@ -50,123 +49,123 @@ var episodePlayer = function(episodeId, setTimePosition) {
         console.log('set current time from start');
         setStreamPosition('STOP');
       }
-    })
-    .on('play', function(event) {
-      // console.log('play', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      if (isPlayingSet('playFromStart')) {
-        return;
+  });
+  player.on('play', function(event) {
+    // console.log('play', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+    if (isPlayingSet('playFromStart')) {
+      return;
+    }
+    ///Only fixes a Safari issue (sometimes the player doesn't load the current time).
+    if (initTime > 0) {
+      var isEnded = initTime > player.duration() - 10 ? true : false;
+      if (isEnded) {
+        initTime = 0;
+      } ///if the video ended, it plays from beginer.
+      if (player.currentTime() !== initTime) {
+        player.currentTime(initTime);
+        console.log('Player: Init time set.');
       }
-      ///Only fixes a Safari issue (sometimes the player doesn't load the current time).
-      if (initTime > 0) {
-        var isEnded = initTime > player.duration() - 10 ? true : false;
-        if (isEnded) {
-          initTime = 0;
-        } ///if the video ended, it plays from beginer.
-        if (player.currentTime() !== initTime) {
-          player.currentTime(initTime);
-          console.log('Player: Init time set.');
-        }
-        initTime = null;
-      }
-      ///End Safari fix.
+      initTime = null;
+    }
+    ///End Safari fix.
 
-      //Checking if the current User is Active
-      var data = {
-          action: 'is_user_active',
-          token: episode_object.token
-        },
-        stopPlayer = function() {
-          player.pause();
-        },
-        processData = function(response) {
-          var data = response.data;
-          if (data.isActive !== true) {
-            stopPlayer();
-            console.error('User not active');
-          }
-        };
+    //Checking if the current User is Active
+    var data = {
+        action: 'is_user_active',
+        token: episode_object.token
+      },
+      stopPlayer = function() {
+        player.pause();
+      },
+      processData = function(response) {
+        var data = response.data;
+        if (data.isActive !== true) {
+          stopPlayer();
+          console.error('User not active');
+        }
+      };
 
-      // This needs to be done differently
-      jQuery.post(episode_object.ajax_url, data, processData).fail(function() {
-        console.error('Error checking if the user is active');
-      });
-    })
-    .on('playing', function(event) {
-      // console.log('playing', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      isPlayingSet('playFromStart');
-      if (!isCapturingStreamPosition) {
-        isCapturingStreamPosition = true;
-        strempositionInterval = setInterval(function() {
-          if (parseInt(event.target.player.currentTime(), 10) === 0) {
-            setStreamPosition('START');
-          } else {
-            // console.log('streamPositionTimer',event.target.player.currentTime());
-            setStreamPosition('PLAYING');
-          }
-        }, streamPositionTimer);
-      }
-      $continueWatchingBlock.hide();
-    })
-    .on('pause', function(event) {
-      // console.log('pause', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      clearInterval(strempositionInterval);
-      isCapturingStreamPosition = false;
-      setStreamPosition('PAUSE');
-      if (showingExtBtn) {
-        $continueWatchingBlock.show();
-        $playNextEpisodeBlock.hide();
-      } else {
-        showingExtBtn = true;
-      }
-    })
-    .on('ended', function(event) {
-      // console.log('ended', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      setStreamPosition('STOP');
-      $continueWatchingBlock.hide();
-      $playNextEpisodeBlock.show();
-    })
-    .on('timeupdate', function(event) {
-      // console.log('timeupdate', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
-      if (!player.paused()) {
-        var showNextEpisode = player.currentTime() >= player.duration() - 45,
-            goToNextEpisode = player.currentTime() >= player.duration() - 40;
-            
-        if (showNextEpisode && !showingNextEpisodePrompt) {
-          if (typeof $overlayCloned === 'undefined') {
-            $overlayCloned = $overlay.clone();
-          }
-          if (typeof $overlayCloned[0] !== 'undefined') {
-            $overlayCloned.show();
-            player.el().appendChild($overlayCloned[0]);
-            showingNextEpisodePrompt = true;
-            console.log('showing nextEpisode prompt!');
-          }
-        } else if (!showNextEpisode && showingNextEpisodePrompt) {
-          player.el().removeChild($overlayCloned[0]);
-          showingNextEpisodePrompt = false;
-          console.log('removing nextEpisode prompt!');
-        }
-        if (showingNextEpisodePrompt && goToNextEpisode) {
-          var linkToNextEpisode = $overlayCloned.find('a'),
-              nextEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
-          if (nextEpisodeURL) {
-            docCookies.setItem('playerOption', 'playFromStart', endCookie, '/');
-            player.pause();
-            console.log('going to next episode...');
-            setTimeout(function() { window.location.href = nextEpisodeURL; }, 500);
-          }
-        }
-      }
-    })
-    // .on('seeking', function(event) {
-    //   console.log('event', seeking);
-    // })
-    .on('seeked', function(event) {
-      // console.log('seeked', event, event.target.player.currentTime(), event.target.player, parseInt(event.target.player.currentTime(), 10));
-      if (event.target.player.hasStarted()) {
-        setStreamPosition('PLAYING');
-      }
+    // This needs to be done differently
+    jQuery.post(episode_object.ajax_url, data, processData).fail(function() {
+      console.error('Error checking if the user is active');
     });
+  });
+  player.on('playing', function(event) {
+    // console.log('playing', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+    isPlayingSet('playFromStart');
+    if (!isCapturingStreamPosition) {
+      isCapturingStreamPosition = true;
+      strempositionInterval = setInterval(function() {
+        if (parseInt(event.target.player.currentTime(), 10) === 0) {
+          setStreamPosition('START');
+        } else {
+          // console.log('streamPositionTimer',event.target.player.currentTime());
+          setStreamPosition('PLAYING');
+        }
+      }, streamPositionTimer);
+    }
+    $continueWatchingBlock.hide();
+  });
+  player.on('pause', function(event) {
+    // console.log('pause', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+    clearInterval(strempositionInterval);
+    isCapturingStreamPosition = false;
+    setStreamPosition('PAUSE');
+    if (showingExtBtn) {
+      $continueWatchingBlock.show();
+      $playNextEpisodeBlock.hide();
+    } else {
+      showingExtBtn = true;
+    }
+  });
+  player.on('ended', function(event) {
+    // console.log('ended', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+    setStreamPosition('STOP');
+    $continueWatchingBlock.hide();
+    $playNextEpisodeBlock.show();
+  });
+  player.on('timeupdate', function(event) {
+    // console.log('timeupdate', event, event.target.player.currentTime(), parseInt(event.target.player.currentTime(), 10));
+    if (!player.paused()) {
+      var showNextEpisode = player.currentTime() >= player.duration() - 45,
+          goToNextEpisode = player.currentTime() >= player.duration() - 40;
+
+      if (showNextEpisode && !showingNextEpisodePrompt) {
+        if (typeof $overlayCloned === 'undefined') {
+          $overlayCloned = $overlay.clone();
+        }
+        if (typeof $overlayCloned[0] !== 'undefined') {
+          $overlayCloned.show();
+          player.el().appendChild($overlayCloned[0]);
+          showingNextEpisodePrompt = true;
+          console.log('showing nextEpisode prompt!');
+        }
+      } else if (!showNextEpisode && showingNextEpisodePrompt) {
+        player.el().removeChild($overlayCloned[0]);
+        showingNextEpisodePrompt = false;
+        console.log('removing nextEpisode prompt!');
+      }
+      if (showingNextEpisodePrompt && goToNextEpisode) {
+        var linkToNextEpisode = $overlayCloned.find('a'),
+            nextEpisodeURL = (linkToNextEpisode.length  === 1) ? linkToNextEpisode.attr('href') : false;
+        if (nextEpisodeURL) {
+          docCookies.setItem('playerOption', 'playFromStart', endCookie, '/');
+          player.pause();
+          console.log('going to next episode...');
+          setTimeout(function() { window.location.href = nextEpisodeURL; }, 500);
+        }
+      }
+    }
+  });
+    // player.on('seeking', function(event) {
+    //   console.log('event', seeking);
+    // });
+  player.on('seeked', function(event) {
+    // console.log('seeked', event, event.target.player.currentTime(), event.target.player, parseInt(event.target.player.currentTime(), 10));
+    if (event.target.player.hasStarted()) {
+      setStreamPosition('PLAYING');
+    }
+  });
 
   var setStreamPosition = function(lastKnownAction) {
     jQuery.ajax({
