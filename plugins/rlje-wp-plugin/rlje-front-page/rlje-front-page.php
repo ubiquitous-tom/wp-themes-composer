@@ -4,7 +4,6 @@ class RLJE_Front_page {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', [ $this, 'register_homepage_settings' ] );
-		add_action( 'admin_init', array( $this, 'register_admin_page' ) );
 		add_action( 'admin_menu', array( $this, 'register_homepage_menu' ) );
 
 		add_filter( 'rlje_redis_api_cache_groups', array( $this, 'add_country_list_cache_table_list' ) );
