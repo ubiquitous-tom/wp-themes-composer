@@ -2,7 +2,8 @@
 
 class RLJE_Theme_Settings {
 
-	protected $theme_settings         = array();
+	protected $theme_settings         = [];
+	protected $theme_plugins_settings = [];
 	protected $rlje_redis_table;
 
 	public function __construct() {
@@ -43,9 +44,14 @@ class RLJE_Theme_Settings {
 		}
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
+		register_setting( 'rlje_theme_plugins_section', 'rlje_theme_plugins_settings' );
 
 		add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 		add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+
+		add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
+		add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+		// add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 	}
 
 	public function add_rlje_settings_menu() {
@@ -96,6 +102,38 @@ class RLJE_Theme_Settings {
 		</select>
 		<?php
 	}
+
+	public function display_rlje_theme_plugins_content() {
+		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
+		var_dump($this->theme_plugins_settings);
+		echo 'Toggle for other RLJE plugins for the theme';
+	}
+
+	public function display_theme_plugins_landing_page() {
+		$landing_pages = ( ! intval( $this->theme_plugins_settings['landing_pages'] ) ) ? intval( $this->theme_plugins_settings['landing_pages'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
+		<label for="rlje-plugins-landing-page-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-off" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
+		<label for="rlje-plugins-landing-page-off">Off</label>
+		<p class="description">For activating Franchise landing page</p>
+		<?php
+	}
+
+	/*
+	public function display_theme_plugins_news_and_reviews() {
+		$news_and_reviews = ( ! intval( $this->theme_plugins_settings['news_and_reviews'] ) ) ? intval( $this->theme_plugins_settings['news_and_reviews'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-off" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-off">Off</label>
+		<p class="description">For activating Homepage section</p>
+		<?php
+	}
+	*/
 
 	public function sanitize_options( $data = null ) {
 		$message = 'Data can not be empty';

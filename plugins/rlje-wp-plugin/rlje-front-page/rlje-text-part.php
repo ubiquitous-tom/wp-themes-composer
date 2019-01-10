@@ -58,10 +58,10 @@ class RLJE_text_part {
 		add_settings_field( 'signup_promo_section_video_id', 'Sales video being shown', [ $this, 'signup_promo_section_video_id' ], 'rlje-homepage-text', 'signup_promo_section' );
 		add_settings_field( 'signup_promo_section_pitch', 'Sales pitch being shown', [ $this, 'signup_promo_section_pitch' ], 'rlje-homepage-text', 'signup_promo_section' );
 
-		add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-homepage-text' );
-		add_settings_field( 'theme_plugins_front_page', 'Hero carousel', array( $this, 'display_theme_plugins_front_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
-		add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
-		add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
+		add_settings_section( 'rlje_theme_plugins_section', 'Home Section Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-homepage-text' );
+		// add_settings_field( 'theme_plugins_front_page', 'Hero carousel', array( $this, 'display_theme_plugins_front_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
+		// add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
+		// add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
 		add_settings_field( 'theme_plugins_home_callout', 'Home Callout', array( $this, 'display_theme_home_callout' ), 'rlje-homepage-text', 'rlje_theme_plugins_section' );
 	}
 
@@ -79,8 +79,7 @@ class RLJE_text_part {
 	}
 
 	public function display_navigation_login_text() {
-		// $theme_text_settings = get_option( 'rlje_theme_text_settings' );
-		$login_text          = ( ! empty( $this->theme_text_settings['login'] ) ) ? $this->theme_text_settings['login'] : 'Log In';
+		$login_text = ( ! empty( $this->theme_text_settings['login'] ) ) ? $this->theme_text_settings['login'] : 'Log In';
 		?>
 		<input type="text" name="rlje_theme_text_settings[login]" class="regular-text" id="login-text" value="<?php echo esc_attr( $login_text ); ?>" placeholder="Log In">
 		<?php
@@ -204,6 +203,7 @@ class RLJE_text_part {
 		echo 'Toggle for other RLJE plugins for the theme';
 	}
 
+	/*
 	public function display_theme_plugins_front_page() {
 		$front_page = ( ! intval( $this->theme_plugins_settings['front_page'] ) ) ? intval( $this->theme_plugins_settings['front_page'] ) : 1;
 		?>
@@ -239,6 +239,7 @@ class RLJE_text_part {
 		<p class="description">For activating Homepage section</p>
 		<?php
 	}
+	*/
 
 	public function display_theme_home_callout() {
 		$home_callout = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
