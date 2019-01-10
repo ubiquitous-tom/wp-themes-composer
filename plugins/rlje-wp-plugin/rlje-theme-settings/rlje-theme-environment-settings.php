@@ -11,7 +11,9 @@ class RLJE_Theme_Environment_Settings {
 	}
 
 	public function display_options() {
-		$this->rlje_redis_table = new RLJE_Redis_Table();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table = new RLJE_Redis_Table();
+		}
 
 		register_setting( 'rlje_theme_environment_section', 'rlje_theme_environment_settings', array( $this, 'sanitize_callback' ) );
 
@@ -98,12 +100,14 @@ class RLJE_Theme_Environment_Settings {
 		$content_base_url                = ( ! empty( $rlje_theme_environment_settings['content_base_url'] ) ) ? $rlje_theme_environment_settings['content_base_url'] : '';
 		if ( $rlje_base_url !== $data['rlje_base_url'] || $content_base_url !== $data['content_base_url'] ) {
 			$clear_caches = array();
-			$caches       = $this->rlje_redis_table->get_redis_caches();
-			foreach ( $caches as $cache_key => $cache_value ) {
-				$clear_caches[] = $cache_key;
-			}
+			if ( class_exists( 'RLJE_Redis_Table' ) ) {
+				$caches       = $this->rlje_redis_table->get_redis_caches();
+				foreach ( $caches as $cache_key => $cache_value ) {
+					$clear_caches[] = $cache_key;
+				}
 
-			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+				$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+			}
 		}
 
 		add_settings_error( 'rlje-theme-environment-settings', 'settings_updated', 'Successfully updated', 'updated' );

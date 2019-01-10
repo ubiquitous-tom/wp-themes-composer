@@ -2,6 +2,7 @@
 
 class RLJE_Hero extends RLJE_Front_page {
 
+	protected $theme_plugins_settings;
 	protected $current_country = [];
 	protected $homepage = [];
 	public function __construct() {
@@ -100,14 +101,18 @@ class RLJE_Hero extends RLJE_Front_page {
 	}
 
 	public function display_hero_carousel() {
-		$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
-		$hero          = get_transient( $transient_key );
-		if ( false !== $hero ) {
-		// 	// $allowed_html = wp_kses_allowed_html( 'post' );
-		// 	// echo wp_kses( $hero, $allowed_html );
-			echo $hero;
-		} else {
-			echo $this->build_hero_carousel();
+		$theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
+		$is_homepage_hero       = ( ! intval( $theme_plugins_settings['front_page'] ) ) ? intval( $theme_plugins_settings['front_page'] ) : 1;
+		if ( $is_homepage_hero ) {
+			$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
+			$hero          = get_transient( $transient_key );
+			if ( false !== $hero ) {
+			// 	// $allowed_html = wp_kses_allowed_html( 'post' );
+			// 	// echo wp_kses( $hero, $allowed_html );
+				echo $hero;
+			} else {
+				echo $this->build_hero_carousel();
+			}
 		}
 	}
 

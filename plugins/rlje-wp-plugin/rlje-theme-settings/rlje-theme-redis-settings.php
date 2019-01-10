@@ -15,7 +15,9 @@ class RLJE_Theme_Redis_Settings {
 	}
 
 	public function display_options() {
-		$this->rlje_redis_table = new RLJE_Redis_Table();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table = new RLJE_Redis_Table();
+		}
 
 		register_setting( 'rlje_theme_redis_section', 'rlje_theme_redis_settings', array( $this, 'sanitize_callback' ) );
 
@@ -103,12 +105,14 @@ class RLJE_Theme_Redis_Settings {
 	public function sanitize_callback( $data ) {
 		if ( ! empty( $_POST['clear_cache'] ) ) {
 			$clear_caches = array();
-			$caches       = $this->rlje_redis_table->get_redis_caches();
-			foreach ( $caches as $cache_key => $cache_value ) {
-				$clear_caches[] = $cache_key;
-			}
+			if ( class_exists( 'RLJE_Redis_Table' ) ) {
+				$caches       = $this->rlje_redis_table->get_redis_caches();
+				foreach ( $caches as $cache_key => $cache_value ) {
+					$clear_caches[] = $cache_key;
+				}
 
-			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+				$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+			}
 		}
 
 		add_settings_error( 'rlje-theme-redis-settings', 'settings_updated', 'Successfully updated', 'updated' );

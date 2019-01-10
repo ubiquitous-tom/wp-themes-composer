@@ -12,7 +12,6 @@ class RLJE_Theme_Settings {
 
 		add_action( 'admin_init', [ $this, 'display_options' ] );
 		add_action( 'admin_menu', [ $this, 'add_rlje_settings_menu' ] );
-		add_action( 'admin_menu', [ $this, 'add_rlje_theme_submenu' ] );
 
 		// CORE THEME PAGES.
 		require_once 'header/rlje-header.php';
@@ -39,7 +38,9 @@ class RLJE_Theme_Settings {
 	}
 
 	public function display_options() {
-		$this->rlje_redis_table = new RLJE_Redis_Table();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table = new RLJE_Redis_Table();
+		}
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
 
@@ -53,20 +54,8 @@ class RLJE_Theme_Settings {
 			'RLJE Settings',
 			'manage_network',
 			'rlje-theme-settings',
-			'',
-			'',
-			100
-		);
-	}
-
-	public function add_rlje_theme_submenu() {
-		add_submenu_page(
-			'rlje-theme-settings',
-			'RLJE Theme Options',
-			'Theme Options',
-			'manage_network',
-			'rlje-theme-settings',
-			[ $this, 'rlje_theme_settings_page' ]
+			[ $this, 'rlje_theme_settings_page' ],
+			'dashicons-admin-generic'
 		);
 	}
 
@@ -79,7 +68,7 @@ class RLJE_Theme_Settings {
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
-					settings_fields( 'rlje-theme-settings' );
+					settings_fields( 'rlje_theme_section' );
 
 					// all the add_settings_field callbacks is displayed here.
 					do_settings_sections( 'rlje-theme-settings' );
@@ -116,11 +105,11 @@ class RLJE_Theme_Settings {
 			if ( false === get_option( 'rlje_theme_settings' ) ) {
 				add_option( 'rlje_theme_settings', $data );
 				$type    = 'updated';
-				$message = __( 'Successfully saved', 'my-text-domain' );
+				$message = __( 'Successfully saved', 'acorntv' );
 			} else {
 				update_option( 'rlje_theme_settings', $data );
 				$type    = 'updated';
-				$message = __( 'Successfully updated', 'my-text-domain' );
+				$message = __( 'Successfully updated', 'acorntv' );
 			}
 		}
 
@@ -211,12 +200,14 @@ class RLJE_Theme_Settings {
 		$current_theme       = ( ! empty( $rlje_theme_settings['current_theme'] ) ) ? $rlje_theme_settings['current_theme'] : '';
 		if ( $current_theme !== $data['current_theme'] ) {
 			$clear_caches = array();
-			$caches       = $this->rlje_redis_table->get_redis_caches();
-			foreach ( $caches as $cache_key => $cache_value ) {
-				$clear_caches[] = $cache_key;
-			}
+			if ( class_exists( 'RLJE_Redis_Table' ) ) {
+				$caches       = $this->rlje_redis_table->get_redis_caches();
+				foreach ( $caches as $cache_key => $cache_value ) {
+					$clear_caches[] = $cache_key;
+				}
 
-			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+				$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+			}
 		}
 
 		add_settings_error( 'rlje-theme-settings', 'settings_updated', 'Successfully updated', 'updated' );
