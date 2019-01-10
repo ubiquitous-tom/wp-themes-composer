@@ -13,17 +13,12 @@ require_once 'helpers/api.php';
 
 require_once 'rlje-theme-settings/rlje-theme-settings.php';
 
-$rlje_theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
-
 require_once 'rlje-front-page/rlje-front-page.php';
-
+$rlje_theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
 if ( intval( $rlje_theme_plugins_settings['landing_pages'] ) ) {
 	require_once 'rlje-landing-page/rlje-landing-page.php';
 }
-
-if ( intval( $rlje_theme_plugins_settings['news_and_reviews'] ) ) {
-	require_once 'rlje-news-and-reviews-page/rlje-news-and-reviews-page.php';
-}
+require_once 'rlje-news-and-reviews-page/rlje-news-and-reviews-page.php';
 
 require_once 'rlje-browse-page/rlje-browse-page.php';
 require_once 'rlje-signup-page/rlje-signup-page.php';

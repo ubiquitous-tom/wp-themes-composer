@@ -4,7 +4,7 @@ class RLJE_text_part {
 
 	public $theme_text_settings;
 	public $signup_promo_settings;
-	public $theme_plugins_settings;
+	public $theme_part_settings;
 
 	public function __construct() {
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
@@ -15,7 +15,7 @@ class RLJE_text_part {
 	public function register_settings() {
 		register_setting( 'rlje-homepage-text', 'rlje_theme_text_settings' );
 		register_setting( 'rlje-homepage-text', 'rlje_signup_promo_settings' );
-		register_setting( 'rlje-homepage-text', 'rlje_theme_plugins_settings' );
+		register_setting( 'rlje-homepage-text', 'rlje_theme_part_settings' );
 	}
 
 	public function homepage_text_menu() {
@@ -198,8 +198,8 @@ class RLJE_text_part {
 	}
 
 	public function display_rlje_theme_plugins_content() {
-		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
-		var_dump($this->theme_plugins_settings);
+		$this->theme_part_settings = get_option( 'rlje_theme_part_settings' );
+		var_dump($this->theme_part_settings);
 		echo 'Toggle for other RLJE plugins for the theme';
 	}
 
@@ -207,10 +207,10 @@ class RLJE_text_part {
 	public function display_theme_plugins_front_page() {
 		$front_page = ( ! intval( $this->theme_plugins_settings['front_page'] ) ) ? intval( $this->theme_plugins_settings['front_page'] ) : 1;
 		?>
-		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page-on" class="regular-text" value="1" <?php checked( $front_page, 1 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[front_page]" id="rlje-plugins-front-page-on" class="regular-text" value="1" <?php checked( $front_page, 1 ); ?>>
 		<label for="rlje-plugins-front-page-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[front_page]" id="rlje-plugins-front-page-off" class="regular-text" value="0" <?php checked( $front_page, 0 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[front_page]" id="rlje-plugins-front-page-off" class="regular-text" value="0" <?php checked( $front_page, 0 ); ?>>
 		<label for="rlje-plugins-front-page-off">Off</label>
 		<p class="description">For activating Homepage Hero</p>
 		<?php
@@ -219,10 +219,10 @@ class RLJE_text_part {
 	public function display_theme_plugins_landing_page() {
 		$landing_pages = ( ! intval( $this->theme_plugins_settings['landing_pages'] ) ) ? intval( $this->theme_plugins_settings['landing_pages'] ) : 1;
 		?>
-		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
 		<label for="rlje-plugins-landing-page-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-off" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[landing_pages]" id="rlje-plugins-landing-page-off" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
 		<label for="rlje-plugins-landing-page-off">Off</label>
 		<p class="description">For activating Franchise landing page</p>
 		<?php
@@ -231,10 +231,10 @@ class RLJE_text_part {
 	public function display_theme_plugins_news_and_reviews() {
 		$news_and_reviews = ( ! intval( $this->theme_plugins_settings['news_and_reviews'] ) ) ? intval( $this->theme_plugins_settings['news_and_reviews'] ) : 1;
 		?>
-		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
 		<label for="rlje-plugins-news-and-reviews-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-off" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
+		<input type="radio" name="rlje_theme_part_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-off" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
 		<label for="rlje-plugins-news-and-reviews-off">Off</label>
 		<p class="description">For activating Homepage section</p>
 		<?php
@@ -242,13 +242,14 @@ class RLJE_text_part {
 	*/
 
 	public function display_theme_home_callout() {
-		$home_callout = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
+		$home_callout = ( ! intval( $this->theme_part_settings['home_callout'] ) ) ? intval( $this->theme_part_settings['home_callout'] ) : 1;
+		$home_callout = 1; // TODO: we need this for now to sync up the data in the database for all themes.
 		?>
-		<input type="radio" name="rlje_theme_plugins_settings[home_callout]" id="rlje-plugins-home-callout-on" class="regular-text" value="1" <?php checked( $home_callout, 1 ); ?>>
-		<label for="rlje-plugins-home-callout-on">On</label>
+		<input type="radio" name="rlje_theme_part_settings[home_callout]" id="rlje-theme-part-home-callout-on" class="regular-text" value="1" <?php checked( $home_callout, 1 ); ?>>
+		<label for="rlje-theme-part-home-callout-on">On</label>
 		<br>
-		<input type="radio" name="rlje_theme_plugins_settings[home_callout]" id="rlje-plugins-home-callout-off" class="regular-text" value="0" <?php checked( $home_callout, 0 ); ?>>
-		<label for="rlje-plugins-home-callout-off">Off</label>
+		<input type="radio" name="rlje_theme_part_settings[home_callout]" id="rlje-theme-part-home-callout-off" class="regular-text" value="0" <?php checked( $home_callout, 0 ); ?>>
+		<label for="rlje-theme-part-home-callout-off">Off</label>
 		<p class="description">For activating Homepage Callout section</p>
 		<p class="description">* Please insert all the needed text and links before activating this section.</p>
 		<?php

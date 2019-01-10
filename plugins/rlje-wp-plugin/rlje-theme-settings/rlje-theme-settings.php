@@ -44,7 +44,7 @@ class RLJE_Theme_Settings {
 		}
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
-		register_setting( 'rlje_theme_plugins_section', 'rlje_theme_plugins_settings' );
+		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
 
 		add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 		add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );

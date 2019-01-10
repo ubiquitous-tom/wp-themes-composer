@@ -36,6 +36,7 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'display_options' ) );
+		add_action( 'admin_notices', [ $this, 'admin_notice_news_and_reviews_on_off' ] );
 	}
 
 	public function enqueue_scripts( $hook ) {
@@ -202,6 +203,19 @@ class RLJE_News_Tab extends RLJE_News_And_Reviews {
 			<?php endif; ?>
 		</div>
 		<?php
+	}
+
+	public function admin_notice_news_and_reviews_on_off() {
+		$class = 'notice notice-error';
+		$message = __( 'News & Review is currently Disabled', 'acorntv' );
+
+		$news_and_reviews_settings = get_option( 'rlje_news_and_reviews_settings' );
+		$enabled = ( ! intval( $news_and_reviews_settings['enabled'] ) ) ? intval( $news_and_reviews_settings['enabled'] ) : 1;
+		$enabled = 1; // TODO: we need this for now to sync up the data in the database for all themes.
+
+		if ( ! $enabled ) {
+			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
+		}
 	}
 
 	public function rlje_news_sanitize_callback( $data ) {

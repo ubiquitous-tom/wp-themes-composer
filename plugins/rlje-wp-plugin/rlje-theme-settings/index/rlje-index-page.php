@@ -3,6 +3,7 @@
 class RLJE_Index_Page {
 
 	protected $theme_text_settings;
+	protected $theme_part_settings;
 	protected $theme_plugins_settings;
 	protected $signup_promo_settings;
 	protected $categories_home;
@@ -28,6 +29,7 @@ class RLJE_Index_Page {
 
 	public function initialize_index() {
 		$this->theme_text_settings       = get_option( 'rlje_theme_text_settings' );
+		$this->theme_part_settings       = get_option( 'rlje_theme_part_settings' );
 		$this->theme_plugins_settings    = get_option( 'rlje_theme_plugins_settings' );
 		$this->signup_promo_settings     = get_option( 'rlje_signup_promo_settings' );
 		$this->rlje_front_page_section   = get_option( 'rlje_front_page_section' );
@@ -387,7 +389,8 @@ class RLJE_Index_Page {
 	public function display_callout() {
 		if ( is_home() || is_front_page() ) :
 			$environment  = apply_filters( 'atv_get_extenal_subdomain', '' );
-			$is_activated = ( ! intval( $this->theme_plugins_settings['home_callout'] ) ) ? intval( $this->theme_plugins_settings['home_callout'] ) : 1;
+			$is_activated = ( ! intval( $this->theme_part_settings['home_callout'] ) ) ? intval( $this->theme_part_settings['home_callout'] ) : 1;
+			$is_activated = 1; // TODO: we need this for now to sync up the data in the database for all themes.
 			if ( ! $is_activated ) {
 				return;
 			}
