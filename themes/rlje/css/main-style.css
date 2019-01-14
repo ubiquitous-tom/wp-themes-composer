@@ -1829,7 +1829,7 @@ input:-ms-input-placeholder {
         padding-bottom: 15px
     }
     /* CAROUSEL */
-    
+
     .carousel-respond-slide .carousel-inner>.active.left,
     .carousel-respond-slide .carousel-inner>.prev,
     .carousel-pagination-slide .carousel-inner>.active.left,
@@ -2402,6 +2402,10 @@ all and (min-width: 1200px) and (-webkit-transform-3d) {
 .smartbanner__button {
     color: #050505 !important;
 }
+
+/* LANGUAGE DROPDOWN SELECTOR */
+label.atv-locale {color: inherit;font-size: 14.5px;}
+select#atv-locale {border-radius: 0;color: #000;border: 0;}
 
 /*/////////////////////////////////////////////////////////////////////
 ////////////////////////////// ACORN TV 3.01 ///////////////////////////

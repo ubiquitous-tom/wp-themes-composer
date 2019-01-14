@@ -42,8 +42,13 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 		wp_enqueue_style( 'rlje-newsletter-widget', plugins_url( 'css/style.css', __FILE__ ), array( 'main_style_css' ), $css_ver );
 		wp_enqueue_script( 'rlje-newsletter-widget', plugins_url( 'js/script.js', __FILE__ ), array( 'main-js' ), $js_ver, true );
 		$newsletter_object = [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'token'    => wp_create_nonce( $this->nonce ),
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'token'                  => wp_create_nonce( $this->nonce ),
+			'signup_newsletter_l10n' => array(
+				'thank_you' => esc_html__( 'Thank you for subscribing!', 'acorntv' ),
+				'try_again' => esc_html__( 'There was a problem with your submission, please try again.', 'acorntv' ),
+				'invalid'   => esc_html__( 'Invalid email address.', 'acorntv' ),
+			),
 		];
 		wp_localize_script( 'rlje-newsletter-widget', 'rlje_newsletter_widget_object', $newsletter_object );
 	}
