@@ -24,12 +24,34 @@ class RLJE_News_And_Reviews_Settings {
 	public function create_display_type_settings() {
 		register_setting( 'rlje_news_and_reviews_news_settings_section', 'rlje_news_and_reviews_settings', array( $this, 'rlje_settings_sanitize_callback' ) );
 
+		add_settings_section( 'rlje_news_and_reviews_news_display_enabled_section', 'Display On/Off', array( $this, 'display_news_and_reviews_display_enabled_options' ), 'rlje-news-and-reviews-settings' );
+		add_settings_field( 'display_enabled', 'Display News & Review', array( $this, 'news_and_reviews_display_enabled' ), 'rlje-news-and-reviews-settings', 'rlje_news_and_reviews_news_display_enabled_section' );
+
 		add_settings_section( 'rlje_news_and_reviews_news_display_type_section', 'Display Type', array( $this, 'display_news_and_reviews_display_type_options' ), 'rlje-news-and-reviews-settings' );
 		add_settings_field( 'display_type', 'Display Combinations', array( $this, 'news_and_reviews_display_type' ), 'rlje-news-and-reviews-settings', 'rlje_news_and_reviews_news_display_type_section' );
 
 		add_settings_section( 'rlje_news_and_reviews_news_display_section', 'Display Section', array( $this, 'display_news_and_reviews_display_section_options' ), 'rlje-news-and-reviews-settings' );
 		add_settings_field( 'news_and_reviews_left_display_section', 'Left Display Section', array( $this, 'news_and_reviews_left_display_section' ), 'rlje-news-and-reviews-settings', 'rlje_news_and_reviews_news_display_section' );
 		add_settings_field( 'news_and_reviews_right_display_section', 'Right Display Section', array( $this, 'news_and_reviews_right_display_section' ), 'rlje-news-and-reviews-settings', 'rlje_news_and_reviews_news_display_section' );
+	}
+
+	public function display_news_and_reviews_display_enabled_options() {
+		$this->news_and_reviews_settings = get_option( 'rlje_news_and_reviews_settings' );
+		var_dump( $this->news_and_reviews_settings );
+		// print '<p>Display News and Reviews</p>';
+	}
+
+	public function news_and_reviews_display_enabled() {
+		$enabled = ( ! intval( $this->news_and_reviews_settings['enabled'] ) ) ? intval( $this->news_and_reviews_settings['enabled'] ) : 1;
+		$enabled = 1; // TODO: we need this for now to sync up the data in the database for all themes.
+		?>
+		<input type="radio" name="rlje_news_and_reviews_settings[enabled]" id="rlje-news-and-reviews-on" class="regular-text" value="1" <?php checked( $enabled, 1 ); ?>>
+		<label for="rlje-news-and-reviews-on">On</label>
+		<br>
+		<input type="radio" name="rlje_news_and_reviews_settings[enabled]" id="rlje-news-and-reviews-off" class="regular-text" value="0" <?php checked( $enabled, 0 ); ?>>
+		<label for="rlje-news-and-reviews-off">Off</label>
+		<p class="description">For activating News & Review on Homepage section</p>
+		<?php
 	}
 
 	public function display_news_and_reviews_display_type_options() {
@@ -120,6 +142,7 @@ class RLJE_News_And_Reviews_Settings {
 	public function acorntv_news_and_reviews_settings_page() {
 		?>
 		<div class="wrap" id="news_reviews">
+			<?php settings_errors(); ?>
 			<h1>News & Reviews Settings</h1>
 			<form method="post" action="options.php">
 		<?php

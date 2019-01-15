@@ -44,6 +44,7 @@ class RLJE_Hero extends RLJE_Front_page {
 		add_settings_section( 'homepage_section', 'Hero Settings', array( $this, 'homepage_settings' ), 'rlje-front-page' );
 		add_settings_field( 'country_listing', 'Available Countries', array( $this, 'homepage_country_listing' ), 'rlje-front-page', 'homepage_section' );
 
+		add_settings_field( 'hero_enabled', 'Hero On/Off', array( $this, 'homepage_hero_enabled' ), 'rlje-front-page', 'homepage_section' );
 		add_settings_field( 'hero_preview', 'Hero Preview', array( $this, 'homepage_hero_preview' ), 'rlje-front-page', 'homepage_section' );
 		add_settings_field( 'hero_expiration', 'Hero Cache Expiration', array( $this, 'homepage_hero_expiration' ), 'rlje-front-page', 'homepage_section' );
 		add_settings_field( 'hero_clear_cache', 'Hero Clear Cache', array( $this, 'homepage_hero_clear_cache' ), 'rlje-front-page', 'homepage_section' );
@@ -54,6 +55,8 @@ class RLJE_Hero extends RLJE_Front_page {
 		$this->current_country    = $this->get_current_country();
 		$country_code             = strtoupper( $this->current_country['code'] );
 		$this->homepage           = ( array_key_exists( $country_code, $rlje_front_page_homepage ) ) ? $rlje_front_page_homepage[ $country_code ] : array();
+		// var_dump($rlje_front_page_homepage);
+		var_dump($this->homepage);
 		?>
 		<p>Currently displaying <strong><?php echo esc_html( $this->current_country['name'] ); ?></strong> Hero Settings</p>
 		<?php
@@ -74,6 +77,19 @@ class RLJE_Hero extends RLJE_Front_page {
 		<!-- <input type="hidden" name="rlje_front_page_homepage[go_to_country]" value="<?php echo esc_attr( $this->current_country['code'] ); ?>"> -->
 		<input type="submit" name="submit" id="submit" class="button button-primary" value="Go to this country">
 		<p class="description">Currently display hero carousel from <?php echo esc_html( $countries[ $this->current_country['code'] ]['name'] ); ?></p>
+		<?php
+	}
+
+	public function homepage_hero_enabled() {
+		$enabled = ( ! intval( $this->homepage['enabled'] ) ) ? intval( $this->homepage['enabled'] ) : 1;
+		$enabled = 1; // TODO: we need this for now to sync up the data in the database for all themes.
+		?>
+		<input type="radio" name="rlje_front_page_homepage[enabled]" id="rlje-front-page-hero-on" class="regular-text" value="1" <?php checked( $enabled, 1 ); ?>>
+		<label for="rlje-front-page-hero-on">On</label>
+		<br>
+		<input type="radio" name="rlje_front_page_homepage[enabled]" id="rlje-front-page-hero-off" class="regular-text" value="0" <?php checked( $enabled, 0 ); ?>>
+		<label for="rlje-front-page-hero-off">Off</label>
+		<p class="description">For activating Homepage Hero</p>
 		<?php
 	}
 
@@ -100,14 +116,18 @@ class RLJE_Hero extends RLJE_Front_page {
 	}
 
 	public function display_hero_carousel() {
-		$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
-		$hero          = get_transient( $transient_key );
-		if ( false !== $hero ) {
-		// 	// $allowed_html = wp_kses_allowed_html( 'post' );
-		// 	// echo wp_kses( $hero, $allowed_html );
-			echo $hero;
-		} else {
-			echo $this->build_hero_carousel();
+		$enabled = ( ! intval( $this->homepage['enabled'] ) ) ? intval( $this->homepage['enabled'] ) : 1;
+		$enabled = 1; // TODO: we need this for now to sync up the data in the database for all themes.
+		if ( $enabled ) {
+			$transient_key = $this->get_transient_key( 'rlje_homepage_hero_carousel' );
+			$hero          = get_transient( $transient_key );
+			if ( false !== $hero ) {
+				// $allowed_html = wp_kses_allowed_html( 'post' );
+				// echo wp_kses( $hero, $allowed_html );
+				echo $hero;
+			} else {
+				echo $this->build_hero_carousel();
+			}
 		}
 	}
 

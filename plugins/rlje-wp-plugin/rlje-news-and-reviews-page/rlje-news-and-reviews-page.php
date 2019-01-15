@@ -132,13 +132,19 @@ class RLJE_News_And_Reviews {
 			return;
 		}
 
+		$news_and_reviews_settings = get_option( 'rlje_news_and_reviews_settings' );
+		$enabled = ( ! intval( $news_and_reviews_settings['enabled'] ) ) ? intval( $news_and_reviews_settings['enabled'] ) : 1;
+		$enabled = 1; // TODO: we need this for now to sync up the data in the database for all themes.
+		if ( ! $enabled ) {
+			return;
+		}
+
 		$country_code  = ( ! empty( rljeApiWP_getCountryCode() ) ) ? rljeApiWP_getCountryCode() : 'US';
 		$transient_key = $this->transient_key . strtolower( $country_code );
 		$html          = get_transient( $transient_key );
 		if ( false === $html ) :
 			ob_start();
 
-			$news_and_reviews_settings = get_option( 'rlje_news_and_reviews_settings' );
 			$left_section              = ( intval( $news_and_reviews_settings['left_section'] ) ) ? intval( $news_and_reviews_settings['left_section'] ) : 1;
 			$right_section             = ( intval( $news_and_reviews_settings['right_section'] ) ) ? intval( $news_and_reviews_settings['right_section'] ) : 0;
 			$left    = $this->display_section( $left_section, false );

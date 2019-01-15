@@ -19,6 +19,7 @@ class RLJE_Redis_Table extends WP_List_Table {
 				'singular' => 'rlje_theme_delete_redis_cache', // Singular label
 				'plural'   => 'rlje_theme_delete_redis_caches', // plural label, also this well be one of the table css class
 				'ajax'     => false, // We won't support Ajax for this table
+				'screen'   => 'rlje_redis_table', // Add this to prevent PHP notice in the log
 			)
 		);
 
@@ -34,11 +35,11 @@ class RLJE_Redis_Table extends WP_List_Table {
 	public function extra_tablenav( $which ) {
 		if ( $which == 'top' ) {
 			// The code that goes before the table is here
-			echo "Hello, I'm before the table";
+			// echo "Hello, I'm before the table";
 		}
 		if ( $which == 'bottom' ) {
 			// The code that goes after the table is there
-			echo "Hi, I'm after the table";
+			// echo "Hi, I'm after the table";
 		}
 	}
 
