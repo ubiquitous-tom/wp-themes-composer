@@ -221,8 +221,10 @@ footer {
 /* NAVBAR-USER DROPDOWN */
 
 #top-nav .dropdown-menu {
-    background-color: rgba(1, 31, 54, 0.95);
+    background-color: rgba(9, 9, 9, 0.9);
     border-radius: 0;
+    border: none;
+    margin: 0;
 }
 
 #top-nav .dropdown-menu>li>a {
@@ -232,7 +234,7 @@ footer {
 
 #top-nav .dropdown-menu>li>a:hover,
 #top-nav .dropdown-menu>li>a:active {
-    background-color: rgba(1, 31, 54, 1);
+    background-color: rgba(25, 25, 25, 1); /*#191919;*/
 }
 
 #top-nav .nav .open>a,

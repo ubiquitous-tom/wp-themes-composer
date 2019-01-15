@@ -19,6 +19,7 @@ class RLJE_Theme_Settings {
 		require_once 'footer/rlje-footer.php';
 		require_once 'widgets/rlje-widget.php';
 		require_once 'navigations/rlje-theme-menu-settings.php';
+		require_once 'navigations/rlje-theme-menu-links-settings.php';
 		require_once 'search/rlje-theme-search-settings.php';
 		require_once 'index/rlje-index-page.php';
 		require_once 'schedule/rlje-schedule-page.php';
