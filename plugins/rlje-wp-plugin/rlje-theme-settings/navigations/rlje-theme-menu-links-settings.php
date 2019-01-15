@@ -17,7 +17,7 @@ class RLJE_Theme_Menu_Links_Settings {
 
 	public function display_rlje_menu_links_options_content() {
 		echo 'Menu links for logged in users';
-		delete_option( 'rlje_theme_menu_links_settings' );
+		// delete_option( 'rlje_theme_menu_links_settings' );
 		$this->theme_menu_links = get_option( 'rlje_theme_menu_links_settings' );
 		var_dump( $this->theme_menu_links );
 	}

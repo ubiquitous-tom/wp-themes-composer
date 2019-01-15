@@ -17,11 +17,16 @@
 				'email': email,
 				'token': rlje_newsletter_widget_object.token
 			},
+			beforeSend: function() {
+				$message.empty();
+			},
 			success: function(resp) {
 				var data = resp.data;
 				$message.append(messageDiv.addClass(data.type).html(data.message));
-				$emailInput.prop('disabled', true);
-				$emailButtonInput.prop('disabled', true);
+				if (resp.success) {
+					$emailInput.prop('disabled', true);
+					$emailButtonInput.prop('disabled', true);
+				}
 			},
 			error: function(error) {
 				var data = error.data;
