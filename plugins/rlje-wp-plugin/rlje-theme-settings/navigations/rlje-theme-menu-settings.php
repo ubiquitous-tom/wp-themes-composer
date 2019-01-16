@@ -28,6 +28,12 @@ class RLJE_Theme_Menu_Settings {
 		'change_email_text'     => 'Change Email',
 		'log_out_link'          => 'https://account.acorn.tv/#logout',
 		'log_out_text'          => 'Log Out',
+		'log_in_link'           => 'https://signup.acorn.tv/signin.html',
+		'log_in_text'           => 'Log In',
+		'sign_up_link'          => 'https://signup.acorn.tv/t',
+		'sign_up_text'          => 'Sign Up',
+		'start_free_trial_link'  => 'https://signup.acorn.tv/',
+		'start_free_trial_text'  => 'Start Free Trial',
 	];
 
 	public function __construct() {
@@ -76,9 +82,9 @@ class RLJE_Theme_Menu_Settings {
 		// $this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserActive( $_COOKIE['ATVSessionCookie'] ) );
 		// Leave the else value empty to production, now is .dev because it is not implemented in prod yet (used in uat.acorn.tv).
 		$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
+		$logged_in_link_text = array_merge( $this->default_logged_in_link_text, array_filter( $this->logged_in_link_text ) );
 		ob_start();
 		if ( $this->is_user_logged_and_active ) {
-			$logged_in_link_text = array_merge( $this->default_logged_in_link_text, array_filter( $this->logged_in_link_text ) );
 			$web_payment_edit = rljeApiWP_getWebPaymentEdit( $_COOKIE['ATVSessionCookie'] );
 			require_once plugin_dir_path( __FILE__ ) . 'partials/logged-in.php';
 		} else {
