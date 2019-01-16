@@ -104,13 +104,12 @@ class RLJE_Newsletter_Widget extends WP_Widget {
 			wp_send_json_error( $data );
 		}
 
+		$type = 'error';
 		$email = sanitize_email( stripslashes( $_POST['email'] ) );
 		if ( is_email( $email ) ) {
 			$is_subscribed = rljeApiWP_signupNewsletter( $email );
 			if ( $is_subscribed ) {
 				$type = 'success';
-			} else {
-				$type = 'error';
 			}
 		}
 

@@ -14,6 +14,21 @@ class RLJE_Theme_Menu_Settings {
 		'login'      => 'Log In',
 		'free_trial' => 'Start Free Trial',
 	];
+	private $logged_in_link_text;
+	private $default_logged_in_link_text = [
+		'recently_watched_link' => '/browse/recentlywatched/',
+		'recently_watched_text' => 'Recently Watched',
+		'my_watchlist_link'     => '/browse/yourwatchlist/',
+		'my_watchlist_text'     => 'My Watchlist',
+		'manage_account_link'   => 'https://account.acorn.tv/#accountStatus',
+		'manage_account_text'   => 'Manage Account',
+		'change_password_link'  => 'https://account.acorn.tv/#editPassword',
+		'change_password_text'  => 'Change Password',
+		'change_email_link'     => 'https://account.acorn.tv/#editEmail',
+		'change_email_text'     => 'Change Email',
+		'log_out_link'          => 'https://account.acorn.tv/#logout',
+		'log_out_text'          => 'Log Out',
+	];
 
 	public function __construct() {
 		$this->is_user_logged_and_active = ( isset( $_COOKIE['ATVSessionCookie'] ) && rljeApiWP_isUserEnabled( $_COOKIE['ATVSessionCookie'] ) );
@@ -53,6 +68,8 @@ class RLJE_Theme_Menu_Settings {
 	public function get_user_information() {
 		$this->http_user_agent = apply_filters( 'atv_browser_detection', $_SERVER['HTTP_USER_AGENT'] );
 		$this->navigation_text = get_option( 'rlje_theme_text_settings', $this->default_navigation_text );
+		$this->theme_menu_links = get_option( 'rlje_theme_menu_links_settings' );
+		$this->logged_in_link_text = ( ! empty( $this->theme_menu_links['logged_in_links'] ) ) ? $this->theme_menu_links['logged_in_links'] : [];
 	}
 
 	public function is_user_logged_in_and_active() {
@@ -61,6 +78,7 @@ class RLJE_Theme_Menu_Settings {
 		$environment = apply_filters( 'atv_get_extenal_subdomain', '' );
 		ob_start();
 		if ( $this->is_user_logged_and_active ) {
+			$logged_in_link_text = array_merge( $this->default_logged_in_link_text, array_filter( $this->logged_in_link_text ) );
 			$web_payment_edit = rljeApiWP_getWebPaymentEdit( $_COOKIE['ATVSessionCookie'] );
 			require_once plugin_dir_path( __FILE__ ) . 'partials/logged-in.php';
 		} else {
