@@ -36,6 +36,12 @@ class RLJE_Theme_Menu_Links_Settings {
 		$change_email_link     = (! empty($theme_menu_links['change_email_link'])) ? $theme_menu_links['change_email_link'] : 'https://account.acorn.tv/#editEmail';
 		$log_out_text          = (! empty($theme_menu_links['log_out_text'])) ? $theme_menu_links['log_out_text'] : 'Log Out';
 		$log_out_link          = (! empty($theme_menu_links['log_out_link'])) ? $theme_menu_links['log_out_link'] : 'https://account.acorn.tv/#logout';
+		$log_in_text           = (! empty($theme_menu_links['log_in_text'])) ? $theme_menu_links['log_in_text'] : 'Log In';
+		$log_in_link           = (! empty($theme_menu_links['log_in_link'])) ? $theme_menu_links['log_in_link'] : 'https://signup.acorn.tv/signin.html';
+		$sign_up_text          = (! empty($theme_menu_links['sign_up_text'])) ? $theme_menu_links['sign_up_text'] : 'Sign Up';
+		$sign_up_link          = (! empty($theme_menu_links['sign_up_link'])) ? $theme_menu_links['sign_up_link'] : 'https://signup.acorn.tv/';
+		$start_free_trial_text = (! empty($theme_menu_links['start_free_trial_text'])) ? $theme_menu_links['start_free_trial_text'] : 'Start Free Trial';
+		$start_free_trial_link = (! empty($theme_menu_links['start_free_trial_link'])) ? $theme_menu_links['start_free_trial_link'] : 'https://signup.acorn.tv/';
 		?>
 		<p>
 			<label for="recently-watched-link"><strong>Recently Watched URL:</strong></label><br>
@@ -96,7 +102,7 @@ class RLJE_Theme_Menu_Links_Settings {
 		<p class="description">Change Email URL. Default: (https://account.acorn.tv/#editEmail)</p>
 		<hr>
 		<p>
-			<label for="change-email-link-text"><strong>Change Password Text:</strong></label><br>
+			<label for="change-email-link-text"><strong>Change Email Text:</strong></label><br>
 			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][change_email_text]" class="regular-text" id="change-email-link-text" value="<?php echo esc_attr( $change_email_text ); ?>" placeholder="Change Email">
 		</p>
 		<p class="description">Change Email text. Default: (Change Email)</p>
@@ -109,10 +115,49 @@ class RLJE_Theme_Menu_Links_Settings {
 		<p class="description">Log Out URL. Default: (https://account.acorn.tv/#logout)</p>
 		<hr>
 		<p>
-			<label for="log-out-link-text"><strong>Change Password Text:</strong></label><br>
+			<label for="log-out-link-text"><strong>Log Out Text:</strong></label><br>
 			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][log_out_text]" class="regular-text" id="log-out-link-text" value="<?php echo esc_attr( $log_out_text ); ?>" placeholder="Log Out">
 		</p>
-		<p class="description">Change Password text. Default: (Log Out)</p>
+		<p class="description">Log Out text. Default: (Log Out)</p>
+		<hr>
+
+		<p>
+			<label for="log-in-link"><strong>Log In URL:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][log_in_link]" class="widefat" id="log-in-link" value="<?php echo esc_attr( $log_in_link ); ?>" placeholder="https://signup.acorn.tv/signin.html">
+		</p>
+		<p class="description">Log In URL. Default: (https://signup.acorn.tv/signin.html)</p>
+		<hr>
+		<p>
+			<label for="log-in-link-text"><strong>Log In Text:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][log_in_text]" class="regular-text" id="log-in-link-text" value="<?php echo esc_attr( $log_in_text ); ?>" placeholder="Log In">
+		</p>
+		<p class="description">Log In text. Default: (Log In)</p>
+		<hr>
+
+		<p>
+			<label for="sign-up-link"><strong>Sign Up URL:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][sign_up_link]" class="widefat" id="sign-up-link" value="<?php echo esc_attr( $sign_up_link ); ?>" placeholder="https://signup.acorn.tv/">
+		</p>
+		<p class="description">Sign Up URL. Default: (https://signup.acorn.tv/)</p>
+		<hr>
+		<p>
+			<label for="sign-up-link-text"><strong>Sign Up Text:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][sign_up_text]" class="regular-text" id="sign-up-link-text" value="<?php echo esc_attr( $sign_up_text ); ?>" placeholder="Sign Up">
+		</p>
+		<p class="description">Sign Up text. Default: (Sign Up)</p>
+		<hr>
+
+		<p>
+			<label for="start-free-trial-link"><strong>Start Free Trial URL:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][start_free_trial_link]" class="widefat" id="start-free-trial-link" value="<?php echo esc_attr( $start_free_trial_link ); ?>" placeholder="https://signup.acorn.tv/">
+		</p>
+		<p class="description">Start Free Trial URL. Default: (https://signup.acorn.tv/)</p>
+		<hr>
+		<p>
+			<label for="start-free-trial-link-text"><strong>Start Free Trial Text:</strong></label><br>
+			<input type="text" name="rlje_theme_menu_links_settings[logged_in_links][start_free_trial_text]" class="regular-text" id="start-free-trial-link-text" value="<?php echo esc_attr( $start_free_trial_text ); ?>" placeholder="Start Free Trial">
+		</p>
+		<p class="description">Start Free Trial text. Default: (Start Free Trial)</p>
 		<hr>
 		<?php
 	}
