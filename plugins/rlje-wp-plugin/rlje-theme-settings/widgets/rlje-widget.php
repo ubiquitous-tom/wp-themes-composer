@@ -2,6 +2,7 @@
 
 class RLJE_Widget {
 
+	protected $theme_settings;
 	protected $nonce = 'rlje-widget-nonce-)#$*!($&0943';
 	protected $footer_areas = array(
 		array(
@@ -37,13 +38,18 @@ class RLJE_Widget {
 	);
 
 	public function __construct() {
+		$this->theme_settings = get_option( 'rlje_theme_settings' );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'wp_ajax_set_locale', array( $this, 'set_locale' ) );
 		add_action( 'wp_ajax_nopriv_set_locale', array( $this, 'set_locale' ) );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		add_action( 'rlje_footer_widget_area', array( $this, 'display_footer_widget' ) );
 
-		add_filter( 'wp_nav_menu_items', [ $this, 'add_language_dropdown' ], 10, 2 );
+		// Only load footer language dropdow on Acorn Theme. for now.
+		$language_dropown = ( ! intval( $this->theme_settings['language_dropown'] ) ) ? intval( $this->theme_settings['language_dropown'] ) : 1;
+		if ( $language_dropown ) {
+			add_filter( 'wp_nav_menu_items', [ $this, 'add_language_dropdown' ], 10, 2 );
+		}
 	}
 
 	public function enqueue_scripts() {

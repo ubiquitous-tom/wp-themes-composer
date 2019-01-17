@@ -49,6 +49,7 @@ class RLJE_Theme_Settings {
 
 		add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 		add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+		add_settings_field( 'theme_language_dropdwon', 'Language Dropdown', array( $this, 'display_language_dropdown' ), 'rlje-theme-settings', 'rlje_theme_section' );
 
 		add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
 		add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
@@ -101,6 +102,18 @@ class RLJE_Theme_Settings {
 			<option value="acorn" <?php selected( $current_theme, 'acorn' ); ?>>Acorn</option>
 			<option value="umc" <?php selected( $current_theme, 'umc' ); ?>>UMC</option>
 		</select>
+		<?php
+	}
+
+	public function display_language_dropdown() {
+		$language_dropown = ( ! intval( $this->theme_settings['language_dropown'] ) ) ? intval( $this->theme_settings['language_dropown'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_settings[language_dropown]" id="rlje-language-dropdown-on" class="regular-text" value="1" <?php checked( $language_dropown, 1 ); ?>>
+		<label for="rlje-language-dropdown-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_settings[language_dropown]" id="rlje-language-dropdown-off" class="regular-text" value="0" <?php checked( $language_dropown, 0 ); ?>>
+		<label for="rlje-language-dropdown-off">Off</label>
+		<p class="description">For activating language dropdown in Help menu on the footer</p>
 		<?php
 	}
 
