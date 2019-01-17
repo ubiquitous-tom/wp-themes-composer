@@ -8,8 +8,8 @@ class RLJE_Theme_Settings {
 
 	public function __construct() {
 		$this->theme_settings_include_files();
-
-		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 0 );
+		$this->plugins_loaded();
+		// add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 0 );
 
 		add_action( 'admin_init', [ $this, 'display_options' ] );
 		add_action( 'admin_menu', [ $this, 'add_rlje_settings_menu' ] );
