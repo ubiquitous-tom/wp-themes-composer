@@ -115,6 +115,9 @@ function acorntv_hook_css_js() {
 	// Register stipe js
 	wp_register_script( 'stripe-js', 'https://js.stripe.com/v3/' );
 
+	// Register lightweight javascript templating
+	wp_register_script( 'blueimp-javascript-templates', 'https://cdnjs.cloudflare.com/ajax/libs/blueimp-JavaScript-Templates/3.11.0/js/tmpl.min.js', [ 'jquery-core' ] );
+
 	if ( is_page_template( 'page-templates/contact-us.php' ) ) {
 		wp_enqueue_script( 'contact-us-script', get_template_directory_uri() . '/js/contactForm.js', array( 'jquery' ) );
 		wp_localize_script(
