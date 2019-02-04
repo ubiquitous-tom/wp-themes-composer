@@ -221,8 +221,10 @@ footer {
 /* NAVBAR-USER DROPDOWN */
 
 #top-nav .dropdown-menu {
-    background-color: rgba(1, 31, 54, 0.95);
+    background-color: rgba(9, 9, 9, 0.9);
     border-radius: 0;
+    border: none;
+    margin: 0;
 }
 
 #top-nav .dropdown-menu>li>a {
@@ -232,7 +234,7 @@ footer {
 
 #top-nav .dropdown-menu>li>a:hover,
 #top-nav .dropdown-menu>li>a:active {
-    background-color: rgba(1, 31, 54, 1);
+    background-color: rgba(25, 25, 25, 1); /*#191919;*/
 }
 
 #top-nav .nav .open>a,
@@ -1829,7 +1831,7 @@ input:-ms-input-placeholder {
         padding-bottom: 15px
     }
     /* CAROUSEL */
-    
+
     .carousel-respond-slide .carousel-inner>.active.left,
     .carousel-respond-slide .carousel-inner>.prev,
     .carousel-pagination-slide .carousel-inner>.active.left,
@@ -2402,6 +2404,10 @@ all and (min-width: 1200px) and (-webkit-transform-3d) {
 .smartbanner__button {
     color: #050505 !important;
 }
+
+/* LANGUAGE DROPDOWN SELECTOR */
+label.atv-locale {color: inherit;font-size: 14.5px;}
+select#atv-locale {border-radius: 0;color: #000;border: 0;}
 
 /*/////////////////////////////////////////////////////////////////////
 ////////////////////////////// ACORN TV 3.01 ///////////////////////////

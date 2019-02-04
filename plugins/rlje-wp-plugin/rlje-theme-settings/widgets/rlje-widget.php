@@ -2,7 +2,9 @@
 
 class RLJE_Widget {
 
-	private $footer_areas = array(
+	protected $theme_settings;
+	protected $nonce = 'rlje-widget-nonce-)#$*!($&0943';
+	protected $footer_areas = array(
 		array(
 			'name'          => 'Footer Area 1',
 			'id'            => 'footer-area-1',
@@ -36,8 +38,30 @@ class RLJE_Widget {
 	);
 
 	public function __construct() {
+		$this->theme_settings = get_option( 'rlje_theme_settings' );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_set_locale', array( $this, 'set_locale' ) );
+		add_action( 'wp_ajax_nopriv_set_locale', array( $this, 'set_locale' ) );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		add_action( 'rlje_footer_widget_area', array( $this, 'display_footer_widget' ) );
+
+		// Only load footer language dropdow on Acorn Theme. for now.
+		$language_dropown = ( ! intval( $this->theme_settings['language_dropown'] ) ) ? intval( $this->theme_settings['language_dropown'] ) : 1;
+		if ( $language_dropown ) {
+			add_filter( 'wp_nav_menu_items', [ $this, 'add_language_dropdown' ], 10, 2 );
+		}
+	}
+
+	public function enqueue_scripts() {
+		$js_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'js/language-dropdown.js' ) );
+
+		wp_enqueue_script( 'rlje-language-dropdown', plugins_url( '/js/language-dropdown.js', __FILE__ ), array( 'jquery', 'cookies-js', 'main-js' ), $js_ver, true );
+
+		$locale_object = [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( $this->nonce ),
+		];
+		wp_localize_script( 'main-js', 'rlje_locale_object', $locale_object );
 	}
 
 	public function widgets_init() {
@@ -59,6 +83,63 @@ class RLJE_Widget {
 			</div>
 		</div>
 		<?php
+	}
+
+	public function add_language_dropdown( $items, $args ) {
+		if ( strpos( $args->menu->slug, 'help' ) !== false ) {
+			$extra_li = $this->get_language_dropdown_html();
+
+			$items .= $extra_li;
+		}
+
+		return $items;
+	}
+
+	public function get_language_dropdown_html() {
+		ob_start();
+		?>
+			<li>
+				<label class="atv-locale" for="atv-locale"><?php esc_html_e( 'language', 'acorntv' ); ?>: </label>
+				<?php
+					$available_locales = rljeApiWP_getLocale();
+					$current_locale    = get_locale();
+				?>
+				<select name="atv_locale" id="atv-locale">
+					<?php foreach ( $available_locales as $locale_key => $locale_language ) : ?>
+					<option value="<?php echo esc_attr( $locale_key ); ?>" <?php selected( $current_locale, $locale_key ); ?>>
+						<?php echo esc_html( json_decode( '"' . $locale_language . '"' ) ); ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</li>
+		<?php
+			$html = ob_get_clean();
+
+		return $html;
+	}
+
+	public function set_locale() {
+		if ( ! wp_verify_nonce( $_POST['nonce'], $this->nonce ) ) {
+			die( 'Action Not Allow!' );
+		}
+
+		$new_locale        = ( ! empty( $_POST['rlje_locale'] ) ) ? $_POST['rlje_locale'] : '';
+		$location_pathname = ( ! empty( $_POST['location_pathname'] ) ) ? $_POST['location_pathname'] : null;
+		if ( ! empty( $new_locale ) ) {
+			$parse_url     = wp_parse_url( home_url() );
+			$host_names    = explode( '.', $parse_url['host'] );
+			$cookie_domain = '.' . $host_names[ count( $host_names ) - 2 ] . '.' . $host_names[ count( $host_names ) - 1 ];
+			// setcookie( 'ATVLocale', $new_locale, time() + YEAR_IN_SECONDS, COOKIEPATH, $cookie_domain );
+			// wp_safe_redirect( home_url() ); /* Redirect browser to homepage DOESN'T WORK HERE */
+			$current_location_pahtname = ( ! empty( $_POST['locationPathname'] ) ) ? $_POST['locationPathname'] : '';
+			$data                      = array(
+				'redirectTo'     => home_url( $current_location_pahtname ),
+				'redirectToPath' => $current_location_pahtname,
+				'locale'         => $new_locale,
+				'cookie_domain'  => $cookie_domain,
+			);
+			wp_send_json_success( $data );
+		}
 	}
 }
 

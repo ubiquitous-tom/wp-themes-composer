@@ -63,6 +63,17 @@ button {
     height: 30px;
 }
 
+#top-nav .dropdown-menu {
+    background-color: rgba(1, 31, 54, 0.95);
+    border: 1px solid rgba(0,0,0,.15);
+    margin: 2px 0 0;
+}
+
+#top-nav .dropdown-menu>li>a:hover,
+#top-nav .dropdown-menu>li>a:active {
+    background-color: rgba(1, 31, 54, 1);
+}
+
 /* SIGNUP PROMOTION */
 
 #home-signup-promotion {

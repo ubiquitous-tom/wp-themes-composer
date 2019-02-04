@@ -2,23 +2,24 @@
 
 class RLJE_Theme_Settings {
 
-	protected $theme_settings         = array();
+	protected $theme_settings         = [];
+	protected $theme_plugins_settings = [];
 	protected $rlje_redis_table;
 
 	public function __construct() {
 		$this->theme_settings_include_files();
-
-		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 0 );
+		$this->plugins_loaded();
+		// add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 0 );
 
 		add_action( 'admin_init', [ $this, 'display_options' ] );
 		add_action( 'admin_menu', [ $this, 'add_rlje_settings_menu' ] );
-		add_action( 'admin_menu', [ $this, 'add_rlje_theme_submenu' ] );
 
 		// CORE THEME PAGES.
 		require_once 'header/rlje-header.php';
 		require_once 'footer/rlje-footer.php';
 		require_once 'widgets/rlje-widget.php';
 		require_once 'navigations/rlje-theme-menu-settings.php';
+		require_once 'navigations/rlje-theme-menu-links-settings.php';
 		require_once 'search/rlje-theme-search-settings.php';
 		require_once 'index/rlje-index-page.php';
 		require_once 'schedule/rlje-schedule-page.php';
@@ -39,12 +40,20 @@ class RLJE_Theme_Settings {
 	}
 
 	public function display_options() {
-		$this->rlje_redis_table = new RLJE_Redis_Table();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table = new RLJE_Redis_Table();
+		}
 
 		register_setting( 'rlje_theme_section', 'rlje_theme_settings', array( $this, 'sanitize_callback' ) );
+		register_setting( 'rlje_theme_section', 'rlje_theme_plugins_settings' );
 
 		add_settings_section( 'rlje_theme_section', 'Theme Options', array( $this, 'display_rlje_theme_options_content' ), 'rlje-theme-settings' );
 		add_settings_field( 'theme_switcher', 'Current Theme', array( $this, 'display_theme_switcher' ), 'rlje-theme-settings', 'rlje_theme_section' );
+		add_settings_field( 'theme_language_dropdwon', 'Language Dropdown', array( $this, 'display_language_dropdown' ), 'rlje-theme-settings', 'rlje_theme_section' );
+
+		add_settings_section( 'rlje_theme_plugins_section', 'Plugins Options', array( $this, 'display_rlje_theme_plugins_content' ), 'rlje-theme-settings' );
+		add_settings_field( 'theme_plugins_landing_page', 'Landing Pages', array( $this, 'display_theme_plugins_landing_page' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
+		// add_settings_field( 'theme_plugins_news_and_reviews', 'News And Reviews', array( $this, 'display_theme_plugins_news_and_reviews' ), 'rlje-theme-settings', 'rlje_theme_plugins_section' );
 	}
 
 	public function add_rlje_settings_menu() {
@@ -53,20 +62,8 @@ class RLJE_Theme_Settings {
 			'RLJE Settings',
 			'manage_network',
 			'rlje-theme-settings',
-			'',
-			'',
-			100
-		);
-	}
-
-	public function add_rlje_theme_submenu() {
-		add_submenu_page(
-			'rlje-theme-settings',
-			'RLJE Theme Options',
-			'Theme Options',
-			'manage_network',
-			'rlje-theme-settings',
-			[ $this, 'rlje_theme_settings_page' ]
+			[ $this, 'rlje_theme_settings_page' ],
+			'dashicons-admin-generic'
 		);
 	}
 
@@ -79,7 +76,7 @@ class RLJE_Theme_Settings {
 			<form method="post" action="options.php">
 				<?php
 					// Add_settings_section callback is displayed here. For every new section we need to call settings_fields.
-					settings_fields( 'rlje-theme-settings' );
+					settings_fields( 'rlje_theme_section' );
 
 					// all the add_settings_field callbacks is displayed here.
 					do_settings_sections( 'rlje-theme-settings' );
@@ -108,6 +105,50 @@ class RLJE_Theme_Settings {
 		<?php
 	}
 
+	public function display_language_dropdown() {
+		$language_dropown = ( ! intval( $this->theme_settings['language_dropown'] ) ) ? intval( $this->theme_settings['language_dropown'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_settings[language_dropown]" id="rlje-language-dropdown-on" class="regular-text" value="1" <?php checked( $language_dropown, 1 ); ?>>
+		<label for="rlje-language-dropdown-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_settings[language_dropown]" id="rlje-language-dropdown-off" class="regular-text" value="0" <?php checked( $language_dropown, 0 ); ?>>
+		<label for="rlje-language-dropdown-off">Off</label>
+		<p class="description">For activating language dropdown in Help menu on the footer</p>
+		<?php
+	}
+
+	public function display_rlje_theme_plugins_content() {
+		$this->theme_plugins_settings = get_option( 'rlje_theme_plugins_settings' );
+		var_dump($this->theme_plugins_settings);
+		echo 'Toggle for other RLJE plugins for the theme';
+	}
+
+	public function display_theme_plugins_landing_page() {
+		$landing_pages = ( ! intval( $this->theme_plugins_settings['landing_pages'] ) ) ? intval( $this->theme_plugins_settings['landing_pages'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-on" class="regular-text" value="1" <?php checked( $landing_pages, 1 ); ?>>
+		<label for="rlje-plugins-landing-page-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[landing_pages]" id="rlje-plugins-landing-page-off" class="regular-text" value="0" <?php checked( $landing_pages, 0 ); ?>>
+		<label for="rlje-plugins-landing-page-off">Off</label>
+		<p class="description">For activating Franchise landing page</p>
+		<?php
+	}
+
+	/*
+	public function display_theme_plugins_news_and_reviews() {
+		$news_and_reviews = ( ! intval( $this->theme_plugins_settings['news_and_reviews'] ) ) ? intval( $this->theme_plugins_settings['news_and_reviews'] ) : 1;
+		?>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-on" class="regular-text" value="1" <?php checked( $news_and_reviews, 1 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-on">On</label>
+		<br>
+		<input type="radio" name="rlje_theme_plugins_settings[news_and_reviews]" id="rlje-plugins-news-and-reviews-off" class="regular-text" value="0" <?php checked( $news_and_reviews, 0 ); ?>>
+		<label for="rlje-plugins-news-and-reviews-off">Off</label>
+		<p class="description">For activating Homepage section</p>
+		<?php
+	}
+	*/
+
 	public function sanitize_options( $data = null ) {
 		$message = 'Data can not be empty';
 		$type    = 'error';
@@ -116,11 +157,11 @@ class RLJE_Theme_Settings {
 			if ( false === get_option( 'rlje_theme_settings' ) ) {
 				add_option( 'rlje_theme_settings', $data );
 				$type    = 'updated';
-				$message = __( 'Successfully saved', 'my-text-domain' );
+				$message = __( 'Successfully saved', 'acorntv' );
 			} else {
 				update_option( 'rlje_theme_settings', $data );
 				$type    = 'updated';
-				$message = __( 'Successfully updated', 'my-text-domain' );
+				$message = __( 'Successfully updated', 'acorntv' );
 			}
 		}
 
@@ -211,12 +252,14 @@ class RLJE_Theme_Settings {
 		$current_theme       = ( ! empty( $rlje_theme_settings['current_theme'] ) ) ? $rlje_theme_settings['current_theme'] : '';
 		if ( $current_theme !== $data['current_theme'] ) {
 			$clear_caches = array();
-			$caches       = $this->rlje_redis_table->get_redis_caches();
-			foreach ( $caches as $cache_key => $cache_value ) {
-				$clear_caches[] = $cache_key;
-			}
+			if ( class_exists( 'RLJE_Redis_Table' ) ) {
+				$caches       = $this->rlje_redis_table->get_redis_caches();
+				foreach ( $caches as $cache_key => $cache_value ) {
+					$clear_caches[] = $cache_key;
+				}
 
-			$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+				$is_deleted = $this->rlje_redis_table->delete_redis_caches( $clear_caches );
+			}
 		}
 
 		add_settings_error( 'rlje-theme-settings', 'settings_updated', 'Successfully updated', 'updated' );

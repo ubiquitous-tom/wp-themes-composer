@@ -1,15 +1,15 @@
 <ul class="nav pull-right">
 	<li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My <?php bloginfo( 'name' ); ?> <span class="caret"></span></a>
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?php echo sprintf( __( 'My %s', 'acorntv' ), get_bloginfo( 'name' ) ); ?> <span class="caret"></span></a>
 		<ul class="dropdown-menu dropdown-menu-right">
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'browse/recentlywatched' ) ) ); ?>">Recently Watched</a></li>
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'browse/yourwatchlist' ) ) ); ?>">My Watchlist</a></li>
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/status' ) ) ); ?>">Manage Account</a></li>
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/editPassword' ) ) ); ?>">Change Password</a></li>
-			<?php if ( $web_payment_edit ) { ?>
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/editEmail' ) ) ); ?>">Change Email</a></li>
-			<?php } ?>
-			<li><a href="<?php echo esc_url( trailingslashit( home_url( 'account/logout' ) ) ); ?>">Log Out</a></li>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['recently_watched_link'] ); ?>"><?php esc_html_e( 'Recently Watched', 'acorntv' ); ?></a></li>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['my_watchlist_link'] ); ?>"><?php esc_html_e( 'My Watchlist', 'acorntv' ); ?></a></li>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['manage_account_link'] ); ?>"><?php esc_html_e( 'Manage Account', 'acorntv' ); ?></a></li>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['change_password_link'] ); ?>"><?php esc_html_e( 'Change Password', 'acorntv' ); ?></a></li>
+			<?php if ( $web_payment_edit ) : ?>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['change_email_link'] ); ?>"><?php esc_html_e( 'Change Email', 'acorntv' ); ?></a></li>
+			<?php endif; ?>
+			<li><a href="<?php echo esc_url( $logged_in_link_text['log_out_link'] ); ?>"><?php esc_html_e( 'Log Out', 'acorntv' ); ?></a></li>
 		</ul>
 	</li>
 </ul>

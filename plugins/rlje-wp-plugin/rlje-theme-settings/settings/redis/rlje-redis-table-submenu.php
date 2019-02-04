@@ -15,14 +15,16 @@ class RLJE_Theme_Redis_Cache_list_Settings {
 	}
 
 	public function enqueue_scripts( $hook ) {
-		if ( 'theme-settings_page_rlje-theme-redis-cache-list-settings' === $hook ) {
+		if ( 'rlje-settings_page_rlje-theme-redis-cache-list-settings' === $hook ) {
 			$css_ver = date( 'ymd-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' ) );
 			wp_enqueue_style( 'rlje-theme-redis-setting', plugins_url( 'css/style.css', __FILE__ ), array(), $css_ver );
 		}
 	}
 
 	public function display_options() {
-		$this->rlje_redis_table = new RLJE_Redis_Table();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table = new RLJE_Redis_Table();
+		}
 
 		register_setting( 'rlje_theme_redis_cache_list_section', 'rlje_theme_redis_cache_list_settings' );
 
@@ -72,8 +74,12 @@ class RLJE_Theme_Redis_Cache_list_Settings {
 	}
 
 	public function display_redis_cache_info_table() {
-		$this->rlje_redis_table->prepare_items();
-		$this->rlje_redis_table->display();
+		if ( class_exists( 'RLJE_Redis_Table' ) ) {
+			$this->rlje_redis_table->prepare_items();
+			$this->rlje_redis_table->display();
+		} else {
+			echo 'Cannot load RLJE_Redis_Table class...';
+		}
 	}
 
 	public function redirect_back() {
@@ -97,7 +103,9 @@ class RLJE_Theme_Redis_Cache_list_Settings {
 
 		if ( 'delete_selected_redis_caches' === $_POST['rlje_action'] ) {
 			if ( ( 'delete' === $_POST['action'] ) && ( -1 === intval( $_POST['action2'] ) ) ) {
-				$this->rlje_redis_table->delete_redis_caches( $caches );
+				if ( class_exists( 'RLJE_Redis_Table' ) ) {
+					$this->rlje_redis_table->delete_redis_caches( $caches );
+				}
 			}
 		}
 
