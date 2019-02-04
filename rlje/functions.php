@@ -68,6 +68,13 @@ if ( ! function_exists( 'acorntv_setup' ) ) :
 			)
 		);
 
+		/*
+		 * Enable support for I18n.
+		 *
+		 * See: https://codex.wordpress.org/I18n_for_WordPress_Developers
+		 */
+		load_theme_textdomain( 'acorntv', get_template_directory() . '/languages' );
+
 	}
 endif;
 
@@ -792,3 +799,58 @@ function create_table( $fields ) {
 
 	return $output;
 }
+
+/*
+ * Change locale at runtime
+ * http://wordpress.stackexchange.com/questions/49451/change-locale-at-runtime
+ * http://www.thefutureoftheweb.com/blog/use-accept-language-header
+ * We are using locale UNIX format because WordPress load PO and MO file this way.
+ * Ex: fr_CA.po
+*/
+function atv_redefine_locale( $locale ) {
+	// Run the tests on the COOKIE first.
+	if ( ! empty( $_COOKIE['ATVLocale'] ) ) {
+		return $_COOKIE['ATVLocale'];
+	}
+	// If not COOKIE then check `accept-language` header.
+	$langs = array();
+	if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		// Break up string into pieces (languages and q factors).
+		preg_match_all( '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse );
+		if ( count( $lang_parse[1] ) ) {
+			// Create a list like "en" => 0.8.
+			$langs = array_combine( $lang_parse[1], $lang_parse[4] );
+			// Set default to 1 for any without q factor.
+			foreach ( $langs as $language => $language_weight ) {
+				if ( '' === $language_weight ) {
+					$langs[ $language ] = 1;
+				}
+			}
+			// Sort list based on value.
+			arsort( $langs, SORT_NUMERIC );
+		}
+	}
+	// Look through sorted list and use first one that matches our languages.
+	foreach ( $langs as $lang => $val ) {
+		if ( 0 === strpos( $lang, 'en' ) ) {
+			return 'en'; //'en_US';
+		} elseif ( 0 === strpos( $lang, 'es' ) ) {
+			return 'es'; //'es_MX';
+		} elseif ( 0 === strpos( $lang, 'fr' ) ) {
+			return 'fr'; //'fr_CA';
+		}
+	}
+	// Show default language.
+	$localization = explode( '_', $locale );
+	return $localization[0];
+}
+add_filter( 'locale', 'atv_redefine_locale' );
+
+// I18N site `title` and `tagline`.
+// When using `&` please use the ASCII version aka `&amp;` for it to translate correctly.
+function atv_document_title_parts( $title ) {
+	$title['title']   = __( $title['title'], 'acorntv' );
+	$title['tagline'] = __( $title['tagline'], 'acorntv' );
+	return $title;
+}
+add_filter( 'document_title_parts', 'atv_document_title_parts' );

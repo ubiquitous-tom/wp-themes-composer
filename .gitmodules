@@ -1,0 +1,3 @@
+[submodule "plugins/rlje-api-wp-plugin"]
+	path = plugins/rlje-api-wp-plugin
+	url = https://github.com/RLJEntertainment/rlje-api-wp-plugin.git
