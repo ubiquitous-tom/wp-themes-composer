@@ -1,5 +1,5 @@
 {
-    "name": "tsoisoonthorn/rlje-wp-theme",
+    "name": "tsoisoonthorn/rlje",
     "type": "wordpress-theme",
     "require": {
         "composer/installers": "~1.0"
