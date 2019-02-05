@@ -1,8 +1,9 @@
 {
-    "name": "tsoisoonthorn/rlje-wp-theme",
+    "name": "tsoisoonthorn/rlje",
     "type": "wordpress-theme",
     "require": {
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+	"johnpbloch/wordpress": "^5.0"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
